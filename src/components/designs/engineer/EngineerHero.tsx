@@ -62,18 +62,18 @@ export default function EngineerHero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
-        className="flex gap-4"
+        className="flex flex-wrap gap-4"
       >
         <a
           href="#projects"
-          className="rounded-btn border border-accent px-6 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent/10"
+          className="rounded-btn border border-accent px-4 py-3 font-mono text-sm text-accent transition-colors hover:bg-accent/10 sm:px-6"
         >
           {t('hero.cta.work', locale)}
         </a>
         <a
           href="/resume/Alexandre_Akira_en_CV.pdf"
           download
-          className="rounded-btn bg-accent px-6 py-3 font-mono text-sm text-[#0a192f] transition-colors hover:bg-accent-hover"
+          className="rounded-btn bg-accent px-4 py-3 font-mono text-sm text-[#0a192f] transition-colors hover:bg-accent-hover sm:px-6"
         >
           {t('hero.cta.cv', locale)}
         </a>

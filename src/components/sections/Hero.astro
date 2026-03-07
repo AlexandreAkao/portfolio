@@ -1,6 +1,8 @@
 ---
 import EngineerHero from '@components/designs/engineer/EngineerHero.tsx';
 import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
+import AvantgardeHero from '@components/designs/avantgarde/AvantgardeHero.tsx';
+import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
 ---
 
 <section id="hero">
@@ -9,5 +11,11 @@ import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
   </div>
   <div data-design-show="creative">
     <CreativeHero client:load />
+  </div>
+  <div data-design-show="avantgarde">
+    <AvantgardeHero client:load />
+  </div>
+  <div data-design-show="editorial">
+    <EditorialHero client:load />
   </div>
 </section>

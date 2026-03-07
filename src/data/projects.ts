@@ -57,7 +57,7 @@ export const projects: Project[] = [
     },
     type: 'personal',
     tech: ['React', 'TypeScript', 'Node.js'],
-    github: 'https://github.com/alexandreakao',
+    github: 'https://github.com/alexandreakao/ordenados',
   },
   {
     title: 'Azure Open PR',
@@ -67,7 +67,7 @@ export const projects: Project[] = [
     },
     type: 'personal',
     tech: ['TypeScript', 'Browser Extension', 'Azure DevOps API'],
-    github: 'https://github.com/alexandreakao',
+    github: 'https://github.com/alexandreakao/azure-open-pr',
   },
   {
     title: 'Design Patterns TS',

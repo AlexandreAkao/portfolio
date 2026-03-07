@@ -54,18 +54,18 @@ export default function CreativeHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex gap-4"
+            className="flex flex-wrap gap-4"
           >
             <a
               href="#projects"
-              className="rounded-full bg-accent px-8 py-3 text-sm font-medium text-white transition-transform hover:scale-105"
+              className="rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-transform hover:scale-105 sm:px-8"
             >
               {t('hero.cta.work', locale)}
             </a>
             <a
               href="/resume/Alexandre_Akira_en_CV.pdf"
               download
-              className="rounded-full border-2 border-accent px-8 py-3 text-sm font-medium text-accent transition-transform hover:scale-105"
+              className="rounded-full border-2 border-accent px-5 py-3 text-sm font-medium text-accent transition-transform hover:scale-105 sm:px-8"
             >
               {t('hero.cta.cv', locale)}
             </a>

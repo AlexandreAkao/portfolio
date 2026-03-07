@@ -11,6 +11,11 @@
 @import '@fontsource/playfair-display/400.css';
 @import '@fontsource/playfair-display/500.css';
 @import '@fontsource/playfair-display/700.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
+@import '@fontsource/poppins/800.css';
+@import '@fontsource-variable/dm-sans';
 
 @theme {
   --color-bg: var(--bg);
@@ -63,6 +68,40 @@
   --radius-btn: 9999px;
 }
 
+/* Avant-garde Design Tokens */
+[data-design='avantgarde'] {
+  --bg: #131211;
+  --bg-secondary: #1c1a18;
+  --text: #f0ece6;
+  --text-secondary: #8a847b;
+  --accent: #c5ff41;
+  --accent-hover: #d4ff6e;
+  --border: #2a2725;
+  --card: #1c1a18;
+  --card-hover: #252220;
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --radius-card: 8px;
+  --radius-btn: 4px;
+}
+
+/* Editorial Design Tokens */
+[data-design='editorial'] {
+  --bg: #f5f5f0;
+  --bg-secondary: #eae8e1;
+  --text: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --accent: #ff4d00;
+  --accent-hover: #e64500;
+  --border: #d4d0c8;
+  --card: #ffffff;
+  --card-hover: #f9f8f5;
+  --font-heading: 'Clash Display', sans-serif;
+  --font-body: 'DM Sans Variable', sans-serif;
+  --radius-card: 0px;
+  --radius-btn: 0px;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -113,11 +152,11 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 40px 40px;
 }
 
-/* Design-conditional visibility */
-[data-design='engineer'] [data-design-show='creative'] {
-  display: none !important;
-}
-[data-design='creative'] [data-design-show='engineer'] {
+/* Design-conditional visibility (N-way: each design hides all others) */
+[data-design='engineer'] [data-design-show]:not([data-design-show='engineer']),
+[data-design='creative'] [data-design-show]:not([data-design-show='creative']),
+[data-design='avantgarde'] [data-design-show]:not([data-design-show='avantgarde']),
+[data-design='editorial'] [data-design-show]:not([data-design-show='editorial']) {
   display: none !important;
 }
 
@@ -137,4 +176,46 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='engineer'] .section-tag::after {
   content: ' />';
   color: var(--accent);
+}
+
+/* Avant-garde: noise texture overlay */
+[data-design='avantgarde'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* Avant-garde: hide default cursor on desktop */
+@media (pointer: fine) {
+  [data-design='avantgarde'] {
+    cursor: none;
+  }
+  [data-design='avantgarde'] a,
+  [data-design='avantgarde'] button {
+    cursor: none;
+  }
+}
+
+/* Avant-garde section tags: number + line */
+[data-design='avantgarde'] .section-tag::before,
+[data-design='avantgarde'] .section-tag::after {
+  display: none;
+}
+
+/* Editorial section tags: clean, no pseudo-elements */
+[data-design='editorial'] .section-tag::before,
+[data-design='editorial'] .section-tag::after {
+  display: none;
+}
+
+
+/* Editorial smooth scroll */
+[data-design='editorial'] {
+  scroll-behavior: smooth;
 }

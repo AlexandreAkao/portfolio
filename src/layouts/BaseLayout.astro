@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import '@/styles/global.css';
+import AvantgardeCursor from '@components/designs/avantgarde/AvantgardeCursor.tsx';
 
 interface Props {
   title: string;
@@ -20,10 +21,13 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" />
     <ClientRouter />
     <script is:inline>
       (function() {
+        var validDesigns = ['engineer','creative','avantgarde','editorial'];
         var d = localStorage.getItem('design') || 'engineer';
+        if (validDesigns.indexOf(d) === -1) d = 'engineer';
         document.documentElement.dataset.design = d;
 
         var params = new URLSearchParams(window.location.search);
@@ -35,7 +39,9 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
         localStorage.setItem('lang', lang);
       })();
       document.addEventListener('astro:after-swap', function() {
+        var validDesigns = ['engineer','creative','avantgarde','editorial'];
         var d = localStorage.getItem('design') || 'engineer';
+        if (validDesigns.indexOf(d) === -1) d = 'engineer';
         document.documentElement.dataset.design = d;
         var lang = localStorage.getItem('lang') || 'en';
         document.documentElement.dataset.lang = lang;
@@ -45,5 +51,6 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="min-h-screen grid-bg">
     <slot />
+    <AvantgardeCursor client:load transition:persist />
   </body>
 </html>

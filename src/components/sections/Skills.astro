@@ -3,6 +3,8 @@ import T from '@components/ui/T.astro';
 import { skillGroups } from '@data/skills';
 import EngineerSkills from '@components/designs/engineer/EngineerSkills.tsx';
 import CreativeSkills from '@components/designs/creative/CreativeSkills.tsx';
+import AvantgardeSkills from '@components/designs/avantgarde/AvantgardeSkills.tsx';
+import EditorialSkills from '@components/designs/editorial/EditorialSkills.tsx';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 ---
 
@@ -19,6 +21,12 @@ import ScrollReveal from '@components/islands/ScrollReveal.tsx';
     </div>
     <div data-design-show="creative">
       <CreativeSkills skillGroups={skillGroups} client:visible />
+    </div>
+    <div data-design-show="avantgarde">
+      <AvantgardeSkills skillGroups={skillGroups} client:visible />
+    </div>
+    <div data-design-show="editorial">
+      <EditorialSkills skillGroups={skillGroups} client:visible />
     </div>
   </div>
 </section>

@@ -9,17 +9,24 @@ import Education from '@components/sections/Education.astro';
 import Skills from '@components/sections/Skills.astro';
 import Projects from '@components/sections/Projects.astro';
 import Contact from '@components/sections/Contact.astro';
+import AvantgardeMarquee from '@components/designs/avantgarde/AvantgardeMarquee.tsx';
 ---
 
 <BaseLayout title="Alexandre Akira - Senior Full-Stack Developer">
   <Header />
   <main class="pt-16">
     <Hero />
+    <div data-design-show="avantgarde">
+      <AvantgardeMarquee client:visible />
+    </div>
     <About />
     <Experience />
     <Education />
     <Skills />
     <Projects />
+    <div data-design-show="avantgarde">
+      <AvantgardeMarquee direction="right" client:visible />
+    </div>
     <Contact />
   </main>
   <Footer />
