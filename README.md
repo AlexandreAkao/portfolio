@@ -1,43 +1,49 @@
-# Astro Starter Kit: Minimal
+# Alexandre Akira — Portfolio
 
-```sh
-npm create astro@latest -- --template minimal
+Personal portfolio built with Astro 5, featuring a multi-design system that lets visitors switch between four distinct visual experiences.
+
+## Designs
+
+- **Engineer** — Dark blue terminal aesthetic with JetBrains Mono, teal accents
+- **Creative** — Warm off-white with purple accents, Space Grotesk/Playfair Display, rounded elements
+- **Avant-garde** — Charcoal with lime accents, Three.js particles, custom cursor, marquee animations
+- **Editorial** — Off-white with orange accents, Clash Display, oversized typography, asymmetric layout
+
+Design preference persists via `localStorage` and transitions use the View Transitions API.
+
+## Tech Stack
+
+- **Framework:** Astro 5 + TypeScript
+- **UI Islands:** React 19
+- **Styling:** Tailwind CSS v4
+- **Animations:** Motion (framer-motion)
+- **3D:** Three.js + React Three Fiber
+- **Blog:** Content Collections + MDX
+- **i18n:** English (default) + Portuguese
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── designs/          # Design-specific components
+│   │   ├── engineer/
+│   │   ├── creative/
+│   │   ├── avantgarde/
+│   │   └── editorial/
+│   └── sections/         # Shared section wrappers
+├── content/blog/         # MDX blog posts (en/, pt/)
+├── data/                 # Experience, education, skills, projects, designs
+├── i18n/                 # Translation files (en.json, pt.json)
+├── layouts/              # BaseLayout, BlogLayout
+└── pages/                # Astro routes
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command           | Action                                       |
+| :---------------- | :------------------------------------------- |
+| `npm install`     | Install dependencies                         |
+| `npm run dev`     | Start dev server at `localhost:4321`          |
+| `npm run build`   | Build production site to `./dist/`           |
+| `npm run preview` | Preview production build locally             |
