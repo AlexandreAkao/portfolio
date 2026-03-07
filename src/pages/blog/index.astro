@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/common/Header.astro';
+import Footer from '@components/common/Footer.astro';
+import T from '@components/ui/T.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => data.published);
+
+const enPosts = allPosts
+  .filter(({ id }) => id.startsWith('en/'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const ptPosts = allPosts
+  .filter(({ id }) => id.startsWith('pt/'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Blog - Alexandre Akira">
+  <Header />
+  <main class="pt-24 pb-16">
+    <div class="mx-auto max-w-3xl px-6">
+      <h1 class="mb-12 font-heading text-4xl font-bold text-text">
+        <T k="blog.title" />
+      </h1>
+
+      <div data-lang-show="en">
+        {enPosts.length === 0 && (
+          <p class="text-text-secondary">No posts yet. Check back soon!</p>
+        )}
+        <div class="space-y-8">
+          {enPosts.map((post) => {
+            const slug = post.id.replace('en/', '');
+            return (
+              <a href={`/blog/${slug}`} class="group block rounded-card border border-border bg-card p-6 transition-colors hover:border-accent/50">
+                <p class="mb-1 text-sm text-accent">
+                  {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </p>
+                <h2 class="mb-2 font-heading text-xl font-bold text-text group-hover:text-accent">
+                  {post.data.title}
+                </h2>
+                <p class="text-text-secondary">{post.data.description}</p>
+                {post.data.tags && (
+                  <div class="mt-3 flex flex-wrap gap-1">
+                    {post.data.tags.map((tag) => (
+                      <span class="rounded-btn border border-border px-2 py-0.5 text-xs text-text-secondary">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+
+      <div data-lang-show="pt">
+        {ptPosts.length === 0 && (
+          <p class="text-text-secondary">Nenhum post ainda. Volte em breve!</p>
+        )}
+        <div class="space-y-8">
+          {ptPosts.map((post) => {
+            const slug = post.id.replace('pt/', '');
+            return (
+              <a href={`/blog/${slug}`} class="group block rounded-card border border-border bg-card p-6 transition-colors hover:border-accent/50">
+                <p class="mb-1 text-sm text-accent">
+                  {post.data.date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </p>
+                <h2 class="mb-2 font-heading text-xl font-bold text-text group-hover:text-accent">
+                  {post.data.title}
+                </h2>
+                <p class="text-text-secondary">{post.data.description}</p>
+                {post.data.tags && (
+                  <div class="mt-3 flex flex-wrap gap-1">
+                    {post.data.tags.map((tag) => (
+                      <span class="rounded-btn border border-border px-2 py-0.5 text-xs text-text-secondary">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

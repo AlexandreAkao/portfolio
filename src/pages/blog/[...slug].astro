@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import BlogLayout from '@layouts/BlogLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => {
+    const [_lang, ...slugParts] = post.id.split('/');
+    return {
+      params: { slug: slugParts.join('/') || undefined },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const lang = post.id.startsWith('pt/') ? 'pt' : 'en';
+const { Content } = await render(post);
+---
+
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  tags={post.data.tags}
+  lang={lang}
+>
+  <Content />
+</BlogLayout>

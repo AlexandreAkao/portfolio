@@ -1,0 +1,24 @@
+---
+import T from '@components/ui/T.astro';
+import { experiences } from '@data/experience';
+import EngineerTimeline from '@components/designs/engineer/EngineerTimeline.tsx';
+import CreativeCarousel from '@components/designs/creative/CreativeCarousel.tsx';
+import ScrollReveal from '@components/islands/ScrollReveal.tsx';
+---
+
+<section id="experience" class="py-20">
+  <div class="mx-auto max-w-4xl px-6">
+    <ScrollReveal client:visible>
+      <h2 class="mb-12 text-center font-heading text-3xl font-bold text-text">
+        <span class="section-tag"><T k="experience.title" /></span>
+      </h2>
+    </ScrollReveal>
+
+    <div data-design-show="engineer">
+      <EngineerTimeline experiences={experiences} client:visible />
+    </div>
+    <div data-design-show="creative">
+      <CreativeCarousel experiences={experiences} client:visible />
+    </div>
+  </div>
+</section>

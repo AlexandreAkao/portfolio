@@ -1,0 +1,140 @@
+@import 'tailwindcss';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/700.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/700.css';
+
+@theme {
+  --color-bg: var(--bg);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-card: var(--radius-card);
+  --radius-btn: var(--radius-btn);
+}
+
+/* Engineer Design Tokens */
+[data-design='engineer'] {
+  --bg: #0a192f;
+  --bg-secondary: #112240;
+  --text: #ccd6f6;
+  --text-secondary: #8892b0;
+  --accent: #64ffda;
+  --accent-hover: #4cd9b0;
+  --border: #233554;
+  --card: #112240;
+  --card-hover: #1d3461;
+  --font-heading: 'JetBrains Mono', monospace;
+  --font-body: 'Inter', sans-serif;
+  --radius-card: 2px;
+  --radius-btn: 2px;
+}
+
+/* Creative Design Tokens */
+[data-design='creative'] {
+  --bg: #faf5ee;
+  --bg-secondary: #f0e9df;
+  --text: #1a1a2e;
+  --text-secondary: #4a4a68;
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+  --border: #e2d8cc;
+  --card: #ffffff;
+  --card-hover: #f8f4ef;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Playfair Display', serif;
+  --radius-card: 16px;
+  --radius-btn: 9999px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--bg);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+}
+
+/* Engineer grid background */
+[data-design='engineer'] .grid-bg {
+  background-image:
+    linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Design-conditional visibility */
+[data-design='engineer'] [data-design-show='creative'] {
+  display: none !important;
+}
+[data-design='creative'] [data-design-show='engineer'] {
+  display: none !important;
+}
+
+/* Language-conditional visibility */
+[data-lang='en'] [data-lang-show='pt'] {
+  display: none !important;
+}
+[data-lang='pt'] [data-lang-show='en'] {
+  display: none !important;
+}
+
+/* Engineer section tags */
+[data-design='engineer'] .section-tag::before {
+  content: '<';
+  color: var(--accent);
+}
+[data-design='engineer'] .section-tag::after {
+  content: ' />';
+  color: var(--accent);
+}

@@ -1,0 +1,120 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '@components/common/Header.astro';
+import Footer from '@components/common/Footer.astro';
+import T from '@components/ui/T.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags?: string[];
+  lang: 'en' | 'pt';
+}
+
+const { title, description, date, tags, lang } = Astro.props;
+const enDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={`${title} - Alexandre Akira`} description={description}>
+  <Header />
+  <main class="pt-24 pb-16">
+    <article class="mx-auto max-w-3xl px-6">
+      <a
+        href="/blog"
+        class="mb-8 inline-flex items-center gap-1 text-sm text-text-secondary transition-colors hover:text-accent"
+      >
+        &larr; <T k="blog.back" />
+      </a>
+
+      <header class="mb-12">
+        <p class="mb-2 text-sm text-accent">
+          <span data-lang-show="en">{enDate}</span>
+          <span data-lang-show="pt">{ptDate}</span>
+        </p>
+        <h1 class="mb-4 font-heading text-4xl font-bold text-text">{title}</h1>
+        <p class="text-lg text-text-secondary">{description}</p>
+        {tags && tags.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span class="rounded-btn border border-border px-2 py-0.5 text-xs text-accent">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <div class="prose prose-invert max-w-none">
+        <slot />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .prose {
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+  .prose h2, .prose h3, .prose h4 {
+    color: var(--text);
+    font-family: var(--font-heading);
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+  }
+  .prose h2 { font-size: 1.5rem; }
+  .prose h3 { font-size: 1.25rem; }
+  .prose a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+  .prose code {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875em;
+  }
+  .prose pre {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5em 0;
+  }
+  .prose pre code {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .prose blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    margin: 1.5em 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+  .prose ul, .prose ol {
+    padding-left: 1.5rem;
+    margin: 1em 0;
+  }
+  .prose li {
+    margin: 0.25em 0;
+  }
+  .prose img {
+    border-radius: var(--radius-card);
+    margin: 1.5em 0;
+  }
+  .prose hr {
+    border-color: var(--border);
+    margin: 2em 0;
+  }
+  .prose strong {
+    color: var(--text);
+  }
+</style>

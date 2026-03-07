@@ -1,0 +1,43 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import ScrollReveal from '@components/islands/ScrollReveal.tsx';
+---
+
+<section id="contact" class="py-20">
+  <div class="mx-auto max-w-2xl px-6 text-center">
+    <ScrollReveal client:visible>
+      <h2 class="mb-4 font-heading text-3xl font-bold text-text">
+        <span class="section-tag"><T k="contact.title" /></span>
+      </h2>
+      <p class="mb-8 text-text-secondary">
+        <span data-lang-show="en">{t('contact.description', 'en')}</span>
+        <span data-lang-show="pt">{t('contact.description', 'pt')}</span>
+      </p>
+    </ScrollReveal>
+
+    <ScrollReveal client:visible delay={0.1}>
+      <form
+        action="https://formspree.io/f/placeholder"
+        method="POST"
+        class="space-y-4 text-left"
+      >
+        <div>
+          <label for="name" class="mb-1 block text-sm text-text-secondary"><T k="contact.name" /></label>
+          <input type="text" id="name" name="name" required class="w-full rounded-card border border-border bg-bg-secondary px-4 py-2 text-text outline-none transition-colors focus:border-accent" />
+        </div>
+        <div>
+          <label for="email" class="mb-1 block text-sm text-text-secondary"><T k="contact.email" /></label>
+          <input type="email" id="email" name="email" required class="w-full rounded-card border border-border bg-bg-secondary px-4 py-2 text-text outline-none transition-colors focus:border-accent" />
+        </div>
+        <div>
+          <label for="message" class="mb-1 block text-sm text-text-secondary"><T k="contact.message" /></label>
+          <textarea id="message" name="message" rows="5" required class="w-full rounded-card border border-border bg-bg-secondary px-4 py-2 text-text outline-none transition-colors focus:border-accent"></textarea>
+        </div>
+        <button type="submit" class="w-full rounded-btn bg-accent px-6 py-3 font-heading text-sm font-semibold text-bg transition-colors hover:bg-accent-hover">
+          <T k="contact.send" />
+        </button>
+      </form>
+    </ScrollReveal>
+  </div>
+</section>

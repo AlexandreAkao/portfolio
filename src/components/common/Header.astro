@@ -1,0 +1,20 @@
+---
+import DesignToggle from '@components/islands/DesignToggle.tsx';
+import LanguageSwitcher from '@components/islands/LanguageSwitcher.tsx';
+import Nav from './Nav.astro';
+---
+
+<header class="fixed top-0 z-50 w-full border-b border-border bg-bg/80 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+    <a href="/" class="font-heading text-lg font-bold text-accent">
+      {'<A4 />'}
+    </a>
+
+    <Nav />
+
+    <div class="flex items-center gap-3">
+      <DesignToggle client:load />
+      <LanguageSwitcher client:load />
+    </div>
+  </div>
+</header>

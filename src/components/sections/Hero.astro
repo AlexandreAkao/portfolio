@@ -1,0 +1,13 @@
+---
+import EngineerHero from '@components/designs/engineer/EngineerHero.tsx';
+import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
+---
+
+<section id="hero">
+  <div data-design-show="engineer">
+    <EngineerHero client:load />
+  </div>
+  <div data-design-show="creative">
+    <CreativeHero client:load />
+  </div>
+</section>

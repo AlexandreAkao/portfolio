@@ -1,0 +1,51 @@
+---
+import { t } from '@i18n/utils';
+
+const isBlog = Astro.url.pathname.startsWith('/blog');
+
+const sectionLinks = [
+  { key: 'nav.about', href: '#about' },
+  { key: 'nav.experience', href: '#experience' },
+  { key: 'nav.skills', href: '#skills' },
+  { key: 'nav.projects', href: '#projects' },
+  { key: 'nav.contact', href: '#contact' },
+];
+
+const blogLinks = [
+  { key: 'nav.home', href: '/' },
+];
+---
+
+<nav class="hidden items-center gap-6 md:flex">
+  {isBlog ? (
+    blogLinks.map((link) => (
+      <a
+        href={link.href}
+        class="text-sm text-text-secondary transition-colors hover:text-accent"
+      >
+        <span data-lang-show="en">{t(link.key, 'en')}</span>
+        <span data-lang-show="pt">{t(link.key, 'pt')}</span>
+      </a>
+    ))
+  ) : (
+    sectionLinks.map((link) => (
+      <a
+        href={link.href}
+        class="text-sm text-text-secondary transition-colors hover:text-accent"
+      >
+        <span data-lang-show="en">{t(link.key, 'en')}</span>
+        <span data-lang-show="pt">{t(link.key, 'pt')}</span>
+      </a>
+    ))
+  )}
+
+  <span class="h-4 w-px bg-border" />
+
+  <a
+    href="/blog"
+    class="text-sm text-text-secondary transition-colors hover:text-accent"
+  >
+    <span data-lang-show="en">{t('nav.blog', 'en')}</span>
+    <span data-lang-show="pt">{t('nav.blog', 'pt')}</span>
+  </a>
+</nav>

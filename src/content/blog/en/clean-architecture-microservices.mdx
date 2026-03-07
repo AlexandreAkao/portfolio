@@ -1,0 +1,71 @@
+---
+title: "Clean Architecture in Microservices: Lessons from Building 19 Services"
+description: "Practical insights on applying Clean Architecture principles when building microservices at scale, drawn from real-world experience."
+date: 2025-03-15
+tags: ["Architecture", "Backend", "Microservices"]
+published: true
+---
+
+## The Challenge
+
+When building a platform with 19 microservices, one of the biggest challenges is maintaining consistency and code quality across all services while allowing each team to move fast.
+
+Clean Architecture provides a framework that solves this by establishing clear boundaries and dependency rules.
+
+## Core Principles Applied
+
+### 1. The Dependency Rule
+
+The most important rule: dependencies point inward. Your business logic should never depend on frameworks, databases, or external services.
+
+```typescript
+// Domain layer - pure business logic, no dependencies
+interface OrderRepository {
+  findById(id: string): Promise<Order | null>;
+  save(order: Order): Promise<void>;
+}
+
+// Application layer - orchestrates use cases
+class CreateOrderUseCase {
+  constructor(
+    private orderRepo: OrderRepository,
+    private eventBus: EventBus
+  ) {}
+
+  async execute(input: CreateOrderInput): Promise<Order> {
+    const order = Order.create(input);
+    await this.orderRepo.save(order);
+    await this.eventBus.publish(new OrderCreatedEvent(order));
+    return order;
+  }
+}
+```
+
+### 2. CQRS Separation
+
+Splitting reads and writes allowed us to optimize each path independently:
+
+- **Commands** go through the full domain model with validation
+- **Queries** hit optimized read models, sometimes denormalized
+
+### 3. Event-Driven Communication
+
+Services communicate through events via RabbitMQ, keeping them decoupled:
+
+```typescript
+// Each service publishes domain events
+await eventBus.publish(new AppointmentScheduledEvent({
+  appointmentId: appointment.id,
+  clientId: appointment.clientId,
+  scheduledAt: appointment.scheduledAt,
+}));
+```
+
+## Key Takeaways
+
+1. **Start with the domain model** - understand the business before writing infrastructure code
+2. **Use cases are the API** - they document what your system can do
+3. **Infrastructure is replaceable** - we swapped databases twice without touching business logic
+4. **Events over synchronous calls** - reduces coupling, improves resilience
+
+Clean Architecture adds initial boilerplate but pays dividends as the system grows. After 19 services, the patterns become second nature to the team.

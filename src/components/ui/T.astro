@@ -1,0 +1,10 @@
+---
+import { t } from '@i18n/utils';
+
+interface Props {
+  k: string;
+}
+
+const { k } = Astro.props;
+---
+<span data-lang-show="en">{t(k, 'en')}</span><span data-lang-show="pt">{t(k, 'pt')}</span>

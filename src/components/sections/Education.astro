@@ -1,0 +1,37 @@
+---
+import T from '@components/ui/T.astro';
+import { education } from '@data/education';
+import ScrollReveal from '@components/islands/ScrollReveal.tsx';
+
+---
+
+<section id="education" class="py-20">
+  <div class="mx-auto max-w-4xl px-6">
+    <ScrollReveal client:visible>
+      <h2 class="mb-12 text-center font-heading text-3xl font-bold text-text">
+        <span class="section-tag"><T k="education.title" /></span>
+      </h2>
+    </ScrollReveal>
+
+    <div class="grid gap-6 md:grid-cols-2">
+      {education.map((edu, i) => (
+        <ScrollReveal client:visible delay={i * 0.1}>
+          <div class="rounded-card border border-border bg-card p-6">
+            <p class="mb-1 text-sm text-accent">{edu.period}</p>
+            <h3 class="font-heading text-lg font-bold text-text">{edu.institution}</h3>
+            <p class="text-text-secondary">
+              <span data-lang-show="en">{edu.degree.en}</span>
+              <span data-lang-show="pt">{edu.degree.pt}</span>
+            </p>
+            {edu.description && (
+              <p class="mt-3 text-sm text-text-secondary">
+                <span data-lang-show="en">{edu.description.en}</span>
+                <span data-lang-show="pt">{edu.description.pt}</span>
+              </p>
+            )}
+          </div>
+        </ScrollReveal>
+      ))}
+    </div>
+  </div>
+</section>

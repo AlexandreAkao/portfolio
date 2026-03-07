@@ -1,0 +1,49 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Alexandre Akira - Senior Full-Stack Developer' } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<html lang="en" data-design="engineer" data-lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <ClientRouter />
+    <script is:inline>
+      (function() {
+        var d = localStorage.getItem('design') || 'engineer';
+        document.documentElement.dataset.design = d;
+
+        var params = new URLSearchParams(window.location.search);
+        var langParam = params.get('lang');
+        var lang = langParam || localStorage.getItem('lang') || 'en';
+        if (lang !== 'en' && lang !== 'pt') lang = 'en';
+        document.documentElement.dataset.lang = lang;
+        document.documentElement.lang = lang;
+        localStorage.setItem('lang', lang);
+      })();
+      document.addEventListener('astro:after-swap', function() {
+        var d = localStorage.getItem('design') || 'engineer';
+        document.documentElement.dataset.design = d;
+        var lang = localStorage.getItem('lang') || 'en';
+        document.documentElement.dataset.lang = lang;
+        document.documentElement.lang = lang;
+      });
+    </script>
+  </head>
+  <body class="min-h-screen grid-bg">
+    <slot />
+  </body>
+</html>

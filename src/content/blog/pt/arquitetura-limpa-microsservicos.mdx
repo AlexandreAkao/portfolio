@@ -1,0 +1,71 @@
+---
+title: "Clean Architecture em Microsservicos: Licoes de Construir 19 Servicos"
+description: "Insights praticos sobre como aplicar principios de Clean Architecture ao construir microsservicos em escala, baseados em experiencia real."
+date: 2025-03-15
+tags: ["Arquitetura", "Backend", "Microsservicos"]
+published: true
+---
+
+## O Desafio
+
+Ao construir uma plataforma com 19 microsservicos, um dos maiores desafios e manter consistencia e qualidade de codigo em todos os servicos, permitindo que cada time se mova rapidamente.
+
+Clean Architecture fornece um framework que resolve isso ao estabelecer limites claros e regras de dependencia.
+
+## Principios Fundamentais Aplicados
+
+### 1. A Regra de Dependencia
+
+A regra mais importante: dependencias apontam para dentro. Sua logica de negocio nunca deve depender de frameworks, bancos de dados ou servicos externos.
+
+```typescript
+// Camada de dominio - logica de negocio pura, sem dependencias
+interface OrderRepository {
+  findById(id: string): Promise<Order | null>;
+  save(order: Order): Promise<void>;
+}
+
+// Camada de aplicacao - orquestra casos de uso
+class CreateOrderUseCase {
+  constructor(
+    private orderRepo: OrderRepository,
+    private eventBus: EventBus
+  ) {}
+
+  async execute(input: CreateOrderInput): Promise<Order> {
+    const order = Order.create(input);
+    await this.orderRepo.save(order);
+    await this.eventBus.publish(new OrderCreatedEvent(order));
+    return order;
+  }
+}
+```
+
+### 2. Separacao CQRS
+
+Separar leituras e escritas nos permitiu otimizar cada caminho independentemente:
+
+- **Commands** passam pelo modelo de dominio completo com validacao
+- **Queries** acessam modelos de leitura otimizados, as vezes desnormalizados
+
+### 3. Comunicacao Event-Driven
+
+Servicos se comunicam atraves de eventos via RabbitMQ, mantendo-os desacoplados:
+
+```typescript
+// Cada servico publica eventos de dominio
+await eventBus.publish(new AppointmentScheduledEvent({
+  appointmentId: appointment.id,
+  clientId: appointment.clientId,
+  scheduledAt: appointment.scheduledAt,
+}));
+```
+
+## Principais Aprendizados
+
+1. **Comece pelo modelo de dominio** - entenda o negocio antes de escrever codigo de infraestrutura
+2. **Casos de uso sao a API** - eles documentam o que seu sistema pode fazer
+3. **Infraestrutura e substituivel** - trocamos bancos de dados duas vezes sem tocar na logica de negocio
+4. **Eventos sobre chamadas sincronas** - reduz acoplamento, melhora resiliencia
+
+Clean Architecture adiciona boilerplate inicial, mas paga dividendos conforme o sistema cresce. Depois de 19 servicos, os padroes se tornam segunda natureza para o time.

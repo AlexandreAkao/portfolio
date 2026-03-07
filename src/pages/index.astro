@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/common/Header.astro';
+import Footer from '@components/common/Footer.astro';
+import Hero from '@components/sections/Hero.astro';
+import About from '@components/sections/About.astro';
+import Experience from '@components/sections/Experience.astro';
+import Education from '@components/sections/Education.astro';
+import Skills from '@components/sections/Skills.astro';
+import Projects from '@components/sections/Projects.astro';
+import Contact from '@components/sections/Contact.astro';
+---
+
+<BaseLayout title="Alexandre Akira - Senior Full-Stack Developer">
+  <Header />
+  <main class="pt-16">
+    <Hero />
+    <About />
+    <Experience />
+    <Education />
+    <Skills />
+    <Projects />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

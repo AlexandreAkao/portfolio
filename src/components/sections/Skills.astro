@@ -1,0 +1,24 @@
+---
+import T from '@components/ui/T.astro';
+import { skillGroups } from '@data/skills';
+import EngineerSkills from '@components/designs/engineer/EngineerSkills.tsx';
+import CreativeSkills from '@components/designs/creative/CreativeSkills.tsx';
+import ScrollReveal from '@components/islands/ScrollReveal.tsx';
+---
+
+<section id="skills" class="py-20">
+  <div class="mx-auto max-w-4xl px-6">
+    <ScrollReveal client:visible>
+      <h2 class="mb-12 text-center font-heading text-3xl font-bold text-text">
+        <span class="section-tag"><T k="skills.title" /></span>
+      </h2>
+    </ScrollReveal>
+
+    <div data-design-show="engineer">
+      <EngineerSkills skillGroups={skillGroups} client:visible />
+    </div>
+    <div data-design-show="creative">
+      <CreativeSkills skillGroups={skillGroups} client:visible />
+    </div>
+  </div>
+</section>

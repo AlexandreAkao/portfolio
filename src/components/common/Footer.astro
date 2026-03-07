@@ -1,0 +1,30 @@
+---
+import { t } from '@i18n/utils';
+import { socialLinks } from '@data/social';
+import { Icon } from 'astro-icon/components';
+---
+
+<footer class="border-t border-border py-8">
+  <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6">
+    <div class="flex items-center gap-6">
+      {socialLinks.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-text-secondary transition-colors hover:text-accent"
+          aria-label={link.name}
+        >
+          <Icon name={link.icon} class="h-5 w-5" />
+        </a>
+      ))}
+    </div>
+    <p class="text-xs text-text-secondary">
+      <span data-lang-show="en">{t('footer.built', 'en')}</span>
+      <span data-lang-show="pt">{t('footer.built', 'pt')}</span>
+    </p>
+    <p class="text-xs text-text-secondary">
+      &copy; {new Date().getFullYear()} Alexandre Akira
+    </p>
+  </div>
+</footer>
