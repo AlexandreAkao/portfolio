@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import SocialLinks from '@components/ui/SocialLinks';
 
 export default function EditorialHero() {
   const locale = useLocale();
@@ -109,6 +110,8 @@ export default function EditorialHero() {
             {t('hero.cta.cv', locale)}
           </a>
         </motion.div>
+
+        <SocialLinks delay={1.2} className="mt-8" />
       </div>
     </div>
   );

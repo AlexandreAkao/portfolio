@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import SocialLinks from '@components/ui/SocialLinks';
 
 export default function EngineerHero() {
   const locale = useLocale();
@@ -78,6 +79,8 @@ export default function EngineerHero() {
           {t('hero.cta.cv', locale)}
         </a>
       </motion.div>
+
+      <SocialLinks delay={0.8} className="mt-8 justify-center" />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import SocialLinks from '@components/ui/SocialLinks';
 
 const PARTICLE_COUNT_DESKTOP = 200;
 const PARTICLE_COUNT_MOBILE = 80;
@@ -264,6 +265,8 @@ export default function AvantgardeHero() {
             {t('hero.cta.cv', locale)}
           </a>
         </motion.div>
+
+        <SocialLinks delay={1.1} className="mt-8" />
       </div>
     </div>
   );

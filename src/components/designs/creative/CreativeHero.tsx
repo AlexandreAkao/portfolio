@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import SocialLinks from '@components/ui/SocialLinks';
 
 export default function CreativeHero() {
   const locale = useLocale();
@@ -70,6 +71,8 @@ export default function CreativeHero() {
               {t('hero.cta.cv', locale)}
             </a>
           </motion.div>
+
+          <SocialLinks delay={0.6} className="mt-8" />
         </div>
 
         <motion.div

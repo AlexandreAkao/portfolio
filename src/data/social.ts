@@ -16,6 +16,11 @@ export const socialLinks: SocialLink[] = [
     icon: 'lucide:linkedin',
   },
   {
+    name: 'Dev.to',
+    url: 'https://dev.to/alexandreakira',
+    icon: 'lucide:pen-line',
+  },
+  {
     name: 'Email',
     url: 'mailto:alexandreakiraakao@gmail.com',
     icon: 'lucide:mail',
