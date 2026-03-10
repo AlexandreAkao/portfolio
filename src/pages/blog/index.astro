@@ -2,8 +2,14 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Header from '@components/common/Header.astro';
 import Footer from '@components/common/Footer.astro';
+import BlogCard from '@components/ui/BlogCard.astro';
 import T from '@components/ui/T.astro';
 import { getCollection } from 'astro:content';
+
+function getReadingTime(body: string): number {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
 
 const allPosts = await getCollection('blog', ({ data }) => data.published);
 
@@ -16,7 +22,7 @@ const ptPosts = allPosts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BaseLayout title="Blog - Alexandre Akira">
+<BaseLayout title="Blog - Alexandre Akira" description="Articles about software architecture, web development, and engineering best practices.">
   <Header />
   <main class="pt-24 pb-16">
     <div class="mx-auto max-w-3xl px-6">
@@ -26,73 +32,41 @@ const ptPosts = allPosts
 
       <div data-lang-show="en">
         {enPosts.length === 0 && (
-          <p class="text-text-secondary">No posts yet. Check back soon!</p>
+          <p class="text-text-secondary"><T k="blog.empty" /></p>
         )}
         <div class="space-y-8">
-          {enPosts.map((post) => {
-            const slug = post.id.replace('en/', '');
-            return (
-              <a href={`/blog/${slug}`} class="group block overflow-hidden rounded-card border border-border bg-card transition-colors hover:border-accent/50">
-                {post.data.coverImage && (
-                  <img src={post.data.coverImage} alt={post.data.title} class="h-48 w-full object-cover" />
-                )}
-                <div class="p-6">
-                  <p class="mb-1 text-sm text-accent">
-                    {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </p>
-                  <h2 class="mb-2 font-heading text-xl font-bold text-text group-hover:text-accent">
-                    {post.data.title}
-                  </h2>
-                  <p class="text-text-secondary">{post.data.description}</p>
-                  {post.data.tags && (
-                    <div class="mt-3 flex flex-wrap gap-1">
-                      {post.data.tags.map((tag) => (
-                        <span class="rounded-btn border border-border px-2 py-0.5 text-xs text-text-secondary">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </a>
-            );
-          })}
+          {enPosts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+              coverImage={post.data.coverImage}
+              href={`/blog/${post.id.replace('en/', '')}`}
+              locale="en"
+              readingTime={getReadingTime(post.body ?? '')}
+            />
+          ))}
         </div>
       </div>
 
       <div data-lang-show="pt">
         {ptPosts.length === 0 && (
-          <p class="text-text-secondary">Nenhum post ainda. Volte em breve!</p>
+          <p class="text-text-secondary"><T k="blog.empty" /></p>
         )}
         <div class="space-y-8">
-          {ptPosts.map((post) => {
-            const slug = post.id.replace('pt/', '');
-            return (
-              <a href={`/blog/${slug}`} class="group block overflow-hidden rounded-card border border-border bg-card transition-colors hover:border-accent/50">
-                {post.data.coverImage && (
-                  <img src={post.data.coverImage} alt={post.data.title} class="h-48 w-full object-cover" />
-                )}
-                <div class="p-6">
-                  <p class="mb-1 text-sm text-accent">
-                    {post.data.date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </p>
-                  <h2 class="mb-2 font-heading text-xl font-bold text-text group-hover:text-accent">
-                    {post.data.title}
-                  </h2>
-                  <p class="text-text-secondary">{post.data.description}</p>
-                  {post.data.tags && (
-                    <div class="mt-3 flex flex-wrap gap-1">
-                      {post.data.tags.map((tag) => (
-                        <span class="rounded-btn border border-border px-2 py-0.5 text-xs text-text-secondary">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </a>
-            );
-          })}
+          {ptPosts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+              coverImage={post.data.coverImage}
+              href={`/blog/${post.id.replace('pt/', '')}`}
+              locale="pt"
+              readingTime={getReadingTime(post.body ?? '')}
+            />
+          ))}
         </div>
       </div>
     </div>

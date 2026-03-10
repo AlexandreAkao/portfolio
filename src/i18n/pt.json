@@ -43,5 +43,7 @@
   "blog.title": "Blog",
   "blog.read": "Leia mais",
   "blog.back": "Voltar ao blog",
-  "blog.toc": "Índice"
+  "blog.toc": "Índice",
+  "blog.minRead": "min de leitura",
+  "blog.empty": "Nenhum post ainda. Volte em breve!"
 }

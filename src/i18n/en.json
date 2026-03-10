@@ -43,5 +43,7 @@
   "blog.title": "Blog",
   "blog.read": "Read more",
   "blog.back": "Back to blog",
-  "blog.toc": "Table of Contents"
+  "blog.toc": "Table of Contents",
+  "blog.minRead": "min read",
+  "blog.empty": "No posts yet. Check back soon!"
 }
