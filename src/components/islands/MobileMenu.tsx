@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
@@ -19,7 +20,10 @@ const blogLinks = [{ key: 'nav.home', href: '/' }];
 
 export default function MobileMenu({ isBlog = false }: Props) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const locale = useLocale();
+
+  useEffect(() => setMounted(true), []);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -51,7 +55,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
       {/* Hamburger / X button */}
       <button
         onClick={() => setOpen(!open)}
-        className="relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5"
+        className="relative z-60 flex h-8 w-8 flex-col items-center justify-center gap-1.5"
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
       >
@@ -69,55 +73,58 @@ export default function MobileMenu({ isBlog = false }: Props) {
         />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/50"
-              onClick={close}
-              aria-hidden="true"
-            />
+      {mounted && createPortal(
+        <AnimatePresence>
+          {open && (
+            <>
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-50 bg-black/50"
+                onClick={close}
+                aria-hidden="true"
+              />
 
-            {/* Slide-in panel */}
-            <motion.nav
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'tween', duration: 0.3 }}
-              className="fixed right-0 top-0 z-40 flex h-full w-64 flex-col bg-bg border-l border-border shadow-xl"
-              aria-label="Mobile navigation"
-            >
-              <div className="flex flex-col gap-1 px-6 pt-20">
-                {links.map((link) => (
+              {/* Slide-in panel */}
+              <motion.nav
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'tween', duration: 0.3 }}
+                className="fixed right-0 top-0 z-50 flex h-full w-64 flex-col bg-bg border-l border-border shadow-xl"
+                aria-label="Mobile navigation"
+              >
+                <div className="flex flex-col gap-1 px-6 pt-20">
+                  {links.map((link) => (
+                    <a
+                      key={link.key}
+                      href={link.href}
+                      onClick={close}
+                      className="rounded-lg px-3 py-3 text-base font-medium text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent"
+                    >
+                      {t(link.key, locale)}
+                    </a>
+                  ))}
+
+                  <span className="my-2 h-px bg-border" />
+
                   <a
-                    key={link.key}
-                    href={link.href}
+                    href="/blog"
                     onClick={close}
                     className="rounded-lg px-3 py-3 text-base font-medium text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent"
                   >
-                    {t(link.key, locale)}
+                    {t('nav.blog', locale)}
                   </a>
-                ))}
-
-                <span className="my-2 h-px bg-border" />
-
-                <a
-                  href="/blog"
-                  onClick={close}
-                  className="rounded-lg px-3 py-3 text-base font-medium text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent"
-                >
-                  {t('nav.blog', locale)}
-                </a>
-              </div>
-            </motion.nav>
-          </>
-        )}
-      </AnimatePresence>
+                </div>
+              </motion.nav>
+            </>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }
