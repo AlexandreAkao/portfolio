@@ -9,6 +9,11 @@ import icon from 'astro-icon';
 export default defineConfig({
   site: 'https://alexandreakira.dev',
   integrations: [react(), mdx(), sitemap(), icon()],
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark-default',
+    },
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'pt'],

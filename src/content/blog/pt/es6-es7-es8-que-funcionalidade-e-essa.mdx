@@ -1,0 +1,542 @@
+---
+title: "ES6, ES7, ES8... Espera, que Funcionalidade e essa?"
+description: "Um guia completo sobre as versoes do ECMAScript e as funcionalidades adicionadas em cada uma, desde ES1 ate ECMAScript 2023."
+date: 2023-11-18
+tags: ["JavaScript", "ECMAScript", "Frontend"]
+published: true
+---
+
+## Um Pouco de Historia Sobre Javascript
+
+Se voce ja esta no mundo do JavaScript, provavelmente ja ouviu falar sobre **ECMAScript**.
+
+> O que e isso?
+
+**ECMAScript** e uma especificacao padronizada para linguagens de script definida pela ECMA-262, inspirada no JavaScript.
+
+**ECMAScript** e na verdade o proprio JavaScript (chocante!), mas continuamos chamando de JavaScript por conveniencia e habito. Portanto, ECMAScript e o nome oficial da linguagem.
+
+> NOS USAMOS ECMASCRIPT, NAO JAVASCRIPT.
+
+---
+
+## O que sao ES7, ES8, ECMAScript 2018...
+
+Como toda linguagem de programacao, ela tem versoes e e atualizada ao longo do tempo. Nosso querido ECMAScript tambem.
+
+As versoes do ECMAScript eram abreviadas como ES1, ES2, ES3, ES5 e ES6.
+
+Desde 2016 oficialmente, as versoes sao nomeadas por ano (ECMAScript 2016, 2017, 2018, 2019, 2020, ...), mas voce pode encontrar documentacao ainda chamando de ES7, ES8, etc.
+
+---
+
+## Por que Preciso me Importar com Versoes?
+
+Como o ECMAScript e predominantemente executado em navegadores, a evolucao dos navegadores nem sempre acompanha o desenvolvimento da linguagem.
+
+E por isso que temos ferramentas como **Babel**, **Webpack**, **Turbopack**, **Rollup** e ate **TypeScript**, que nos permitem escrever codigo moderno sem nos preocupar com compatibilidade de navegadores.
+
+> Lembre-se de que essas ferramentas fazem muito mais do que apenas transformar codigo moderno em codigo antigo.
+
+---
+
+## Funcionalidades de Cada Versao do ECMAScript
+
+Vou listar TODAS (pelo menos ate onde encontrei) as funcionalidades implementadas em cada versao lancada.
+
+Como sao muitas funcionalidades, nao vou me aprofundar em todas e colocarei um 🚀 para aquelas que gosto e/ou acho mais uteis.
+
+> Meu objetivo aqui nao e explicar como cada funcionalidade funciona, mas sim mostrar o que foi adicionado em cada versao.
+
+---
+
+## ES1 (ECMAScript 1997)
+
+Tambem conhecido como ECMAScript 1997.
+
+A primeira versao do ECMAScript foi lancada em 1997. Foi criada com base no JavaScript e incluia funcionalidades como variaveis, funcoes e instrucoes basicas de fluxo de controle.
+
+---
+
+## ES2 (ECMAScript 1998)
+
+Tambem conhecido como ECMAScript 1998.
+
+A segunda versao foi lancada em 1998. Contem apenas pequenas alteracoes em relacao a primeira versao.
+
+---
+
+## ES3 (ECMAScript 1999)
+
+Tambem conhecido como ECMAScript 1999.
+
+- **Regular Expressions** 🚀
+- **Adicionado try/catch** 🚀
+- **Adicionado switch** 🚀
+- Adicionado do-while
+
+Funcionalidades basicas encontradas em quase todas as linguagens.
+
+---
+
+## ES4 (Nunca Lancado)
+
+A quarta versao estava em desenvolvimento, mas acabou sendo abandonada por causa de desacordos sobre a direcao da linguagem. 🤷‍♂️
+
+---
+
+## ES5 (ECMAScript 2009)
+
+Apos um longo periodo sem atualizacoes, finalmente temos uma atualizacao com muitas novidades.
+
+Tambem conhecido como ECMAScript 2009.
+
+- "use strict"
+- `String[number]` 🚀
+
+```javascript
+const texto = "Hello world"
+texto[0] // "H"
+```
+
+- Multiline strings
+- **String.trim()** 🚀
+
+```javascript
+const texto = " Hello world "
+texto.trim() // "Hello world"
+```
+
+### Array
+
+- **Array.isArray()** 🚀
+
+```javascript
+const frutas = ["Banana", "Laranja", "Maca", "Manga"];
+const texto = "Hello world"
+
+Array.isArray(frutas) // true
+Array.isArray(texto) // false
+```
+
+- **Array forEach** 🚀
+
+```javascript
+function mostrar(value) {
+  return console.log(value)
+}
+
+const numbers = [45, 4, 9, 16, 25];
+numbers.forEach(mostrar);
+```
+
+- **Array map()** 🚀
+
+```javascript
+function somar5(value) {
+  return value + 5
+}
+
+const numbers1 = [45, 4, 9, 16, 25];
+const numbers2 = numbers1.map(somar5); // [ 50, 9, 14, 21, 30 ]
+```
+
+- **Array filter()** 🚀
+
+```javascript
+function maiorDeIdade(value) {
+  return value > 18;
+}
+
+const idades = [45, 4, 9, 16, 25];
+const mais18 = idades.filter(maiorDeIdade); // [ 45, 25 ]
+```
+
+- **Array reduce()** 🚀
+
+```javascript
+function somar(acumulador, atual) {
+  return acumulador + atual;
+}
+
+const numbers = [45, 4, 10, 16, 25];
+const sum = numbers.reduce(somar, 0); // 100
+```
+
+- Array reduceRight
+- **Array.every()** 🚀
+
+```javascript
+function maiorDeIdade(value) {
+  return value > 18;
+}
+
+const idades = [45, 4, 9, 16, 25];
+const todosMais18 = idades.every(maiorDeIdade); // false
+```
+
+- **Array.some()** 🚀
+
+```javascript
+function maiorDeIdade(value) {
+  return value > 18;
+}
+
+const idades = [45, 4, 9, 16, 25];
+const todosMais18 = idades.some(maiorDeIdade); // true
+```
+
+- **Array.indexOf()** 🚀
+
+```javascript
+const frutas = ["Banana", "Laranja", "Maca", "Manga"];
+frutas.indexOf("Laranja"); // 1
+```
+
+- Array.lastIndexOf()
+
+### JSON
+
+- **JSON.parse()** 🚀
+
+```javascript
+const user = '{"nome":"Alexandre", "idade":24}'
+JSON.parse(user)
+/* ^? {
+  name: "Alexandre",
+  idade: 24
+}
+*/
+```
+
+- **JSON.stringify()** 🚀
+
+```javascript
+const user = {
+  name: "Alexandre",
+  idade: 24
+}
+JSON.stringify(user) // '{"nome":"Alexandre", "idade":24}'
+```
+
+### Outros
+
+- **Date.now()** 🚀
+
+```javascript
+// timestamp
+Date.now() // 1700318490184
+```
+
+- Date toISOString()
+- Date toJSON()
+- Getter e Setter properties
+- Permite palavras reservadas como nomes de propriedade
+- Object methods
+- Object defineProperty()
+- Function bind()
+- **Permite trailing commas em Arrays e Objects** 🚀
+
+```javascript
+// Antes:
+const oldUser = {
+  name: "Alexandre",
+  idade: 24
+}
+
+// Novo:
+const user = {
+  name: "Alexandre",
+  idade: 24, // ← Essa virgula na ultima propriedade agora e permitida
+}
+```
+
+---
+
+## ES6 (ECMAScript 2015)
+
+Tambem conhecido como ECMAScript 2015.
+
+- **let e const** 🚀
+- **Arrow functions (A maior de todas)** 🚀
+
+```javascript
+const numeros = [1, 2, 3, 4, 5]
+const elevado2 = numeros.map((numero) => numero * numero) // [1, 4, 9, 16, 25]
+```
+
+- **Spread Operator (...)** 🚀
+
+```javascript
+const numbers = [23, 55, 21, 87, 56];
+const maxValue = Math.max(...numbers); // 87
+```
+
+- **for/of loop** 🚀
+
+```javascript
+const carros = ["BMW", "Volvo", "Mini"];
+
+for (let x of carros) {
+}
+```
+
+- **Map** 🚀
+- **Set** 🚀
+
+```javascript
+const numeros = [1, 2, 3, 1, 4, 3]
+
+const removerDuplicatas = new Set(numeros) // Set {1, 2, 3, 4}
+```
+
+- **Classes** 🚀
+- **Promises (Nasce o backend JavaScript)** 🚀
+
+```javascript
+const promise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("3 segundos");
+  }, 3000);
+});
+
+promise.then(v => console.log(v)) // Aparece depois de 3 segundos
+```
+
+- Symbol
+- **Default Parameters** 🚀
+
+```javascript
+function soma(x, y = 10) {
+  return x + y;
+}
+soma(5); // 15
+```
+
+- **Rest Parameters em Funcoes** 🚀
+
+```javascript
+function sum(...args) {
+  let sum = 0;
+  for (let arg of args) sum += arg;
+  return sum;
+}
+
+sum(4, 9, 16, 25, 29, 100, 66, 77); // 326
+```
+
+- **String.includes()** 🚀
+
+```javascript
+const text = "Hello world";
+text.includes("world") // true
+```
+
+- String.startsWith()
+- String.endsWith()
+- Array.from()
+- Array keys()
+- **Array find()** 🚀
+
+```javascript
+const numbers = [4, 9, 16, 25, 29];
+numbers.find((number) => number === 16); // 16
+```
+
+- **Array findIndex()** 🚀
+
+```javascript
+const numbers = [4, 9, 16, 25, 29];
+numbers.findIndex((number) => number === 16); // 2
+```
+
+- Novos Math Methods
+  - **Math.trunc()** 🚀
+  - Math.sign()
+  - Math.cbrt()
+  - Math.log2()
+  - Math.log10()
+
+```javascript
+Math.trunc(4.9);   // 4
+Math.trunc(4.7);   // 4
+Math.trunc(4.4);   // 4
+Math.trunc(4.2);   // 4
+Math.trunc(-4.2);  // -4
+```
+
+- Novas Number Properties
+  - Number.EPSILON
+  - Number.MIN_SAFE_INTEGER
+  - Number.MAX_SAFE_INTEGER
+
+- Novos Number Methods
+  - Number.isInteger()
+
+- isFinite()
+- **isNaN()** 🚀
+- **Object entries** 🚀
+- **Modules (import, export)** 🚀
+- **Template String** 🚀
+
+```javascript
+const nome = "alexandre"
+console.log(`meu nome e ${nome}`)
+```
+
+---
+
+## ECMAScript 2016
+
+- **Exponenciacao (**)** 🚀
+
+```javascript
+// 5^2
+const expo = 5 ** 2 // 25
+```
+
+- Exponentiation Assignment (**=)
+- **Array includes()** 🚀
+
+---
+
+## ECMAScript 2017
+
+- String padding
+- **Object entries()** 🚀
+- **Object values()** 🚀
+- **async e await (nunca mais then)** 🚀
+
+---
+
+## ECMAScript 2018
+
+- Async iteration
+- Promise Finally
+- **Object rest property** 🚀
+
+```javascript
+let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };
+x; // 1
+y; // 2
+z; // { a: 3, b: 4 }
+```
+
+- Novas funcionalidades RegExp
+
+---
+
+## ECMAScript 2019
+
+- String.trimStart()
+- String.trimEnd()
+- Object.fromEntries()
+- Optional Catch parameter
+- Array.flat()
+- Array.flatMap()
+- Array.Sort() revisado
+- JSON.stringify() revisado
+- Function.toString() revisado
+- Permite symbols em strings
+
+---
+
+## ECMAScript 2020
+
+- BigInt
+- String MatchAll()
+- **Nullish Coalescing Operator** 🚀
+
+```javascript
+const nome = null ?? "Alexandre" // "Alexandre"
+```
+
+- **Optional Chaining Operator** 🚀
+
+```javascript
+const user = {
+  name: "Alexandre",
+  address: {
+    street: "Rua A"
+  }
+}
+
+user.address?.street // "Rua A"
+user.phone?.number // undefined (sem erro)
+```
+
+- Promise.allSettled()
+- Dynamic import()
+- globalThis
+
+---
+
+## ECMAScript 2021
+
+- String.replaceAll()
+- Promise.any()
+- WeakRef e FinalizationRegistry
+- Logical Assignment Operators
+
+```javascript
+let x = 1;
+x &&= 2; // x = 2 (AND assignment)
+
+let y = false;
+y ||= 5; // y = 5 (OR assignment)
+
+let z = null;
+z ??= 10; // z = 10 (Nullish assignment)
+```
+
+- Numeric separators 🚀
+
+```javascript
+const num = 1_000_000_000; // 1000000000
+```
+
+---
+
+## ECMAScript 2022
+
+- Top-level await
+- Class fields e private methods 🚀
+- Static class methods e fields
+- Array.at() 🚀
+
+```javascript
+const array = [1, 2, 3, 4, 5];
+array.at(-1); // 5 (ultimo elemento)
+array.at(-2); // 4 (penultimo)
+```
+
+- String.at()
+- Object.hasOwn()
+- Error cause
+
+```javascript
+try {
+  // algum codigo
+} catch (error) {
+  throw new Error("Operacao falhou", { cause: error });
+}
+```
+
+- RegExp match indices
+
+---
+
+## ECMAScript 2023
+
+- Array findLast() e findLastIndex() 🚀
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+numbers.findLast((n) => n > 3); // 5
+numbers.findLastIndex((n) => n > 3); // 4
+```
+
+- Array toReversed(), toSorted(), toSpliced()
+- String toWellFormed() e isWellFormed()
+- Symbol como chaves de WeakMap
+- Metodos de copia de Array (Change Array by copy)

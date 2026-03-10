@@ -20,7 +20,7 @@ const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long'
 <BaseLayout title={`${title} - Alexandre Akira`} description={description}>
   <Header />
   <main class="pt-24 pb-16">
-    <article class="mx-auto max-w-3xl px-6">
+    <article class="mx-auto max-w-4xl px-6">
       <a
         href="/blog"
         class="mb-8 inline-flex items-center gap-1 text-sm text-text-secondary transition-colors hover:text-accent"
@@ -57,64 +57,189 @@ const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long'
 <style>
   .prose {
     color: var(--text-secondary);
-    line-height: 1.8;
+    font-size: 1.125rem;
+    line-height: 1.85;
+    letter-spacing: -0.003em;
   }
-  .prose h2, .prose h3, .prose h4 {
+
+  /* Paragraphs */
+  .prose :global(p) {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+  }
+
+  /* Headings */
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4) {
     color: var(--text);
     font-family: var(--font-heading);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .prose :global(h2) {
+    font-size: 1.75rem;
+    margin-top: 2.5em;
+    margin-bottom: 0.75em;
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid var(--border);
+  }
+  .prose :global(h3) {
+    font-size: 1.375rem;
     margin-top: 2em;
+    margin-bottom: 0.6em;
+  }
+  .prose :global(h4) {
+    font-size: 1.125rem;
+    margin-top: 1.5em;
     margin-bottom: 0.5em;
   }
-  .prose h2 { font-size: 1.5rem; }
-  .prose h3 { font-size: 1.25rem; }
-  .prose a {
+
+  /* Links */
+  .prose :global(a) {
     color: var(--accent);
     text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s;
   }
-  .prose code {
+  .prose :global(a:hover) {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Inline code */
+  .prose :global(code) {
     background: var(--bg-secondary);
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 0.15em 0.4em;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.875em;
+    font-size: 0.85em;
+    color: var(--accent);
+    word-break: break-word;
   }
-  .prose pre {
+
+  /* Code blocks */
+  .prose :global(pre) {
     background: var(--bg-secondary) !important;
     border: 1px solid var(--border);
-    border-radius: var(--radius-card);
-    padding: 1rem;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
     overflow-x: auto;
     margin: 1.5em 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    -webkit-overflow-scrolling: touch;
   }
-  .prose pre code {
+  .prose :global(pre code) {
     background: none;
     border: none;
     padding: 0;
+    color: inherit;
+    font-size: inherit;
   }
-  .prose blockquote {
-    border-left: 3px solid var(--accent);
-    padding-left: 1rem;
-    margin: 1.5em 0;
+
+  /* Blockquotes */
+  .prose :global(blockquote) {
+    border-left: 4px solid var(--accent);
+    background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin: 2em 0;
     font-style: italic;
-    color: var(--text-secondary);
+    color: var(--text);
   }
-  .prose ul, .prose ol {
-    padding-left: 1.5rem;
-    margin: 1em 0;
+  .prose :global(blockquote p) {
+    margin: 0.5em 0;
   }
-  .prose li {
-    margin: 0.25em 0;
+  .prose :global(blockquote p:first-child) {
+    margin-top: 0;
   }
-  .prose img {
-    border-radius: var(--radius-card);
-    margin: 1.5em 0;
+  .prose :global(blockquote p:last-child) {
+    margin-bottom: 0;
   }
-  .prose hr {
-    border-color: var(--border);
+
+  /* Lists */
+  .prose :global(ul) {
+    list-style-type: disc;
+    padding-left: 1.75rem;
+    margin: 1.25em 0;
+  }
+  .prose :global(ol) {
+    list-style-type: decimal;
+    padding-left: 1.75rem;
+    margin: 1.25em 0;
+  }
+  .prose :global(li) {
+    margin: 0.4em 0;
+    padding-left: 0.35em;
+  }
+  .prose :global(li::marker) {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  /* Tighten space between list and immediately following code block */
+  .prose :global(ul + pre),
+  .prose :global(ol + pre) {
+    margin-top: -0.5em;
+  }
+  .prose :global(ul ul),
+  .prose :global(ol ol),
+  .prose :global(ul ol),
+  .prose :global(ol ul) {
+    margin: 0.4em 0;
+    list-style-type: circle;
+  }
+
+  /* Images */
+  .prose :global(img) {
+    border-radius: 8px;
     margin: 2em 0;
   }
-  .prose strong {
+
+  /* Horizontal rules */
+  .prose :global(hr) {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border),
+      var(--accent),
+      var(--border),
+      transparent
+    );
+    margin: 3em 0;
+  }
+
+  /* Strong */
+  .prose :global(strong) {
     color: var(--text);
+    font-weight: 600;
+  }
+
+  /* Tables (if used) */
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    font-size: 0.95em;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  .prose :global(th) {
+    background: var(--bg-secondary);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* First element has no top margin */
+  .prose > :global(*:first-child) {
+    margin-top: 0;
   }
 </style>

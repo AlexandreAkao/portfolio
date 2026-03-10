@@ -18,6 +18,8 @@
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/playfair-display": "^5.2.8",
     "@fontsource/poppins": "^5.2.7",
+    "@fontsource/sora": "^5.2.8",
+    "@fontsource/source-serif-4": "^5.2.9",
     "@fontsource/space-grotesk": "^5.2.10",
     "@iconify-json/lucide": "^1.2.96",
     "@react-three/drei": "^10.7.7",
