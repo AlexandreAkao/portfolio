@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { MarkdownHeading } from 'astro';
 import BaseLayout from './BaseLayout.astro';
 import Header from '@components/common/Header.astro';
 import Footer from '@components/common/Footer.astro';
@@ -9,18 +12,28 @@ interface Props {
   description: string;
   date: Date;
   tags?: string[];
-  coverImage?: string;
+  coverImage?: ImageMetadata;
   lang: 'en' | 'pt';
+  headings?: MarkdownHeading[];
 }
 
-const { title, description, date, tags, coverImage, lang } = Astro.props;
+const { title, description, date, tags, coverImage, lang, headings = [] } = Astro.props;
+const tocHeadings = headings.filter((h) => h.depth <= 3);
 const enDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
-<BaseLayout title={`${title} - Alexandre Akira`} description={description}>
+<BaseLayout
+  title={`${title} - Alexandre Akira`}
+  description={description}
+  image={coverImage?.src}
+  type="article"
+  publishedTime={date.toISOString()}
+  tags={tags}
+  locale={lang}
+>
   <Header />
-  <main class="pt-24 pb-16">
+  <main id="main-content" class="pt-24 pb-16">
     <article class="mx-auto max-w-5xl px-6">
       <a
         href="/blog"
@@ -30,10 +43,14 @@ const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long'
       </a>
 
       {coverImage && (
-        <img
+        <Image
           src={coverImage}
           alt={title}
+          width={1024}
+          height={340}
           class="mb-8 h-85 w-full rounded-lg object-cover"
+          loading="eager"
+          decoding="async"
         />
       )}
 
@@ -54,6 +71,34 @@ const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long'
           </div>
         )}
       </header>
+
+      {tocHeadings.length > 2 && (
+        <details class="toc group mb-10 rounded-sm border-l-4 border-accent bg-accent/4 p-0">
+          <summary class="flex cursor-pointer list-none items-center gap-2 px-5 py-4 text-xs font-semibold uppercase tracking-widest text-accent [&::-webkit-details-marker]:hidden">
+            <svg class="h-3.5 w-3.5 shrink-0 transition-transform group-open:rotate-90" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <T k="blog.toc" />
+          </summary>
+          <nav aria-label="Table of contents" class="border-t border-accent/10 px-5 py-4">
+            <ol class="space-y-2">
+              {tocHeadings.map((h) => (
+                <li class={h.depth === 3 ? 'ml-4' : ''}>
+                  <a
+                    href={`#${h.slug}`}
+                    class:list={[
+                      'inline-block text-text-secondary transition-colors hover:text-accent',
+                      h.depth === 2 ? 'text-sm font-medium' : 'text-xs',
+                    ]}
+                  >
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </details>
+      )}
 
       <div class="prose prose-invert max-w-none">
         <slot />

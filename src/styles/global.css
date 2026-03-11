@@ -9,12 +9,9 @@
 @import '@fontsource/sora/500.css';
 @import '@fontsource/sora/700.css';
 @import '@fontsource/source-serif-4/400.css';
-@import '@fontsource/source-serif-4/500.css';
 @import '@fontsource/source-serif-4/700.css';
-@import '@fontsource/poppins/500.css';
 @import '@fontsource/poppins/600.css';
 @import '@fontsource/poppins/700.css';
-@import '@fontsource/poppins/800.css';
 @import '@fontsource-variable/dm-sans';
 
 @theme {
@@ -73,7 +70,7 @@
   --bg: #131211;
   --bg-secondary: #1c1a18;
   --text: #f0ece6;
-  --text-secondary: #8a847b;
+  --text-secondary: #9a948b;
   --accent: #c5ff41;
   --accent-hover: #d4ff6e;
   --border: #2a2725;
@@ -104,6 +101,35 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* Focus-visible: clear outline for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Reduced motion: disable animations for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
 }
 
 body {

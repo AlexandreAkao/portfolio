@@ -3,7 +3,11 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
 
-export default function CreativeHero() {
+interface Props {
+  avatarSrc?: string;
+}
+
+export default function CreativeHero({ avatarSrc = '/images/avatar.jpeg' }: Props) {
   const locale = useLocale();
   const name = t('hero.name', locale);
 
@@ -87,9 +91,13 @@ export default function CreativeHero() {
             <div className="absolute inset-8 rounded-full border-2 border-accent/20" />
             <div className="absolute inset-16 rounded-full border border-accent/40" />
             <img
-              src="/images/avatar.jpeg"
+              src={avatarSrc}
               alt="Alexandre Akira"
+              width={224}
+              height={224}
               className="absolute inset-12 h-56 w-56 rounded-full object-cover shadow-2xl"
+              loading="eager"
+              decoding="async"
             />
           </div>
         </motion.div>

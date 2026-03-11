@@ -1,8 +1,12 @@
 ---
+import { getImage } from 'astro:assets';
 import EngineerHero from '@components/designs/engineer/EngineerHero.tsx';
 import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
 import AvantgardeHero from '@components/designs/avantgarde/AvantgardeHero.tsx';
 import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
+import avatarImg from '@/assets/images/avatar.jpeg';
+
+const optimizedAvatar = await getImage({ src: avatarImg, width: 224, height: 224 });
 ---
 
 <section id="hero">
@@ -10,10 +14,10 @@ import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
     <EngineerHero client:load />
   </div>
   <div data-design-show="creative">
-    <CreativeHero client:load />
+    <CreativeHero avatarSrc={optimizedAvatar.src} client:load />
   </div>
   <div data-design-show="avantgarde">
-    <AvantgardeHero client:load />
+    <AvantgardeHero client:visible />
   </div>
   <div data-design-show="editorial">
     <EditorialHero client:load />

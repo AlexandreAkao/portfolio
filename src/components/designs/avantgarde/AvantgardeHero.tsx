@@ -158,20 +158,52 @@ function Particles() {
   );
 }
 
+function hasWebGL(): boolean {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(canvas.getContext('webgl') || canvas.getContext('webgl2'));
+  } catch {
+    return false;
+  }
+}
+
+function ParticleFallback() {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {[...Array(40)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute h-1 w-1 rounded-full bg-accent/60"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 5}s`,
+            animation: `pulse 3s ease-in-out ${Math.random() * 3}s infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function AvantgardeHero() {
   const locale = useLocale();
   const name = t('hero.name', locale);
   const title = t('hero.title', locale);
   const [mounted, setMounted] = useState(false);
+  const [webgl, setWebgl] = useState(true);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+    setWebgl(hasWebGL());
+  }, []);
 
   const words = name.split(' ');
 
   return (
     <div className="relative flex min-h-screen items-center overflow-hidden">
-      {/* Three.js Background */}
-      {mounted && (
+      {/* Three.js Background (with CSS fallback) */}
+      {mounted && webgl ? (
         <div className="absolute inset-0">
           <Canvas
             camera={{ position: [0, 0, 5], fov: 60 }}
@@ -181,7 +213,9 @@ export default function AvantgardeHero() {
             <Particles />
           </Canvas>
         </div>
-      )}
+      ) : mounted ? (
+        <ParticleFallback />
+      ) : null}
 
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 md:px-12">
@@ -253,14 +287,14 @@ export default function AvantgardeHero() {
         >
           <a
             href="#projects"
-            className="rounded-[var(--radius-btn)] bg-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-[#131211] transition-colors hover:bg-accent-hover sm:px-8"
+            className="rounded-btn bg-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-[#131211] transition-colors hover:bg-accent-hover sm:px-8"
           >
             {t('hero.cta.work', locale)}
           </a>
           <a
             href="/resume/Alexandre_Akira_en_CV.pdf"
             download
-            className="rounded-[var(--radius-btn)] border border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent/10 sm:px-8"
+            className="rounded-btn border border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent/10 sm:px-8"
           >
             {t('hero.cta.cv', locale)}
           </a>
