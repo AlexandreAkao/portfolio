@@ -5,6 +5,7 @@ import Footer from '@components/common/Footer.astro';
 import BlogCard from '@components/ui/BlogCard.astro';
 import T from '@components/ui/T.astro';
 import { getCollection } from 'astro:content';
+import { t } from '@i18n/utils';
 
 function getReadingTime(body: string): number {
   const words = body.trim().split(/\s+/).length;
@@ -20,6 +21,9 @@ const enPosts = allPosts
 const ptPosts = allPosts
   .filter(({ id }) => id.startsWith('pt/'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const enTags = [...new Set(enPosts.flatMap((p) => p.data.tags || []))].sort();
+const ptTags = [...new Set(ptPosts.flatMap((p) => p.data.tags || []))].sort();
 ---
 
 <BaseLayout title="Blog - Alexandre Akira" description="Articles about software architecture, web development, and engineering best practices.">
@@ -31,45 +35,133 @@ const ptPosts = allPosts
       </h1>
 
       <div data-lang-show="en">
-        {enPosts.length === 0 && (
+        {enPosts.length === 0 ? (
           <p class="text-text-secondary"><T k="blog.empty" /></p>
+        ) : (
+          <>
+            {enTags.length > 1 && (
+              <div class="mb-8 flex flex-wrap gap-2" data-filter-group="en">
+                <button
+                  class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
+                  data-filter="all"
+                  data-active
+                >
+                  {t('blog.filter.all', 'en')}
+                </button>
+                {enTags.map((tag) => (
+                  <button
+                    class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
+                    data-filter={tag}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div class="space-y-8" data-post-group="en">
+              {enPosts.map((post) => (
+                <div data-tags={JSON.stringify(post.data.tags || [])}>
+                  <BlogCard
+                    title={post.data.title}
+                    description={post.data.description}
+                    date={post.data.date}
+                    tags={post.data.tags}
+                    coverImage={post.data.coverImage}
+                    href={`/blog/${post.id.replace('en/', '')}`}
+                    locale="en"
+                    readingTime={getReadingTime(post.body ?? '')}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
         )}
-        <div class="space-y-8">
-          {enPosts.map((post) => (
-            <BlogCard
-              title={post.data.title}
-              description={post.data.description}
-              date={post.data.date}
-              tags={post.data.tags}
-              coverImage={post.data.coverImage}
-              href={`/blog/${post.id.replace('en/', '')}`}
-              locale="en"
-              readingTime={getReadingTime(post.body ?? '')}
-            />
-          ))}
-        </div>
       </div>
 
       <div data-lang-show="pt">
-        {ptPosts.length === 0 && (
+        {ptPosts.length === 0 ? (
           <p class="text-text-secondary"><T k="blog.empty" /></p>
+        ) : (
+          <>
+            {ptTags.length > 1 && (
+              <div class="mb-8 flex flex-wrap gap-2" data-filter-group="pt">
+                <button
+                  class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
+                  data-filter="all"
+                  data-active
+                >
+                  {t('blog.filter.all', 'pt')}
+                </button>
+                {ptTags.map((tag) => (
+                  <button
+                    class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
+                    data-filter={tag}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            )}
+            <div class="space-y-8" data-post-group="pt">
+              {ptPosts.map((post) => (
+                <div data-tags={JSON.stringify(post.data.tags || [])}>
+                  <BlogCard
+                    title={post.data.title}
+                    description={post.data.description}
+                    date={post.data.date}
+                    tags={post.data.tags}
+                    coverImage={post.data.coverImage}
+                    href={`/blog/${post.id.replace('pt/', '')}`}
+                    locale="pt"
+                    readingTime={getReadingTime(post.body ?? '')}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
         )}
-        <div class="space-y-8">
-          {ptPosts.map((post) => (
-            <BlogCard
-              title={post.data.title}
-              description={post.data.description}
-              date={post.data.date}
-              tags={post.data.tags}
-              coverImage={post.data.coverImage}
-              href={`/blog/${post.id.replace('pt/', '')}`}
-              locale="pt"
-              readingTime={getReadingTime(post.body ?? '')}
-            />
-          ))}
-        </div>
       </div>
     </div>
   </main>
   <Footer />
 </BaseLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-filter-group]').forEach((group) => {
+      const lang = group.dataset.filterGroup;
+      const posts = document.querySelector<HTMLElement>(`[data-post-group="${lang}"]`);
+      if (!posts) return;
+
+      group.querySelectorAll<HTMLButtonElement>('.tag-filter').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+
+          group.querySelectorAll('.tag-filter').forEach((b) => b.removeAttribute('data-active'));
+          btn.setAttribute('data-active', '');
+
+          posts.querySelectorAll<HTMLElement>('[data-tags]').forEach((card) => {
+            const tags: string[] = JSON.parse(card.dataset.tags || '[]');
+            card.style.display = filter === 'all' || tags.includes(filter!) ? '' : 'none';
+          });
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .tag-filter {
+    border-color: var(--border);
+    color: var(--text-secondary);
+  }
+  .tag-filter:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .tag-filter[data-active] {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+</style>

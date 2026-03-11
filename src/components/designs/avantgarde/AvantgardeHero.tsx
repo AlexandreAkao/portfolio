@@ -186,7 +186,9 @@ function ParticleFallback() {
   );
 }
 
-export default function AvantgardeHero() {
+import ErrorBoundary from '@components/ui/ErrorBoundary';
+
+function AvantgardeHeroInner() {
   const locale = useLocale();
   const name = t('hero.name', locale);
   const title = t('hero.title', locale);
@@ -303,5 +305,13 @@ export default function AvantgardeHero() {
         <SocialLinks delay={1.1} className="mt-8" />
       </div>
     </div>
+  );
+}
+
+export default function AvantgardeHero() {
+  return (
+    <ErrorBoundary>
+      <AvantgardeHeroInner />
+    </ErrorBoundary>
   );
 }

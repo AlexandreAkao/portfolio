@@ -2,12 +2,14 @@ import { motion } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import ErrorBoundary from '@components/ui/ErrorBoundary';
 
 interface Props {
   avatarSrc?: string;
+  avatarSrcSet?: string;
 }
 
-export default function CreativeHero({ avatarSrc = '/images/avatar.jpeg' }: Props) {
+function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: Props) {
   const locale = useLocale();
   const name = t('hero.name', locale);
 
@@ -92,16 +94,27 @@ export default function CreativeHero({ avatarSrc = '/images/avatar.jpeg' }: Prop
             <div className="absolute inset-16 rounded-full border border-accent/40" />
             <img
               src={avatarSrc}
+              srcSet={avatarSrcSet}
+              sizes="224px"
               alt="Alexandre Akira"
               width={224}
               height={224}
               className="absolute inset-12 h-56 w-56 rounded-full object-cover shadow-2xl"
               loading="eager"
               decoding="async"
+              fetchPriority="high"
             />
           </div>
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function CreativeHero(props: Props) {
+  return (
+    <ErrorBoundary>
+      <CreativeHeroInner {...props} />
+    </ErrorBoundary>
   );
 }

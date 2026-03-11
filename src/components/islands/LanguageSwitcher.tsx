@@ -1,12 +1,14 @@
 import { useLocale } from '@i18n/useLocale';
+import { safeSetItem } from '@/lib/storage';
+import ErrorBoundary from '@components/ui/ErrorBoundary';
 
-export default function LanguageSwitcher() {
+function LanguageSwitcherInner() {
   const locale = useLocale();
 
   const toggle = () => {
     const next = locale === 'en' ? 'pt' : 'en';
     document.documentElement.dataset.lang = next;
-    localStorage.setItem('lang', next);
+    safeSetItem('lang', next);
     const url = new URL(window.location.href);
     if (next === 'en') {
       url.searchParams.delete('lang');
@@ -24,5 +26,13 @@ export default function LanguageSwitcher() {
     >
       {locale === 'en' ? 'PT' : 'EN'}
     </button>
+  );
+}
+
+export default function LanguageSwitcher() {
+  return (
+    <ErrorBoundary>
+      <LanguageSwitcherInner />
+    </ErrorBoundary>
   );
 }

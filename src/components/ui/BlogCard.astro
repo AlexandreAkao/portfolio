@@ -22,7 +22,7 @@ const formattedDate = date.toLocaleDateString(dateLocale, { year: 'numeric', mon
 
 <a href={href} class="group block overflow-hidden rounded-card border border-border bg-card transition-all duration-300 hover:border-accent/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5">
   {coverImage && (
-    <Image src={coverImage} alt={title} width={672} height={192} class="h-48 w-full object-cover" loading="lazy" decoding="async" />
+    <Image src={coverImage} alt={title} widths={[400, 672]} sizes="(max-width: 640px) 100vw, 672px" height={192} class="h-48 w-full object-cover" loading="lazy" decoding="async" />
   )}
   <div class="p-6">
     <div class="mb-1 flex items-center gap-2 text-sm">

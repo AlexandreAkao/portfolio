@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import ErrorBoundary from '@components/ui/ErrorBoundary';
 
-export default function EngineerHero() {
+function EngineerHeroInner() {
   const locale = useLocale();
   const tagline = t('hero.tagline', locale);
   const [typed, setTyped] = useState('');
@@ -82,5 +83,13 @@ export default function EngineerHero() {
 
       <SocialLinks delay={0.8} className="mt-8 justify-center" />
     </div>
+  );
+}
+
+export default function EngineerHero() {
+  return (
+    <ErrorBoundary>
+      <EngineerHeroInner />
+    </ErrorBoundary>
   );
 }

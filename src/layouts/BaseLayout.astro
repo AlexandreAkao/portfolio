@@ -66,7 +66,7 @@ const jsonLd = type === 'article'
     };
 ---
 
-<html lang="en" data-design="engineer" data-lang="en">
+<html lang={locale || 'en'} data-design="avantgarde" data-lang={locale || 'en'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -105,31 +105,36 @@ const jsonLd = type === 'article'
 
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" />
     <ClientRouter />
     <script is:inline>
       (function() {
-        var validDesigns = ['engineer','creative','avantgarde','editorial'];
-        var d = localStorage.getItem('design') || 'engineer';
-        if (validDesigns.indexOf(d) === -1) d = 'engineer';
-        document.documentElement.dataset.design = d;
+        try {
+          var validDesigns = ['engineer','creative','avantgarde','editorial'];
+          var d = localStorage.getItem('design') || 'avantgarde';
+          if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
+          document.documentElement.dataset.design = d;
 
-        var params = new URLSearchParams(window.location.search);
-        var langParam = params.get('lang');
-        var lang = langParam || localStorage.getItem('lang') || 'en';
-        if (lang !== 'en' && lang !== 'pt') lang = 'en';
-        document.documentElement.dataset.lang = lang;
-        document.documentElement.lang = lang;
-        localStorage.setItem('lang', lang);
+          var params = new URLSearchParams(window.location.search);
+          var langParam = params.get('lang');
+          var lang = langParam || localStorage.getItem('lang') || 'en';
+          if (lang !== 'en' && lang !== 'pt') lang = 'en';
+          document.documentElement.dataset.lang = lang;
+          document.documentElement.lang = lang;
+          localStorage.setItem('lang', lang);
+        } catch(e) {}
       })();
       document.addEventListener('astro:after-swap', function() {
-        var validDesigns = ['engineer','creative','avantgarde','editorial'];
-        var d = localStorage.getItem('design') || 'engineer';
-        if (validDesigns.indexOf(d) === -1) d = 'engineer';
-        document.documentElement.dataset.design = d;
-        var lang = localStorage.getItem('lang') || 'en';
-        document.documentElement.dataset.lang = lang;
-        document.documentElement.lang = lang;
+        try {
+          var validDesigns = ['engineer','creative','avantgarde','editorial'];
+          var d = localStorage.getItem('design') || 'avantgarde';
+          if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
+          document.documentElement.dataset.design = d;
+          var lang = localStorage.getItem('lang') || 'en';
+          document.documentElement.dataset.lang = lang;
+          document.documentElement.lang = lang;
+        } catch(e) {}
       });
     </script>
   </head>

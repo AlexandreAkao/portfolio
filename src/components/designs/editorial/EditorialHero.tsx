@@ -3,8 +3,9 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import ErrorBoundary from '@components/ui/ErrorBoundary';
 
-export default function EditorialHero() {
+function EditorialHeroInner() {
   const locale = useLocale();
   const name = t('hero.name', locale);
   const title = t('hero.title', locale);
@@ -114,5 +115,13 @@ export default function EditorialHero() {
         <SocialLinks delay={1.2} className="mt-8" />
       </div>
     </div>
+  );
+}
+
+export default function EditorialHero() {
+  return (
+    <ErrorBoundary>
+      <EditorialHeroInner />
+    </ErrorBoundary>
   );
 }

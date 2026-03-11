@@ -16,6 +16,22 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const lang = post.id.startsWith('pt/') ? 'pt' : 'en';
 const { Content, headings } = await render(post);
+
+const currentTags = post.data.tags || [];
+const allPosts = await getCollection('blog', ({ data }) => data.published);
+
+const relatedPosts = allPosts
+  .filter((p) => p.id !== post.id && p.id.startsWith(`${lang}/`))
+  .map((p) => ({
+    title: p.data.title,
+    href: `/blog/${p.id.replace(`${lang}/`, '')}`,
+    date: p.data.date,
+    tags: p.data.tags,
+    overlap: (p.data.tags || []).filter((tag) => currentTags.includes(tag)).length,
+  }))
+  .filter((p) => p.overlap > 0)
+  .sort((a, b) => b.overlap - a.overlap)
+  .slice(0, 3);
 ---
 
 <BlogLayout
@@ -26,6 +42,7 @@ const { Content, headings } = await render(post);
   coverImage={post.data.coverImage}
   lang={lang}
   headings={headings}
+  relatedPosts={relatedPosts}
 >
   <Content />
 </BlogLayout>

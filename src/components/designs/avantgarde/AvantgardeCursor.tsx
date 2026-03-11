@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import ErrorBoundary from '@components/ui/ErrorBoundary';
 
-export default function AvantgardeCursor() {
+function AvantgardeCursorInner() {
   const [active, setActive] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
@@ -139,5 +140,13 @@ export default function AvantgardeCursor() {
         }}
       />
     </>
+  );
+}
+
+export default function AvantgardeCursor() {
+  return (
+    <ErrorBoundary>
+      <AvantgardeCursorInner />
+    </ErrorBoundary>
   );
 }

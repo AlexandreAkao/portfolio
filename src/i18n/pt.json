@@ -45,5 +45,11 @@
   "blog.back": "Voltar ao blog",
   "blog.toc": "Índice",
   "blog.minRead": "min de leitura",
-  "blog.empty": "Nenhum post ainda. Volte em breve!"
+  "blog.empty": "Nenhum post ainda. Volte em breve!",
+  "404.title": "Pagina Nao Encontrada",
+  "404.description": "A pagina que voce procura nao existe ou foi movida.",
+  "404.back": "Voltar ao Inicio",
+  "blog.related": "Posts Relacionados",
+  "blog.share": "Compartilhe este artigo",
+  "blog.filter.all": "Todos"
 }

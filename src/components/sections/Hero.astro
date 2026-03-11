@@ -6,7 +6,9 @@ import AvantgardeHero from '@components/designs/avantgarde/AvantgardeHero.tsx';
 import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
 import avatarImg from '@/assets/images/avatar.jpeg';
 
-const optimizedAvatar = await getImage({ src: avatarImg, width: 224, height: 224 });
+const avatar1x = await getImage({ src: avatarImg, width: 224, height: 224 });
+const avatar2x = await getImage({ src: avatarImg, width: 448, height: 448 });
+const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
 ---
 
 <section id="hero">
@@ -14,7 +16,7 @@ const optimizedAvatar = await getImage({ src: avatarImg, width: 224, height: 224
     <EngineerHero client:load />
   </div>
   <div data-design-show="creative">
-    <CreativeHero avatarSrc={optimizedAvatar.src} client:load />
+    <CreativeHero avatarSrc={avatar1x.src} avatarSrcSet={avatarSrcSet} client:load />
   </div>
   <div data-design-show="avantgarde">
     <AvantgardeHero client:visible />

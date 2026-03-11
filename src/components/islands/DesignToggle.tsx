@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { designs, designIds, defaultDesign } from '@data/designs';
+import { safeGetItem, safeSetItem } from '@/lib/storage';
+import ErrorBoundary from '@components/ui/ErrorBoundary';
 
 const sortedDesigns = designs.sort((a, b) => a.order - b.order);
 const designMap = Object.fromEntries(designs.map((d) => [d.id, d]));
 
-export default function DesignToggle() {
+function DesignToggleInner() {
   const [design, setDesign] = useState(defaultDesign);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem('design');
+    const stored = safeGetItem('design');
     if (stored && designIds.includes(stored)) setDesign(stored);
   }, []);
 
@@ -33,7 +35,7 @@ export default function DesignToggle() {
 
     const apply = () => {
       document.documentElement.dataset.design = id;
-      localStorage.setItem('design', id);
+      safeSetItem('design', id);
       setDesign(id);
     };
 
@@ -79,7 +81,7 @@ export default function DesignToggle() {
             transition={{ duration: 0.15 }}
             role="listbox"
             aria-label="Design options"
-            className="absolute right-0 top-full z-50 mt-2 min-w-[160px] overflow-hidden rounded-lg border border-border bg-bg-secondary shadow-lg"
+            className="absolute right-0 top-full z-50 mt-2 min-w-40 overflow-hidden rounded-lg border border-border bg-bg-secondary shadow-lg"
           >
             {sortedDesigns.map((d) => (
               <li key={d.id} role="option" aria-selected={d.id === design}>
@@ -103,5 +105,13 @@ export default function DesignToggle() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export default function DesignToggle() {
+  return (
+    <ErrorBoundary>
+      <DesignToggleInner />
+    </ErrorBoundary>
   );
 }

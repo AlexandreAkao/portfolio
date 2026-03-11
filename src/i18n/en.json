@@ -45,5 +45,11 @@
   "blog.back": "Back to blog",
   "blog.toc": "Table of Contents",
   "blog.minRead": "min read",
-  "blog.empty": "No posts yet. Check back soon!"
+  "blog.empty": "No posts yet. Check back soon!",
+  "404.title": "Page Not Found",
+  "404.description": "The page you're looking for doesn't exist or has been moved.",
+  "404.back": "Back to Home",
+  "blog.related": "Related Posts",
+  "blog.share": "Share this article",
+  "blog.filter.all": "All"
 }
