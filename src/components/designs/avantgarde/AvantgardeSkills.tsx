@@ -52,7 +52,7 @@ function CategoryBlock({
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.25, delay: index * 0.08 + 0.1 + si * 0.03 }}
-            className="rounded-[var(--radius-btn)] border border-border bg-bg-secondary px-3 py-1.5 text-sm text-text transition-all duration-200 hover:border-accent hover:text-accent hover:shadow-[0_0_16px_rgba(197,255,65,0.12)]"
+            className="rounded-btn border border-border bg-bg-secondary px-3 py-1.5 text-sm text-text transition-all duration-200 hover:border-accent hover:text-accent hover:shadow-[0_0_16px_rgba(197,255,65,0.12)]"
           >
             {skill}
           </motion.span>

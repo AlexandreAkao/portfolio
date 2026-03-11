@@ -20,10 +20,10 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
       initial={{ opacity: 0, y: 60 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="relative overflow-hidden rounded-[var(--radius-card)] border-l-[3px] border-accent bg-card p-6 md:p-8"
+      className="relative overflow-hidden rounded-card border-l-[3px] border-accent bg-card p-6 md:p-8"
     >
       {/* Year watermark */}
-      <span className="pointer-events-none absolute right-4 top-0 select-none font-heading text-[120px] font-bold leading-none text-text/[0.04]">
+      <span className="pointer-events-none absolute right-4 top-0 select-none font-heading text-[120px] font-bold leading-none text-text/4">
         {exp.period.split(' ').pop()}
       </span>
 
@@ -86,7 +86,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ duration: 0.2, delay: 0.4 + j * 0.03 }}
-                  className="rounded-[var(--radius-btn)] border border-border bg-bg-secondary px-2 py-0.5 text-xs text-text-secondary"
+                  className="rounded-btn border border-border bg-bg-secondary px-2 py-0.5 text-xs text-text-secondary"
                 >
                   {techItem}
                 </motion.span>

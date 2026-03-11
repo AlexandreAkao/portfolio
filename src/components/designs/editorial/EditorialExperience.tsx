@@ -34,7 +34,7 @@ function ExperienceEntry({ exp, index }: { exp: Experience; index: number }) {
         {/* Left column: period + number */}
         <div>
           <span
-            className="mb-2 block text-[clamp(3rem,5vw,4.5rem)] font-bold leading-none text-text/[0.06]"
+            className="mb-2 block text-[clamp(3rem,5vw,4.5rem)] font-bold leading-none text-text/6"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             {num}
