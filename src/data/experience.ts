@@ -141,7 +141,7 @@ export const experiences: Experience[] = [
       en: [
         'Developed web and mobile applications for university partners',
         'Led technical decisions on frontend architecture using React and React Native',
-        'Mentored junior engineers on best practices and code review processes',
+        'Mentored junior developers on best practices and code review processes',
       ],
       pt: [
         'Desenvolveu aplicacoes web e mobile para parceiros da universidade',
