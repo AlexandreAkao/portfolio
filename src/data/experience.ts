@@ -13,7 +13,7 @@ export const experiences: Experience[] = [
   {
     company: 'Seva / Appointally',
     role: {
-      en: 'Senior Full-Stack Developer',
+      en: 'Senior Full-Stack Engineer',
       pt: 'Desenvolvedor Full-Stack Senior',
     },
     period: 'Apr 2025 - Present',
@@ -38,7 +38,7 @@ export const experiences: Experience[] = [
   {
     company: 'AmbevTech',
     role: {
-      en: 'Full-Stack Developer',
+      en: 'Full-Stack Engineer',
       pt: 'Desenvolvedor Full-Stack',
     },
     period: 'Nov 2020 - Present',
@@ -52,7 +52,7 @@ export const experiences: Experience[] = [
       {
         company: 'AmbevTech - WMS',
         role: {
-          en: 'Full-Stack Developer',
+          en: 'Full-Stack Engineer',
           pt: 'Desenvolvedor Full-Stack',
         },
         period: 'Nov 2020 - Present',
@@ -77,7 +77,7 @@ export const experiences: Experience[] = [
       {
         company: 'AmbevTech - BEES',
         role: {
-          en: 'Frontend Developer',
+          en: 'Frontend Engineer',
           pt: 'Desenvolvedor Frontend',
         },
         period: '2022 - 2023',
@@ -102,7 +102,7 @@ export const experiences: Experience[] = [
       {
         company: 'AmbevTech - UIKit',
         role: {
-          en: 'Frontend Developer',
+          en: 'Frontend Engineer',
           pt: 'Desenvolvedor Frontend',
         },
         period: '2021 - 2022',
@@ -129,7 +129,7 @@ export const experiences: Experience[] = [
   {
     company: 'NATI - UNIFOR',
     role: {
-      en: 'Full-Stack Developer',
+      en: 'Full-Stack Engineer',
       pt: 'Desenvolvedor Full-Stack',
     },
     period: 'Aug 2019 - Nov 2020',
