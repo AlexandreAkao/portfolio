@@ -154,7 +154,7 @@ export const experiences: Experience[] = [
   {
     company: 'FUNCAP',
     role: {
-      en: 'Research Scholarship - Engineer',
+      en: 'Research Scholarship - Developer',
       pt: 'Bolsista de Pesquisa - Desenvolvedor',
     },
     period: 'May 2020 - Oct 2020',
