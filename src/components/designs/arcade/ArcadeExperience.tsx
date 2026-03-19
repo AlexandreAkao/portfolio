@@ -51,7 +51,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
           className="mt-3 text-xs font-bold uppercase tracking-wider underline"
           style={{ color: '#0f0d0e' }}
         >
-          {expanded ? '▲ collapse' : '▼ details'}
+          {expanded ? (locale === 'pt' ? '▲ fechar' : '▲ collapse') : (locale === 'pt' ? '▼ detalhes' : '▼ details')}
         </button>
       )}
 
