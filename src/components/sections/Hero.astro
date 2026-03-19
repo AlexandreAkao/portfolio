@@ -4,6 +4,7 @@ import EngineerHero from '@components/designs/engineer/EngineerHero.tsx';
 import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
 import AvantgardeHero from '@components/designs/avantgarde/AvantgardeHero.tsx';
 import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
+import ArcadeHero from '@components/designs/arcade/ArcadeHero.tsx';
 import avatarImg from '@/assets/images/avatar.jpeg';
 
 const avatar1x = await getImage({ src: avatarImg, width: 224, height: 224 });
@@ -23,5 +24,8 @@ const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
   </div>
   <div data-design-show="editorial">
     <EditorialHero client:load />
+  </div>
+  <div data-design-show="arcade">
+    <ArcadeHero client:load />
   </div>
 </section>

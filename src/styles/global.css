@@ -13,6 +13,10 @@
 @import '@fontsource/poppins/600.css';
 @import '@fontsource/poppins/700.css';
 @import '@fontsource-variable/dm-sans';
+@import '@fontsource/bungee/400.css';
+@import '@fontsource/outfit/400.css';
+@import '@fontsource/outfit/500.css';
+@import '@fontsource/outfit/700.css';
 
 @theme {
   --color-bg: var(--bg);
@@ -99,6 +103,23 @@
   --radius-btn: 0px;
 }
 
+/* Arcade Design Tokens */
+[data-design='arcade'] {
+  --bg: #0f0d0e;
+  --bg-secondary: #1a1820;
+  --text: #f9f4da;
+  --text-secondary: #b1b4b9;
+  --accent: #fcba28;
+  --accent-hover: #e5a820;
+  --border: #2a2725;
+  --card: #231f20;
+  --card-hover: #2d2829;
+  --font-heading: 'Bungee', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --radius-card: 12px;
+  --radius-btn: 9999px;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
@@ -182,7 +203,8 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='engineer'] [data-design-show]:not([data-design-show='engineer']),
 [data-design='creative'] [data-design-show]:not([data-design-show='creative']),
 [data-design='avantgarde'] [data-design-show]:not([data-design-show='avantgarde']),
-[data-design='editorial'] [data-design-show]:not([data-design-show='editorial']) {
+[data-design='editorial'] [data-design-show]:not([data-design-show='editorial']),
+[data-design='arcade'] [data-design-show]:not([data-design-show='arcade']) {
   display: none !important;
 }
 
@@ -240,6 +262,18 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
+/* Arcade section tags: clean, no pseudo-elements + yellow underline */
+[data-design='arcade'] .section-tag::before,
+[data-design='arcade'] .section-tag::after {
+  display: none;
+}
+
+[data-design='arcade'] .section-tag {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 8px;
+  text-decoration-thickness: 4px;
+}
 
 /* Editorial smooth scroll */
 [data-design='editorial'] {
