@@ -97,7 +97,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
 
 export default function ArcadeExperience({ experiences }: Props) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid items-start gap-4 md:grid-cols-2">
       {experiences.map((exp, i) => (
         <ExperienceCard key={i} exp={exp} index={i} />
       ))}
