@@ -111,7 +111,7 @@ const jsonLd = type === 'article'
     <script is:inline>
       (function() {
         try {
-          var validDesigns = ['engineer','creative','avantgarde','editorial'];
+          var validDesigns = ['engineer','creative','avantgarde','editorial','arcade'];
           var d = localStorage.getItem('design') || 'avantgarde';
           if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
           document.documentElement.dataset.design = d;
@@ -127,7 +127,7 @@ const jsonLd = type === 'article'
       })();
       document.addEventListener('astro:after-swap', function() {
         try {
-          var validDesigns = ['engineer','creative','avantgarde','editorial'];
+          var validDesigns = ['engineer','creative','avantgarde','editorial','arcade'];
           var d = localStorage.getItem('design') || 'avantgarde';
           if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
           document.documentElement.dataset.design = d;
