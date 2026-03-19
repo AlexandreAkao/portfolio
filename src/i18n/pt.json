@@ -24,6 +24,8 @@
   "about.stat.microservices": "19",
   "about.stat.microservices.label": "Microsservicos",
   "experience.title": "Experiencia",
+  "experience.details": "detalhes",
+  "experience.collapse": "fechar",
   "education.title": "Educacao",
   "skills.title": "Habilidades",
   "projects.title": "Projetos",

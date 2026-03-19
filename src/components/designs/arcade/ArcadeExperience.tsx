@@ -2,6 +2,7 @@ import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
+import { t } from '@i18n/utils';
 
 interface Props {
   experiences: Experience[];
@@ -51,7 +52,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
           className="mt-3 text-xs font-bold uppercase tracking-wider underline"
           style={{ color: '#0f0d0e' }}
         >
-          {expanded ? (locale === 'pt' ? '▲ fechar' : '▲ collapse') : (locale === 'pt' ? '▼ detalhes' : '▼ details')}
+          {expanded ? `▲ ${t('experience.collapse', locale)}` : `▼ ${t('experience.details', locale)}`}
         </button>
       )}
 

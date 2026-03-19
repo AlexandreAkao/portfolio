@@ -24,6 +24,8 @@
   "about.stat.microservices": "19",
   "about.stat.microservices.label": "Microservices",
   "experience.title": "Experience",
+  "experience.details": "details",
+  "experience.collapse": "collapse",
   "education.title": "Education",
   "skills.title": "Skills",
   "projects.title": "Projects",
