@@ -6,6 +6,8 @@ import CreativeCarousel from '@components/designs/creative/CreativeCarousel.tsx'
 import AvantgardeExperience from '@components/designs/avantgarde/AvantgardeExperience.tsx';
 import EditorialExperience from '@components/designs/editorial/EditorialExperience.tsx';
 import ArcadeExperience from '@components/designs/arcade/ArcadeExperience.tsx';
+import NightshiftExperience from '@components/designs/nightshift/NightshiftExperience.tsx';
+import MetroExperience from '@components/designs/metro/MetroExperience.tsx';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 ---
 
@@ -31,6 +33,12 @@ import ScrollReveal from '@components/islands/ScrollReveal.tsx';
     </div>
     <div data-design-show="arcade">
       <ArcadeExperience experiences={experiences} client:visible />
+    </div>
+    <div data-design-show="nightshift">
+      <NightshiftExperience experiences={experiences} client:visible />
+    </div>
+    <div data-design-show="metro">
+      <MetroExperience experiences={experiences} client:visible />
     </div>
   </div>
 </section>

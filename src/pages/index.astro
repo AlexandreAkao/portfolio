@@ -10,10 +10,14 @@ import Skills from '@components/sections/Skills.astro';
 import Projects from '@components/sections/Projects.astro';
 import Contact from '@components/sections/Contact.astro';
 import AvantgardeMarquee from '@components/designs/avantgarde/AvantgardeMarquee.tsx';
+import MetroLine from '@components/designs/metro/MetroLine.tsx';
 ---
 
 <BaseLayout title="Alexandre Akira - Senior Full-Stack Engineer">
   <Header />
+  <div data-design-show="metro">
+    <MetroLine client:load />
+  </div>
   <main id="main-content" class="pt-16">
     <Hero />
     <div data-design-show="avantgarde">

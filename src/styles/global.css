@@ -17,6 +17,14 @@
 @import '@fontsource/outfit/400.css';
 @import '@fontsource/outfit/500.css';
 @import '@fontsource/outfit/700.css';
+@import '@fontsource/barlow/400.css';
+@import '@fontsource/barlow/500.css';
+@import '@fontsource/barlow/600.css';
+@import '@fontsource/barlow-condensed/700.css';
+@import '@fontsource/barlow-condensed/800.css';
+@import '@fontsource-variable/overpass';
+@import '@fontsource/overpass-mono/400.css';
+@import '@fontsource/overpass-mono/600.css';
 
 @theme {
   --color-bg: var(--bg);
@@ -120,6 +128,40 @@
   --radius-btn: 9999px;
 }
 
+/* Night Shift Design Tokens: a warehouse floor at 3 a.m. */
+[data-design='nightshift'] {
+  --bg: #17191c;
+  --bg-secondary: #1e2125;
+  --text: #e6e4dc;
+  --text-secondary: #9aa0a6;
+  --accent: #3f8cff;
+  --accent-hover: #6aa6ff;
+  --border: #2e3339;
+  --card: #1e2125;
+  --card-hover: #262a2f;
+  --font-heading: 'Barlow Condensed', sans-serif;
+  --font-body: 'Barlow', sans-serif;
+  --radius-card: 6px;
+  --radius-btn: 3px;
+}
+
+/* Metro (Linha Verde) Design Tokens: platform signage */
+[data-design='metro'] {
+  --bg: #f7f7f5;
+  --bg-secondary: #ecece8;
+  --text: #111111;
+  --text-secondary: #4b5a52;
+  --accent: #00874a;
+  --accent-hover: #006e3c;
+  --border: #d6d6d1;
+  --card: #ffffff;
+  --card-hover: #f2f7f4;
+  --font-heading: 'Overpass Variable', sans-serif;
+  --font-body: 'Overpass Variable', sans-serif;
+  --radius-card: 10px;
+  --radius-btn: 6px;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
@@ -204,7 +246,9 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='creative'] [data-design-show]:not([data-design-show='creative']),
 [data-design='avantgarde'] [data-design-show]:not([data-design-show='avantgarde']),
 [data-design='editorial'] [data-design-show]:not([data-design-show='editorial']),
-[data-design='arcade'] [data-design-show]:not([data-design-show='arcade']) {
+[data-design='arcade'] [data-design-show]:not([data-design-show='arcade']),
+[data-design='nightshift'] [data-design-show]:not([data-design-show='nightshift']),
+[data-design='metro'] [data-design-show]:not([data-design-show='metro']) {
   display: none !important;
 }
 
@@ -273,6 +317,89 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration-color: var(--accent);
   text-underline-offset: 8px;
   text-decoration-thickness: 4px;
+}
+
+/* Night Shift: signage headings, seams instead of shadows */
+[data-design='nightshift'] .section-tag::before,
+[data-design='nightshift'] .section-tag::after {
+  display: none;
+}
+[data-design='nightshift'] .section-tag {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+[data-design='nightshift'] h2,
+[data-design='nightshift'] h3,
+[data-design='nightshift'] h4 {
+  letter-spacing: 0.01em;
+}
+
+/* Metro: every shared section title becomes a platform sign */
+[data-design='metro'] .section-tag::before,
+[data-design='metro'] .section-tag::after {
+  display: none;
+}
+[data-design='metro'] .section-tag {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  padding: 0.2em 0.6em 0.15em;
+  border-radius: var(--radius-btn);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-weight: 900;
+}
+[data-design='metro'] h1,
+[data-design='metro'] h2,
+[data-design='metro'] h3 {
+  font-weight: 900;
+}
+
+/* Metro: platform doors. MetroLine publishes --arrival (0 closed, 1 open) on every
+   main > section; two enamel panels slide apart from the centre as the train arrives.
+   Default is open, so the page reads without JS; the island closes what is below the fold. */
+[data-design='metro'] main > section {
+  --arrival: 1;
+  position: relative;
+  overflow-x: clip;
+}
+[data-design='metro'] main > section::before,
+[data-design='metro'] main > section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--bg);
+  z-index: 5;
+  pointer-events: none;
+}
+[data-design='metro'] main > section::before {
+  left: 0;
+  box-shadow: inset -4px 0 0 var(--accent);
+  transform: translateX(calc(-101% * var(--arrival)));
+}
+[data-design='metro'] main > section::after {
+  right: 0;
+  box-shadow: inset 4px 0 0 var(--accent);
+  transform: translateX(calc(101% * var(--arrival)));
+}
+@media (min-width: 768px) {
+  /* clear the fixed rail (16px + 56px) with a little air */
+  [data-design='metro'] main {
+    padding-left: 88px;
+  }
+}
+@media (min-width: 1024px) {
+  /* from lg the rail also carries station labels; the page starts right of them */
+  [data-design='metro'] main {
+    padding-left: 160px;
+  }
+}
+@media (max-width: 767px) {
+  [data-design='metro'] main {
+    padding-top: calc(4rem + 40px);
+  }
 }
 
 /* Editorial smooth scroll */
