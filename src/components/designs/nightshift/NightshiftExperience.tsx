@@ -3,10 +3,22 @@ import { motion, useInView } from 'motion/react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import NightshiftVignette from './NightshiftVignette';
+import type { VignetteKind } from './NightshiftVignetteScene';
 
 interface Props {
   experiences: Experience[];
 }
+
+/** Which lit object stands beside which job. Keyed on the manifest's company line. */
+const VIGNETTE_BY_COMPANY: Record<string, VignetteKind> = {
+  'Seva / Appointally': 'services',
+  'AmbevTech - WMS': 'racking',
+  'AmbevTech - BEES': 'truck',
+  'AmbevTech - UIKit': 'components',
+  'NATI - UNIFOR': 'devices',
+  FUNCAP: 'chart',
+};
 
 function TechChips({ tech }: { tech: string[] }) {
   return (
@@ -38,37 +50,47 @@ function Entry({ entry, nested, hidePeriod }: { entry: Experience; nested?: bool
   const [open, setOpen] = useState(false);
   const bullets = entry.bullets[locale];
   const company = nested ? entry.company.replace('AmbevTech - ', '') : entry.company;
+  const vignette = VIGNETTE_BY_COMPANY[entry.company];
 
   return (
     <div className={nested ? 'mt-5 border-l border-border pl-5' : ''}>
-      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-        <h3 className={`font-heading font-bold uppercase leading-none text-text ${nested ? 'text-xl' : 'text-2xl md:text-3xl'}`}>
-          {company}
-        </h3>
-        <span className={`font-heading text-xs font-bold uppercase tracking-[0.1em] text-accent ${hidePeriod ? 'md:hidden' : ''}`}>
-          {entry.period}
-        </span>
+      <div className="flex items-start gap-5 md:gap-8">
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+            <h3 className={`font-heading font-bold uppercase leading-none text-text ${nested ? 'text-xl' : 'text-2xl md:text-3xl'}`}>
+              {company}
+            </h3>
+            <span className={`font-heading text-xs font-bold uppercase tracking-[0.1em] text-accent ${hidePeriod ? 'md:hidden' : ''}`}>
+              {entry.period}
+            </span>
+          </div>
+          <p className="mt-1 font-body text-sm font-medium text-text-secondary">{entry.role[locale]}</p>
+          {entry.summary[locale] && (
+            <p className="mt-3 max-w-2xl font-body text-sm leading-relaxed text-text-secondary">{entry.summary[locale]}</p>
+          )}
+
+          {bullets.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              className="mt-3 inline-flex items-center gap-2 border-b border-transparent font-heading text-xs font-bold uppercase tracking-[0.1em] text-accent transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              <span className="block h-1.5 w-1.5 bg-accent" aria-hidden="true" />
+              {open ? t('experience.collapse', locale) : t('experience.details', locale)}
+            </button>
+          )}
+
+          {open && bullets.length > 0 && <Bullets items={bullets} />}
+
+          <TechChips tech={entry.tech} />
+        </div>
+
+        {/* The job's own lit object, in a bay beside its line on the manifest */}
+        {vignette && (
+          <NightshiftVignette kind={vignette} className="h-20 w-20 shrink-0 md:h-36 md:w-36" />
+        )}
       </div>
-      <p className="mt-1 font-body text-sm font-medium text-text-secondary">{entry.role[locale]}</p>
-      {entry.summary[locale] && (
-        <p className="mt-3 max-w-2xl font-body text-sm leading-relaxed text-text-secondary">{entry.summary[locale]}</p>
-      )}
-
-      {bullets.length > 0 && (
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          className="mt-3 inline-flex items-center gap-2 border-b border-transparent font-heading text-xs font-bold uppercase tracking-[0.1em] text-accent transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        >
-          <span className="block h-1.5 w-1.5 bg-accent" aria-hidden="true" />
-          {open ? t('experience.collapse', locale) : t('experience.details', locale)}
-        </button>
-      )}
-
-      {open && bullets.length > 0 && <Bullets items={bullets} />}
-
-      <TechChips tech={entry.tech} />
     </div>
   );
 }

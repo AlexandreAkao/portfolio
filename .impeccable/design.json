@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-07T04:32:20.203Z",
+  "generatedAt": "2026-09-07T15:32:37.484Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
@@ -949,6 +949,21 @@
           "#ebeff4"
         ]
       },
+      "nightshift-tarmac": {
+        "role": "scene",
+        "displayName": "Tarmac",
+        "canonical": "oklch(31.4% 0.014 255.9)",
+        "tonalRamp": [
+          "#080c10",
+          "#21262b",
+          "#3d4349",
+          "#5c6268",
+          "#7d838a",
+          "#a0a6ad",
+          "#c3cad1",
+          "#e9eff7"
+        ]
+      },
       "metro-enamel": {
         "role": "neutral",
         "displayName": "Enamel",
@@ -1108,7 +1123,7 @@
       },
       "nightshift-display": {
         "displayName": "Night Shift Display",
-        "purpose": "Hero name in Barlow Condensed caps over the warehouse floor, in a 40% column."
+        "purpose": "Hero name in Barlow Condensed caps over the interchange, in a 40% column from 768px and full width at the top of the frame below."
       },
       "metro-display": {
         "displayName": "Metro Display",
@@ -1233,9 +1248,9 @@
         "purpose": "Painted Linha Verde edge on each Metro platform door; a stripe, not depth. 5px in the intro curtain."
       },
       {
-        "name": "nightshift-bay-ring",
+        "name": "nightshift-cell-ring",
         "value": "inset 0 0 0 1px var(--accent)",
-        "purpose": "Blue Spot ring on a hovered Night Shift inventory bay."
+        "purpose": "Blue Spot ring on a hovered Night Shift skills cell."
       }
     ],
     "motion": [
@@ -1306,18 +1321,33 @@
       },
       {
         "name": "nightshift-camera-scrub",
-        "value": "scroll 0 to 1 over a 200vh pin (150vh on phones); smoothstep between 3 camera states (0 to 0.5, 0.5 to 1); position and look-at lerp 0.08 per frame; stepped at thirds below 768px",
-        "purpose": "Night Shift hero: Dock, Aisles, Dispatch."
+        "value": "scroll 0 to 1 over a 200vh pin (150vh on phones); smoothstep between 3 camera states (0 to 0.5, 0.5 to 1); position and look-at lerp 0.08 per frame; stepped at thirds through CAMERA_STATES_PHONE below 768px",
+        "purpose": "Night Shift hero: Overpass, Ramps, Interchange."
       },
       {
-        "name": "nightshift-packets",
-        "value": "0.035 to 0.065 of the curve per second; 0.45 to 0.95s stop at each of 5 stations; 0.6 to 1.4s hidden after dispatch; halo pulse ±18% at 4 rad/s",
-        "purpose": "Orders routing through the warehouse."
+        "name": "nightshift-traffic",
+        "value": "per vehicle 4.5 to 8 units/s along its road; through roads both directions and wrap; ramps one way, hidden 0.8 to 3s before re-entry; trail 5.2 long with alpha peaking at the head, halo 1.35, core 0.42, all additive",
+        "purpose": "Night Shift traffic as long-exposure light."
       },
       {
-        "name": "nightshift-blue-spot-orbit",
-        "value": "position (-9 + 9 sin t, 6.5, -3 + 7 cos 0.7t) at 0.22 rad/s",
-        "purpose": "The roaming forklift light."
+        "name": "nightshift-work-light-pan",
+        "value": "spot target (base.x - 4 + 3.2 sin t, 0.2, base.z - 6 + 2.4 cos 0.6t) at 0.35 rad/s; angle 0.55, penumbra 0.9",
+        "purpose": "The night crew's one Blue Spot work light panning over the cones."
+      },
+      {
+        "name": "nightshift-arrival-glide",
+        "value": "camera starts at (-18, 14, 30) and lerps 0.08 per frame onto the Overpass state; skipped under reduced motion",
+        "purpose": "Night Shift hero hand-off from the tunnel curtain."
+      },
+      {
+        "name": "nightshift-turntable",
+        "value": "rotation.y += min(delta, 0.05) * 0.28 per frame, from 0.65 rad; still under reduced motion",
+        "purpose": "Night Shift manifest vignettes."
+      },
+      {
+        "name": "nightshift-first-frames",
+        "value": "canvas opacity 0 until the second drawn frame, then opacity 1 over 0.5s ease-out; the hero also writes html[data-scene=\"drawn\"]",
+        "purpose": "Night Shift hero and vignette canvases; the curtain's gate."
       },
       {
         "name": "metro-train-spring",
@@ -1351,7 +1381,7 @@
       },
       {
         "name": "intro-nightshift",
-        "value": "spot sweep 1.15s from 0.05s; plate fade 0.5s at 0.4s; shutter roll 0.65s cubic-bezier(0.2, 0, 0.8, 1) at 1.1s; total 1.8s, reveal 0.95s; quick-change roll 0.6s at 0.18s",
+        "value": "lamp and lane rush 0.42s linear loops; exit glow scale 0.12 to 1.15 over 1.2s at 0.1s; sign in 0.6s at 0.3s, over the roof 0.5s at 1.05s; exit ns-out scale 1.5 and fade 0.65s cubic-bezier(0.7, 0, 0.84, 0), gated on html[data-scene=\"drawn\"] after a 1.1s minimum with a 1.5s grace; reveal 0.95s; quick-change: no sign, glow open, exit 0.55s gated after 0.18s",
         "purpose": "Night Shift arrival curtain and quick-change."
       },
       {
@@ -1361,7 +1391,7 @@
       },
       {
         "name": "reduced-motion",
-        "value": "all animation and transition durations 0.01ms; smooth scroll off; Night Shift scene frozen at Dock",
+        "value": "all animation and transition durations 0.01ms; smooth scroll off; Night Shift camera held at Overpass with traffic, work light, and turntables still",
         "purpose": "prefers-reduced-motion."
       }
     ],
@@ -1488,14 +1518,14 @@
   ],
   "narrative": {
     "northStar": "The Repertoire",
-    "overview": "One performer, seven staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of seven complete visual worlds: Avant-garde (the default), Engineer, Creative, Editorial, Arcade, Night Shift, and Metro. The system's personality is plural on purpose. Each world commits fully to its own register (the terminal, the studio, the dark gallery, the broadsheet, the arcade cabinet, the warehouse floor at 3 a.m., the metro line). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all seven: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Only Hero, Experience, and Skills get a bespoke component per world; Metro alone adds a page-level overlay, the fixed line that indexes the sections.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world has exactly one accent and spends it on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world. Six signatures live in the hero; Metro's runs the length of the page, one scroll value driving the train marker, the station doors, and the rail.",
+    "overview": "One performer, seven staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of seven complete visual worlds: Avant-garde (the default), Engineer, Creative, Editorial, Arcade, Night Shift, and Metro. The system's personality is plural on purpose. Each world commits fully to its own register (the terminal, the studio, the dark gallery, the broadsheet, the arcade cabinet, the highway interchange at 3 a.m., the metro line). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all seven: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Only Hero, Experience, and Skills get a bespoke component per world; Metro alone adds a page-level overlay, the fixed line that indexes the sections.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world has exactly one accent and spends it on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world. Six signatures live in the hero; Metro's runs the length of the page, one scroll value driving the train marker, the station doors, and the rail.",
     "keyCharacteristics": [
       "Seven complete worlds, one content source, switched at runtime and persisted per visitor.",
       "One accent per world, spent on interactive and labeling elements only.",
       "Display typography carries identity: monospace, geometric sans, heavy grotesk, display grotesk, slab poster, condensed signage, or black transit grotesk.",
       "Flat, border-defined surfaces in six worlds; Creative alone lifts with shadow.",
       "Shared reveal motion (fade, 30px rise, 0.5s, once) with a signature per world: six in the hero, Metro's along the whole scroll.",
-      "WebGL in two worlds (Avant-garde's particle field, Night Shift's warehouse), each mounted only while its world is active and backed by a CSS fallback.",
+      "WebGL in two worlds (Avant-garde's particle field, Night Shift's interchange and its manifest vignettes), each mounted only while its world is active, held invisible until it has drawn, and backed by a CSS fallback or by nothing at all.",
       "Scene materials stay in the scene: Arcade's candy and Night Shift's sodium, safety yellow, and steel never become UI chrome.",
       "Bilingual by construction: every text node renders both locales and CSS shows one."
     ],
@@ -1517,7 +1547,7 @@
       },
       {
         "name": "The Three Lights Rule",
-        "body": "Night Shift's warehouse is lit by exactly three light families: Sodium overheads, one roaming Blue Spot, and the packets' own glow. Ambient stays at floor level (0.14) and nothing else emits.",
+        "body": "Every Night Shift scene is lit by exactly three light families: Sodium overheads, one Blue Spot work light, and the traffic's own glow. Ambient stays at floor level (0.14 in the hero, 0.34 in a vignette) and nothing else emits.",
         "section": "colors"
       },
       {
@@ -1547,7 +1577,7 @@
       },
       {
         "name": "The Two-Radius Rule",
-        "body": "A world declares exactly two radii, `--radius-card` and `--radius-btn`. Chips, tags, and filters borrow the button radius; containers borrow the card radius. Night Shift's dock plate, chamfered by clip-path, is the recorded exception.",
+        "body": "A world declares exactly two radii, `--radius-card` and `--radius-btn`. Chips, tags, and filters borrow the button radius; containers borrow the card radius. Night Shift's dock plate, chamfered by clip-path, and its square-cornered vignette bays are the recorded exceptions.",
         "section": "shapes"
       }
     ],
@@ -1561,13 +1591,13 @@
       "Do keep bespoke sections to Hero, Experience, and Skills unless a world's identity needs another (The Same Bones Rule).",
       "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a CSS fallback, as Avant-garde and Night Shift both do.",
       "Do default `--arrival` to 1 in CSS and let `MetroLine` only ever raise it; a station once opened stays open, and the page reads fully without JavaScript.",
-      "Do light Night Shift with its three families only: Sodium overheads, one Blue Spot, and the packets' glow (The Three Lights Rule)."
+      "Do light every Night Shift scene with its three families only: Sodium overheads, one Blue Spot work light, and the traffic's own glow (The Three Lights Rule)."
     ],
     "donts": [
       "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no Terminal Teal outside Engineer (The Own Palette Rule).",
       "Don't fork content per world. Copy, data, order, and links come from `src/data` and `src/i18n` only; a world may restage them, never rewrite or reorder them.",
-      "Don't let scene materials into UI chrome. Safety Yellow, Sodium, Steel, Concrete, Cardboard, Beam, and Packet Core exist inside the warehouse canvas and its fallback; Blue Spot is Night Shift's only UI accent.",
-      "Don't add a greeting or eyebrow above the name in Night Shift or Metro; both open on the name itself, as a signage plate and as a platform sign.",
+      "Don't let scene materials into UI chrome. Safety Yellow, Sodium, Tarmac, Steel, Concrete, Cardboard, Beam, and Packet Core exist inside the interchange and vignette canvases, the hero's fallback, and the arrival curtain; Blue Spot is Night Shift's only UI accent.",
+      "Don't add a greeting or eyebrow above the name in Night Shift or Metro; both open on the name itself, as an overhead road sign and as a platform sign.",
       "Don't drive Metro from a second scroll source. The train, the doors, and the rail all read the one value `MetroLine` publishes."
     ]
   }

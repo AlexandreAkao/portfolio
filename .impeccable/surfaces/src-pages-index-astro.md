@@ -2,14 +2,7 @@
 version: 1
 slug: "src-pages-index-astro"
 primary_target: "src/pages/index.astro"
-related_targets: ["src/components/sections/Hero.astro","src/components/sections/Experience.astro","src/components/sections/Skills.astro","src/components/common/SiteIntro.astro","src/components/designs/nightshift/NightshiftHero.tsx","src/components/designs/metro/MetroLine.tsx"]
----
-
----
-version: 1
-slug: "src-pages-index-astro"
-primary_target: "src/pages/index.astro"
-related_targets: ["src/components/sections/Hero.astro","src/components/sections/Experience.astro","src/components/sections/Skills.astro","src/components/common/SiteIntro.astro"]
+related_targets: ["src/components/sections/Hero.astro","src/components/sections/Experience.astro","src/components/sections/Skills.astro","src/components/common/SiteIntro.astro","src/components/designs/nightshift/NightshiftHero.tsx","src/components/designs/nightshift/NightshiftExperience.tsx","src/components/designs/metro/MetroLine.tsx"]
 ---
 
 # Home surface
@@ -18,15 +11,15 @@ Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experie
 
 ## Direction contract: Night Shift (design id `nightshift`)
 
-THESIS: The WMS you built becomes the object: a warehouse floor at 3 a.m. in Three.js, where orders travel as light along the real route (receive, put-away, pick, pack, ship). It refuses the floating glass object beside a name.
+THESIS: The city's arteries at 3 a.m. become the object: a highway interchange in Three.js where traffic travels as light along stacked ramps under sodium lamps. It refuses the floating glass object beside a name, and it refuses to belong to any one employer's system.
 
-OWN-WORLD: asphalt greys under sodium and blue-spot light; Barlow Condensed uppercase signage headings, Barlow body; hairline seams and one tone step, never shadow; safety yellow lives only inside the scene; blue spot #3f8cff is the sole UI accent; radii 6px cards, 3px buttons.
+OWN-WORLD: unchanged. Asphalt greys under sodium and blue-spot light; Barlow Condensed uppercase signage headings, Barlow body; hairline seams and one tone step, never shadow; safety yellow only inside the scene, as lane markings; blue spot #3f8cff the sole UI accent; radii 6px cards, 3px buttons.
 
-STORY: this person builds systems that run through the night without him; the CV is one dock away.
+STORY: this person builds systems that keep traffic flowing through the night without him; every job on the manifest is a small lit object of its own; the CV is one exit away.
 
-FIRST VIEWPORT: full-bleed WebGL warehouse, aisles of instanced racking receding into fog, one conveyor on a committed diagonal carrying light packets between five lit stations. Text column pinned left at 40% width: name in condensed caps at clamp(2.5rem, 6vw, 6rem), role, tagline, outline "View my work", filled "Download CV" as a dock plate, socials. Scroll scrubs the camera through named states dock, aisles, dispatch. Phones: 40% of the geometry, no fog, stepped states.
+FIRST VIEWPORT: full-bleed WebGL interchange: an elevated overpass on piers crossing the frame on a committed diagonal, two ramps looping down to the ground road, light trails (Packet Core cores in Blue Spot halos) streaking along every deck, sodium lamp posts, one blue work light where the night crew is. Text column pinned left at 40%: name in condensed caps at clamp(2.5rem, 6vw, 6rem), role, tagline, outline "View my work", dock-plate "Download CV", socials. Scroll scrubs the camera through Overpass, Ramps, Interchange. Arrival: the curtain is a tunnel whose exit hands off to the camera gliding down onto the overpass. Experience: each manifest entry carries a procedural low-poly vignette of its own work (services cluster, racking, delivery truck, component grid, devices, chart bars) under the same three light families. Phones: about 40% of the geometry, no fog, stepped states, vignettes at 72px.
 
-FORM: candidate 3 of 7, Warehouse Floor; seed bfa6e4a7. Raises: seams (console), one diagonal (pulp), honest routing (ink basin), single control with named states (cape), three light sources only (cyclorama).
+FORM: Night Interchange, re-derived 2026-09-07 inside the established Night Shift world at the user's request (the warehouse subject was tied to one employer); no new roll; original seed bfa6e4a7. Raises kept: seams (console), one diagonal (pulp), single control with named states (cape), three light sources only (cyclorama).
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
 
@@ -46,4 +39,6 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 
 ## Status (2026-09-07)
 
-Both direction contracts above were built code-led and closed: finish review ran (recapture, then fix with six material findings, two fix rounds, verdict ship on 2026-09-07), DESIGN.md and `.impeccable/design.json` record the two worlds as built, and no shipping raster was produced by this run (both worlds are procedural and CSS), so no provenance was owed. Roll records: `.impeccable/rolls/`. Review evidence and packet: `.impeccable/review/`. Divergences from the contracts, recorded in DESIGN.md as built: the dock plate has a chamfer and no radius; Night Shift's secondary CTA is a seam outline; Metro's sign band spans the main column, not the viewport; the phone build carries about 42% of the racking.
+Both original contracts were built code-led and closed on 2026-09-07 (finish review: recapture, fix with six material findings, two fix rounds, verdict ship); DESIGN.md and `.impeccable/design.json` record the worlds as built; no shipping raster was produced (both worlds are procedural and CSS). Roll records: `.impeccable/rolls/`. Review evidence: `.impeccable/review/`. Divergences recorded in DESIGN.md as built: the dock plate has a chamfer and no radius; Night Shift's secondary CTA is a seam outline; Metro's sign band spans the main column, not the viewport.
+
+Night Shift re-derivation (2026-09-07, later the same day): the user rejected the warehouse subject (intro curtain and hero scene) as too tied to AmbevTech and asked for a generic Three.js subject, a small model beside each experience, and the palette kept. Confirmed by structured interview: highway interchange at night; procedural low-poly vignettes; asphalt + blue spot unchanged. The contract above is the re-derived one. Finish review (2026-09-07, later the same day): first pass returned fix with six material findings (traffic as light, exit gated on the scene, tunnel enclosure and convergence, phone composition, trails behind the desktop column, bay drawn-gate); one fix round, verdict pass scored all six resolved, disposition ship scoped to those fixes. Two non-blocking craft notes (trail intensity, gantry plate lighting) were applied after the verdict. Packet and evidence: `.impeccable/review/packet-nightshift-rederive.md` and the captures it names. Tests: 18 Playwright smoke tests pass; production build completes. DESIGN.md and `.impeccable/design.json` refreshed by the documenter from the built world on 2026-09-07 (Night Shift entries only; the other six worlds untouched; `nightshift-tarmac` added to the palette). FINISH discharged: reviewed, verdict ship on the scored fixes, documented; no shipping raster was produced (the world is procedural and CSS), so no provenance was owed.
