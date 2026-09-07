@@ -7,6 +7,12 @@ import ErrorBoundary from '@components/ui/ErrorBoundary';
 const sortedDesigns = designs.sort((a, b) => a.order - b.order);
 const designMap = Object.fromEntries(designs.map((d) => [d.id, d]));
 
+// A switch is likely once the switcher is touched; hidden worlds start loading
+// their code now (see src/lib/client-intro.ts) so the switch hydrates fast.
+function announceIntent() {
+  document.dispatchEvent(new CustomEvent('site-design:intent'));
+}
+
 function DesignToggleInner() {
   const [design, setDesign] = useState(defaultDesign);
   const [open, setOpen] = useState(false);
@@ -60,7 +66,12 @@ function DesignToggleInner() {
   return (
     <div ref={ref} className="relative">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          setOpen(!open);
+          announceIntent();
+        }}
+        onPointerEnter={announceIntent}
+        onFocus={announceIntent}
         className="flex items-center gap-2 rounded-full border border-border bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-accent"
         aria-label={`Switch design (current: ${config?.label})`}
         aria-expanded={open}

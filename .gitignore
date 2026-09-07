@@ -34,3 +34,7 @@ docs/superpowers/
 .impeccable/live/
 .impeccable/questions/
 .impeccable/review/*.png
+
+# playwright
+test-results/
+playwright-report/
