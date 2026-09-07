@@ -1,0 +1,1574 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-07T04:32:20.203Z",
+  "title": "Design System: Alexandre Akira Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "engineer-navy-depth": {
+        "role": "neutral",
+        "displayName": "Navy Depth",
+        "canonical": "oklch(21.4% 0.048 258.0)",
+        "tonalRamp": [
+          "#010a1f",
+          "#16253c",
+          "#32435c",
+          "#50627d",
+          "#7184a0",
+          "#93a6c4",
+          "#b6cbe9",
+          "#e5efff"
+        ]
+      },
+      "engineer-navy-raised": {
+        "role": "neutral",
+        "displayName": "Navy Raised",
+        "canonical": "oklch(25.5% 0.061 260.9)",
+        "tonalRamp": [
+          "#000924",
+          "#132442",
+          "#2f4263",
+          "#4d6284",
+          "#6e83a8",
+          "#90a6cc",
+          "#b3caf2",
+          "#e7effd"
+        ]
+      },
+      "engineer-navy-lifted": {
+        "role": "neutral",
+        "displayName": "Navy Lifted",
+        "canonical": "oklch(33.2% 0.085 262.4)",
+        "tonalRamp": [
+          "#00052e",
+          "#0d224d",
+          "#29416f",
+          "#476191",
+          "#6782b6",
+          "#88a5db",
+          "#adcafe",
+          "#e7effc"
+        ]
+      },
+      "engineer-navy-line": {
+        "role": "neutral",
+        "displayName": "Navy Line",
+        "canonical": "oklch(32.9% 0.060 260.8)",
+        "tonalRamp": [
+          "#000924",
+          "#132442",
+          "#2f4262",
+          "#4e6284",
+          "#6e83a7",
+          "#90a6cb",
+          "#b3caf1",
+          "#e7effc"
+        ]
+      },
+      "engineer-frost": {
+        "role": "neutral",
+        "displayName": "Frost",
+        "canonical": "oklch(87.9% 0.046 271.7)",
+        "tonalRamp": [
+          "#05091e",
+          "#1d233b",
+          "#39415b",
+          "#58607c",
+          "#78819e",
+          "#9ba4c2",
+          "#bec8e8",
+          "#e9eefd"
+        ]
+      },
+      "engineer-slate": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "canonical": "oklch(66.2% 0.046 270.6)",
+        "tonalRamp": [
+          "#05091e",
+          "#1d243c",
+          "#39415b",
+          "#57607c",
+          "#78819f",
+          "#9aa4c3",
+          "#bec8e8",
+          "#e9eefd"
+        ]
+      },
+      "engineer-terminal-teal": {
+        "role": "primary",
+        "displayName": "Terminal Teal",
+        "canonical": "oklch(90.8% 0.141 174.3)",
+        "tonalRamp": [
+          "#000f0a",
+          "#002d23",
+          "#014e3f",
+          "#08725e",
+          "#14987e",
+          "#03c09f",
+          "#45e7c3",
+          "#bdffeb"
+        ]
+      },
+      "engineer-terminal-teal-deep": {
+        "role": "primary",
+        "displayName": "Terminal Teal Deep",
+        "canonical": "oklch(79.9% 0.135 170.0)",
+        "tonalRamp": [
+          "#000f09",
+          "#032d21",
+          "#014e3c",
+          "#0b7259",
+          "#039977",
+          "#27c098",
+          "#5be5bc",
+          "#c0fee7"
+        ]
+      },
+      "creative-warm-paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "oklch(97.2% 0.011 76.6)",
+        "tonalRamp": [
+          "#0e0b07",
+          "#28241f",
+          "#45413c",
+          "#65615b",
+          "#86827b",
+          "#a9a49e",
+          "#cdc8c2",
+          "#f3eee7"
+        ]
+      },
+      "creative-warm-paper-deep": {
+        "role": "neutral",
+        "displayName": "Warm Paper Deep",
+        "canonical": "oklch(93.7% 0.015 77.1)",
+        "tonalRamp": [
+          "#0f0a05",
+          "#29241d",
+          "#474139",
+          "#666058",
+          "#888178",
+          "#aba49b",
+          "#cfc8be",
+          "#f4ede3"
+        ]
+      },
+      "creative-white-card": {
+        "role": "neutral",
+        "displayName": "White Card",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "creative-warm-card-hover": {
+        "role": "neutral",
+        "displayName": "Warm Card Hover",
+        "canonical": "oklch(96.9% 0.008 73.7)",
+        "tonalRamp": [
+          "#0d0b08",
+          "#272521",
+          "#45413d",
+          "#64615c",
+          "#85827d",
+          "#a8a4a0",
+          "#ccc8c4",
+          "#f2eee9"
+        ]
+      },
+      "creative-sand-line": {
+        "role": "neutral",
+        "displayName": "Sand Line",
+        "canonical": "oklch(88.7% 0.020 72.6)",
+        "tonalRamp": [
+          "#100a03",
+          "#2b241b",
+          "#494137",
+          "#686055",
+          "#8a8176",
+          "#ada398",
+          "#d1c7bc",
+          "#f7ede1"
+        ]
+      },
+      "creative-ink-navy": {
+        "role": "neutral",
+        "displayName": "Ink Navy",
+        "canonical": "oklch(22.8% 0.038 282.9)",
+        "tonalRamp": [
+          "#09081b",
+          "#222337",
+          "#3f4056",
+          "#5e5f77",
+          "#7f8099",
+          "#a1a2bd",
+          "#c5c7e2",
+          "#ecedfe"
+        ]
+      },
+      "creative-ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "oklch(42.2% 0.050 284.1)",
+        "tonalRamp": [
+          "#09071f",
+          "#22213c",
+          "#3f3e5c",
+          "#5d5e7d",
+          "#7e7fa0",
+          "#a1a1c4",
+          "#c5c5e9",
+          "#ecedff"
+        ]
+      },
+      "creative-royal-violet": {
+        "role": "primary",
+        "displayName": "Royal Violet",
+        "canonical": "oklch(50.3% 0.227 294.9)",
+        "tonalRamp": [
+          "#10002b",
+          "#2e0062",
+          "#5002a1",
+          "#702fd1",
+          "#9058f8",
+          "#ad8eff",
+          "#cdbefc",
+          "#efecfc"
+        ]
+      },
+      "creative-royal-violet-deep": {
+        "role": "primary",
+        "displayName": "Royal Violet Deep",
+        "canonical": "oklch(45.5% 0.218 294.2)",
+        "tonalRamp": [
+          "#10002b",
+          "#2e0063",
+          "#4f01a2",
+          "#6e34cd",
+          "#8e5cf5",
+          "#ac8ffd",
+          "#ccbffd",
+          "#efecfd"
+        ]
+      },
+      "avantgarde-charcoal": {
+        "role": "neutral",
+        "displayName": "Charcoal",
+        "canonical": "oklch(18.3% 0.003 67.7)",
+        "tonalRamp": [
+          "#0c0b0a",
+          "#262524",
+          "#434240",
+          "#626160",
+          "#838281",
+          "#a6a5a3",
+          "#cac9c7",
+          "#f0eeed"
+        ]
+      },
+      "avantgarde-charcoal-raised": {
+        "role": "neutral",
+        "displayName": "Charcoal Raised",
+        "canonical": "oklch(21.9% 0.005 67.6)",
+        "tonalRamp": [
+          "#0d0b09",
+          "#272523",
+          "#44413f",
+          "#63615e",
+          "#84827f",
+          "#a7a4a2",
+          "#cbc8c6",
+          "#f1eeeb"
+        ]
+      },
+      "avantgarde-charcoal-lifted": {
+        "role": "neutral",
+        "displayName": "Charcoal Lifted",
+        "canonical": "oklch(25.5% 0.006 56.1)",
+        "tonalRamp": [
+          "#0d0b09",
+          "#272422",
+          "#45413f",
+          "#64605e",
+          "#85817f",
+          "#a8a4a1",
+          "#ccc8c5",
+          "#f2edeb"
+        ]
+      },
+      "avantgarde-charcoal-line": {
+        "role": "neutral",
+        "displayName": "Charcoal Line",
+        "canonical": "oklch(27.5% 0.006 56.1)",
+        "tonalRamp": [
+          "#0d0b09",
+          "#272422",
+          "#44413f",
+          "#64605e",
+          "#85817f",
+          "#a8a4a2",
+          "#ccc8c6",
+          "#f2edeb"
+        ]
+      },
+      "avantgarde-bone": {
+        "role": "neutral",
+        "displayName": "Bone",
+        "canonical": "oklch(94.5% 0.009 78.3)",
+        "tonalRamp": [
+          "#0d0b07",
+          "#272520",
+          "#45413d",
+          "#64615c",
+          "#85827c",
+          "#a8a49f",
+          "#ccc8c3",
+          "#f2eee8"
+        ]
+      },
+      "avantgarde-ash": {
+        "role": "neutral",
+        "displayName": "Ash",
+        "canonical": "oklch(66.9% 0.015 78.2)",
+        "tonalRamp": [
+          "#0f0a05",
+          "#29241d",
+          "#464139",
+          "#666058",
+          "#878179",
+          "#aaa49b",
+          "#cec8bf",
+          "#f4ede4"
+        ]
+      },
+      "avantgarde-acid-lime": {
+        "role": "primary",
+        "displayName": "Acid Lime",
+        "canonical": "oklch(92.8% 0.214 125.6)",
+        "tonalRamp": [
+          "#070e00",
+          "#1d2a00",
+          "#364a02",
+          "#506d01",
+          "#6d910f",
+          "#8ab710",
+          "#a9df0f",
+          "#d9ff99"
+        ]
+      },
+      "avantgarde-acid-lime-bright": {
+        "role": "primary",
+        "displayName": "Acid Lime Bright",
+        "canonical": "oklch(94.1% 0.177 123.6)",
+        "tonalRamp": [
+          "#080e00",
+          "#1f2a00",
+          "#384902",
+          "#536c00",
+          "#71900a",
+          "#8fb605",
+          "#b2db47",
+          "#dbff90"
+        ]
+      },
+      "editorial-newsprint": {
+        "role": "neutral",
+        "displayName": "Newsprint",
+        "canonical": "oklch(96.9% 0.007 106.5)",
+        "tonalRamp": [
+          "#0b0b08",
+          "#252522",
+          "#42423e",
+          "#61615d",
+          "#83837e",
+          "#a5a5a1",
+          "#c9c9c5",
+          "#efefea"
+        ]
+      },
+      "editorial-newsprint-deep": {
+        "role": "neutral",
+        "displayName": "Newsprint Deep",
+        "canonical": "oklch(93.1% 0.010 93.6)",
+        "tonalRamp": [
+          "#0c0b07",
+          "#272520",
+          "#44423c",
+          "#63615b",
+          "#84827c",
+          "#a7a59e",
+          "#cbc9c2",
+          "#f0eee7"
+        ]
+      },
+      "editorial-white-card": {
+        "role": "neutral",
+        "displayName": "White Card",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "editorial-newsprint-card-hover": {
+        "role": "neutral",
+        "displayName": "Newsprint Card Hover",
+        "canonical": "oklch(97.9% 0.004 91.4)",
+        "tonalRamp": [
+          "#0c0b09",
+          "#262523",
+          "#434240",
+          "#62615f",
+          "#838280",
+          "#a6a5a2",
+          "#cac9c6",
+          "#efeeeb"
+        ]
+      },
+      "editorial-newsprint-line": {
+        "role": "neutral",
+        "displayName": "Newsprint Line",
+        "canonical": "oklch(85.9% 0.012 84.6)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#28251f",
+          "#45423b",
+          "#64615a",
+          "#86827b",
+          "#a8a59d",
+          "#cdc9c1",
+          "#f2eee6"
+        ]
+      },
+      "editorial-ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(21.8% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "editorial-ink-grey": {
+        "role": "neutral",
+        "displayName": "Ink Grey",
+        "canonical": "oklch(52.8% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "editorial-signal-orange": {
+        "role": "primary",
+        "displayName": "Signal Orange",
+        "canonical": "oklch(66.8% 0.224 37.0)",
+        "tonalRamp": [
+          "#1e0100",
+          "#460f00",
+          "#752003",
+          "#aa3102",
+          "#e14300",
+          "#fe7750",
+          "#fdb5a0",
+          "#fee9e4"
+        ]
+      },
+      "editorial-signal-orange-deep": {
+        "role": "primary",
+        "displayName": "Signal Orange Deep",
+        "canonical": "oklch(61.8% 0.206 37.1)",
+        "tonalRamp": [
+          "#1f0000",
+          "#470d00",
+          "#761f00",
+          "#a93205",
+          "#e04403",
+          "#ff764e",
+          "#feb59f",
+          "#fceae4"
+        ]
+      },
+      "arcade-cabinet-black": {
+        "role": "neutral",
+        "displayName": "Cabinet Black",
+        "canonical": "oklch(16.2% 0.004 345.8)",
+        "tonalRamp": [
+          "#0c0a0b",
+          "#272425",
+          "#444142",
+          "#636062",
+          "#848183",
+          "#a7a4a5",
+          "#cbc8ca",
+          "#f0edef"
+        ]
+      },
+      "arcade-cabinet-plum": {
+        "role": "neutral",
+        "displayName": "Cabinet Plum",
+        "canonical": "oklch(21.5% 0.016 296.5)",
+        "tonalRamp": [
+          "#0c0a11",
+          "#26242c",
+          "#43404a",
+          "#626069",
+          "#83818b",
+          "#a6a3ae",
+          "#cac7d2",
+          "#efecf8"
+        ]
+      },
+      "arcade-cabinet-card": {
+        "role": "neutral",
+        "displayName": "Cabinet Card",
+        "canonical": "oklch(24.4% 0.006 0.6)",
+        "tonalRamp": [
+          "#0e0a0b",
+          "#282425",
+          "#454142",
+          "#656061",
+          "#868182",
+          "#a9a3a5",
+          "#cdc7c9",
+          "#f2edee"
+        ]
+      },
+      "arcade-cabinet-card-hover": {
+        "role": "neutral",
+        "displayName": "Cabinet Card Hover",
+        "canonical": "oklch(28.3% 0.008 3.9)",
+        "tonalRamp": [
+          "#0e0a0b",
+          "#282425",
+          "#464041",
+          "#655f61",
+          "#878082",
+          "#a9a3a4",
+          "#cec7c8",
+          "#f3ecee"
+        ]
+      },
+      "arcade-cabinet-line": {
+        "role": "neutral",
+        "displayName": "Cabinet Line",
+        "canonical": "oklch(27.5% 0.006 56.1)",
+        "tonalRamp": [
+          "#0d0b09",
+          "#272422",
+          "#44413f",
+          "#64605e",
+          "#85817f",
+          "#a8a4a2",
+          "#ccc8c6",
+          "#f2edeb"
+        ]
+      },
+      "arcade-cream": {
+        "role": "neutral",
+        "displayName": "Cream",
+        "canonical": "oklch(96.4% 0.034 98.1)",
+        "tonalRamp": [
+          "#0f0b00",
+          "#292511",
+          "#47422d",
+          "#66624b",
+          "#88836b",
+          "#aaa68d",
+          "#cfcab1",
+          "#f4efd5"
+        ]
+      },
+      "arcade-silver": {
+        "role": "neutral",
+        "displayName": "Silver",
+        "canonical": "oklch(76.9% 0.008 260.7)",
+        "tonalRamp": [
+          "#090b0f",
+          "#232529",
+          "#404246",
+          "#5f6166",
+          "#808287",
+          "#a2a5aa",
+          "#c6c9ce",
+          "#ebeff4"
+        ]
+      },
+      "arcade-coin-gold": {
+        "role": "primary",
+        "displayName": "Coin Gold",
+        "canonical": "oklch(82.9% 0.162 81.1)",
+        "tonalRamp": [
+          "#130900",
+          "#322202",
+          "#573d02",
+          "#7e5a00",
+          "#a7790d",
+          "#d4990a",
+          "#febc2c",
+          "#ffeccc"
+        ]
+      },
+      "arcade-coin-gold-deep": {
+        "role": "primary",
+        "displayName": "Coin Gold Deep",
+        "canonical": "oklch(76.9% 0.152 80.9)",
+        "tonalRamp": [
+          "#130900",
+          "#322202",
+          "#573d02",
+          "#7f5a00",
+          "#a7790e",
+          "#d4990d",
+          "#fbbd40",
+          "#ffeccc"
+        ]
+      },
+      "arcade-candy-green": {
+        "role": "secondary",
+        "displayName": "Candy Green",
+        "canonical": "oklch(64.5% 0.164 153.1)",
+        "tonalRamp": [
+          "#001003",
+          "#002e14",
+          "#065029",
+          "#09753d",
+          "#0b9c53",
+          "#3ac272",
+          "#66e795",
+          "#c7ffd6"
+        ]
+      },
+      "arcade-candy-blue": {
+        "role": "secondary",
+        "displayName": "Candy Blue",
+        "canonical": "oklch(72.1% 0.135 226.0)",
+        "tonalRamp": [
+          "#000e15",
+          "#002a38",
+          "#05495e",
+          "#0e6b88",
+          "#048fb7",
+          "#13b5e5",
+          "#77d8fe",
+          "#daf3fe"
+        ]
+      },
+      "arcade-candy-pink": {
+        "role": "secondary",
+        "displayName": "Candy Pink",
+        "canonical": "oklch(75.4% 0.128 5.8)",
+        "tonalRamp": [
+          "#1e0007",
+          "#4b001d",
+          "#751838",
+          "#9a3c56",
+          "#c15e77",
+          "#e88199",
+          "#feb0c0",
+          "#fde8ec"
+        ]
+      },
+      "arcade-candy-purple": {
+        "role": "secondary",
+        "displayName": "Candy Purple",
+        "canonical": "oklch(54.2% 0.114 301.0)",
+        "tonalRamp": [
+          "#120028",
+          "#300f52",
+          "#4d3074",
+          "#6d5097",
+          "#8e71bc",
+          "#b194e1",
+          "#d3bbfd",
+          "#f1ebfd"
+        ]
+      },
+      "arcade-candy-red": {
+        "role": "secondary",
+        "displayName": "Candy Red",
+        "canonical": "oklch(60.7% 0.231 22.0)",
+        "tonalRamp": [
+          "#200001",
+          "#4c000b",
+          "#7f0219",
+          "#b60629",
+          "#ed203d",
+          "#fe7273",
+          "#fdb3b0",
+          "#fde9e8"
+        ]
+      },
+      "nightshift-asphalt": {
+        "role": "neutral",
+        "displayName": "Asphalt",
+        "canonical": "oklch(21.3% 0.007 258.4)",
+        "tonalRamp": [
+          "#090b0e",
+          "#232528",
+          "#404246",
+          "#5f6165",
+          "#808286",
+          "#a2a5a9",
+          "#c6c9cd",
+          "#eceff3"
+        ]
+      },
+      "nightshift-asphalt-raised": {
+        "role": "neutral",
+        "displayName": "Asphalt Raised",
+        "canonical": "oklch(24.6% 0.009 255.6)",
+        "tonalRamp": [
+          "#090b0f",
+          "#222529",
+          "#3f4247",
+          "#5e6266",
+          "#7f8388",
+          "#a1a5ab",
+          "#c5c9cf",
+          "#ebeff4"
+        ]
+      },
+      "nightshift-asphalt-lifted": {
+        "role": "neutral",
+        "displayName": "Asphalt Lifted",
+        "canonical": "oklch(28.3% 0.011 254.0)",
+        "tonalRamp": [
+          "#080b10",
+          "#21252a",
+          "#3e4248",
+          "#5d6267",
+          "#7e8389",
+          "#a0a5ac",
+          "#c4cad0",
+          "#eaeff6"
+        ]
+      },
+      "nightshift-seam": {
+        "role": "neutral",
+        "displayName": "Seam",
+        "canonical": "oklch(31.9% 0.013 253.0)",
+        "tonalRamp": [
+          "#080c10",
+          "#21262b",
+          "#3d4349",
+          "#5c6268",
+          "#7d838a",
+          "#a0a6ad",
+          "#c3cad1",
+          "#e9eff7"
+        ]
+      },
+      "nightshift-chalk": {
+        "role": "neutral",
+        "displayName": "Chalk",
+        "canonical": "oklch(91.8% 0.011 95.2)",
+        "tonalRamp": [
+          "#0d0b06",
+          "#27251f",
+          "#44423c",
+          "#63615a",
+          "#84827b",
+          "#a7a59e",
+          "#cbc9c1",
+          "#f1efe6"
+        ]
+      },
+      "nightshift-dust": {
+        "role": "neutral",
+        "displayName": "Dust",
+        "canonical": "oklch(70.3% 0.011 248.0)",
+        "tonalRamp": [
+          "#080c10",
+          "#21262a",
+          "#3d4348",
+          "#5c6267",
+          "#7d8389",
+          "#a0a6ac",
+          "#c4cad0",
+          "#e9eff6"
+        ]
+      },
+      "nightshift-blue-spot": {
+        "role": "primary",
+        "displayName": "Blue Spot",
+        "canonical": "oklch(65.1% 0.187 258.5)",
+        "tonalRamp": [
+          "#000827",
+          "#002155",
+          "#013d8b",
+          "#005ac8",
+          "#317ef0",
+          "#6ca5fd",
+          "#abcbfc",
+          "#e6effe"
+        ]
+      },
+      "nightshift-blue-spot-bright": {
+        "role": "primary",
+        "displayName": "Blue Spot Bright",
+        "canonical": "oklch(72.3% 0.145 258.1)",
+        "tonalRamp": [
+          "#000827",
+          "#002254",
+          "#013d8a",
+          "#255fb1",
+          "#4782d7",
+          "#6aa5fe",
+          "#a9cbfd",
+          "#e7effc"
+        ]
+      },
+      "nightshift-safety-yellow": {
+        "role": "scene",
+        "displayName": "Safety Yellow",
+        "canonical": "oklch(84.0% 0.172 90.4)",
+        "tonalRamp": [
+          "#110a00",
+          "#2f2402",
+          "#524001",
+          "#765e0c",
+          "#9e7e0b",
+          "#c8a005",
+          "#f2c31a",
+          "#feeec0"
+        ]
+      },
+      "nightshift-sodium": {
+        "role": "scene",
+        "displayName": "Sodium",
+        "canonical": "oklch(77.5% 0.164 61.6)",
+        "tonalRamp": [
+          "#160700",
+          "#391d01",
+          "#613604",
+          "#8e4f00",
+          "#bc6b03",
+          "#ec890c",
+          "#fdb97d",
+          "#feebdb"
+        ]
+      },
+      "nightshift-packet-core": {
+        "role": "scene",
+        "displayName": "Packet Core",
+        "canonical": "oklch(93.0% 0.033 259.4)",
+        "tonalRamp": [
+          "#040b19",
+          "#1b2535",
+          "#374354",
+          "#566275",
+          "#778397",
+          "#99a6bb",
+          "#bdcae0",
+          "#e5efff"
+        ]
+      },
+      "nightshift-steel": {
+        "role": "scene",
+        "displayName": "Steel",
+        "canonical": "oklch(38.3% 0.024 255.7)",
+        "tonalRamp": [
+          "#050b15",
+          "#1d2631",
+          "#3a434f",
+          "#59626f",
+          "#798391",
+          "#9ca6b4",
+          "#bfcad9",
+          "#e4f0ff"
+        ]
+      },
+      "nightshift-beam": {
+        "role": "scene",
+        "displayName": "Beam",
+        "canonical": "oklch(44.5% 0.027 254.5)",
+        "tonalRamp": [
+          "#040c16",
+          "#1c2632",
+          "#384350",
+          "#576271",
+          "#788493",
+          "#9aa6b6",
+          "#becadb",
+          "#e5f0fd"
+        ]
+      },
+      "nightshift-cardboard": {
+        "role": "scene",
+        "displayName": "Cardboard",
+        "canonical": "oklch(42.4% 0.034 68.4)",
+        "tonalRamp": [
+          "#140800",
+          "#302212",
+          "#4e3f2e",
+          "#6f5e4c",
+          "#907f6d",
+          "#b4a28e",
+          "#d9c6b2",
+          "#feebd7"
+        ]
+      },
+      "nightshift-concrete": {
+        "role": "scene",
+        "displayName": "Concrete",
+        "canonical": "oklch(26.7% 0.009 255.6)",
+        "tonalRamp": [
+          "#090b0f",
+          "#222529",
+          "#3f4247",
+          "#5e6166",
+          "#7f8388",
+          "#a1a5aa",
+          "#c5c9cf",
+          "#ebeff4"
+        ]
+      },
+      "metro-enamel": {
+        "role": "neutral",
+        "displayName": "Enamel",
+        "canonical": "oklch(97.6% 0.003 106.4)",
+        "tonalRamp": [
+          "#0b0b0a",
+          "#252524",
+          "#424240",
+          "#616160",
+          "#828281",
+          "#a5a5a3",
+          "#c9c9c7",
+          "#eeeeec"
+        ]
+      },
+      "metro-enamel-deep": {
+        "role": "neutral",
+        "displayName": "Enamel Deep",
+        "canonical": "oklch(94.2% 0.005 106.5)",
+        "tonalRamp": [
+          "#0b0b09",
+          "#252522",
+          "#42423f",
+          "#61615e",
+          "#82827f",
+          "#a5a5a1",
+          "#c9c9c5",
+          "#efefeb"
+        ]
+      },
+      "metro-white-card": {
+        "role": "neutral",
+        "displayName": "White Card",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "metro-enamel-card-hover": {
+        "role": "neutral",
+        "displayName": "Enamel Card Hover",
+        "canonical": "oklch(97.2% 0.007 160.1)",
+        "tonalRamp": [
+          "#090c0a",
+          "#222624",
+          "#3f4341",
+          "#5e6260",
+          "#7f8481",
+          "#a2a6a3",
+          "#c6cac8",
+          "#ebf0ed"
+        ]
+      },
+      "metro-tile-line": {
+        "role": "neutral",
+        "displayName": "Tile Line",
+        "canonical": "oklch(87.5% 0.007 106.5)",
+        "tonalRamp": [
+          "#0b0b08",
+          "#252522",
+          "#42423e",
+          "#61615d",
+          "#83837e",
+          "#a5a5a1",
+          "#c9c9c4",
+          "#efefea"
+        ]
+      },
+      "metro-signage-black": {
+        "role": "neutral",
+        "displayName": "Signage Black",
+        "canonical": "oklch(17.8% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "metro-signage-grey": {
+        "role": "neutral",
+        "displayName": "Signage Grey",
+        "canonical": "oklch(45.2% 0.023 162.1)",
+        "tonalRamp": [
+          "#030e08",
+          "#1b2922",
+          "#37463e",
+          "#56655d",
+          "#77877e",
+          "#99aaa1",
+          "#bdcec5",
+          "#e2f4ea"
+        ]
+      },
+      "metro-linha-verde": {
+        "role": "primary",
+        "displayName": "Linha Verde",
+        "canonical": "oklch(54.7% 0.137 154.2)",
+        "tonalRamp": [
+          "#001004",
+          "#002e15",
+          "#05502a",
+          "#047540",
+          "#289a5b",
+          "#53be7d",
+          "#7ae3a0",
+          "#c7ffd7"
+        ]
+      },
+      "metro-linha-verde-deep": {
+        "role": "primary",
+        "displayName": "Linha Verde Deep",
+        "canonical": "oklch(47.3% 0.118 154.6)",
+        "tonalRamp": [
+          "#001004",
+          "#032e17",
+          "#03502b",
+          "#0f7442",
+          "#3d9762",
+          "#63bb84",
+          "#88e0a7",
+          "#c6ffd8"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "engineer-display": {
+        "displayName": "Engineer Display",
+        "purpose": "Hero name in JetBrains Mono; 3rem below 768px."
+      },
+      "creative-display": {
+        "displayName": "Creative Display",
+        "purpose": "Hero name in Sora; 3.75rem below 768px; surname in Royal Violet."
+      },
+      "avantgarde-display": {
+        "displayName": "Avant-garde Display",
+        "purpose": "Hero name in Poppins, characters staggered in."
+      },
+      "editorial-display": {
+        "displayName": "Editorial Display",
+        "purpose": "Hero name in Clash Display beside the ghost \"01\"."
+      },
+      "arcade-display": {
+        "displayName": "Arcade Display",
+        "purpose": "Hero name in Bungee, uppercase; 3rem below 768px."
+      },
+      "nightshift-display": {
+        "displayName": "Night Shift Display",
+        "purpose": "Hero name in Barlow Condensed caps over the warehouse floor, in a 40% column."
+      },
+      "metro-display": {
+        "displayName": "Metro Display",
+        "purpose": "Hero name in Overpass 900 caps, white on the Linha Verde platform sign."
+      },
+      "engineer-body": {
+        "displayName": "Engineer Body",
+        "purpose": "Inter body copy for the Engineer world."
+      },
+      "creative-body": {
+        "displayName": "Creative Body",
+        "purpose": "Source Serif 4 body copy for the Creative world."
+      },
+      "avantgarde-body": {
+        "displayName": "Avant-garde Body",
+        "purpose": "Inter body copy for the Avant-garde world."
+      },
+      "editorial-body": {
+        "displayName": "Editorial Body",
+        "purpose": "DM Sans body copy for the Editorial world."
+      },
+      "arcade-body": {
+        "displayName": "Arcade Body",
+        "purpose": "Outfit body copy for the Arcade world."
+      },
+      "nightshift-body": {
+        "displayName": "Night Shift Body",
+        "purpose": "Barlow body copy for the Night Shift world."
+      },
+      "metro-body": {
+        "displayName": "Metro Body",
+        "purpose": "Overpass body copy for the Metro world; the same family as its headings."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2, centered, resolved through the heading slot."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card headings and company names in the heading slot."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "About and Contact paragraphs."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Copy inside cards and experience entries."
+      },
+      "prose": {
+        "displayName": "Prose",
+        "purpose": "Blog article body."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Eyebrows, periods, chips, and tags; uppercase outside Engineer."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Creative buttons and filter pills."
+      },
+      "button-caps": {
+        "displayName": "Button Caps",
+        "purpose": "Uppercase buttons in Avant-garde, Editorial, and Arcade."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Engineer buttons, the JSON skills block, code, the switcher label, and Night Shift's HUD and bay counts."
+      },
+      "nightshift-button": {
+        "displayName": "Night Shift Button",
+        "purpose": "Barlow Condensed caps on the dock plate and the outline button; also periods and toggles at 0.75rem with 0.1em tracking."
+      },
+      "metro-button": {
+        "displayName": "Metro Button",
+        "purpose": "Overpass bold caps on the turnstile arm; 0.75rem below 640px."
+      },
+      "metro-label": {
+        "displayName": "Metro Label",
+        "purpose": "Overpass Mono uppercase for timetable labels, periods, detail toggles, and rail station labels (0.08em on the rail)."
+      }
+    },
+    "shadows": [
+      {
+        "name": "creative-card",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        "purpose": "Creative experience card, About portrait, blog card hover."
+      },
+      {
+        "name": "creative-portrait",
+        "value": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
+        "purpose": "Creative hero portrait."
+      },
+      {
+        "name": "creative-chip",
+        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
+        "purpose": "Creative skill pills at rest."
+      },
+      {
+        "name": "creative-chip-hover",
+        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
+        "purpose": "Creative skill pills on hover."
+      },
+      {
+        "name": "floating-menu",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        "purpose": "Design dropdown in every world."
+      },
+      {
+        "name": "mobile-panel",
+        "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+        "purpose": "Slide-in mobile navigation."
+      },
+      {
+        "name": "acid-lime-glow",
+        "value": "0 0 16px rgba(197, 255, 65, 0.12)",
+        "purpose": "Avant-garde chip hover."
+      },
+      {
+        "name": "metro-door-edge",
+        "value": "inset -4px 0 0 var(--accent) / inset 4px 0 0 var(--accent)",
+        "purpose": "Painted Linha Verde edge on each Metro platform door; a stripe, not depth. 5px in the intro curtain."
+      },
+      {
+        "name": "nightshift-bay-ring",
+        "value": "inset 0 0 0 1px var(--accent)",
+        "purpose": "Blue Spot ring on a hovered Night Shift inventory bay."
+      }
+    ],
+    "motion": [
+      {
+        "name": "reveal",
+        "value": "opacity 0 to 1, translateY 30px to 0, 500ms ease-out, once, 50px into view",
+        "purpose": "Every section and card on scroll."
+      },
+      {
+        "name": "reveal-stagger",
+        "value": "100ms per sibling; 30ms to 50ms for chips and characters",
+        "purpose": "Sibling delay inside a revealed group."
+      },
+      {
+        "name": "world-switch",
+        "value": "300ms View Transition crossfade; body background-color and color 300ms ease",
+        "purpose": "Switching designs."
+      },
+      {
+        "name": "hover-color",
+        "value": "150ms",
+        "purpose": "Color and border transitions on links, chips, and cards."
+      },
+      {
+        "name": "hover-lift",
+        "value": "translateY(-4px); Creative buttons scale(1.05); Creative chips scale(1.1)",
+        "purpose": "Cards and Creative interactive elements."
+      },
+      {
+        "name": "dropdown",
+        "value": "150ms, opacity 0 to 1, y -8px to 0, scale 0.95 to 1",
+        "purpose": "Design switcher list."
+      },
+      {
+        "name": "mobile-panel",
+        "value": "300ms tween from translateX(100%); backdrop 200ms fade",
+        "purpose": "Mobile navigation."
+      },
+      {
+        "name": "typewriter",
+        "value": "30ms per character",
+        "purpose": "Engineer hero tagline."
+      },
+      {
+        "name": "char-stagger",
+        "value": "30ms per character, 400ms each, y 40px",
+        "purpose": "Avant-garde hero name."
+      },
+      {
+        "name": "word-stagger",
+        "value": "150ms per word, 600ms each, y 60px",
+        "purpose": "Editorial hero name."
+      },
+      {
+        "name": "parallax",
+        "value": "name -80px, subtitle -40px across the hero scroll",
+        "purpose": "Editorial hero."
+      },
+      {
+        "name": "rule-draw",
+        "value": "scaleX 0 to 1 from the left, 800ms",
+        "purpose": "Avant-garde and Editorial hero rules; Editorial hairlines."
+      },
+      {
+        "name": "marquee",
+        "value": "translateX 0 to -50%, 30s linear infinite",
+        "purpose": "Avant-garde capability band."
+      },
+      {
+        "name": "nightshift-camera-scrub",
+        "value": "scroll 0 to 1 over a 200vh pin (150vh on phones); smoothstep between 3 camera states (0 to 0.5, 0.5 to 1); position and look-at lerp 0.08 per frame; stepped at thirds below 768px",
+        "purpose": "Night Shift hero: Dock, Aisles, Dispatch."
+      },
+      {
+        "name": "nightshift-packets",
+        "value": "0.035 to 0.065 of the curve per second; 0.45 to 0.95s stop at each of 5 stations; 0.6 to 1.4s hidden after dispatch; halo pulse ±18% at 4 rad/s",
+        "purpose": "Orders routing through the warehouse."
+      },
+      {
+        "name": "nightshift-blue-spot-orbit",
+        "value": "position (-9 + 9 sin t, 6.5, -3 + 7 cos 0.7t) at 0.22 rad/s",
+        "purpose": "The roaming forklift light."
+      },
+      {
+        "name": "metro-train-spring",
+        "value": "useSpring(scrollYProgress, { stiffness: 120, damping: 24 }); raw progress under reduced motion",
+        "purpose": "Metro train marker along the rail or strip."
+      },
+      {
+        "name": "metro-arrival",
+        "value": "--arrival = clamp((0.85vh - sectionTop) / 0.5vh); forced 1 when fully in view or at page end; monotonic; CSS default 1",
+        "purpose": "Per-section door state published by MetroLine."
+      },
+      {
+        "name": "metro-doors",
+        "value": "translateX(calc(-101% * var(--arrival))) and translateX(calc(101% * var(--arrival)))",
+        "purpose": "Metro platform doors on every home section."
+      },
+      {
+        "name": "metro-enter",
+        "value": "500ms cubic-bezier(0.16, 1, 0.3, 1), x -16px (stops) or y 16px (rows), 80ms stagger; details height 350ms",
+        "purpose": "Metro experience and skills reveal."
+      },
+      {
+        "name": "dock-plate-shutter",
+        "value": "translateY(-8px) 500ms cubic-bezier(0.16, 1, 0.3, 1) on hover and focus-visible",
+        "purpose": "Night Shift primary CTA glyph."
+      },
+      {
+        "name": "turnstile-push",
+        "value": "tripod rotate(120deg), arm translateX(4px), 500ms cubic-bezier(0.16, 1, 0.3, 1) on hover and focus-visible",
+        "purpose": "Metro CTA gesture."
+      },
+      {
+        "name": "intro-nightshift",
+        "value": "spot sweep 1.15s from 0.05s; plate fade 0.5s at 0.4s; shutter roll 0.65s cubic-bezier(0.2, 0, 0.8, 1) at 1.1s; total 1.8s, reveal 0.95s; quick-change roll 0.6s at 0.18s",
+        "purpose": "Night Shift arrival curtain and quick-change."
+      },
+      {
+        "name": "intro-metro",
+        "value": "sign in 0.5s at 0.1s, out 0.18s at 0.82s; doors 0.6s cubic-bezier(0.83, 0, 0.17, 1) at 0.9s; total 1.55s, reveal 0.85s; quick-change doors 0.55s at 0.18s",
+        "purpose": "Metro arrival curtain and quick-change."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all animation and transition durations 0.01ms; smooth scroll off; Night Shift scene frozen at Dock",
+        "purpose": "prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "avantgarde-button-primary",
+      "description": "Filled accent button; reads the active world through tokens and falls back to Avant-garde.",
+      "html": "<button class=\"ds-btn-primary\">View my work</button>",
+      "css": ".ds-btn-primary{background:var(--accent,#c5ff41);color:var(--bg,#131211);border:0;border-radius:var(--radius-btn,4px);padding:12px 32px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .15s}.ds-btn-primary:hover{background:var(--accent-hover,#d4ff6e)}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "avantgarde-button-secondary",
+      "description": "Outlined accent button with a 10% accent wash on hover.",
+      "html": "<button class=\"ds-btn-secondary\">Download CV</button>",
+      "css": ".ds-btn-secondary{background:transparent;color:var(--accent,#c5ff41);border:1px solid var(--accent,#c5ff41);border-radius:var(--radius-btn,4px);padding:12px 32px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .15s}.ds-btn-secondary:hover{background:color-mix(in srgb,var(--accent,#c5ff41) 10%,transparent)}.ds-btn-secondary:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+    },
+    {
+      "name": "Tech Chip",
+      "kind": "chip",
+      "refersTo": "label",
+      "description": "Bordered tag used for tech stacks and blog tags; borrows the button radius.",
+      "html": "<span class=\"ds-chip\">TypeScript</span> <span class=\"ds-chip\">RabbitMQ</span> <span class=\"ds-chip\">AWS</span>",
+      "css": ".ds-chip{display:inline-block;border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:2px 8px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;line-height:1.33;color:var(--text-secondary,#9a948b);transition:color .15s,border-color .15s}.ds-chip:hover{color:var(--accent,#c5ff41);border-color:var(--accent,#c5ff41)}"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "avantgarde-card",
+      "description": "Bordered surface for projects, education, and blog entries; border tints to accent on hover.",
+      "html": "<article class=\"ds-card\"><h4>Appointally</h4><p>SaaS scheduling platform with 19 microservices, Clean Architecture, CQRS, and event-driven communication.</p><p class=\"ds-card__metric\">19 microservices</p><div class=\"ds-card__chips\"><span>Node.js</span><span>TypeScript</span><span>PostgreSQL</span></div></article>",
+      "css": ".ds-card{background:var(--card,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:var(--radius-card,8px);padding:24px;max-width:360px;transition:border-color .15s}.ds-card:hover{border-color:color-mix(in srgb,var(--accent,#c5ff41) 50%,transparent)}.ds-card h4{margin:0 0 8px;font-family:var(--font-heading, Poppins, sans-serif);font-size:1.125rem;font-weight:700;line-height:1.55;color:var(--text,#f0ece6)}.ds-card p{margin:0 0 16px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;line-height:1.43;color:var(--text-secondary,#9a948b)}.ds-card__metric{margin:0 0 12px!important;font-size:.75rem!important;font-weight:600;color:var(--accent,#c5ff41)!important}.ds-card__chips{display:flex;flex-wrap:wrap;gap:4px}.ds-card__chips span{border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:2px 8px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;color:var(--text-secondary,#9a948b)}"
+    },
+    {
+      "name": "Stat Tile",
+      "kind": "custom",
+      "refersTo": "headline",
+      "description": "About-section proof tile: accent number in the heading face over a quiet label.",
+      "html": "<div class=\"ds-stat\"><p class=\"ds-stat__value\">200+</p><p class=\"ds-stat__label\">Distribution Centers</p></div>",
+      "css": ".ds-stat{background:var(--card,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:var(--radius-card,8px);padding:16px;text-align:center;min-width:160px}.ds-stat__value{margin:0;font-family:var(--font-heading, Poppins, sans-serif);font-size:1.5rem;font-weight:700;line-height:1.33;color:var(--accent,#c5ff41)}.ds-stat__label{margin:0;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;color:var(--text-secondary,#9a948b)}"
+    },
+    {
+      "name": "Design Switcher",
+      "kind": "nav",
+      "refersTo": "mono",
+      "description": "Header pill that names the active world with its glyph and opens the world list.",
+      "html": "<button class=\"ds-switcher\" aria-haspopup=\"listbox\" aria-expanded=\"false\"><span class=\"ds-switcher__label\">// <span class=\"ds-switcher__name\">Avant-garde</span></span><svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 1L5 5L9 1\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-switcher{display:inline-flex;align-items:center;gap:8px;background:var(--bg-secondary,#1c1a18);color:var(--text-secondary,#9a948b);border:1px solid var(--border,#2a2725);border-radius:9999px;padding:6px 12px;font-family:\"JetBrains Mono\",monospace;font-size:.75rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .15s}.ds-switcher:hover{color:var(--accent,#c5ff41)}.ds-switcher svg{transition:transform .2s}.ds-switcher[aria-expanded=\"true\"] svg{transform:rotate(180deg)}.ds-switcher:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+    },
+    {
+      "name": "Header Nav",
+      "kind": "nav",
+      "refersTo": "body-small",
+      "description": "Desktop section anchors with a hairline divider before Blog.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#about\">About</a><a href=\"#experience\">Experience</a><a href=\"#skills\">Skills</a><a href=\"#projects\">Projects</a><a href=\"#contact\">Contact</a><span class=\"ds-nav__divider\" aria-hidden=\"true\"></span><a href=\"/blog\">Blog</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:24px;font-family:var(--font-body, Inter, sans-serif)}.ds-nav a{font-size:.875rem;color:var(--text-secondary,#9a948b);text-decoration:none;transition:color .15s}.ds-nav a:hover{color:var(--accent,#c5ff41)}.ds-nav__divider{width:1px;height:16px;background:var(--border,#2a2725)}.ds-nav a:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+    },
+    {
+      "name": "Tag Filter",
+      "kind": "chip",
+      "refersTo": "label",
+      "description": "Blog tag filter with the active state in accent border, text, and 10% tint.",
+      "html": "<div class=\"ds-filters\"><button class=\"ds-filter\" data-active>All</button><button class=\"ds-filter\">Architecture</button><button class=\"ds-filter\">Frontend</button></div>",
+      "css": ".ds-filters{display:flex;flex-wrap:wrap;gap:8px}.ds-filter{background:transparent;border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:6px 12px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;font-weight:500;color:var(--text-secondary,#9a948b);cursor:pointer;transition:color .15s,border-color .15s,background-color .15s}.ds-filter:hover,.ds-filter[data-active]{border-color:var(--accent,#c5ff41);color:var(--accent,#c5ff41)}.ds-filter[data-active]{background:color-mix(in srgb,var(--accent,#c5ff41) 10%,transparent)}.ds-filter:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+    },
+    {
+      "name": "Editorial Numbered Entry",
+      "kind": "custom",
+      "refersTo": "editorial-card",
+      "description": "Editorial experience entry: ghost numeral, hairline, and Signal Orange role line on Newsprint.",
+      "html": "<div class=\"ds-ed\"><div class=\"ds-ed__rule\"></div><div class=\"ds-ed__grid\"><div><span class=\"ds-ed__num\">01</span><p class=\"ds-ed__period\">Apr 2025 - Present</p></div><div><h3 class=\"ds-ed__title\">Seva / Appointally</h3><p class=\"ds-ed__role\">Senior Full-Stack Engineer</p><p class=\"ds-ed__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><div class=\"ds-ed__tags\"><span>Node.js</span><span>TypeScript</span><span>React</span></div></div></div></div>",
+      "css": ".ds-ed{background:#f5f5f0;color:#1a1a1a;padding:24px;max-width:640px;font-family:\"DM Sans Variable\",\"DM Sans\",sans-serif}.ds-ed__rule{height:1px;background:#d4d0c8;margin-bottom:32px}.ds-ed__grid{display:grid;grid-template-columns:1fr 2fr;gap:32px}.ds-ed__num{display:block;font-family:\"Clash Display\",sans-serif;font-size:4.5rem;font-weight:700;line-height:1;color:rgba(26,26,26,.06)}.ds-ed__period{margin:8px 0 0;font-size:.875rem;color:#6b6b6b}.ds-ed__title{margin:0 0 4px;font-family:\"Clash Display\",sans-serif;font-size:2rem;font-weight:700;line-height:1.1}.ds-ed__role{margin:0 0 12px;font-size:1rem;font-weight:500;color:#ff4d00}.ds-ed__summary{margin:0 0 12px;font-size:.875rem;line-height:1.6;color:#6b6b6b;max-width:36rem}.ds-ed__tags{display:flex;flex-wrap:wrap;gap:8px}.ds-ed__tags span{font-size:.75rem;color:#6b6b6b;border-bottom:1px solid rgba(107,107,107,.3);padding-bottom:2px;transition:color .15s,border-color .15s}.ds-ed__tags span:hover{color:#ff4d00;border-color:#ff4d00}"
+    },
+    {
+      "name": "Arcade Candy Card",
+      "kind": "card",
+      "refersTo": "arcade-card",
+      "description": "Arcade experience card on a candy surface with emoji, Bungee title, and Cabinet Black text.",
+      "html": "<div class=\"ds-candy\"><div class=\"ds-candy__emoji\">🚀</div><p class=\"ds-candy__period\">Apr 2025 - Present</p><h3 class=\"ds-candy__title\">Seva / Appointally</h3><p class=\"ds-candy__role\">Senior Full-Stack Engineer</p><p class=\"ds-candy__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><button class=\"ds-candy__toggle\">▼ details</button><div class=\"ds-candy__chips\"><span>Node.js</span><span>TypeScript</span><span>AWS</span></div></div>",
+      "css": ".ds-candy{background:#0ba95b;color:#0f0d0e;border-radius:12px;padding:24px;max-width:480px;font-family:Outfit,sans-serif}.ds-candy__emoji{font-size:1.5rem}.ds-candy__period{margin:8px 0 0;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.7}.ds-candy__title{margin:4px 0 0;font-family:Bungee,sans-serif;font-size:1.125rem;font-weight:400;text-transform:uppercase}.ds-candy__role{margin:0;font-size:.875rem;font-weight:500}.ds-candy__summary{margin:8px 0 0;font-size:.875rem;opacity:.8}.ds-candy__toggle{margin-top:12px;background:none;border:0;padding:0;font:700 .75rem Outfit,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:underline;color:#0f0d0e;cursor:pointer}.ds-candy__chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.ds-candy__chips span{background:rgba(15,13,14,.15);border-radius:9999px;padding:2px 8px;font-size:.75rem;font-weight:500}.ds-candy__toggle:focus-visible{outline:2px solid #0f0d0e;outline-offset:2px}"
+    },
+    {
+      "name": "Night Shift Dock Plate",
+      "kind": "button",
+      "refersTo": "nightshift-button-primary",
+      "description": "Night Shift primary CTA: a chamfered Blue Spot steel plate with a stamped inner seam and a shutter glyph that rolls up on hover.",
+      "html": "<a class=\"ds-dock\" href=\"#\"><span class=\"ds-dock__seam\" aria-hidden=\"true\"></span><span class=\"ds-dock__shutter\" aria-hidden=\"true\"><span class=\"ds-dock__slats\"><i></i><i></i><i></i></span></span><span class=\"ds-dock__label\">Download CV</span></a>",
+      "css": ".ds-dock{position:relative;display:inline-flex;align-items:center;gap:12px;background:#3f8cff;color:#17191c;padding:12px 24px 12px 16px;clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);font-family:\"Barlow Condensed\",sans-serif;font-size:.875rem;font-weight:700;line-height:1.43;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;transition:background-color .15s}.ds-dock:hover{background:#6aa6ff}.ds-dock__seam{position:absolute;inset:3px;border:1px solid rgba(23,25,28,.35);pointer-events:none}.ds-dock__shutter{position:relative;display:block;width:16px;height:16px;overflow:hidden;border:2px solid currentColor;box-sizing:border-box}.ds-dock__slats{position:absolute;left:2px;right:2px;top:2px;transition:transform .5s cubic-bezier(.16,1,.3,1)}.ds-dock__slats i{display:block;height:2px;background:currentColor}.ds-dock__slats i+i{margin-top:2px}.ds-dock:hover .ds-dock__slats,.ds-dock:focus-visible .ds-dock__slats{transform:translateY(-8px)}.ds-dock__label{position:relative}.ds-dock:focus-visible{outline:2px solid #3f8cff;outline-offset:2px}"
+    },
+    {
+      "name": "Metro Turnstile",
+      "kind": "button",
+      "refersTo": "metro-button-primary",
+      "description": "Metro primary CTA: a round pivot post with a tripod glyph and a push arm; pushing turns the tripod 120 degrees and gives the arm 4px.",
+      "html": "<a class=\"ds-turnstile\" href=\"#\"><span class=\"ds-turnstile__post\" aria-hidden=\"true\"><span class=\"ds-turnstile__tripod\"><i style=\"transform:translateY(-50%) rotate(0deg)\"></i><i style=\"transform:translateY(-50%) rotate(120deg)\"></i><i style=\"transform:translateY(-50%) rotate(240deg)\"></i><b></b></span></span><span class=\"ds-turnstile__arm\">View my work</span></a>",
+      "css": ".ds-turnstile{display:inline-flex;align-items:center;text-decoration:none;color:#fff}.ds-turnstile__post{position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:9999px;background:#00874a;color:#fff;transition:background-color .15s}.ds-turnstile__tripod{position:relative;display:block;width:16px;height:16px;transition:transform .5s cubic-bezier(.16,1,.3,1)}.ds-turnstile__tripod i{position:absolute;left:50%;top:50%;width:8px;height:2px;border-radius:9999px;background:currentColor;transform-origin:left center}.ds-turnstile__tripod b{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:9999px;background:currentColor;transform:translate(-50%,-50%)}.ds-turnstile__arm{display:flex;align-items:center;height:44px;margin-left:-8px;padding:0 20px;border-radius:0 6px 6px 0;background:#00874a;color:#fff;font-family:\"Overpass Variable\",Overpass,sans-serif;font-size:.875rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;transition:transform .5s cubic-bezier(.16,1,.3,1),background-color .15s}.ds-turnstile:hover .ds-turnstile__post,.ds-turnstile:hover .ds-turnstile__arm{background:#006e3c}.ds-turnstile:hover .ds-turnstile__tripod,.ds-turnstile:focus-visible .ds-turnstile__tripod{transform:rotate(120deg)}.ds-turnstile:hover .ds-turnstile__arm,.ds-turnstile:focus-visible .ds-turnstile__arm{transform:translateX(4px)}.ds-turnstile:focus-visible{outline:2px solid #00874a;outline-offset:2px}"
+    },
+    {
+      "name": "Metro Rail Station",
+      "kind": "nav",
+      "refersTo": "metro-label",
+      "description": "A stretch of the fixed Metro rail: the Linha Verde line, white stops with a 3px ring, Overpass Mono station labels, and the train capsule.",
+      "html": "<div class=\"ds-rail\" aria-hidden=\"true\"><span class=\"ds-rail__line\"></span><div class=\"ds-rail__stop\" style=\"top:14px\"><span class=\"ds-rail__bullet\"></span><span class=\"ds-rail__label ds-rail__label--current\">Experience</span></div><div class=\"ds-rail__stop\" style=\"top:78px\"><span class=\"ds-rail__bullet\"></span><span class=\"ds-rail__label\">Education</span></div><div class=\"ds-rail__stop\" style=\"top:142px\"><span class=\"ds-rail__bullet\"></span><span class=\"ds-rail__label\">Skills</span></div><div class=\"ds-rail__train\" style=\"top:36px\"><span></span></div></div>",
+      "css": ".ds-rail{position:relative;width:200px;height:170px;background:#f7f7f5;font-family:\"Overpass Mono\",monospace}.ds-rail__line{position:absolute;left:24px;top:0;bottom:0;width:6px;border-radius:9999px;background:#00874a}.ds-rail__stop{position:absolute;left:0;width:56px;height:14px}.ds-rail__bullet{position:absolute;left:20px;top:0;width:14px;height:14px;box-sizing:border-box;border-radius:9999px;border:3px solid #00874a;background:#fff}.ds-rail__label{position:absolute;left:40px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#4b5a52;transition:color .15s}.ds-rail__label:hover{color:#111}.ds-rail__label--current{font-weight:700;color:#111}.ds-rail__train{position:absolute;left:17px;display:flex;align-items:center;justify-content:center;width:20px;height:34px;box-sizing:border-box;border-radius:9999px;border:3px solid #00874a;background:#fff}.ds-rail__train span{width:8px;height:12px;border-radius:2px;background:#00874a}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Repertoire",
+    "overview": "One performer, seven staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of seven complete visual worlds: Avant-garde (the default), Engineer, Creative, Editorial, Arcade, Night Shift, and Metro. The system's personality is plural on purpose. Each world commits fully to its own register (the terminal, the studio, the dark gallery, the broadsheet, the arcade cabinet, the warehouse floor at 3 a.m., the metro line). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all seven: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Only Hero, Experience, and Skills get a bespoke component per world; Metro alone adds a page-level overlay, the fixed line that indexes the sections.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world has exactly one accent and spends it on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world. Six signatures live in the hero; Metro's runs the length of the page, one scroll value driving the train marker, the station doors, and the rail.",
+    "keyCharacteristics": [
+      "Seven complete worlds, one content source, switched at runtime and persisted per visitor.",
+      "One accent per world, spent on interactive and labeling elements only.",
+      "Display typography carries identity: monospace, geometric sans, heavy grotesk, display grotesk, slab poster, condensed signage, or black transit grotesk.",
+      "Flat, border-defined surfaces in six worlds; Creative alone lifts with shadow.",
+      "Shared reveal motion (fade, 30px rise, 0.5s, once) with a signature per world: six in the hero, Metro's along the whole scroll.",
+      "WebGL in two worlds (Avant-garde's particle field, Night Shift's warehouse), each mounted only while its world is active and backed by a CSS fallback.",
+      "Scene materials stay in the scene: Arcade's candy and Night Shift's sodium, safety yellow, and steel never become UI chrome.",
+      "Bilingual by construction: every text node renders both locales and CSS shows one."
+    ],
+    "rules": [
+      {
+        "name": "The One Accent Rule",
+        "body": "Each world has exactly one accent and spends it on buttons, labels, rules, hover and selection states. Body copy, headings, and card surfaces never take the accent. Arcade's candy colors are surfaces with Cabinet Black text on them, never accents, and Night Shift's scene materials never leave the canvas.",
+        "section": "colors"
+      },
+      {
+        "name": "The Own Palette Rule",
+        "body": "A world uses only its own token set. No Candy Green in Engineer, no Creative shadow in Editorial, no Terminal Teal outside the terminal.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dark Text on Bright Accent Rule",
+        "body": "Teal, Lime, and Gold are light accents, so filled buttons put the page color on them (11:1 to 16:1). Violet takes white (6.7:1). Signal Orange is the exception that needs care: it measures 3.0:1 on Newsprint and 3.3:1 under white text, so it lives on bold headings, rules, outlines, and uppercase button labels. Blue Spot takes Asphalt (5.4:1). Linha Verde is the one accent that takes white (4.6:1) and reads 4.3:1 on Enamel, so green text stays bold or uppercase.",
+        "section": "colors"
+      },
+      {
+        "name": "The Three Lights Rule",
+        "body": "Night Shift's warehouse is lit by exactly three light families: Sodium overheads, one roaming Blue Spot, and the packets' own glow. Ambient stays at floor level (0.14) and nothing else emits.",
+        "section": "colors"
+      },
+      {
+        "name": "The Heading Slot Rule",
+        "body": "Headings never hardcode a family. They use the heading slot (`--font-heading`) so a world can swap the voice in one token.",
+        "section": "typography"
+      },
+      {
+        "name": "The Loud Display, Quiet Body Rule",
+        "body": "Identity lives in the display size and face. Body and label sizes stay between 0.75rem and 1.125rem in every world.",
+        "section": "typography"
+      },
+      {
+        "name": "The Sign Rule",
+        "body": "In Metro every heading is a sign: h1 through h3 sit at weight 900, and section titles are set white on Linha Verde. Green text elsewhere is bold or uppercase.",
+        "section": "typography"
+      },
+      {
+        "name": "The Same Bones Rule",
+        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it; today that is Hero, Experience, and Skills. Metro's line is an overlay on the page, not a section fork.",
+        "section": "layout"
+      },
+      {
+        "name": "The 896 Rule",
+        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px.",
+        "section": "layout"
+      },
+      {
+        "name": "The Two-Radius Rule",
+        "body": "A world declares exactly two radii, `--radius-card` and `--radius-btn`. Chips, tags, and filters borrow the button radius; containers borrow the card radius. Night Shift's dock plate, chamfered by clip-path, is the recorded exception.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do declare a new world with the nine color tokens, two font slots, and two radii on its `[data-design]` selector, register it in `src/data/designs.ts`, and add it to the anti-FOUC allowlist.",
+      "Do keep the accent on buttons, labels, rules, and states (The One Accent Rule), and put the page color on light accents (11:1 to 16:1).",
+      "Do treat Signal Orange as a display color: bold headings, rules, outlines, and uppercase button labels. It measures 3.0:1 on Newsprint and 3.3:1 under white text.",
+      "Do resolve headings through the heading slot and body through the body slot; only Engineer's labels and the shared code face name JetBrains Mono directly.",
+      "Do render both locales in every text node behind `data-lang-show` so the language toggle never re-renders.",
+      "Do respect `prefers-reduced-motion`, and make new motion join the reveal grammar (fade, 30px rise, 0.5s, once).",
+      "Do keep bespoke sections to Hero, Experience, and Skills unless a world's identity needs another (The Same Bones Rule).",
+      "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a CSS fallback, as Avant-garde and Night Shift both do.",
+      "Do default `--arrival` to 1 in CSS and let `MetroLine` only ever raise it; a station once opened stays open, and the page reads fully without JavaScript.",
+      "Do light Night Shift with its three families only: Sodium overheads, one Blue Spot, and the packets' glow (The Three Lights Rule)."
+    ],
+    "donts": [
+      "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no Terminal Teal outside Engineer (The Own Palette Rule).",
+      "Don't fork content per world. Copy, data, order, and links come from `src/data` and `src/i18n` only; a world may restage them, never rewrite or reorder them.",
+      "Don't let scene materials into UI chrome. Safety Yellow, Sodium, Steel, Concrete, Cardboard, Beam, and Packet Core exist inside the warehouse canvas and its fallback; Blue Spot is Night Shift's only UI accent.",
+      "Don't add a greeting or eyebrow above the name in Night Shift or Metro; both open on the name itself, as a signage plate and as a platform sign.",
+      "Don't drive Metro from a second scroll source. The train, the doors, and the rail all read the one value `MetroLine` publishes."
+    ]
+  }
+}

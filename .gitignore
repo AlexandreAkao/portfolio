@@ -29,3 +29,8 @@ pnpm-debug.log*
 
 screenshots/
 docs/superpowers/
+# impeccable: local tool state (design docs, rolls, briefs and the review packet stay tracked)
+.impeccable/config.local.json
+.impeccable/live/
+.impeccable/questions/
+.impeccable/review/*.png

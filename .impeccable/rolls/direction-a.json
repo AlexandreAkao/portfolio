@@ -1,0 +1,132 @@
+{
+  "title": "Tema 1 de 2: o mundo Three.js",
+  "question": "O dado apontou Night Shift. Mantenha, escolha uma alternativa, ou role de novo.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Night Shift",
+      "kicker": "THE ROLL",
+      "lineage": "o chão de um centro de distribuição às 3 da manhã",
+      "thesis": "O WMS que você construiu vira o objeto: um armazém em 3D onde pedidos de luz percorrem estantes reais.",
+      "palette": ["#17191c", "#3f8cff", "#e6e4dc", "#f5c400"],
+      "materials": ["concreto sob lâmpada de sódio", "estante de aço instanciada", "faixa de segurança amarela", "blue spot de empilhadeira"],
+      "viewport": "A tela inteira é o armazém à noite em câmera lenta: corredores de estantes em fuga, uma esteira cruzando na diagonal, pedidos como pontos de luz roteando de recebimento a expedição. Nome e cargo em caixa-alta condensada de sinalização, encostados na esquerda, com o botão de CV como placa de doca. O scroll avança o turno: doca, corredores, expedição.",
+      "risk": "Se a cena ficar genérica (caixas flutuando), vira mais um 3D decorativo. A força está em cada pedido seguir a rota real do WMS.",
+      "raised": [
+        { "from": "challenger-console", "raise": "Painéis e coluna de texto se dividem por costuras de 1px e um degrau de tom, nunca por sombra; o botão de CV fica isolado como uma ação de console." },
+        { "from": "challenger-pulp", "raise": "Uma única diagonal comprometida: esteira e câmera correm no mesmo eixo e o conteúdo entra por ele, não por uma pilha centralizada." },
+        { "from": "challenger-ink", "raise": "Os pedidos obedecem a um roteamento real (receber, armazenar, separar, embalar, expedir), nunca a um loop decorativo." },
+        { "from": "challenger-cape", "raise": "Um único controle, o scroll, com estados nomeados (doca, corredores, expedição); no celular avança em passos." },
+        { "from": "challenger-cyclorama", "raise": "A luz é a estrutura: só três fontes (sódio, blue spot, pedidos), sem preenchimento ambiente." }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "Maquete",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "maquete de arquiteto sob luz de estúdio",
+      "thesis": "Clean Architecture como modelo físico: camadas de papelão branco num pedestal que se afastam em vista explodida com o scroll.",
+      "palette": ["#dfe1e4", "#ffffff", "#d8262c", "#2a2a2a"],
+      "materials": ["papelão branco", "cinza de estúdio", "lápis vermelho de arquiteto", "alfinete de latão"],
+      "viewport": "Uma maquete branca centralizada sob uma luz de estúdio, o domínio no núcleo e 19 blocos ao redor. O scroll separa as camadas em vista explodida. Nome à esquerda em grotesca estreita, como legenda de prancha.",
+      "risk": "É onde a maioria das versões deste tema tende a parar: elegante e familiar. Também é a mais clara sobre o que você acredita."
+    },
+    {
+      "id": "challenger-nixie",
+      "verdict": "competitive",
+      "label": "Contador Nixie",
+      "lineage": "contador de laboratório com tubos nixie",
+      "thesis": "Seus números são a interface: 200+, 19, 52 e 40% brilhando em laranja dentro de vidro.",
+      "palette": ["#141414", "#ff6a00", "#8a8f94", "#f3e9d2"],
+      "materials": ["vidro", "aço enegrecido", "plasma laranja", "malha de anodo"],
+      "viewport": "Bancos de tubos com as métricas de prova, cada dígito trocando com profundidade física. Nome gravado no painel abaixo dos bancos.",
+      "case": "Ganha em clareza pelo princípio de métricas sobre adjetivos; perde em identificação, o laboratório não é o seu trabalho.",
+      "risk": "Vira um gadget se o resto da página não obedecer à mesma física.",
+      "hero": "https://impeccable.style/worlds/cards/signals-instruments-nixie-laboratory-counter-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/signals-instruments-nixie-laboratory-counter.webp"
+    },
+    {
+      "id": "challenger-console",
+      "verdict": "declined",
+      "label": "Console de desenvolvedor",
+      "lineage": "console escuro com costuras de 1px",
+      "thesis": "O portfólio como painel de operação: grafite, costuras, um acento por estado.",
+      "palette": ["#1c1f22", "#b5bcc4", "#7cc7ff"],
+      "materials": ["grafite", "costura de 1px"],
+      "viewport": "Painéis persistentes que trocam conteúdo, nunca o layout.",
+      "case": "O site já tem esse território no tema Engineer; perde identificação por repetir um mundo existente.",
+      "kept": "Divisão por costuras e isolamento do botão principal.",
+      "risk": "Duplica o Engineer.",
+      "hero": "https://impeccable.style/worlds/cards/digital-design-canon-dark-first-developer-console-hero.webp"
+    },
+    {
+      "id": "challenger-pulp",
+      "verdict": "declined",
+      "label": "Prancha pulp de foguete",
+      "lineage": "ilustração interna de revista pulp",
+      "thesis": "Tudo viaja numa diagonal com linhas de velocidade.",
+      "palette": ["#8f2a1c", "#1b2b5a", "#e9d8a6"],
+      "materials": ["papel pulp amarelado", "aerógrafo"],
+      "viewport": "Um foguete cruzando o quadro, título em caixa-alta aerodinâmica.",
+      "case": "Nostalgia sem relação com o seu trabalho; a diagonal briga com a leitura densa das experiências.",
+      "kept": "Uma diagonal comprometida como eixo de composição.",
+      "risk": "Lê como fantasia.",
+      "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-pulp-rocketship-plate-hero.webp"
+    },
+    {
+      "id": "challenger-ink",
+      "verdict": "declined",
+      "label": "Bacia de tinta suminagashi",
+      "lineage": "marmorização em água com física real",
+      "thesis": "A página é um líquido que responde ao ponteiro.",
+      "palette": ["#f7f5ef", "#1b2a6b", "#2b2b2b"],
+      "materials": ["tinta sumi", "água"],
+      "viewport": "Uma superfície contínua de tinta que lembra por onde fluiu.",
+      "case": "Bonito e sem ligação com o produto; recrutador não se identifica com arte fluida.",
+      "kept": "Movimento que obedece a uma lei real, não a decoração.",
+      "risk": "Puro efeito.",
+      "hero": "https://impeccable.style/worlds/cards/medium-native-fluid-ink-basin-hero.webp"
+    },
+    {
+      "id": "challenger-cape",
+      "verdict": "declined",
+      "label": "Capa com cordão",
+      "lineage": "capa de seda transformável",
+      "thesis": "Um puxão transforma um plano em volume.",
+      "palette": ["#0d0d0d", "#c9a227", "#5a6068"],
+      "materials": ["seda preta", "cordão dourado"],
+      "viewport": "Um semicírculo preto que se ergue em pregas com um puxão.",
+      "case": "Moda não é o mundo do público e a metáfora não carrega distribuídos.",
+      "kept": "Um único controle com estados nomeados.",
+      "risk": "Sem relação com o produto.",
+      "hero": "https://impeccable.style/worlds/cards/textiles-weave-drape-fashion-drawcord-transforming-cape-hero.webp"
+    },
+    {
+      "id": "challenger-cyclorama",
+      "verdict": "declined",
+      "label": "Ciclorama ao amanhecer",
+      "lineage": "iluminação de palco em ciclorama",
+      "thesis": "Só a luz cria o horizonte.",
+      "palette": ["#000000", "#1a3fa0", "#e8768f", "#ffffff"],
+      "materials": ["parede curva", "luz"],
+      "viewport": "Faixas de horizonte do preto ao dia com cues nomeadas.",
+      "case": "Teatral e sem o seu trabalho dentro; as faixas seguram pouco conteúdo denso.",
+      "kept": "Poucas fontes de luz como estrutura, sem preenchimento.",
+      "risk": "Atmosfera sem prova.",
+      "hero": "https://impeccable.style/worlds/cards/stagecraft-theater-lighting-cyclorama-dawn-hero.webp"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "buildPath": { "value": "code", "toggle": false },
+  "canon": true,
+  "canonCard": {
+    "label": "O padrão da categoria",
+    "thesis": "O portfólio 3D que a categoria entrega: objeto de vidro flutuando ao lado do nome, bloom suave, scroll macio.",
+    "palette": ["#0b0b0f", "#ffffff", "#7c5cff"],
+    "materials": ["vidro refrativo", "fundo escuro", "gradiente"],
+    "viewport": "Nome à esquerda, objeto girando à direita, nada abaixo que precise do 3D.",
+    "risk": "Indistinguível de outros portfólios por definição."
+  },
+  "steer": true,
+  "followup": true
+}

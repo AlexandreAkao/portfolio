@@ -1,0 +1,129 @@
+{
+  "title": "Tema 2 de 2: o mundo do movimento",
+  "question": "O dado apontou Linha Verde. Mantenha, escolha uma alternativa, ou role de novo.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Linha Verde",
+      "kicker": "THE ROLL",
+      "lineage": "diagrama de linha de metrô e sinalização de plataforma",
+      "thesis": "A página é uma linha de metrô: cada seção é uma estação e o scroll é o trem chegando.",
+      "palette": ["#f7f7f5", "#00a859", "#111111", "#c8c8c4"],
+      "materials": ["esmalte branco de sinalização", "linha verde", "azulejo de plataforma", "aço escovado"],
+      "viewport": "Uma linha verde vertical desce pela margem esquerda com um marcador de trem preso ao scroll. A primeira estação é o seu nome como placa de plataforma, grande, em sans de sinalização, com a faixa verde da linha atrás. Ao chegar em cada estação, as portas se abrem pelo centro e o conteúdo desliza como uma plataforma entrando em quadro.",
+      "risk": "Se as estações forem só títulos com uma bolinha, vira infográfico. A força está nas portas abrindo e no trem responder ao scroll com peso.",
+      "raised": [
+        { "from": "challenger-miura", "raise": "Um único valor de progresso move tudo: trem, portas e placas leem a mesma fonte, nunca gatilhos por elemento." },
+        { "from": "challenger-darkroom", "raise": "Cada estação emerge numa revelação contínua ligada à distância do trem, sem pipocar em etapas." },
+        { "from": "challenger-specimen", "raise": "O progresso do scroll é uma custom property CSS que toda a página lê; sem JavaScript por elemento." }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "Manual de montagem",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "ilustração técnica de vista explodida",
+      "thesis": "A página se monta sozinha: peças entram por trilhos e encaixam conforme você desce, como um manual de montagem em movimento.",
+      "palette": ["#ffffff", "#0f0f0f", "#0057b8"],
+      "materials": ["papel branco", "linha técnica preta", "cor spot azul de manual"],
+      "viewport": "Vista explodida do seu stack no topo, peças numeradas flutuando com setas de encaixe. O scroll fecha a explosão: cada seção é um passo numerado em que as peças descem e encaixam.",
+      "risk": "É a direção mais óbvia para um engenheiro e por isso a mais familiar. Também é a mais clara sobre construir sistemas."
+    },
+    {
+      "id": "challenger-brick",
+      "verdict": "competitive",
+      "label": "Manual de blocos",
+      "lineage": "livreto de instruções de blocos de montar",
+      "thesis": "A carreira como uma montagem numerada em páginas azul-céu, setas sem palavras ensinando o encaixe.",
+      "palette": ["#8ed1ff", "#000000", "#d7261f", "#ffd500"],
+      "materials": ["página azul-céu", "keyline preta", "grade de pinos"],
+      "viewport": "Passos numerados em sequência, a peça nova em vermelho descendo pela seta até o assento, o que já foi montado em fantasma.",
+      "case": "Ganha em clareza: passos numerados são a estrutura mais legível possível; empata em identificação com a infância universal. É o primo de catálogo do Manual de montagem.",
+      "risk": "Infantiliza se o traço não for rigoroso.",
+      "hero": "https://impeccable.style/worlds/cards/games-toys-physics-play-brick-build-instructions-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/games-toys-physics-play-brick-build-instructions.webp"
+    },
+    {
+      "id": "challenger-generative",
+      "verdict": "competitive",
+      "label": "Identidade generativa",
+      "lineage": "marca paramétrica que se redesenha",
+      "thesis": "A própria identidade é a prova: um marco paramétrico cuja semente deriva paleta, ritmo e layout de cada seção.",
+      "palette": ["#101010", "#ffffff", "#ff6b3d", "#3ddc97"],
+      "materials": ["vetor plano", "semente", "custom properties"],
+      "viewport": "Um marco que se redesenha vivo no topo; o scroll passa por seções que ressemeiam a identidade alguns graus de cada vez.",
+      "case": "Ganha em identificação com quem lê código, o site vira demonstração literal; perde em clareza quando a paleta varia sob texto denso.",
+      "risk": "Legibilidade oscila com a semente.",
+      "hero": "https://impeccable.style/worlds/cards/generative-parametric-identity-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/generative-parametric-identity.webp"
+    },
+    {
+      "id": "challenger-skate",
+      "verdict": "competitive",
+      "label": "Parede de shapes",
+      "lineage": "parede de shapes de skate shop",
+      "thesis": "Cada seção é um shape na parede: você puxa pelo bico e ele vira do grip preto para a arte inteira.",
+      "palette": ["#00e5d4", "#ff2fa0", "#f3efe4", "#111111"],
+      "materials": ["maple", "lixa preta", "silkscreen"],
+      "viewport": "Uma prateleira horizontal com scroll-snap de shapes altos; o puxão gira o shape em 3D e revela o conteúdo.",
+      "case": "Segura clareza com cartões altos e um gesto único; perde identificação, a skate shop não é o seu mundo nem o do recrutador.",
+      "risk": "Lê como loja.",
+      "hero": "https://impeccable.style/worlds/cards/pop-culture-shelf-skate-deck-wall-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/pop-culture-shelf-skate-deck-wall.webp"
+    },
+    {
+      "id": "challenger-miura",
+      "verdict": "declined",
+      "label": "Dobra Miura",
+      "lineage": "folha dobrável de origami de engenharia",
+      "thesis": "Um puxão desdobra um campo inteiro de vincos.",
+      "palette": ["#ffffff", "#d4af37", "#9aa0a6", "#a9c7e8"],
+      "materials": ["papel fosco", "folha de ouro"],
+      "viewport": "Um pacote que abre numa vela tesselada.",
+      "case": "Bonito e sem o seu trabalho dentro; a grade de paralelogramos briga com texto corrido.",
+      "kept": "Um controle que se propaga pela folha inteira.",
+      "risk": "Puro efeito.",
+      "hero": "https://impeccable.style/worlds/cards/paper-folds-pleats-deployable-miura-orbit-sheet-hero.webp"
+    },
+    {
+      "id": "challenger-darkroom",
+      "verdict": "declined",
+      "label": "Câmara escura",
+      "lineage": "laboratório fotográfico sob luz âmbar",
+      "thesis": "A imagem emerge devagar na bandeja.",
+      "palette": ["#ff9d2e", "#2b2b2b", "#e8e8e8"],
+      "materials": ["luz de segurança âmbar", "papel molhado"],
+      "viewport": "Estações fixas: expor, revelar, fixar, lavar.",
+      "case": "Fotografia não é o mundo do público; o âmbar total derruba a leitura.",
+      "kept": "Revelação contínua em vez de etapas.",
+      "risk": "Atmosfera sem prova.",
+      "hero": "https://impeccable.style/worlds/cards/signals-instruments-darkroom-safelight-bay-hero.webp"
+    },
+    {
+      "id": "challenger-specimen",
+      "verdict": "declined",
+      "label": "Espécime de fonte variável",
+      "lineage": "espécime tipográfico interativo",
+      "thesis": "Uma letra gigante que engorda sob o dedo.",
+      "palette": ["#fbfbf9", "#0a0a0a", "#ff3300"],
+      "materials": ["papel", "tinta", "eixo variável"],
+      "viewport": "Um glifo enorme com sliders de eixo.",
+      "case": "Você escolheu o scroll como líder, não a tipografia; e o espécime é o mundo de designers de tipo.",
+      "kept": "Uma custom property dirigindo a página inteira.",
+      "risk": "Conflita com o brief.",
+      "hero": "https://impeccable.style/worlds/cards/variable-font-specimen-hero.webp"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "buildPath": { "value": "code", "toggle": false },
+  "canon": true,
+  "canonCard": {
+    "label": "O padrão da categoria",
+    "thesis": "O portfólio animado que a categoria entrega: hero fixo com parallax, projetos em scroll horizontal, marquee gigante, scroll suave.",
+    "palette": ["#0e0e0e", "#ffffff", "#e0ff4f"],
+    "materials": ["parallax", "scroll horizontal", "marquee"],
+    "viewport": "Nome enorme fixo enquanto o fundo desliza; seções com fade-up padrão.",
+    "risk": "Indistinguível de outros portfólios por definição."
+  },
+  "steer": true
+}
