@@ -194,10 +194,17 @@ function AvantgardeHeroInner() {
   const title = t('hero.title', locale);
   const [mounted, setMounted] = useState(false);
   const [webgl, setWebgl] = useState(true);
+  const [active, setActive] = useState(true);
 
   useEffect(() => {
     setMounted(true);
     setWebgl(hasWebGL());
+    // Only run the particle scene while this world is the one on screen.
+    const read = () => setActive(document.documentElement.dataset.design === 'avantgarde');
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-design'] });
+    return () => observer.disconnect();
   }, []);
 
   const words = name.split(' ');
@@ -205,7 +212,7 @@ function AvantgardeHeroInner() {
   return (
     <div className="relative flex min-h-screen items-center overflow-hidden">
       {/* Three.js Background (with CSS fallback) */}
-      {mounted && webgl ? (
+      {mounted && active && webgl ? (
         <div className="absolute inset-0">
           <Canvas
             camera={{ position: [0, 0, 5], fov: 60 }}

@@ -2,6 +2,7 @@
 import { ClientRouter } from 'astro:transitions';
 import '@/styles/global.css';
 import AvantgardeCursor from '@components/designs/avantgarde/AvantgardeCursor.tsx';
+import SiteIntro from '@components/common/SiteIntro.astro';
 
 interface Props {
   title: string;
@@ -123,6 +124,10 @@ const jsonLd = type === 'article'
           document.documentElement.dataset.lang = lang;
           document.documentElement.lang = lang;
           localStorage.setItem('lang', lang);
+
+          // Arm the intro curtain before first paint; reduced-motion visitors skip it.
+          var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (!reduce) document.documentElement.dataset.intro = 'wait';
         } catch(e) {}
       })();
       document.addEventListener('astro:after-swap', function() {
@@ -139,6 +144,7 @@ const jsonLd = type === 'article'
     </script>
   </head>
   <body class="min-h-screen grid-bg">
+    <SiteIntro />
     <a
       href="#main-content"
       class="fixed left-4 top-4 z-100 -translate-y-20 rounded-btn bg-accent px-4 py-2 text-sm font-medium text-bg transition-transform focus:translate-y-0"

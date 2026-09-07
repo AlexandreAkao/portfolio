@@ -14,18 +14,18 @@ const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
 
 <section id="hero">
   <div data-design-show="engineer">
-    <EngineerHero client:load />
+    <EngineerHero client:intro />
   </div>
   <div data-design-show="creative">
-    <CreativeHero avatarSrc={avatar1x.src} avatarSrcSet={avatarSrcSet} client:load />
+    <CreativeHero avatarSrc={avatar1x.src} avatarSrcSet={avatarSrcSet} client:intro />
   </div>
   <div data-design-show="avantgarde">
-    <AvantgardeHero client:visible />
+    <AvantgardeHero client:intro />
   </div>
   <div data-design-show="editorial">
-    <EditorialHero client:load />
+    <EditorialHero client:intro />
   </div>
   <div data-design-show="arcade">
-    <ArcadeHero client:load />
+    <ArcadeHero client:intro />
   </div>
 </section>

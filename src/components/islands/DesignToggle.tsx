@@ -37,9 +37,17 @@ function DesignToggleInner() {
       document.documentElement.dataset.design = id;
       safeSetItem('design', id);
       setDesign(id);
+      // Islands hydrated while their world was hidden measured a zero-size
+      // layout; scroll-linked motion re-measures on resize, so announce one.
+      window.dispatchEvent(new Event('resize'));
     };
 
-    if (document.startViewTransition) {
+    // The intro curtain stages the switch as the incoming world's exit gesture;
+    // it declines under reduced motion or while another curtain is running.
+    const curtain = window.siteIntro?.quickChange;
+    if (curtain && curtain(id, apply)) {
+      // covered and revealed by the curtain
+    } else if (document.startViewTransition) {
       document.startViewTransition(apply);
     } else {
       apply();

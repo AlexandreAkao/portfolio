@@ -1,0 +1,743 @@
+---
+// Intro curtain: one authored entrance per design world, played on every
+// arrival at the site (hard loads only; ClientRouter navigations skip it).
+// Gated by <html data-intro="wait|play">, set before paint in BaseLayout.
+// Reduced-motion visitors never see it, and the page stays fully usable
+// without JS because the curtain is display:none until the flag is set.
+---
+
+<div id="site-intro" aria-hidden="true">
+  <!-- Avant-garde: the name sharpens out of blur, a lime rule draws, the stage splits open -->
+  <div class="intro intro-ag" data-design-show="avantgarde">
+    <div class="intro-ag__panel intro-ag__panel--top"></div>
+    <div class="intro-ag__panel intro-ag__panel--bottom"></div>
+    <div class="intro-ag__stage">
+      <p class="intro-ag__name">Alexandre Akira</p>
+      <span class="intro-ag__rule"></span>
+    </div>
+  </div>
+
+  <!-- Engineer: a terminal boots, then the screen switches off like a CRT -->
+  <div class="intro intro-eng" data-design-show="engineer">
+    <div class="intro-eng__term">
+      <p class="intro-eng__line intro-eng__line--cmd">
+        <span class="intro-eng__prompt">$</span>
+        <span class="intro-eng__typed">./akira --init</span><span class="intro-eng__caret intro-eng__caret--cmd"></span>
+      </p>
+      <p class="intro-eng__line intro-eng__line--out1">
+        <span class="intro-eng__prompt">&gt;</span> 5 designs, 2 languages
+      </p>
+      <p class="intro-eng__line intro-eng__line--out2">
+        <span class="intro-eng__prompt">&gt;</span> ready<span class="intro-eng__caret intro-eng__caret--end"></span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Creative: the halo finds its portrait. Rings ripple out to the hero's own
+       halo geometry, the name rises beneath, then the halo glides to where the
+       portrait lands while the paper dissolves. -->
+  <div class="intro intro-cr" data-design-show="creative">
+    <div class="intro-cr__paper">
+      <p class="intro-cr__name"><span>Alexandre</span> <span class="intro-cr__last">Akira</span></p>
+    </div>
+    <div class="intro-cr__halo">
+      <span class="intro-cr__glow"></span>
+      <span class="intro-cr__disc"></span>
+      <span class="intro-cr__ring intro-cr__ring--wave"></span>
+      <span class="intro-cr__ring intro-cr__ring--outer"></span>
+      <span class="intro-cr__ring intro-cr__ring--inner"></span>
+    </div>
+  </div>
+
+  <!-- Editorial: an orange rule draws across newsprint beside the issue number, then the page turns -->
+  <div class="intro intro-ed" data-design-show="editorial">
+    <div class="intro-ed__page">
+      <span class="intro-ed__issue">01</span>
+      <span class="intro-ed__rule"></span>
+    </div>
+  </div>
+
+  <!-- Arcade: READY? pops and blinks, then five candy bars sweep the screen clean -->
+  <div class="intro intro-arc" data-design-show="arcade">
+    <div class="intro-arc__cabinet">
+      <p class="intro-arc__ready">Ready?</p>
+    </div>
+    <div class="intro-arc__bars">
+      <span class="intro-arc__bar"></span>
+      <span class="intro-arc__bar"></span>
+      <span class="intro-arc__bar"></span>
+      <span class="intro-arc__bar"></span>
+      <span class="intro-arc__bar"></span>
+    </div>
+  </div>
+
+  <!-- Night Shift: a forklift's blue spot sweeps a closed dock shutter, finds the
+       name plate, and the shutter rolls up on the warehouse -->
+  <div class="intro intro-ns" data-design-show="nightshift">
+    <div class="intro-ns__shutter">
+      <span class="intro-ns__spot"></span>
+      <p class="intro-ns__plate">Alexandre Akira</p>
+    </div>
+  </div>
+
+  <!-- Metro: the station sign slides onto the platform, then the train doors part -->
+  <div class="intro intro-mt" data-design-show="metro">
+    <div class="intro-mt__door intro-mt__door--left"><span class="intro-mt__window"></span></div>
+    <div class="intro-mt__door intro-mt__door--right"><span class="intro-mt__window"></span></div>
+    <div class="intro-mt__sign"><p class="intro-mt__name">Alexandre Akira</p></div>
+  </div>
+</div>
+
+<script is:inline data-astro-rerun>
+  (function () {
+    var html = document.documentElement;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var active = null;
+
+    function block(e) {
+      e.preventDefault();
+    }
+
+    // One curtain session. mode "arrival": the full intro armed by BaseLayout
+    // (data-intro="wait"). mode "quick": a theme switch; the curtain wears the
+    // incoming world, covers the page, the theme swaps underneath, then the
+    // world's exit gesture reveals it.
+    function run(mode, opts) {
+      var el = document.getElementById('site-intro');
+      if (!el) return null;
+      var s = { revealed: false, finished: false, applied: false };
+      active = s;
+
+      function reveal() {
+        if (s.revealed) return;
+        s.revealed = true;
+        if (html.dataset.intro === 'play') html.dataset.intro = 'reveal';
+        document.dispatchEvent(new CustomEvent('site-intro:reveal'));
+      }
+      function applyTheme() {
+        if (s.applied) return;
+        s.applied = true;
+        if (opts && opts.apply) opts.apply();
+      }
+      function finish() {
+        if (s.finished) return;
+        s.finished = true;
+        if (mode === 'arrival') reveal();
+        applyTheme();
+        html.dataset.intro = 'done';
+        delete el.dataset.design;
+        el.removeEventListener('animationend', onEnd);
+        el.removeEventListener('click', finish);
+        el.removeEventListener('wheel', block);
+        el.removeEventListener('touchmove', block);
+        document.removeEventListener('keydown', onKey);
+        clearTimeout(s.timer);
+        clearTimeout(s.applyTimer);
+        active = null;
+        document.dispatchEvent(new CustomEvent('site-intro:done'));
+      }
+      function onEnd(e) {
+        if (e.target !== el) return;
+        if (e.animationName === 'intro-reveal') { if (mode === 'arrival') reveal(); }
+        else if (e.animationName === 'intro-root') finish();
+      }
+      function onKey(e) {
+        if (e.key === 'Escape') finish();
+      }
+      function play() {
+        if (html.dataset.intro === 'wait') html.dataset.intro = 'play';
+      }
+
+      el.addEventListener('animationend', onEnd);
+      el.addEventListener('click', finish);
+      el.addEventListener('wheel', block, { passive: false });
+      el.addEventListener('touchmove', block, { passive: false });
+      document.addEventListener('keydown', onKey);
+      s.timer = setTimeout(finish, mode === 'arrival' ? 4000 : 2000);
+
+      if (mode === 'arrival') {
+        // Hold the curtain still until the world's display face is ready, so
+        // the first frame is set in the right type. Never wait longer than 700ms.
+        var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+        var fontTimer = setTimeout(play, 700);
+        fontsReady.then(function () { clearTimeout(fontTimer); play(); }, play);
+      } else {
+        el.dataset.design = opts.design;
+        html.dataset.intro = 'quick';
+        s.applyTimer = setTimeout(applyTheme, 170);
+      }
+      return s;
+    }
+
+    if (html.dataset.intro === 'wait') run('arrival');
+
+    // Called by DesignToggle. Returns false when the caller should use its own
+    // transition instead (reduced motion, a curtain already running, or an
+    // unknown world).
+    window.siteIntro = {
+      quickChange: function (design, apply) {
+        var el = document.getElementById('site-intro');
+        if (reduce || active || !el || !el.querySelector('[data-design-show="' + design + '"]')) return false;
+        return !!run('quick', { design: design, apply: apply });
+      }
+    };
+  })();
+</script>
+
+<style is:global>
+  /* ---------- Curtain root ---------- */
+  #site-intro {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    overflow: hidden;
+    cursor: default;
+    animation:
+      intro-reveal 1ms linear var(--intro-reveal, 1s) forwards,
+      intro-root 1ms linear var(--intro-total, 1.6s) forwards;
+  }
+  html[data-intro='wait'] #site-intro,
+  html[data-intro='play'] #site-intro,
+  html[data-intro='reveal'] #site-intro {
+    display: block;
+  }
+  html[data-intro='wait'] #site-intro,
+  html[data-intro='wait'] #site-intro * {
+    animation-play-state: paused;
+  }
+  @keyframes intro-reveal {
+    to { outline-offset: 1px; }
+  }
+  @keyframes intro-root {
+    to { visibility: hidden; }
+  }
+
+  .intro {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* --intro-reveal: when the exit begins (heroes hydrate); --intro-total: when the curtain is gone */
+  [data-design='avantgarde'] #site-intro { --intro-reveal: 1.05s; --intro-total: 1.75s; }
+  [data-design='engineer']   #site-intro { --intro-reveal: 1.35s; --intro-total: 1.85s; }
+  [data-design='creative']   #site-intro { --intro-reveal: 1.05s; --intro-total: 1.75s; }
+  [data-design='editorial']  #site-intro { --intro-reveal: 0.95s; --intro-total: 1.65s; }
+  [data-design='arcade']     #site-intro { --intro-reveal: 1.25s; --intro-total: 1.9s; }
+  [data-design='nightshift'] #site-intro { --intro-reveal: 0.95s; --intro-total: 1.8s; }
+  [data-design='metro']      #site-intro { --intro-reveal: 0.85s; --intro-total: 1.55s; }
+
+  /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
+  /* The curtain carries the incoming design on its own data-design so it can
+     wear the new tokens and show the new world's block while <html> still
+     holds the old design for the first 170ms. */
+  #site-intro[data-design] [data-design-show] { display: none !important; }
+  #site-intro[data-design='avantgarde'] [data-design-show='avantgarde'],
+  #site-intro[data-design='engineer'] [data-design-show='engineer'],
+  #site-intro[data-design='creative'] [data-design-show='creative'],
+  #site-intro[data-design='editorial'] [data-design-show='editorial'],
+  #site-intro[data-design='arcade'] [data-design-show='arcade'],
+  #site-intro[data-design='nightshift'] [data-design-show='nightshift'],
+  #site-intro[data-design='metro'] [data-design-show='metro'] { display: block !important; }
+
+  html[data-intro='quick'] #site-intro {
+    display: block;
+    --intro-reveal: 1ms;
+    animation:
+      intro-in 0.15s ease-out both,
+      intro-reveal 1ms linear var(--intro-reveal) forwards,
+      intro-root 1ms linear var(--intro-total) forwards;
+  }
+  @keyframes intro-in { from { opacity: 0; } }
+  html[data-intro='quick'] #site-intro[data-design='avantgarde'] { --intro-total: 0.8s; }
+  html[data-intro='quick'] #site-intro[data-design='engineer']   { --intro-total: 0.65s; }
+  html[data-intro='quick'] #site-intro[data-design='creative']   { --intro-total: 0.75s; }
+  html[data-intro='quick'] #site-intro[data-design='editorial']  { --intro-total: 0.75s; }
+  html[data-intro='quick'] #site-intro[data-design='arcade']     { --intro-total: 0.8s; }
+  html[data-intro='quick'] #site-intro[data-design='nightshift'] { --intro-total: 0.8s; }
+  html[data-intro='quick'] #site-intro[data-design='metro']      { --intro-total: 0.75s; }
+
+  /* Avant-garde: no title card, the stage just splits */
+  html[data-intro='quick'] .intro-ag__stage { display: none; }
+  html[data-intro='quick'] .intro-ag__panel { animation-delay: 0.18s; }
+
+  /* Engineer: the prompt is already typed, the screen switches off */
+  html[data-intro='quick'] .intro-eng { animation: eng-off 0.4s cubic-bezier(0.7, 0, 0.84, 0) 0.22s forwards; }
+  html[data-intro='quick'] .intro-eng__typed { width: 14ch; animation: none; }
+  html[data-intro='quick'] .intro-eng__caret--cmd { animation: eng-blink 0.9s steps(2, start) infinite; }
+  html[data-intro='quick'] .intro-eng__line--out1,
+  html[data-intro='quick'] .intro-eng__line--out2 { display: none; }
+
+  /* Creative: the halo is already whole, it glides to the portrait and dissolves */
+  html[data-intro='quick'] .intro-cr__name,
+  html[data-intro='quick'] .intro-cr__ring--wave { display: none; }
+  html[data-intro='quick'] .intro-cr__glow,
+  html[data-intro='quick'] .intro-cr__disc,
+  html[data-intro='quick'] .intro-cr__ring--inner,
+  html[data-intro='quick'] .intro-cr__ring--outer { opacity: 1; transform: none; animation: none; }
+  html[data-intro='quick'] .intro-cr__halo {
+    animation:
+      cr-travel 0.5s cubic-bezier(0.83, 0, 0.17, 1) 0.15s forwards,
+      cr-halo-out 0.25s ease-in 0.48s forwards;
+  }
+  html[data-intro='quick'] .intro-cr__paper { animation: cr-paper-out 0.35s ease-in 0.3s forwards; }
+
+  /* Editorial: the printed sheet turns straight away */
+  html[data-intro='quick'] .intro-ed__issue { opacity: 1; transform: translateY(-50%); animation: none; }
+  html[data-intro='quick'] .intro-ed__rule { transform: scaleX(1); animation: none; }
+  html[data-intro='quick'] .intro-ed__page { animation: ed-turn 0.55s cubic-bezier(0.83, 0, 0.17, 1) 0.18s forwards; }
+
+  /* Arcade: the bars are already in, they sweep out */
+  html[data-intro='quick'] .intro-arc__cabinet { display: none; }
+  html[data-intro='quick'] .intro-arc__bar { transform: translateX(0); animation: arc-sweep-out 0.42s cubic-bezier(0.7, 0, 0.84, 0) forwards; }
+  html[data-intro='quick'] .intro-arc__bar:nth-child(1) { animation-delay: 0.18s; }
+  html[data-intro='quick'] .intro-arc__bar:nth-child(2) { animation-delay: 0.22s; }
+  html[data-intro='quick'] .intro-arc__bar:nth-child(3) { animation-delay: 0.26s; }
+  html[data-intro='quick'] .intro-arc__bar:nth-child(4) { animation-delay: 0.30s; }
+  html[data-intro='quick'] .intro-arc__bar:nth-child(5) { animation-delay: 0.34s; }
+  @keyframes arc-sweep-out { from { transform: translateX(0); } to { transform: translateX(101%); } }
+
+  /* Night Shift: the shutter is already down, it just rolls up */
+  html[data-intro='quick'] .intro-ns__spot,
+  html[data-intro='quick'] .intro-ns__plate { display: none; }
+  html[data-intro='quick'] .intro-ns__shutter { animation: ns-roll 0.6s cubic-bezier(0.2, 0, 0.8, 1) 0.18s forwards; }
+
+  /* Metro: no sign, the doors part straight away */
+  html[data-intro='quick'] .intro-mt__sign { display: none; }
+  html[data-intro='quick'] .intro-mt__door--left  { animation: mt-door-left  0.55s cubic-bezier(0.83, 0, 0.17, 1) 0.18s forwards; }
+  html[data-intro='quick'] .intro-mt__door--right { animation: mt-door-right 0.55s cubic-bezier(0.83, 0, 0.17, 1) 0.18s forwards; }
+
+  /* ---------- Avant-garde: sharpen, rule, split ---------- */
+  .intro-ag__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50.5%;
+    background: var(--bg);
+    animation-duration: 0.6s;
+    animation-delay: 1.15s;
+    animation-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+    animation-fill-mode: forwards;
+  }
+  .intro-ag__panel--top { top: 0; animation-name: ag-split-top; }
+  .intro-ag__panel--bottom { bottom: 0; animation-name: ag-split-bottom; }
+  .intro-ag__stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    animation: ag-stage-out 0.25s ease-in 1.05s forwards;
+  }
+  .intro-ag__name {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--text);
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(8px);
+    animation: ag-sharpen 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  }
+  .intro-ag__rule {
+    display: block;
+    width: min(60vw, 420px);
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    animation: ag-rule 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+  }
+  @keyframes ag-sharpen {
+    to { opacity: 1; filter: blur(0); transform: translateY(0); }
+  }
+  @keyframes ag-rule {
+    to { transform: scaleX(1); }
+  }
+  @keyframes ag-stage-out {
+    to { opacity: 0; }
+  }
+  @keyframes ag-split-top {
+    to { transform: translateY(-101%); }
+  }
+  @keyframes ag-split-bottom {
+    to { transform: translateY(101%); }
+  }
+
+  /* ---------- Engineer: boot, then CRT off ---------- */
+  .intro-eng {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: eng-off 0.4s cubic-bezier(0.7, 0, 0.84, 0) 1.45s forwards;
+  }
+  .intro-eng__term {
+    width: min(90vw, 30ch);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .intro-eng__line {
+    margin: 0;
+    white-space: nowrap;
+  }
+  .intro-eng__prompt { color: var(--accent); }
+  .intro-eng__typed {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    width: 0;
+    animation: eng-type 0.5s steps(14, end) 0.2s forwards;
+  }
+  .intro-eng__caret {
+    display: inline-block;
+    width: 0.6ch;
+    height: 1.05em;
+    margin-left: 0.15ch;
+    vertical-align: text-bottom;
+    background: var(--accent);
+    animation: eng-blink 0.9s steps(2, start) infinite;
+  }
+  .intro-eng__caret--cmd { animation: eng-blink 0.9s steps(2, start) infinite, eng-hide 1ms linear 0.85s forwards; }
+  .intro-eng__line--out1 { opacity: 0; animation: eng-show 1ms linear 0.85s forwards; }
+  .intro-eng__line--out2 { opacity: 0; animation: eng-show 1ms linear 1.05s forwards; }
+  @keyframes eng-type { to { width: 14ch; } }
+  @keyframes eng-blink { to { visibility: hidden; } }
+  @keyframes eng-hide { to { display: none; visibility: hidden; width: 0; margin: 0; } }
+  @keyframes eng-show { to { opacity: 1; } }
+  @keyframes eng-off {
+    0%   { clip-path: inset(0 0 0 0); opacity: 1; }
+    70%  { clip-path: inset(49.7% 0 49.7% 0); opacity: 1; }
+    100% { clip-path: inset(50% 0 50% 0); opacity: 0; }
+  }
+
+  /* ---------- Creative: the halo finds its portrait ---------- */
+  /* Final ring geometry mirrors CreativeHero's portrait composition (320px box:
+     blurred glow, gradient disc at 288px, rings at 256px and 192px). On md+ the
+     halo travels to the portrait's position: right column centre of the 1152px
+     hero grid, 64px down for the header offset. */
+  .intro-cr__paper {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    animation: cr-paper-out 0.4s ease-in 1.25s forwards;
+  }
+  .intro-cr__halo {
+    --halo-dx: 0px;
+    --halo-dy: 0px;
+    --halo-scale: 0.88; /* no portrait to land on below md: dissolve inward instead */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 320px;
+    height: 320px;
+    transform: translate(-50%, -50%);
+    animation:
+      cr-travel 0.6s cubic-bezier(0.83, 0, 0.17, 1) 1.05s forwards,
+      cr-halo-out 0.25s ease-in 1.5s forwards;
+  }
+  @media (min-width: 768px) {
+    .intro-cr__halo {
+      --halo-dx: calc(24px + (min(1152px, 100vw - 48px) - 48px) / 4);
+      --halo-dy: 64px;
+      --halo-scale: 1;
+    }
+  }
+  .intro-cr__glow,
+  .intro-cr__disc,
+  .intro-cr__ring {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    border-radius: 50%;
+    opacity: 0;
+  }
+  .intro-cr__glow {
+    width: 320px;
+    height: 320px;
+    background: linear-gradient(
+      to bottom right,
+      color-mix(in srgb, var(--accent) 30%, transparent),
+      color-mix(in srgb, var(--accent) 10%, transparent)
+    );
+    filter: blur(64px);
+    transform: scale(0.6);
+    animation: cr-breathe 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
+  }
+  .intro-cr__disc {
+    width: 288px;
+    height: 288px;
+    background: linear-gradient(to bottom right, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
+    transform: scale(0.5);
+    animation: cr-breathe 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  }
+  .intro-cr__ring { transform: scale(0.3); }
+  .intro-cr__ring--inner {
+    width: 192px;
+    height: 192px;
+    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    animation: cr-ring 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  }
+  .intro-cr__ring--outer {
+    width: 256px;
+    height: 256px;
+    border: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    animation: cr-ring 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  }
+  .intro-cr__ring--wave {
+    width: 320px;
+    height: 320px;
+    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+    animation: cr-wave 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+  }
+  .intro-cr__name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% + 190px);
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 4.5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--text);
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(6px);
+    animation:
+      cr-name-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards,
+      cr-name-out 0.25s ease-in 1.05s forwards;
+  }
+  .intro-cr__last { color: var(--accent); }
+  @keyframes cr-breathe { to { opacity: 1; transform: scale(1); } }
+  @keyframes cr-ring { to { opacity: 1; transform: scale(1); } }
+  @keyframes cr-wave {
+    0%   { opacity: 0; transform: scale(0.3); }
+    40%  { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.25); }
+  }
+  @keyframes cr-name-in { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+  @keyframes cr-name-out { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes cr-paper-out { to { opacity: 0; } }
+  @keyframes cr-travel {
+    to { transform: translate(calc(-50% + var(--halo-dx)), calc(-50% + var(--halo-dy))) scale(var(--halo-scale)); }
+  }
+  @keyframes cr-halo-out { from { opacity: 1; } to { opacity: 0; } }
+
+  /* ---------- Editorial: rule draws, page turns ---------- */
+  .intro-ed__page {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    animation: ed-turn 0.6s cubic-bezier(0.83, 0, 0.17, 1) 1.05s forwards;
+  }
+  .intro-ed__issue {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%) translateY(24px);
+    font-family: var(--font-heading);
+    font-size: clamp(10rem, 25vw, 18rem);
+    font-weight: 700;
+    line-height: 1;
+    color: color-mix(in srgb, var(--text) 4%, transparent);
+    opacity: 0;
+    animation: ed-issue 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  }
+  @media (min-width: 768px) {
+    .intro-ed__issue { right: 3rem; }
+  }
+  .intro-ed__rule {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    animation: ed-rule 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  }
+  @keyframes ed-issue { to { opacity: 1; transform: translateY(-50%); } }
+  @keyframes ed-rule { to { transform: scaleX(1); } }
+  @keyframes ed-turn { to { transform: translateY(-101%); } }
+
+  /* ---------- Arcade: READY? then candy sweep ---------- */
+  .intro-arc__cabinet {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: arc-cabinet-off 1ms linear 1.3s forwards;
+  }
+  .intro-arc__ready {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 9vw, 5.5rem);
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    transform: scale(0.6);
+    animation:
+      arc-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s forwards,
+      arc-blink 0.5s steps(1, end) 0.7s forwards;
+  }
+  .intro-arc__bars {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .intro-arc__bar {
+    flex: 1;
+    transform: translateX(-101%);
+    animation: arc-sweep 0.9s linear forwards;
+  }
+  .intro-arc__bar:nth-child(1) { background: #0ba95b; animation-delay: 0.85s; }
+  .intro-arc__bar:nth-child(2) { background: #12b5e5; animation-delay: 0.89s; }
+  .intro-arc__bar:nth-child(3) { background: #f38ba3; animation-delay: 0.93s; }
+  .intro-arc__bar:nth-child(4) { background: #7b5ea7; animation-delay: 0.97s; }
+  .intro-arc__bar:nth-child(5) { background: #ed203d; animation-delay: 1.01s; }
+  @keyframes arc-pop { to { opacity: 1; transform: scale(1); } }
+  @keyframes arc-blink {
+    0%   { opacity: 1; }
+    20%  { opacity: 0; }
+    40%  { opacity: 1; }
+    60%  { opacity: 0; }
+    80%, 100% { opacity: 1; }
+  }
+  @keyframes arc-cabinet-off { to { opacity: 0; } }
+  @keyframes arc-sweep {
+    0%   { transform: translateX(-101%); animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    33%  { transform: translateX(0); animation-timing-function: linear; }
+    55%  { transform: translateX(0); animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0); }
+    100% { transform: translateX(101%); }
+  }
+
+  /* ---------- Night Shift: blue spot, name plate, shutter up ---------- */
+  .intro-ns__shutter {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right, rgba(0, 0, 0, 0.35), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.35)),
+      repeating-linear-gradient(to bottom, #2a2e33 0 22px, #1c1f23 22px 24px);
+    background-color: var(--bg);
+    overflow: hidden;
+    animation: ns-roll 0.65s cubic-bezier(0.2, 0, 0.8, 1) 1.1s forwards;
+  }
+  .intro-ns__spot {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 90vmax;
+    height: 90vmax;
+    margin: -45vmax 0 0 -45vmax;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(63, 140, 255, 0.45) 0%, rgba(63, 140, 255, 0.12) 28%, transparent 55%);
+    mix-blend-mode: screen;
+    transform: translateX(-40vw);
+    animation: ns-sweep 1.15s cubic-bezier(0.45, 0, 0.55, 1) 0.05s forwards;
+  }
+  .intro-ns__plate {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0.5em 1em 0.42em;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 4.5vw, 3.25rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--text);
+    opacity: 0;
+    animation: ns-plate 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  }
+  @keyframes ns-sweep { to { transform: translateX(140vw); } }
+  @keyframes ns-plate { to { opacity: 1; } }
+  @keyframes ns-roll { to { transform: translateY(-101%); } }
+
+  /* ---------- Metro: station sign, then the doors part ---------- */
+  .intro-mt__door {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50.5%;
+    background: var(--bg);
+    overflow: hidden;
+    animation-duration: 0.6s;
+    animation-delay: 0.9s;
+    animation-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+    animation-fill-mode: forwards;
+  }
+  .intro-mt__door::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 62%;
+    height: 1px;
+    background: var(--border);
+  }
+  .intro-mt__door--left  { left: 0;  box-shadow: inset -5px 0 0 var(--accent); animation-name: mt-door-left; }
+  .intro-mt__door--right { right: 0; box-shadow: inset 5px 0 0 var(--accent);  animation-name: mt-door-right; }
+  .intro-mt__window {
+    position: absolute;
+    top: 22%;
+    width: min(28vw, 150px);
+    height: min(28vw, 150px);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg-secondary);
+  }
+  .intro-mt__door--left  .intro-mt__window { right: 12%; }
+  .intro-mt__door--right .intro-mt__window { left: 12%; }
+  .intro-mt__sign {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translate(-100%, -50%);
+    padding: 1.1rem 0;
+    background: var(--accent);
+    text-align: center;
+    animation:
+      mt-sign-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards,
+      mt-sign-out 0.18s ease-in 0.82s forwards;
+  }
+  .intro-mt__name {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: #ffffff;
+  }
+  @keyframes mt-sign-in  { to { transform: translate(0, -50%); } }
+  @keyframes mt-sign-out { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes mt-door-left  { to { transform: translateX(-101%); } }
+  @keyframes mt-door-right { to { transform: translateX(101%); } }
+</style>
