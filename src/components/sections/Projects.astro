@@ -61,12 +61,12 @@ const personal = projects.filter((p) => p.type === 'personal');
               <Icon name="lucide:folder" class="h-8 w-8 text-accent" />
               <div class="flex gap-3">
                 {project.github && (
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" class="text-text-secondary transition-colors hover:text-accent">
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub`} class="text-text-secondary transition-colors hover:text-accent">
                     <Icon name="lucide:github" class="h-5 w-5" />
                   </a>
                 )}
                 {project.live && (
-                  <a href={project.live} target="_blank" rel="noopener noreferrer" class="text-text-secondary transition-colors hover:text-accent">
+                  <a href={project.live} target="_blank" rel="noopener noreferrer" aria-label={`${project.title}, live site`} class="text-text-secondary transition-colors hover:text-accent">
                     <Icon name="lucide:external-link" class="h-5 w-5" />
                   </a>
                 )}

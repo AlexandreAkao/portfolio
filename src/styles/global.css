@@ -25,6 +25,7 @@
   --color-text-secondary: var(--text-secondary);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
   --color-border: var(--border);
   --color-card: var(--card);
   --color-card-hover: var(--card-hover);
@@ -33,6 +34,13 @@
   --font-mono: 'JetBrains Mono', monospace;
   --radius-card: var(--radius-card);
   --radius-btn: var(--radius-btn);
+}
+
+/* Every world: text on an accent fill takes the page colour, and small accent
+   text uses the accent itself. A world overrides either when its accent needs it. */
+[data-design] {
+  --on-accent: var(--bg);
+  --accent-text: var(--accent);
 }
 
 /* Engineer Design Tokens */
@@ -94,6 +102,9 @@
   --text-secondary: #6b6b6b;
   --accent: #ff4d00;
   --accent-hover: #e64500;
+  /* Signal Orange is 3:1 on newsprint: fills take Ink (5.2:1), small text takes Signal Orange Ink (4.5:1 or more on every surface) */
+  --on-accent: var(--text);
+  --accent-text: #bf3900;
   --border: #d4d0c8;
   --card: #ffffff;
   --card-hover: #f9f8f5;
@@ -260,6 +271,22 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='editorial'] .section-tag::before,
 [data-design='editorial'] .section-tag::after {
   display: none;
+}
+
+/* Editorial: orange text, at rest and on hover, reads in Signal Orange Ink */
+[data-design='editorial'] :is(.text-accent, .hover\:text-accent:hover, .group:hover .group-hover\:text-accent) {
+  color: var(--accent-text);
+}
+
+/* Clash Display's space is 0.14em; text set in it needs room between words
+   (headings that switch to the body face inline are left alone) */
+[data-design='editorial'] :is(h1, h2, h3, h4, .font-heading):not([style*='font-body']) {
+  word-spacing: 0.1em;
+}
+
+/* Display-size accent text (24px and up) keeps the world's own accent, Signal Orange included */
+.text-accent-display {
+  color: var(--accent);
 }
 
 /* Arcade section tags: clean, no pseudo-elements + yellow underline */

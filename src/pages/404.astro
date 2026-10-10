@@ -1,12 +1,14 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/common/Header.astro';
 import { t } from '@i18n/utils';
 ---
 
 <BaseLayout title="404 — Alexandre Akira">
+  <Header />
   <main id="main-content" class="flex min-h-screen items-center justify-center px-6">
     <div class="text-center">
-      <p class="font-heading text-[clamp(6rem,20vw,12rem)] font-bold leading-none text-accent">
+      <p class="font-heading text-[clamp(6rem,20vw,12rem)] font-bold leading-none text-accent-display">
         404
       </p>
       <h1 class="mt-4 font-heading text-2xl font-bold text-text md:text-3xl">

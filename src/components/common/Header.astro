@@ -4,7 +4,7 @@ import LanguageSwitcher from '@components/islands/LanguageSwitcher.tsx';
 import MobileMenu from '@components/islands/MobileMenu.tsx';
 import Nav from './Nav.astro';
 
-const isBlog = Astro.url.pathname.startsWith('/blog');
+const onHome = /^\/(pt\/?)?$/.test(Astro.url.pathname);
 ---
 
 <header class="fixed top-0 z-50 w-full border-b border-border bg-bg/80 backdrop-blur-md">
@@ -18,7 +18,7 @@ const isBlog = Astro.url.pathname.startsWith('/blog');
     <div class="flex items-center gap-2 sm:gap-3">
       <DesignToggle client:load />
       <LanguageSwitcher client:load />
-      <MobileMenu client:load isBlog={isBlog} />
+      <MobileMenu client:load isBlog={!onHome} />
     </div>
   </div>
 </header>

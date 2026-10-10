@@ -37,7 +37,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
         <p className="mb-3 text-sm text-text-secondary">{exp.role[locale]}</p>
 
         {exp.summary[locale] && (
-          <p className="mb-4 text-sm leading-relaxed text-text-secondary">
+          <p className="mb-4 max-w-prose text-sm leading-relaxed text-text-secondary">
             {exp.summary[locale]}
           </p>
         )}

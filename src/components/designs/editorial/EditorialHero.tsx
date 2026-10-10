@@ -46,7 +46,7 @@ function EditorialHeroInner() {
 
         <motion.h1
           style={{ y: nameY, fontFamily: 'var(--font-heading)' }}
-          className="mb-6 text-[clamp(2.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight"
+          className="mb-6 text-[clamp(2.5rem,14vw,9rem)] md:text-[clamp(2.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight"
         >
           {words.map((word, i) => (
             <motion.span
@@ -109,7 +109,7 @@ function EditorialHeroInner() {
         >
           <a
             href="#projects"
-            className="border-2 border-text px-5 py-3 text-sm font-semibold uppercase tracking-wider text-text transition-colors hover:border-accent hover:bg-accent hover:text-white sm:px-8"
+            className="border-2 border-text px-5 py-3 text-sm font-semibold uppercase tracking-wider text-text transition-colors hover:border-accent hover:bg-accent hover:text-on-accent sm:px-8"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             {t('hero.cta.work', locale)}
@@ -117,7 +117,7 @@ function EditorialHeroInner() {
           <a
             href={cvUrl}
             download
-            className="border-2 border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent hover:text-white sm:px-8"
+            className="border-2 border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent hover:text-on-accent sm:px-8"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             {t('hero.cta.cv', locale)}

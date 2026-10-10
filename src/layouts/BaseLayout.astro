@@ -121,6 +121,19 @@ const jsonLd = type === 'article'
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" />
     <ClientRouter />
+    <!-- Without JavaScript, Motion's server-rendered start states (opacity 0, offset) would hide the page -->
+    <noscript>
+      <style>
+        [style*='opacity:0'],
+        [style*='opacity: 0'] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+    <script>
+      import '@/lib/reduced-motion';
+    </script>
     <script is:inline define:vars={{ validDesigns: designIds, fallbackDesign: defaultDesign }}>
       (function() {
         try {
@@ -164,7 +177,7 @@ const jsonLd = type === 'article'
     <SiteIntro />
     <a
       href="#main-content"
-      class="fixed left-4 top-4 z-100 -translate-y-20 rounded-btn bg-accent px-4 py-2 text-sm font-medium text-bg transition-transform focus:translate-y-0"
+      class="fixed left-4 top-4 z-100 -translate-y-20 rounded-btn bg-accent px-4 py-2 text-sm font-medium text-on-accent transition-transform focus:translate-y-0"
     >
       <T k="a11y.skip" />
     </a>

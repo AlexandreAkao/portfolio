@@ -9,6 +9,8 @@ function AvantgardeCursorInner() {
   const circlePos = useRef({ x: -100, y: -100 });
   const rafRef = useRef<number>(0);
   const hoveringRef = useRef(false);
+  // Hover grows the ring and shrinks the dot by scale, eased in the frame loop, so nothing re-lays out.
+  const scale = useRef({ dot: 1, circle: 1 });
 
   const animate = useCallback(() => {
     const dot = dotRef.current;
@@ -18,18 +20,18 @@ function AvantgardeCursorInner() {
       return;
     }
 
+    // Hover: the 8px dot shrinks to 4px and the 32px ring grows to 48px
+    const isHovering = hoveringRef.current;
+    scale.current.dot += ((isHovering ? 0.5 : 1) - scale.current.dot) * 0.25;
+    scale.current.circle += ((isHovering ? 1.5 : 1) - scale.current.circle) * 0.2;
+
     // Dot follows mouse exactly
-    dot.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%)`;
+    dot.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%) scale(${scale.current.dot})`;
 
     // Circle follows with lerp delay
     circlePos.current.x += (mouse.current.x - circlePos.current.x) * 0.15;
     circlePos.current.y += (mouse.current.y - circlePos.current.y) * 0.15;
-    circle.style.transform = `translate(${circlePos.current.x}px, ${circlePos.current.y}px) translate(-50%, -50%)`;
-
-    // Hover scale
-    const isHovering = hoveringRef.current;
-    dot.style.width = dot.style.height = isHovering ? '4px' : '8px';
-    circle.style.width = circle.style.height = isHovering ? '48px' : '32px';
+    circle.style.transform = `translate(${circlePos.current.x}px, ${circlePos.current.y}px) translate(-50%, -50%) scale(${scale.current.circle})`;
 
     rafRef.current = requestAnimationFrame(animate);
   }, []);
@@ -120,7 +122,6 @@ function AvantgardeCursorInner() {
           pointerEvents: 'none',
           zIndex: 10000,
           opacity: 0,
-          transition: 'width 0.15s, height 0.15s',
         }}
       />
       <div
@@ -136,7 +137,7 @@ function AvantgardeCursorInner() {
           opacity: 0,
           pointerEvents: 'none',
           zIndex: 10000,
-          transition: 'width 0.2s, height 0.2s, opacity 0.2s',
+          transition: 'opacity 0.2s',
         }}
       />
     </>

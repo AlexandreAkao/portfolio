@@ -1,7 +1,7 @@
 ---
 import { t } from '@i18n/utils';
 
-const isBlog = Astro.url.pathname.startsWith('/blog');
+const onHome = /^\/(pt\/?)?$/.test(Astro.url.pathname);
 
 const sectionLinks = [
   { key: 'nav.about', href: '#about' },
@@ -17,7 +17,7 @@ const blogLinks = [
 ---
 
 <nav class="hidden items-center gap-6 md:flex">
-  {isBlog ? (
+  {!onHome ? (
     blogLinks.map((link) => (
       <a
         href={link.href}
