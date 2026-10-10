@@ -22,7 +22,7 @@ Personal portfolio and blog for Alexandre Akira, Senior Full-Stack Engineer, liv
 
 One body of content rendered through five complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Creative, Arcade). The site is itself the demonstration of frontend range instead of a claim about it, paired with backend depth (a 19-microservice SaaS, a warehouse system for 200+ distribution centers) that a frontend-only portfolio cannot truthfully show. The confirmed self-description in copy: "the intersection of backend robustness and frontend elegance."
 
-**Open decision:** whether all five designs remain long-term. The user is open to consolidating later. Future work must neither assume the switcher is permanent nor remove a design without an explicit decision.
+**Confirmed decision (2026-10-10):** keep all five designs and differentiate them, rather than consolidate. The 2026-10-10 re-critique found them sharing one template (identical hero stacks; About, Education, Projects and Contact shared across worlds at 41–61% of page height; Engineer recognisable as a widely cloned template). Future work deepens each world's own staging instead of removing worlds; no design is removed without an explicit decision.
 
 ## Operating Context
 
