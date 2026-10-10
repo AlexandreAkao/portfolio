@@ -514,6 +514,21 @@
           "#fceae4"
         ]
       },
+      "editorial-signal-orange-ink": {
+        "role": "primary",
+        "displayName": "Signal Orange Ink",
+        "canonical": "oklch(53.9% 0.179 37.5)",
+        "tonalRamp": [
+          "#1c0200",
+          "#460f00",
+          "#761f00",
+          "#aa3200",
+          "#d75024",
+          "#ff764d",
+          "#ffb49e",
+          "#ffe9e2"
+        ]
+      },
       "arcade-cabinet-black": {
         "role": "neutral",
         "displayName": "Cabinet Black",
@@ -740,7 +755,7 @@
       },
       "editorial-display": {
         "displayName": "Editorial Display",
-        "purpose": "Hero name in Clash Display beside the ghost \"01\"."
+        "purpose": "Hero name in Clash Display beside the ghost \"01\"; clamp(2.5rem, 14vw, 9rem) below 768px. Clash headings take word-spacing 0.1em."
       },
       "arcade-display": {
         "displayName": "Arcade Display",
@@ -784,7 +799,7 @@
       },
       "prose": {
         "displayName": "Prose",
-        "purpose": "Blog article body."
+        "purpose": "Blog article body; paragraphs, list items, and blockquotes capped at 72ch inside the 1024px article."
       },
       "label": {
         "displayName": "Label",
@@ -853,7 +868,7 @@
       },
       {
         "name": "world-switch",
-        "value": "300ms View Transition crossfade; body background-color and color 300ms ease",
+        "value": "quick-change curtain 650ms to 800ms in the incoming world's exit gesture; 300ms View Transition crossfade under reduced motion or as fallback",
         "purpose": "Switching designs."
       },
       {
@@ -908,8 +923,23 @@
       },
       {
         "name": "reduced-motion",
-        "value": "all animation and transition durations 0.01ms; smooth scroll off",
+        "value": "CSS animation and transition durations 0.01ms, smooth scroll off; Motion MotionGlobalConfig.skipAnimations = true (src/lib/reduced-motion.ts), so JS animations jump to their end state",
         "purpose": "prefers-reduced-motion."
+      },
+      {
+        "name": "intro-curtain",
+        "value": "1.65s to 1.9s per world, fonts awaited up to 700ms; heroes hydrate as the exit begins (0.95s to 1.35s)",
+        "purpose": "Arrival on a hard load; skipped on in-site navigation, under reduced motion, or on click or Escape."
+      },
+      {
+        "name": "cursor-hover-scale",
+        "value": "dot scale 1 to 0.5 (8px to 4px) eased 0.25 per frame; ring scale 1 to 1.5 (32px to 48px) eased 0.2 per frame; ring follows with a 0.15 lerp",
+        "purpose": "Avant-garde cursor over links and buttons; transform only, no re-layout."
+      },
+      {
+        "name": "no-js",
+        "value": "<noscript> style: elements with inline opacity 0 forced to opacity 1, transform none",
+        "purpose": "Keeps Motion's server-rendered start states from hiding the page without JavaScript."
       }
     ],
     "breakpoints": [
@@ -932,17 +962,17 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "avantgarde-button-primary",
-      "description": "Filled accent button; reads the active world through tokens and falls back to Avant-garde.",
+      "description": "Filled accent button; text reads --on-accent (Ink in Editorial, the page color elsewhere). Reads the active world through tokens; standalone fallbacks are Avant-garde values.",
       "html": "<button class=\"ds-btn-primary\">View my work</button>",
-      "css": ".ds-btn-primary{background:var(--accent,#c5ff41);color:var(--bg,#131211);border:0;border-radius:var(--radius-btn,4px);padding:12px 32px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .15s}.ds-btn-primary:hover{background:var(--accent-hover,#d4ff6e)}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+      "css": ".ds-btn-primary{background:var(--accent,#c5ff41);color:var(--on-accent,#131211);border:0;border-radius:var(--radius-btn,4px);padding:12px 32px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .15s}.ds-btn-primary:hover{background:var(--accent-hover,#d4ff6e)}.ds-btn-primary:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
     },
     {
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "avantgarde-button-secondary",
-      "description": "Outlined accent button with a 10% accent wash on hover.",
+      "description": "Outlined accent button with a 10% accent wash on hover; the label reads --accent-text (Signal Orange Ink in Editorial).",
       "html": "<button class=\"ds-btn-secondary\">Download CV</button>",
-      "css": ".ds-btn-secondary{background:transparent;color:var(--accent,#c5ff41);border:1px solid var(--accent,#c5ff41);border-radius:var(--radius-btn,4px);padding:12px 32px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .15s}.ds-btn-secondary:hover{background:color-mix(in srgb,var(--accent,#c5ff41) 10%,transparent)}.ds-btn-secondary:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+      "css": ".ds-btn-secondary{background:transparent;color:var(--accent-text,#c5ff41);border:1px solid var(--accent,#c5ff41);border-radius:var(--radius-btn,4px);padding:12px 32px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:background-color .15s}.ds-btn-secondary:hover{background:color-mix(in srgb,var(--accent,#c5ff41) 10%,transparent)}.ds-btn-secondary:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
     },
     {
       "name": "Tech Chip",
@@ -972,15 +1002,15 @@
       "name": "Design Switcher",
       "kind": "nav",
       "refersTo": "mono",
-      "description": "Header pill that names the active world with its glyph and opens the world list.",
-      "html": "<button class=\"ds-switcher\" aria-haspopup=\"listbox\" aria-expanded=\"false\"><span class=\"ds-switcher__label\">// <span class=\"ds-switcher__name\">Avant-garde</span></span><svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 1L5 5L9 1\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "description": "Header pill naming the active world with its glyph; a disclosure that opens the world list (toggle buttons with aria-pressed). Reads \"Design\" below 1024px.",
+      "html": "<button class=\"ds-switcher\" aria-expanded=\"false\"><span class=\"ds-switcher__label\">01 <span class=\"ds-switcher__name\">Editorial</span></span><svg width=\"10\" height=\"6\" viewBox=\"0 0 10 6\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 1L5 5L9 1\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
       "css": ".ds-switcher{display:inline-flex;align-items:center;gap:8px;background:var(--bg-secondary,#1c1a18);color:var(--text-secondary,#9a948b);border:1px solid var(--border,#2a2725);border-radius:9999px;padding:6px 12px;font-family:\"JetBrains Mono\",monospace;font-size:.75rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;transition:color .15s}.ds-switcher:hover{color:var(--accent,#c5ff41)}.ds-switcher svg{transition:transform .2s}.ds-switcher[aria-expanded=\"true\"] svg{transform:rotate(180deg)}.ds-switcher:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
     },
     {
       "name": "Header Nav",
       "kind": "nav",
       "refersTo": "body-small",
-      "description": "Desktop section anchors with a hairline divider before Blog.",
+      "description": "Desktop section anchors with a hairline divider before Blog, on the home only; every other page shows Home and Blog.",
       "html": "<nav class=\"ds-nav\"><a href=\"#about\">About</a><a href=\"#experience\">Experience</a><a href=\"#skills\">Skills</a><a href=\"#projects\">Projects</a><a href=\"#contact\">Contact</a><span class=\"ds-nav__divider\" aria-hidden=\"true\"></span><a href=\"/blog\">Blog</a></nav>",
       "css": ".ds-nav{display:flex;align-items:center;gap:24px;font-family:var(--font-body, Inter, sans-serif)}.ds-nav a{font-size:.875rem;color:var(--text-secondary,#9a948b);text-decoration:none;transition:color .15s}.ds-nav a:hover{color:var(--accent,#c5ff41)}.ds-nav__divider{width:1px;height:16px;background:var(--border,#2a2725)}.ds-nav a:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
     },
@@ -996,22 +1026,22 @@
       "name": "Editorial Numbered Entry",
       "kind": "custom",
       "refersTo": "editorial-card",
-      "description": "Editorial experience entry: ghost numeral, hairline, and Signal Orange role line on Newsprint.",
+      "description": "Editorial experience entry: ghost numeral, hairline, and a role line in Signal Orange Ink on Newsprint.",
       "html": "<div class=\"ds-ed\"><div class=\"ds-ed__rule\"></div><div class=\"ds-ed__grid\"><div><span class=\"ds-ed__num\">01</span><p class=\"ds-ed__period\">Apr 2025 - Present</p></div><div><h3 class=\"ds-ed__title\">Seva / Appointally</h3><p class=\"ds-ed__role\">Senior Full-Stack Engineer</p><p class=\"ds-ed__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><div class=\"ds-ed__tags\"><span>Node.js</span><span>TypeScript</span><span>React</span></div></div></div></div>",
-      "css": ".ds-ed{background:#f5f5f0;color:#1a1a1a;padding:24px;max-width:640px;font-family:\"DM Sans Variable\",\"DM Sans\",sans-serif}.ds-ed__rule{height:1px;background:#d4d0c8;margin-bottom:32px}.ds-ed__grid{display:grid;grid-template-columns:1fr 2fr;gap:32px}.ds-ed__num{display:block;font-family:\"Clash Display\",sans-serif;font-size:4.5rem;font-weight:700;line-height:1;color:rgba(26,26,26,.06)}.ds-ed__period{margin:8px 0 0;font-size:.875rem;color:#6b6b6b}.ds-ed__title{margin:0 0 4px;font-family:\"Clash Display\",sans-serif;font-size:2rem;font-weight:700;line-height:1.1}.ds-ed__role{margin:0 0 12px;font-size:1rem;font-weight:500;color:#ff4d00}.ds-ed__summary{margin:0 0 12px;font-size:.875rem;line-height:1.6;color:#6b6b6b;max-width:36rem}.ds-ed__tags{display:flex;flex-wrap:wrap;gap:8px}.ds-ed__tags span{font-size:.75rem;color:#6b6b6b;border-bottom:1px solid rgba(107,107,107,.3);padding-bottom:2px;transition:color .15s,border-color .15s}.ds-ed__tags span:hover{color:#ff4d00;border-color:#ff4d00}"
+      "css": ".ds-ed{background:#f5f5f0;color:#1a1a1a;padding:24px;max-width:640px;font-family:\"DM Sans Variable\",\"DM Sans\",sans-serif}.ds-ed__rule{height:1px;background:#d4d0c8;margin-bottom:32px}.ds-ed__grid{display:grid;grid-template-columns:1fr 2fr;gap:32px}.ds-ed__num{display:block;font-family:\"Clash Display\",sans-serif;font-size:4.5rem;font-weight:700;line-height:1;color:rgba(26,26,26,.06)}.ds-ed__period{margin:8px 0 0;font-size:.875rem;color:#6b6b6b}.ds-ed__title{margin:0 0 4px;word-spacing:.1em;font-family:\"Clash Display\",sans-serif;font-size:2rem;font-weight:700;line-height:1.1}.ds-ed__role{margin:0 0 12px;font-size:1rem;font-weight:500;color:#bf3900}.ds-ed__summary{margin:0 0 12px;font-size:.875rem;line-height:1.6;color:#6b6b6b;max-width:36rem}.ds-ed__tags{display:flex;flex-wrap:wrap;gap:8px}.ds-ed__tags span{font-size:.75rem;color:#6b6b6b;border-bottom:1px solid rgba(107,107,107,.3);padding-bottom:2px;transition:color .15s,border-color .15s}.ds-ed__tags span:hover{color:#bf3900;border-color:#ff4d00}"
     },
     {
       "name": "Arcade Candy Card",
       "kind": "card",
       "refersTo": "arcade-card",
-      "description": "Arcade experience card on a candy surface with emoji, Bungee title, and Cabinet Black text.",
-      "html": "<div class=\"ds-candy\"><div class=\"ds-candy__emoji\">🚀</div><p class=\"ds-candy__period\">Apr 2025 - Present</p><h3 class=\"ds-candy__title\">Seva / Appointally</h3><p class=\"ds-candy__role\">Senior Full-Stack Engineer</p><p class=\"ds-candy__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><button class=\"ds-candy__toggle\">▼ details</button><div class=\"ds-candy__chips\"><span>Node.js</span><span>TypeScript</span><span>AWS</span></div></div>",
-      "css": ".ds-candy{background:#0ba95b;color:#0f0d0e;border-radius:12px;padding:24px;max-width:480px;font-family:Outfit,sans-serif}.ds-candy__emoji{font-size:1.5rem}.ds-candy__period{margin:8px 0 0;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.7}.ds-candy__title{margin:4px 0 0;font-family:Bungee,sans-serif;font-size:1.125rem;font-weight:400;text-transform:uppercase}.ds-candy__role{margin:0;font-size:.875rem;font-weight:500}.ds-candy__summary{margin:8px 0 0;font-size:.875rem;opacity:.8}.ds-candy__toggle{margin-top:12px;background:none;border:0;padding:0;font:700 .75rem Outfit,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:underline;color:#0f0d0e;cursor:pointer}.ds-candy__chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.ds-candy__chips span{background:rgba(15,13,14,.15);border-radius:9999px;padding:2px 8px;font-size:.75rem;font-weight:500}.ds-candy__toggle:focus-visible{outline:2px solid #0f0d0e;outline-offset:2px}"
+      "description": "Arcade experience card on a candy surface: emoji, Bungee title, the role's result on the face, bullets and stack behind a details toggle, Cabinet Black text.",
+      "html": "<div class=\"ds-candy\"><div class=\"ds-candy__emoji\">🚀</div><p class=\"ds-candy__period\">Apr 2025 - Present</p><h3 class=\"ds-candy__title\">Seva / Appointally</h3><p class=\"ds-candy__role\">Senior Full-Stack Engineer</p><p class=\"ds-candy__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><p class=\"ds-candy__impact\">19 microservices on Clean Architecture and CQRS</p><button class=\"ds-candy__toggle\">▼ details</button><div class=\"ds-candy__chips\"><span>Node.js</span><span>TypeScript</span><span>AWS</span></div></div>",
+      "css": ".ds-candy{background:#0ba95b;color:#0f0d0e;border-radius:12px;padding:24px;max-width:480px;font-family:Outfit,sans-serif}.ds-candy__emoji{font-size:1.5rem}.ds-candy__period{margin:8px 0 0;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.7}.ds-candy__title{margin:4px 0 0;font-family:Bungee,sans-serif;font-size:1.125rem;font-weight:400;text-transform:uppercase}.ds-candy__role{margin:0;font-size:.875rem;font-weight:500}.ds-candy__summary{margin:8px 0 0;font-size:.875rem;opacity:.8}.ds-candy__toggle{margin-top:12px;background:none;border:0;padding:0;font:700 .75rem Outfit,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:underline;color:#0f0d0e;cursor:pointer}.ds-candy__chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.ds-candy__chips span{background:rgba(15,13,14,.15);border-radius:9999px;padding:2px 8px;font-size:.75rem;font-weight:500}.ds-candy__toggle:focus-visible{outline:2px solid #0f0d0e;outline-offset:2px}.ds-candy__impact{margin:12px 0 0;font-size:.875rem;font-weight:600}"
     }
   ],
   "narrative": {
     "northStar": "The Repertoire",
-    "overview": "One performer, five staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of five complete visual worlds: Avant-garde (the default), Engineer, Creative, Editorial, and Arcade. The system's personality is plural on purpose. Each world commits fully to its own register (the terminal, the studio, the dark gallery, the broadsheet, and the arcade cabinet). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all five: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Only Hero, Experience, and Skills get a bespoke component per world.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world has exactly one accent and spends it on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world. Every signature lives in the hero.",
+    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, five staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of five complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, and Arcade. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the terminal, the studio, and the arcade cabinet). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all five: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial does. Only Hero, Experience, and Skills get a bespoke component per world.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world has exactly one accent and spends it on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world. Every signature lives in the hero.",
     "keyCharacteristics": [
       "Five complete worlds, one content source, switched at runtime and persisted per visitor.",
       "One accent per world, spent on interactive and labeling elements only.",
@@ -1035,7 +1065,7 @@
       },
       {
         "name": "The Dark Text on Bright Accent Rule",
-        "body": "Teal, Lime, and Gold are light accents, so filled buttons put the page color on them (11:1 to 16:1). Violet takes white (6.7:1). Signal Orange is the exception that needs care: it measures 3.0:1 on Newsprint and 3.3:1 under white text, so it lives on bold headings, rules, outlines, and uppercase button labels.",
+        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Teal, Lime, and Gold are light accents, so their fills take the page color, the default (11:1 to 16:1). Violet's own hero and filter fills take white (6.7:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`.",
         "section": "colors"
       },
       {
@@ -1065,9 +1095,9 @@
       }
     ],
     "dos": [
-      "Do declare a new world with the nine color tokens, two font slots, and two radii on its `[data-design]` selector, register it in `src/data/designs.ts`, and add it to the anti-FOUC allowlist.",
-      "Do keep the accent on buttons, labels, rules, and states (The One Accent Rule), and put the page color on light accents (11:1 to 16:1).",
-      "Do treat Signal Orange as a display color: bold headings, rules, outlines, and uppercase button labels. It measures 3.0:1 on Newsprint and 3.3:1 under white text.",
+      "Do declare a new world with the nine color tokens, two font slots, and two radii on its `[data-design]` selector (overriding `--on-accent` or `--accent-text` only if its accent misses 4.5:1), register it in `src/data/designs.ts`, and add it to the anti-FOUC allowlist.",
+      "Do keep the accent on buttons, labels, rules, and states (The One Accent Rule), and set text on an accent fill with `text-on-accent`, never a hardcoded white or page color.",
+      "Do treat Signal Orange as a display color: rules, outlines, fills with Ink text, and text at 24px and up through `.text-accent-display`. Small orange text goes through `--accent-text` (Signal Orange Ink, #bf3900); raw Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text.",
       "Do resolve headings through the heading slot and body through the body slot; only Engineer's labels and the shared code face name JetBrains Mono directly.",
       "Do render both locales in every text node behind `data-lang-show` so the language toggle never re-renders.",
       "Do respect `prefers-reduced-motion`, and make new motion join the reveal grammar (fade, 30px rise, 0.5s, once).",

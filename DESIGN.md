@@ -36,6 +36,7 @@ colors:
   editorial-ink-grey: "#6b6b6b"
   editorial-signal-orange: "#ff4d00"
   editorial-signal-orange-deep: "#e64500"
+  editorial-signal-orange-ink: "#bf3900"
   arcade-cabinet-black: "#0f0d0e"
   arcade-cabinet-plum: "#1a1820"
   arcade-cabinet-card: "#231f20"
@@ -233,13 +234,16 @@ components:
     padding: "12px 32px"
   editorial-button-primary-hover:
     backgroundColor: "{colors.editorial-signal-orange}"
-    textColor: "{colors.editorial-white-card}"
+    textColor: "{colors.editorial-ink}"
   editorial-button-secondary:
     backgroundColor: "transparent"
-    textColor: "{colors.editorial-signal-orange}"
+    textColor: "{colors.editorial-signal-orange-ink}"
     typography: "{typography.button-caps}"
     rounded: "{rounded.none}"
     padding: "12px 32px"
+  editorial-button-secondary-hover:
+    backgroundColor: "{colors.editorial-signal-orange}"
+    textColor: "{colors.editorial-ink}"
   editorial-card:
     backgroundColor: "{colors.editorial-white-card}"
     textColor: "{colors.editorial-ink}"
@@ -274,7 +278,7 @@ components:
 
 One performer, five staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of five complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, and Arcade. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the terminal, the studio, and the arcade cabinet). None of them is a theme laid over a neutral base, because the neutral base does not exist.
 
-Underneath, one skeleton carries all five: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Only Hero, Experience, and Skills get a bespoke component per world.
+Underneath, one skeleton carries all five: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial does. Only Hero, Experience, and Skills get a bespoke component per world.
 
 The aesthetic philosophy is restraint everywhere except the accent and the display type. Every world has exactly one accent and spends it on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world. Every signature lives in the hero.
 
@@ -296,7 +300,7 @@ Five self-contained palettes, each a dark or paper neutral family plus exactly o
 - **Terminal Teal** (#64ffda): Engineer's accent. Prompt glyphs ("$", ">", "<", "/>"), period labels, timeline nodes, the filled button with Navy Depth text, the outline button stroke, focus rings. Hover deepens to Terminal Teal Deep (#4cd9b0).
 - **Royal Violet** (#7333d4): Creative's accent. Filled pill buttons with white text, the second word of the name, eyebrow labels, selected chips and tabs, 10% tints behind tag pills and period badges, the portrait halo. Hover deepens to Royal Violet Deep (#6425c0).
 - **Acid Lime** (#c5ff41): Avant-garde's accent. The particle field, the custom cursor, the hero rule, the 3px card edge, period labels, category numbers, the filled button with Charcoal text, chip hover glow. Hover brightens to Acid Lime Bright (#d4ff6e).
-- **Signal Orange** (#ff4d00): Editorial's accent. The hero rule, role lines, entry numbers, hover underlines, the outline button stroke, the contact button fill. Hover deepens to Signal Orange Deep (#e64500).
+- **Signal Orange** (#ff4d00): Editorial's accent. The hero rule, hover underlines, the outline button stroke, the button and contact fills (with Ink text), and display-size text such as the 404 numeral. Hover deepens to Signal Orange Deep (#e64500). Small orange text (role lines, skill numbers, the "<A4 />" mark, the secondary button label, every accent hover on text) renders in **Signal Orange Ink** (#bf3900) instead.
 - **Coin Gold** (#fcba28): Arcade's accent. The 4px underline beneath section titles, the hero role line, the filled pill button with Cabinet Black text, project metric text. Hover deepens to Coin Gold Deep (#e5a820). It also serves as the sixth candy surface.
 
 ### Secondary (Arcade only)
@@ -307,7 +311,7 @@ Candy surfaces cycle by index across experience and skill cards: Candy Green (#0
 - **Engineer, the Navy Depth family:** Navy Depth (#0a192f) page; Navy Raised (#112240) cards, the skills block, the header pill; Navy Lifted (#1d3461) card hover; Navy Line (#233554) borders and the timeline; Frost (#ccd6f6) text; Slate (#8892b0) secondary text. A 40px grid of Terminal Teal at 3% is drawn over the page.
 - **Creative, the Warm Paper family:** Warm Paper (#faf5ee) page; Warm Paper Deep (#f0e9df) header pill and raised surfaces; White Card (#ffffff) cards; Warm Card Hover (#f8f4ef); Sand Line (#e2d8cc) borders; Ink Navy (#1a1a2e) text; Ink Muted (#4a4a68) secondary text.
 - **Avant-garde, the Charcoal family:** Charcoal (#131211) page under a 3% fractal-noise overlay; Charcoal Raised (#1c1a18) cards and chips; Charcoal Lifted (#252220) hover; Charcoal Line (#2a2725) borders; Bone (#f0ece6) text; Ash (#9a948b) secondary text. Watermark years use Bone at 4%; the marquee uses Ash at 8%.
-- **Editorial, the Newsprint family:** Newsprint (#f5f5f0) page; Newsprint Deep (#eae8e1) raised; White Card (#ffffff) cards; Newsprint Card Hover (#f9f8f5); Newsprint Line (#d4d0c8) borders and hairlines; Ink (#1a1a1a) text; Ink Grey (#6b6b6b) secondary text. Ghost numerals use Ink at 4% to 6%.
+- **Editorial, the Newsprint family:** Newsprint (#f5f5f0) page; Newsprint Deep (#eae8e1) raised; White Card (#ffffff) cards; Newsprint Card Hover (#f9f8f5); Newsprint Line (#d4d0c8) borders and hairlines; Ink (#1a1a1a) text, and the text on every Signal Orange fill; Ink Grey (#6b6b6b) secondary text. Ghost numerals use Ink at 4% to 6%. Signal Orange Ink (#bf3900) is the world's `--accent-text`: 5.05:1 on Newsprint, 4.51:1 on Newsprint Deep, 5.53:1 on White Card, 5.2:1 on card hover.
 - **Arcade, the Cabinet Black family:** Cabinet Black (#0f0d0e) page; Cabinet Plum (#1a1820) header pill; Cabinet Card (#231f20) cards; Cabinet Card Hover (#2d2829); Cabinet Line (#2a2725) borders; Cream (#f9f4da) text; Silver (#b1b4b9) secondary text.
 
 ### Named Rules
@@ -315,7 +319,7 @@ Candy surfaces cycle by index across experience and skill cards: Candy Green (#0
 
 **The Own Palette Rule.** A world uses only its own token set. No Candy Green in Engineer, no Creative shadow in Editorial, no Terminal Teal outside the terminal.
 
-**The Dark Text on Bright Accent Rule.** Teal, Lime, and Gold are light accents, so filled buttons put the page color on them (11:1 to 16:1). Violet takes white (6.7:1). Signal Orange is the exception that needs care: it measures 3.0:1 on Newsprint and 3.3:1 under white text, so it lives on bold headings, rules, outlines, and uppercase button labels.
+**The Dark Text on Bright Accent Rule.** Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Teal, Lime, and Gold are light accents, so their fills take the page color, the default (11:1 to 16:1). Violet's own hero and filter fills take white (6.7:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`.
 
 ## Typography
 
@@ -326,14 +330,15 @@ Candy surfaces cycle by index across experience and skill cards: Candy Green (#0
 **Character:** The display slot carries each world's identity. Monospace reads as a prompt, Sora as a rounded modern studio, Poppins as a heavy geometric gallery wall, Clash Display as a broadsheet masthead, Bungee as a marquee sign. Body faces stay quiet and legible so the display can be loud. Every heading in a shared section resolves through the heading slot, so re-skinning changes the voice without touching a component.
 
 ### Hierarchy
-- **Display** (hero name): Engineer 700, 3rem rising to 4.5rem at 768px, line-height 1. Creative 700, 3.75rem rising to 6rem, line-height 1.25, surname in Royal Violet. Avant-garde 700, clamp(2.25rem, 8vw, 6.5rem), line-height 0.95, characters staggered in. Editorial 700, clamp(2.5rem, 10vw, 9rem), line-height 0.9, letter-spacing -0.025em, beside a ghost "01". Arcade 400, 3rem rising to 4.5rem, uppercase.
+- **Display** (hero name): Engineer 700, 3rem rising to 4.5rem at 768px, line-height 1. Creative 700, 3.75rem rising to 6rem, line-height 1.25, surname in Royal Violet. Avant-garde 700, clamp(2.25rem, 8vw, 6.5rem), line-height 0.95, characters staggered in. Editorial 700, clamp(2.5rem, 14vw, 9rem) below 768px and clamp(2.5rem, 10vw, 9rem) from 768px, line-height 0.9, letter-spacing -0.025em, beside a ghost "01". Arcade 400, 3rem rising to 4.5rem, uppercase.
 - **Hero role line**: 1.25rem to 2.25rem depending on world, in secondary text. Engineer prefixes "> ". Arcade sets it in Bungee uppercase Coin Gold. Editorial pairs it with a 3px orange rule.
 - **Currently at** (every hero): "Currently at Seva / Appointally · AmbevTech" right under the role, derived from the roles still in progress, in secondary text with the company names in primary text (medium or semibold, never broken across lines). Engineer prints it as a `//` comment in monospace; Editorial indents it to the role's first letter, beside the rule.
 - **Design invitation** (every hero, after the socials): "One portfolio, 5 designs." in secondary text at 0.875rem, then a text button "Switch to <next world>" in primary text with a 2px accent underline at a 4px offset. It switches to the next world in order through the header switcher, so it plays the same quick-change.
+- **Clash word spacing** (Editorial): every heading and `.font-heading` set in Clash Display takes `word-spacing: 0.1em`, because Clash's own space measures only 0.14em. Headings that switch to the body face inline (`:not([style*='font-body'])`) are left alone.
 - **Headline** (section h2): 700, 1.875rem, line-height 1.2, centered, 48px below. Engineer wraps it in teal "<" and "/>". Arcade underlines it in Coin Gold, 4px thick, 8px offset.
 - **Title** (card h3 and h4, company names): 700, 1.125rem, line-height 1.55 in the heading face. Editorial scales experience titles to clamp(1.5rem, 3vw, 2.5rem) and skill headings to clamp(2rem, 4vw, 3rem).
 - **Body**: 400, 1rem, line-height 1.5 in About and Contact; 0.875rem, line-height 1.43 inside cards. The 896px section column gives About roughly 65 to 75 characters per line.
-- **Prose** (blog article): 1.125rem, line-height 1.85, letter-spacing -0.003em, in secondary text with headings and strong text in primary text. Inline code sits in a 6px box on the raised surface in accent.
+- **Prose** (blog article): 1.125rem, line-height 1.85, letter-spacing -0.003em, paragraphs, list items, and blockquotes capped at 72ch, in secondary text with headings and strong text in primary text. Inline code sits in a 6px box on the raised surface in accent.
 - **Label** (eyebrow, period, chip, tag): 500, 0.75rem, letter-spacing 0.05em. Uppercase in Creative, Avant-garde, Editorial, and Arcade; monospace and sentence case in Engineer. Hero eyebrows track wider: 0.1em in Creative, 0.3em in Avant-garde and Editorial.
 - **Mono**: JetBrains Mono at 0.875rem for Engineer's buttons and skills block; 0.75rem uppercase with 0.05em tracking for the design switcher label.
 
@@ -346,16 +351,16 @@ Candy surfaces cycle by index across experience and skill cards: Candy Green (#0
 
 A single centered column at medium density with the same section order in every world: Hero, About, Experience, Education, Skills, Projects, Contact. Avant-garde inserts a ghosted marquee band after the hero and again before Contact.
 
-- **Header:** fixed and full width, 24px horizontal and 12px vertical padding, content capped at 1152px. The background is the page color at 80% behind a 12px backdrop blur, with a 1px bottom border. Left: the "<A4 />" mark in the heading face and accent. Center from 768px: five section anchors, a 1px vertical divider, then Blog. Right: the design switcher pill, the PT/EN toggle, and a hamburger below 768px. Main content starts 64px down.
+- **Header:** fixed and full width, 24px horizontal and 12px vertical padding, content capped at 1152px. The background is the page color at 80% behind a 12px backdrop blur, with a 1px bottom border. Left: the "<A4 />" mark in the heading face and accent. Center from 768px: on the home (`/` and `/pt/`) five section anchors, a 1px vertical divider, then Blog; on every other page (blog, 404) Home and Blog. Right: the design switcher pill, the PT/EN toggle, and a hamburger below 768px. Main content starts 64px down.
 - **Hero:** at least one viewport tall. Engineer and Arcade center everything. Creative is a two-column grid at 1152px (text beside a 320px portrait composition, hidden below 768px). Avant-garde and Editorial left-align inside 1152px with 24px padding, 48px from 768px.
 - **Sections:** 80px vertical padding, 896px maximum width, 24px horizontal padding, centered h2 with 48px below.
 - **About:** 128px round portrait with a 2px accent border, two paragraphs, then a four-column stat grid (two columns below 768px) with 16px gaps.
-- **Experience:** per world. Engineer: vertical timeline with 12px ring nodes on a 1px line, sub-roles indented 16px behind a left border. Creative: a scrollable row of pill tabs above one 32px-padded card. Avant-garde: stacked cards with 24px gaps, a 3px accent left edge, and a ghost year watermark. Editorial: entries 48px apart in a 1fr/2fr grid from 768px, each opened by a hairline that draws in. Arcade: stacked candy cards with 16px gaps and a details toggle.
+- **Experience:** per world. Engineer: vertical timeline with 12px ring nodes on a 1px line, sub-roles indented 16px behind a left border; each role prints its result as an always-visible monospace `=> ` line in primary text, its bullets and stack behind its own `[+] details` toggle. Creative: a scrollable row of pill tabs above one 32px-padded card. Avant-garde: stacked cards with 24px gaps, a 3px accent left edge, a ghost year watermark, and descriptions capped at 65ch. Editorial: entries 48px apart in a 1fr/2fr grid from 768px, each opened by a hairline that draws in. Arcade: stacked candy cards with 16px gaps; each role's result sits on the card face in semibold, the bullets and stack behind a details toggle.
 - **Education and Projects:** card grids with 24px gaps. Education and professional projects in two columns from 768px; personal projects in three from 1024px.
 - **Skills:** per world. Engineer: one JSON-formatted block. Creative: centered filter pills over a centered pill cloud. Avant-garde: seven numbered rows with a hairline, chips wrapping at 8px. Editorial: giant headings alternating left and right with hairlines, 48px apart. Arcade: a candy grid, two columns from 640px and three from 1024px.
-- **Contact:** a 672px centered column: a direct first-person line, the full-width accent "Email me" button, then a row (stacked below 640px) with the address in primary text, selectable in one click, beside a bordered "Copy" chip, and the CV as a text link with a 2px accent underline.
+- **Contact:** a 672px centered column: a direct first-person line, the full-width accent "Email me" button (`--on-accent` text), then a row (stacked below 640px) with the address in primary text, selectable in one click, beside a bordered "Copy" chip, and the CV as a text link with a 2px accent underline.
 - **Footer:** 1px top border, 32px vertical padding, social icons at 24px gap, then two 12px lines.
-- **Blog:** the list runs 768px wide with tag filters; the article runs 1024px wide with a breadcrumb, an optional 340px cover, a table-of-contents block, prose, a share row, and a related-posts grid.
+- **Blog:** the list runs 768px wide with tag filters; the article runs 1024px wide with a breadcrumb, a lede capped at 65ch, an optional 340px cover, a collapsible table of contents, prose, a share row, and a related-posts grid. Inside the article, prose paragraphs, list items, and blockquotes cap at 72ch; code blocks, tables, and images take the full width. The table of contents is a 1px-bordered container at the card radius on the card surface, with no side stripe. Blockquotes are a 1px accent rule with a 1.5rem indent, italic in primary text, with no fill and no radius.
 - **Breakpoints:** 640px, 768px (navigation, most grids), 1024px (three-column grids, the switcher's glyph and world name).
 - **Rhythm:** a 4px scale. Reused steps are 4, 8, 16, 24, 32, 48, and 80px.
 - **Mobile:** navigation collapses to a hamburger; a 256px panel slides in from the right over a 50% black backdrop with body scroll locked. The design switcher reads "Design" below 1024px. The header pads 16px at the sides below 640px (24px from 640px) and its controls sit 8px apart, so it fits a 320px phone in every world.
@@ -408,9 +413,10 @@ Two variants everywhere, a filled primary and an outlined secondary, side by sid
 - **Engineer:** monospace 0.875rem. Primary fills Terminal Teal with Navy Depth text; secondary is a 1px teal outline with teal text and a 10% teal hover wash. Radius 2px.
 - **Creative:** 0.875rem medium. Primary fills Royal Violet with white text; secondary is a 2px violet outline. Both scale to 1.05 on hover. Full pill.
 - **Avant-garde:** 0.875rem semibold uppercase with 0.05em tracking. Primary fills Acid Lime with Charcoal text and brightens on hover; secondary outlines lime with a 10% wash on hover. Radius 4px.
-- **Editorial:** 0.875rem semibold uppercase. Primary is a 2px Ink outline that fills Signal Orange with white text on hover; secondary is a 2px orange outline that fills the same way. No radius.
+- **Editorial:** 0.875rem semibold uppercase. Primary is a 2px Ink outline that fills Signal Orange with Ink text (`--on-accent`) on hover; secondary is a 2px orange outline with its label in Signal Orange Ink that fills the same way. No radius.
 - **Arcade:** 0.875rem bold uppercase with 0.025em tracking. Primary fills Coin Gold with Cabinet Black text; secondary is a 2px gold outline. Full pill.
-- **Contact button:** a full-width accent fill with page-color text in every world.
+- **Contact button:** a full-width accent fill with `--on-accent` text: the page color in every world, Ink in Editorial.
+- **Copy chip (Contact):** a bordered 0.75rem chip in secondary text, accent on hover, beside the address. It reads "Copy", then "Copied" for 2.5s; when the clipboard is blocked it selects the address and reads "Selected, copy it" instead. Each state is announced through a polite status region.
 - **Focus:** a 2px accent outline with 2px offset in every world.
 
 ### Chips
@@ -432,11 +438,12 @@ Two variants everywhere, a filled primary and an outlined secondary, side by sid
 None. Contact is a `mailto:` button by product decision.
 
 ### Navigation
-- **Desktop links:** 0.875rem in secondary text, accent on hover, 24px apart, hidden below 768px.
+- **Desktop links:** 0.875rem in secondary text, accent on hover, 24px apart, hidden below 768px. Section anchors on the home only; Home and Blog everywhere else, the 404 included.
 - **Design switcher:** a pill with a 1px border on the raised surface, a monospace 0.75rem uppercase label that reads "Design" below 1024px and the world's glyph ("01", "//", "{ }", "~", a joystick) plus its name from 1024px, and a chevron that rotates 180 degrees when open. A disclosure, not a listbox: the panel drops 8px below at 224px wide, 8px radius, and the floating shadow, opens with one 0.75rem secondary line ("Same content, 5 designs") over a hairline, then lists the worlds in order as toggle buttons (aria-pressed) at 0.875rem with a 10% accent hover wash, the current one in accent with a check mark. Escape closes it and returns focus to the pill.
 - **Language toggle:** a 0.75rem bordered chip reading "PT" or "EN", 6px radius.
-- **Mobile:** a 20px three-bar hamburger that folds into an X; a 256px right panel that carries its own 44px close button (focused on open), 12px-padded links, a divider before Blog, and at its foot the CV as a bordered button in primary text and the email address beside a mail icon.
-- **Skip link:** an accent pill that drops into view on focus.
+- **Mobile:** a 20px three-bar hamburger that folds into an X; a 256px right panel that carries its own 44px close button (focused on open), 12px-padded links (the section anchors on the home, Home elsewhere), a divider before Blog, and at its foot the CV as a bordered button in primary text and the email address beside a mail icon.
+- **Skip link:** an accent pill with `--on-accent` text that drops into view on focus.
+- **Socials:** GitHub, LinkedIn, Dev.to, and Email, read from `src/data/social.ts`, as bordered button-radius chips in every hero (icon, plus the name from 640px) and as bare icons in the footer. External links open a new tab; the `mailto:` link never does.
 - **Reading progress (blog):** a 4px accent bar fixed at the top.
 
 ### Signature Components
@@ -444,10 +451,10 @@ None. Contact is a `mailto:` button by product decision.
 - **Engineer JSON skills:** the whole skill set rendered as a JSON object in a 2px-radius block: keys in teal, values in Frost, punctuation in Slate.
 - **Creative portrait halo:** a 320px composition of a pulsing violet blur, a 20%-to-transparent gradient disc, and two rings at 20% and 40% violet around a 224px round portrait.
 - **Avant-garde particle field:** 200 Acid Lime points (80 on mobile) with faint connection lines under 1.8 units, drifting and repelled by the cursor, on a transparent WebGL canvas with a CSS fallback of 40 pulsing dots.
-- **Avant-garde cursor:** on fine pointers the native cursor is hidden; an 8px lime dot tracks exactly and a 32px lime ring follows with a 0.15 lerp, the dot shrinking to 4px and the ring growing to 48px over links and buttons.
+- **Avant-garde cursor:** on fine pointers the native cursor is hidden; an 8px lime dot tracks exactly and a 32px lime ring follows with a 0.15 lerp. Over links and buttons the dot shrinks to 4px and the ring grows to 48px as a `scale` eased in the same frame loop (0.25 and 0.2 per frame), so nothing re-lays out.
 - **Avant-garde marquee:** a 30s linear loop of uppercase capability words at clamp(2rem, 5vw, 3.75rem) in Ash at 8%, running left after the hero and right before Contact.
 - **Editorial ghost numerals:** "01" at clamp(10rem, 25vw, 18rem) beside the hero name, entry numbers at clamp(3rem, 5vw, 4.5rem) in Ink at 6%, and a 3px orange rule that scales in from the left.
-- **Arcade candy stack:** each experience or skill card takes the next candy surface in sequence, a 1.5rem emoji, a Bungee uppercase title, and Cabinet Black text; experience cards hide their bullets behind a "▼ details" toggle.
+- **Arcade candy stack:** each experience or skill card takes the next candy surface in sequence, a 1.5rem emoji, a Bungee uppercase title, and Cabinet Black text; experience cards keep each result on the face and hide the bullets and stack behind a "▼ details" toggle.
 - **Intro curtain:** a full-screen entrance played on every arrival at the site (hard loads only; in-site navigation and reduced-motion visitors skip it). One authored moment per world, each ending with an exit that opens onto the hero already animating in. Avant-garde: the name sharpens out of blur, a 1px Acid Lime rule draws, the stage splits top and bottom. Engineer: a prompt types `./akira --init`, two output lines print, the screen collapses to a line like a CRT switching off. Creative: the halo finds its portrait. Violet rings ripple out on Warm Paper to the exact geometry of the hero's portrait halo, the name rises beneath in Sora with "Akira" in Royal Violet, then the halo glides to where the portrait lands while the paper dissolves (below 768px it dissolves inward behind the name instead). Editorial: a 3px Signal Orange rule draws across Newsprint beside the ghost "01", then the sheet turns upward onto the hero's own "01". Arcade: "READY?" pops and blinks in Bungee, then the five candy bars sweep in from the left and out to the right. Click or Escape skips it. Lives in `src/components/common/SiteIntro.astro`; heroes hydrate on its reveal event via the `client:intro` directive.
 - **Quick-change (theme switch):** the same curtain staged short. On a switch the curtain wears the incoming world's tokens, fades in over 0.15s, the theme swaps underneath, and only that world's exit gesture plays: the stage splits (Avant-garde), the screen switches off (Engineer), the halo glides to the portrait (Creative), the sheet turns (Editorial), the candy bars sweep out (Arcade). No title card, no name. 0.65s to 0.8s in total. Reduced motion, a curtain already running, or an unknown world fall back to the 0.3s crossfade.
 
@@ -458,14 +465,15 @@ None. Contact is a `mailto:` button by product decision.
 - **Menus:** the dropdown fades and scales from 0.95 over 0.15s; the mobile panel slides over 0.3s behind a 0.2s backdrop.
 - **Hero signatures:** Engineer's typewriter; Avant-garde's 0.03s character stagger and a rule that scales in over 0.8s; Editorial's 0.15s word stagger with parallax (name -80px, subtitle -40px across the hero's scroll); Creative's portrait scaling from 0.8 over 0.8s.
 - **Intro curtain:** 1.65s to 1.9s per world, fonts awaited up to 700ms first; heroes hydrate when the exit begins (0.95s to 1.35s) so the curtain opens on a hero mid-entrance.
-- **Reduced motion:** all animations and transitions collapse to 0.01ms and smooth scrolling is disabled.
+- **Reduced motion:** CSS animations and transitions collapse to 0.01ms and smooth scrolling is disabled. Motion's JavaScript animations are reached separately: `src/lib/reduced-motion.ts`, imported by a BaseLayout script, sets `MotionGlobalConfig.skipAnimations`, so every Motion animation jumps to its end state.
+- **No JavaScript:** a `<noscript>` style in BaseLayout forces any element whose inline style starts at opacity 0 to full opacity with no transform, so Motion's server-rendered start states never hide the page.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** declare a new world with the nine color tokens, two font slots, and two radii on its `[data-design]` selector, register it in `src/data/designs.ts`, and add it to the anti-FOUC allowlist.
-- **Do** keep the accent on buttons, labels, rules, and states (The One Accent Rule), and put the page color on light accents (11:1 to 16:1).
-- **Do** treat Signal Orange as a display color: bold headings, rules, outlines, and uppercase button labels. It measures 3.0:1 on Newsprint and 3.3:1 under white text.
+- **Do** declare a new world with the nine color tokens, two font slots, and two radii on its `[data-design]` selector (overriding `--on-accent` or `--accent-text` only if its accent misses 4.5:1), register it in `src/data/designs.ts`, and add it to the anti-FOUC allowlist.
+- **Do** keep the accent on buttons, labels, rules, and states (The One Accent Rule), and set text on an accent fill with `text-on-accent`, never a hardcoded white or page color.
+- **Do** treat Signal Orange as a display color: rules, outlines, fills with Ink text, and text at 24px and up through `.text-accent-display`. Small orange text goes through `--accent-text` (Signal Orange Ink, #bf3900); raw Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text.
 - **Do** resolve headings through the heading slot and body through the body slot; only Engineer's labels and the shared code face name JetBrains Mono directly.
 - **Do** render both locales in every text node behind `data-lang-show` so the language toggle never re-renders.
 - **Do** respect `prefers-reduced-motion`, and make new motion join the reveal grammar (fade, 30px rise, 0.5s, once).
