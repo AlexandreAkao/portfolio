@@ -5,7 +5,8 @@ export interface Experience {
   summary: { en: string; pt: string };
   bullets: { en: string[]; pt: string[] };
   tech: string[];
-  impact?: string;
+  /** The one result a skim should catch; shown even where the bullets are collapsed. */
+  impact?: { en: string; pt: string };
   subEntries?: Experience[];
 }
 
@@ -34,6 +35,10 @@ export const experiences: Experience[] = [
       ],
     },
     tech: ['Node.js', 'TypeScript', 'React', 'PostgreSQL', 'RabbitMQ', 'Redis', 'Docker', 'AWS'],
+    impact: {
+      en: '19 microservices on Clean Architecture and CQRS',
+      pt: '19 microsserviços com Clean Architecture e CQRS',
+    },
   },
   {
     company: 'AmbevTech',
@@ -73,6 +78,10 @@ export const experiences: Experience[] = [
           ],
         },
         tech: ['.NET', 'C#', 'React', 'SQL Server', 'Azure', 'SignalR', 'Docker'],
+        impact: {
+          en: '200+ distribution centers · order processing time cut by 40%',
+          pt: '200+ centros de distribuição · tempo de processamento de pedidos 40% menor',
+        },
       },
       {
         company: 'AmbevTech - BEES',
@@ -98,6 +107,10 @@ export const experiences: Experience[] = [
           ],
         },
         tech: ['React', 'TypeScript', 'Next.js', 'Micro-frontends', 'Azure DevOps'],
+        impact: {
+          en: 'B2B e-commerce serving multiple LATAM countries',
+          pt: 'E-commerce B2B atendendo múltiplos países da LATAM',
+        },
       },
       {
         company: 'AmbevTech - UIKit',
@@ -123,6 +136,10 @@ export const experiences: Experience[] = [
           ],
         },
         tech: ['React', 'TypeScript', 'Storybook', 'Jest', 'Styled Components'],
+        impact: {
+          en: '52 components across 10+ apps · 95%+ test coverage',
+          pt: '52 componentes em 10+ apps · 95%+ de cobertura de testes',
+        },
       },
     ],
   },
@@ -175,3 +192,8 @@ export const experiences: Experience[] = [
     tech: ['Python', 'React', 'D3.js', 'PostgreSQL'],
   },
 ];
+
+/** Companies of the roles still in progress, in the order they are listed. */
+export const currentCompanies = experiences
+  .filter((exp) => exp.period.en.endsWith('Present'))
+  .map((exp) => exp.company);

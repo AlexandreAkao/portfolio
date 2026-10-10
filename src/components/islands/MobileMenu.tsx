@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import { cvUrl, email } from '@data/social';
 
 interface Props {
   isBlog?: boolean;
@@ -25,7 +26,13 @@ export default function MobileMenu({ isBlog = false }: Props) {
 
   useEffect(() => setMounted(true), []);
 
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const close = useCallback(() => setOpen(false), []);
+  // Dismissing without choosing a link hands focus back to the toggle.
+  const dismiss = useCallback(() => {
+    setOpen(false);
+    toggleRef.current?.focus();
+  }, []);
 
   // Body scroll lock
   useEffect(() => {
@@ -42,11 +49,11 @@ export default function MobileMenu({ isBlog = false }: Props) {
   // Close on Escape
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
+      if (e.key === 'Escape') dismiss();
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [close]);
+  }, [dismiss]);
 
   const links = isBlog ? blogLinks : sectionLinks;
 
@@ -54,6 +61,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
     <div className="md:hidden">
       {/* Hamburger / X button */}
       <button
+        ref={toggleRef}
         onClick={() => setOpen(!open)}
         className="relative z-60 flex h-8 w-8 flex-col items-center justify-center gap-1.5"
         aria-label={t(open ? 'menu.close' : 'menu.open', locale)}
@@ -84,7 +92,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className="fixed inset-0 z-50 bg-black/50"
-                onClick={close}
+                onClick={dismiss}
                 aria-hidden="true"
               />
 
@@ -97,7 +105,22 @@ export default function MobileMenu({ isBlog = false }: Props) {
                 className="fixed right-0 top-0 z-50 flex h-full w-64 flex-col bg-bg border-l border-border shadow-xl"
                 aria-label={t('menu.label', locale)}
               >
-                <div className="flex flex-col gap-1 px-6 pt-20">
+                {/* The panel covers the header's toggle, so it carries its own close button */}
+                <div className="flex justify-end px-3 pt-2.5">
+                  <button
+                    onClick={dismiss}
+                    autoFocus
+                    aria-label={t('menu.close', locale)}
+                    className="flex h-11 w-11 items-center justify-center rounded-btn text-text transition-colors hover:bg-accent/10 hover:text-accent"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="h-5 w-5" aria-hidden="true">
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <div className="flex flex-col gap-1 px-6 pt-4">
                   {links.map((link) => (
                     <a
                       key={link.key}
@@ -117,6 +140,30 @@ export default function MobileMenu({ isBlog = false }: Props) {
                     className="rounded-lg px-3 py-3 text-base font-medium text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent"
                   >
                     {t('nav.blog', locale)}
+                  </a>
+                </div>
+
+                {/* The two ways to act on what the page showed: the CV and a direct email */}
+                <div className="mt-auto flex flex-col gap-2 border-t border-border px-6 py-6">
+                  <a
+                    href={cvUrl}
+                    download
+                    className="rounded-btn border border-accent px-4 py-3 text-center text-sm font-semibold text-text transition-colors hover:bg-accent/10"
+                  >
+                    {t('hero.cta.cv', locale)}
+                  </a>
+                  <a
+                    href={`mailto:${email}`}
+                    className="flex items-center gap-2 rounded-lg px-3 py-3 text-sm text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent"
+                  >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0" aria-hidden="true">
+                      <rect width="20" height="16" x="2" y="4" rx="2" />
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                    <span>
+                      {email.split('@')[0]}
+                      <wbr />@{email.split('@')[1]}
+                    </span>
                   </a>
                 </div>
               </motion.nav>

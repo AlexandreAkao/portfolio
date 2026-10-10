@@ -10,8 +10,7 @@ import { Icon } from 'astro-icon/components';
       {socialLinks.map((link) => (
         <a
           href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
+          {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
           class="text-text-secondary transition-colors hover:text-accent"
           aria-label={link.name}
         >

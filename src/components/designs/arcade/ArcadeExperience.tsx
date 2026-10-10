@@ -46,9 +46,22 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
         </p>
       )}
 
+      {/* Results stay on the card face; the details toggle keeps the bullets and the stack */}
+      {allEntries.some((e) => e.impact) && (
+        <ul className="mt-3 space-y-1">
+          {allEntries.filter((e) => e.impact).map((entry) => (
+            <li key={entry.company} className="text-sm font-semibold" style={{ color: '#0f0d0e' }}>
+              {exp.subEntries && <span className="uppercase">{entry.company.replace('AmbevTech - ', '')}: </span>}
+              {entry.impact![locale]}
+            </li>
+          ))}
+        </ul>
+      )}
+
       {allEntries.some((e) => e.bullets[locale].length > 0) && (
         <button
           onClick={() => setExpanded(!expanded)}
+          aria-expanded={expanded}
           className="mt-3 text-xs font-bold uppercase tracking-wider underline"
           style={{ color: '#0f0d0e' }}
         >

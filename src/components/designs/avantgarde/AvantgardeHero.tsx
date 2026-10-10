@@ -5,6 +5,8 @@ import * as THREE from 'three';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import CurrentCompanies from '@components/ui/CurrentCompanies';
+import { cvUrl } from '@data/social';
 
 const PARTICLE_COUNT_DESKTOP = 200;
 const PARTICLE_COUNT_MOBILE = 80;
@@ -274,10 +276,19 @@ function AvantgardeHeroInner() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
-          className="mb-6 text-xl text-text-secondary md:text-2xl"
+          className="mb-3 text-xl text-text-secondary md:text-2xl"
         >
           {title}
         </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.75 }}
+          className="mb-6 text-sm text-text-secondary md:text-base"
+        >
+          <CurrentCompanies locale={locale} companyClassName="font-medium text-text" />
+        </motion.p>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -301,7 +312,7 @@ function AvantgardeHeroInner() {
             {t('hero.cta.work', locale)}
           </a>
           <a
-            href="/resume/Alexandre_Akira_en_CV.pdf"
+            href={cvUrl}
             download
             className="rounded-btn border border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent/10 sm:px-8"
           >

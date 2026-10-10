@@ -2,6 +2,8 @@ import { motion } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import CurrentCompanies from '@components/ui/CurrentCompanies';
+import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 
 function ArcadeHeroInner() {
@@ -31,16 +33,25 @@ function ArcadeHeroInner() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mb-6 font-heading text-2xl uppercase text-accent md:text-4xl"
+        className="mb-2 font-heading text-2xl uppercase text-accent md:mb-3 md:text-4xl"
       >
         {t('hero.title', locale)}
       </motion.h2>
 
       <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="mb-4 text-base text-text-secondary md:mb-6"
+      >
+        <CurrentCompanies locale={locale} companyClassName="font-semibold text-text" />
+      </motion.p>
+
+      <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
-        className="mb-8 max-w-xl text-lg text-text-secondary"
+        className="mb-6 max-w-xl text-base text-text-secondary md:mb-8 md:text-lg"
       >
         {t('hero.tagline', locale)}
       </motion.p>
@@ -58,7 +69,7 @@ function ArcadeHeroInner() {
           {t('hero.cta.work', locale)}
         </a>
         <a
-          href="/resume/Alexandre_Akira_en_CV.pdf"
+          href={cvUrl}
           download
           className="rounded-btn border-2 border-accent px-6 py-3 text-sm font-bold uppercase tracking-wide text-accent transition-colors hover:bg-accent/10"
         >

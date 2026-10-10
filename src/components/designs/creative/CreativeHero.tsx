@@ -2,6 +2,8 @@ import { motion } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import CurrentCompanies from '@components/ui/CurrentCompanies';
+import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 
 interface Props {
@@ -30,7 +32,7 @@ function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-4 text-6xl font-bold leading-tight text-text md:text-8xl"
+            className="mb-4 text-[clamp(2.75rem,15vw,3.75rem)] font-bold leading-tight text-text md:text-8xl"
           >
             {name.split(' ').map((word, i) => (
               <span key={i} className={i === 1 ? 'text-accent' : ''}>
@@ -43,10 +45,19 @@ function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6 text-xl text-text-secondary md:text-2xl"
+            className="mb-2 text-xl text-text-secondary md:text-2xl"
           >
             {t('hero.title', locale)}
           </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="mb-6 text-base text-text-secondary"
+          >
+            <CurrentCompanies locale={locale} companyClassName="font-semibold text-text" />
+          </motion.p>
 
           <motion.p
             initial={{ opacity: 0, x: -30 }}
@@ -70,7 +81,7 @@ function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: 
               {t('hero.cta.work', locale)}
             </a>
             <a
-              href="/resume/Alexandre_Akira_en_CV.pdf"
+              href={cvUrl}
               download
               className="rounded-full border-2 border-accent px-5 py-3 text-sm font-medium text-accent transition-transform hover:scale-105 sm:px-8"
             >

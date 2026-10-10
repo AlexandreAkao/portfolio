@@ -1,4 +1,6 @@
+import type { ComponentType } from 'react';
 import { motion } from 'motion/react';
+import { socialLinks } from '@data/social';
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -24,23 +26,21 @@ function DevToIcon({ className }: { className?: string }) {
   );
 }
 
-const links = [
-  {
-    name: 'GitHub',
-    url: 'https://github.com/alexandreakao',
-    icon: <GitHubIcon className="h-5 w-5" />,
-  },
-  {
-    name: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/alexandre-akao/',
-    icon: <LinkedInIcon className="h-5 w-5" />,
-  },
-  {
-    name: 'Dev.to',
-    url: 'https://dev.to/alexandreakira',
-    icon: <DevToIcon className="h-5 w-5" />,
-  },
-];
+function MailIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  );
+}
+
+const icons: Record<string, ComponentType<{ className?: string }>> = {
+  GitHub: GitHubIcon,
+  LinkedIn: LinkedInIcon,
+  'Dev.to': DevToIcon,
+  Email: MailIcon,
+};
 
 interface Props {
   className?: string;
@@ -55,19 +55,22 @@ export default function SocialLinks({ className = '', delay = 0 }: Props) {
       transition={{ duration: 0.5, delay }}
       className={`flex items-center gap-3 ${className}`}
     >
-      {links.map((link) => (
-        <a
-          key={link.name}
-          href={link.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 rounded-btn border border-border px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
-          aria-label={link.name}
-        >
-          {link.icon}
-          <span className="hidden sm:inline">{link.name}</span>
-        </a>
-      ))}
+      {socialLinks.map((link) => {
+        const Icon = icons[link.name];
+        const external = link.url.startsWith('http');
+        return (
+          <a
+            key={link.name}
+            href={link.url}
+            {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
+            className="flex items-center gap-2 rounded-btn border border-border px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
+            aria-label={link.name}
+          >
+            {Icon && <Icon className="h-5 w-5" />}
+            <span className="hidden sm:inline">{link.name}</span>
+          </a>
+        );
+      })}
     </motion.div>
   );
 }

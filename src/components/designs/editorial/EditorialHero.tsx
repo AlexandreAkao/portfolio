@@ -3,6 +3,8 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import CurrentCompanies from '@components/ui/CurrentCompanies';
+import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 
 function EditorialHeroInner() {
@@ -58,25 +60,34 @@ function EditorialHeroInner() {
           ))}
         </motion.h1>
 
-        <motion.div
-          style={{ y: subtitleY }}
-          className="flex items-center gap-4"
-        >
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="h-0.75 w-16 origin-left bg-accent md:w-24"
-          />
-          <motion.h2
+        <motion.div style={{ y: subtitleY }}>
+          <div className="flex items-center gap-4">
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="h-0.75 w-16 origin-left bg-accent md:w-24"
+            />
+            <motion.h2
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="text-lg text-text-secondary md:text-xl"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              {title}
+            </motion.h2>
+          </div>
+          {/* Indented to the role's first letter: the rule (w-16 / md:w-24) plus the 1rem gap */}
+          <motion.p
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="text-lg text-text-secondary md:text-xl"
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="mt-2 pl-20 text-sm text-text-secondary md:pl-28 md:text-base"
             style={{ fontFamily: 'var(--font-body)' }}
           >
-            {title}
-          </motion.h2>
+            <CurrentCompanies locale={locale} companyClassName="font-medium text-text" />
+          </motion.p>
         </motion.div>
 
         <motion.p
@@ -103,7 +114,7 @@ function EditorialHeroInner() {
             {t('hero.cta.work', locale)}
           </a>
           <a
-            href="/resume/Alexandre_Akira_en_CV.pdf"
+            href={cvUrl}
             download
             className="border-2 border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent hover:text-white sm:px-8"
             style={{ fontFamily: 'var(--font-body)' }}

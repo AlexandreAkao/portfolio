@@ -2,18 +2,67 @@ import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
-import { t } from '@i18n/utils';
+import { t, type Locale } from '@i18n/utils';
 
 interface Props {
   experiences: Experience[];
+}
+
+/** One role's result, always shown, and its details (bullets and stack) behind a toggle of its own. */
+function EntryDetails({ entry, locale }: { entry: Experience; locale: Locale }) {
+  const [expanded, setExpanded] = useState(false);
+  const hasDetails = entry.bullets[locale].length > 0 || entry.tech.length > 0;
+
+  return (
+    <>
+      {entry.impact && (
+        <p className="mt-2 font-mono text-sm text-text">
+          <span className="text-accent">{'=> '}</span>
+          {entry.impact[locale]}
+        </p>
+      )}
+
+      {hasDetails && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          aria-expanded={expanded}
+          className="mt-2 font-mono text-xs text-accent hover:underline"
+        >
+          {expanded ? `[-] ${t('experience.collapse', locale)}` : `[+] ${t('experience.details', locale)}`}
+        </button>
+      )}
+
+      {expanded && (
+        <>
+          {entry.bullets[locale].length > 0 && (
+            <ul className="mt-2 space-y-1">
+              {entry.bullets[locale].map((bullet, j) => (
+                <li key={j} className="text-sm text-text-secondary">
+                  <span className="text-accent">{'>'}</span> {bullet}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {entry.tech.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1">
+              {entry.tech.map((tech) => (
+                <span key={tech} className="rounded-xs border border-border px-2 py-0.5 font-mono text-xs text-text-secondary">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </>
+  );
 }
 
 function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
   const locale = useLocale();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const [expanded, setExpanded] = useState(false);
-
   const allEntries = exp.subEntries ? exp.subEntries : [exp];
 
   return (
@@ -46,32 +95,7 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
               </>
             )}
 
-            {entry.bullets[locale].length > 0 && (
-              <button
-                onClick={() => setExpanded(!expanded)}
-                className="mt-2 font-mono text-xs text-accent hover:underline"
-              >
-                {expanded ? `[-] ${t('experience.collapse', locale)}` : `[+] ${t('experience.details', locale)}`}
-              </button>
-            )}
-
-            {expanded && entry.bullets[locale].length > 0 && (
-              <ul className="mt-2 space-y-1">
-                {entry.bullets[locale].map((bullet, j) => (
-                  <li key={j} className="text-sm text-text-secondary">
-                    <span className="text-accent">{'>'}</span> {bullet}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            <div className="mt-2 flex flex-wrap gap-1">
-              {entry.tech.map((tech) => (
-                <span key={tech} className="rounded-xs border border-border px-2 py-0.5 font-mono text-xs text-text-secondary">
-                  {tech}
-                </span>
-              ))}
-            </div>
+            <EntryDetails entry={entry} locale={locale} />
           </div>
         ))}
       </div>

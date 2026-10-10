@@ -8,14 +8,14 @@ const isBlog = Astro.url.pathname.startsWith('/blog');
 ---
 
 <header class="fixed top-0 z-50 w-full border-b border-border bg-bg/80 backdrop-blur-md">
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
     <a href="/" class="whitespace-nowrap font-heading text-lg font-bold text-accent">
       {'<A4 />'}
     </a>
 
     <Nav />
 
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
       <DesignToggle client:load />
       <LanguageSwitcher client:load />
       <MobileMenu client:load isBlog={isBlog} />

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
+import CurrentCompanies from '@components/ui/CurrentCompanies';
+import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 
 function EngineerHeroInner() {
@@ -45,10 +47,20 @@ function EngineerHeroInner() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mb-6 font-mono text-2xl text-text-secondary md:text-4xl"
+        className="mb-3 font-mono text-2xl text-text-secondary md:text-4xl"
       >
         {'> '}{t('hero.title', locale)}
       </motion.h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="mb-6 font-mono text-sm text-text-secondary"
+      >
+        <span className="text-accent">{'// '}</span>
+        <CurrentCompanies locale={locale} companyClassName="text-text" />
+      </motion.p>
 
       <motion.p
         initial={{ opacity: 0 }}
@@ -73,7 +85,7 @@ function EngineerHeroInner() {
           {t('hero.cta.work', locale)}
         </a>
         <a
-          href="/resume/Alexandre_Akira_en_CV.pdf"
+          href={cvUrl}
           download
           className="rounded-btn bg-accent px-4 py-3 font-mono text-sm text-[#0a192f] transition-colors hover:bg-accent-hover sm:px-6"
         >
