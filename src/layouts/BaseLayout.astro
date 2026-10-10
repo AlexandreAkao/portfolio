@@ -152,9 +152,14 @@ const jsonLd = type === 'article'
           document.documentElement.lang = lang;
           if (!fixed) localStorage.setItem('lang', lang);
 
-          // Arm the intro curtain before first paint; reduced-motion visitors skip it.
+          // Arm the intro curtain before first paint, on the home's first hard load
+          // of the session only; reduced-motion visitors and deep links skip it.
           var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (!reduce) document.documentElement.dataset.intro = 'wait';
+          var onHome = /^\/(pt\/?)?$/.test(window.location.pathname);
+          if (!reduce && onHome && !sessionStorage.getItem('intro-seen')) {
+            document.documentElement.dataset.intro = 'wait';
+            sessionStorage.setItem('intro-seen', '1');
+          }
         } catch(e) {}
       })();
       document.addEventListener('astro:after-swap', function() {

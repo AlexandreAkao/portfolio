@@ -17,8 +17,11 @@ export default function CurrentCompanies({ locale, companyClassName = '' }: Prop
       {t('hero.now', locale)}{' '}
       {currentCompanies.map((company, i) => (
         <Fragment key={company}>
-          {i > 0 && ' · '}
-          <span className={`whitespace-nowrap ${companyClassName}`}>{company}</span>
+          {i > 0 && ' '}
+          <span className="whitespace-nowrap">
+            {i > 0 && '· '}
+            <span className={companyClassName}>{company}</span>
+          </span>
         </Fragment>
       ))}
     </>

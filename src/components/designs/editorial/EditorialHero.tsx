@@ -79,12 +79,12 @@ function EditorialHeroInner() {
               {title}
             </motion.h2>
           </div>
-          {/* Indented to the role's first letter: the rule (w-16 / md:w-24) plus the 1rem gap */}
+          {/* From 640px, indented to the role's first letter: the rule (w-16 / md:w-24) plus the 1rem gap */}
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="mt-2 pl-20 text-sm text-text-secondary md:pl-28 md:text-base"
+            className="mt-2 text-sm text-text-secondary sm:pl-20 md:pl-28 md:text-base"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             <CurrentCompanies locale={locale} companyClassName="font-medium text-text" />
@@ -95,7 +95,7 @@ function EditorialHeroInner() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.9 }}
-          className="mt-8 max-w-lg text-base leading-relaxed text-text-secondary"
+          className="mt-6 sm:mt-8 max-w-lg text-base leading-relaxed text-text-secondary"
           style={{ fontFamily: 'var(--font-body)' }}
         >
           {t('hero.tagline', locale)}
@@ -105,7 +105,7 @@ function EditorialHeroInner() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1.0 }}
-          className="mt-10 flex flex-wrap gap-4"
+          className="mt-8 flex flex-wrap gap-4 sm:mt-10"
         >
           <a
             href="#projects"

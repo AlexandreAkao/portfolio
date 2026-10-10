@@ -20,33 +20,29 @@ const personal = projects.filter((p) => p.type === 'personal');
       <h3 class="mb-6 font-heading text-xl font-semibold text-accent">
         <T k="projects.professional" />
       </h3>
-    </ScrollReveal>
-    <div class="mb-12 grid gap-6 md:grid-cols-2">
-      {professional.map((project, i) => (
-        <ScrollReveal client:visible delay={i * 0.1}>
-          <div class="flex h-full flex-col rounded-card border border-border bg-card p-6 transition-colors hover:border-accent/50">
-            <h4 class="mb-2 font-heading text-lg font-bold text-text">{project.title}</h4>
-            <p class="mb-4 flex-1 text-sm text-text-secondary">
-              <span data-lang-show="en">{project.description.en}</span>
-              <span data-lang-show="pt">{project.description.pt}</span>
-            </p>
-            {project.metrics && (
-              <p class="mb-3 text-xs font-semibold text-accent">
-                <span data-lang-show="en">{project.metrics.en}</span>
-                <span data-lang-show="pt">{project.metrics.pt}</span>
-              </p>
-            )}
-            <div class="flex flex-wrap gap-1">
-              {project.tech.map((t) => (
-                <span class="rounded-btn border border-border px-2 py-0.5 text-xs text-text-secondary">
-                  {t}
+      {/* Professional work is told in Experience; here it is one ruled line each, pointing back there */}
+      <ul class="mb-12 border-t border-border">
+        {professional.map((project) => (
+          <li class="border-b border-border">
+            <a
+              href="#experience"
+              class="group flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+            >
+              <span class="font-heading text-lg font-bold text-text transition-colors group-hover:text-accent">
+                {project.title}
+              </span>
+              {project.metrics && (
+                <span class="text-sm font-medium text-accent">
+                  <span data-lang-show="en">{project.metrics.en}</span>
+                  <span data-lang-show="pt">{project.metrics.pt}</span>
                 </span>
-              ))}
-            </div>
-          </div>
-        </ScrollReveal>
-      ))}
-    </div>
+              )}
+              <span class="sr-only"><T k="projects.seeExperience" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </ScrollReveal>
 
     <ScrollReveal client:visible delay={0.1}>
       <h3 class="mb-6 font-heading text-xl font-semibold text-accent">

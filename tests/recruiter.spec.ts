@@ -49,3 +49,31 @@ test('contact names the action, shows the address and copies it', async ({ page,
   await expect(contact.getByRole('button', { name: 'Copy email address' })).toHaveText('Copied');
   expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/@gmail\.com$/);
 });
+
+test('the curtain plays on the home once per session, never on a deep link', async ({ page }) => {
+  const intro = () => page.evaluate(() => document.documentElement.dataset.intro ?? 'none');
+  await page.goto('/blog/clean-architecture-microservices/');
+  expect(await intro()).toBe('none');
+
+  await page.goto('/');
+  expect(await intro()).not.toBe('none');
+  await expect.poll(intro, { timeout: 15_000 }).toBe('done');
+
+  await page.reload();
+  expect(await intro()).toBe('none');
+});
+
+test('a scroll gesture ends the curtain instead of being swallowed', async ({ page }) => {
+  await page.goto('/');
+  await page.mouse.move(400, 400);
+  await page.mouse.wheel(0, 300);
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro ?? 'none'), { timeout: 1_000 }).toBe('done');
+});
+
+test('professional projects are one line each, pointing to Experience', async ({ page }) => {
+  await page.goto('/');
+  const rows = page.locator('#projects a[href="#experience"]');
+  await expect(rows).toHaveCount(4);
+  await expect(rows.first()).toContainText('Appointally');
+  await expect(rows.first()).toContainText('19 microservices');
+});

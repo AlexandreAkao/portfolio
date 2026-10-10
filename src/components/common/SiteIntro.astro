@@ -78,10 +78,6 @@
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var active = null;
 
-    function block(e) {
-      e.preventDefault();
-    }
-
     // One curtain session. mode "arrival": the full intro armed by BaseLayout
     // (data-intro="wait"). mode "quick": a theme switch; the curtain wears the
     // incoming world, covers the page, the theme swaps underneath, then the
@@ -112,8 +108,8 @@
         delete el.dataset.design;
         el.removeEventListener('animationend', onEnd);
         el.removeEventListener('click', finish);
-        el.removeEventListener('wheel', block);
-        el.removeEventListener('touchmove', block);
+        el.removeEventListener('wheel', finish);
+        el.removeEventListener('touchmove', finish);
         document.removeEventListener('keydown', onKey);
         clearTimeout(s.timer);
         clearTimeout(s.applyTimer);
@@ -134,8 +130,10 @@
 
       el.addEventListener('animationend', onEnd);
       el.addEventListener('click', finish);
-      el.addEventListener('wheel', block, { passive: false });
-      el.addEventListener('touchmove', block, { passive: false });
+      // A scroll gesture means "let me read": it ends the curtain instead of being swallowed.
+      // (touchmove, not touchstart, so a tap cannot fall through onto a link underneath.)
+      el.addEventListener('wheel', finish, { passive: true });
+      el.addEventListener('touchmove', finish, { passive: true });
       document.addEventListener('keydown', onKey);
       s.timer = setTimeout(finish, mode === 'arrival' ? 4000 : 2000);
 

@@ -1,6 +1,8 @@
 import type { ComponentType } from 'react';
 import { motion } from 'motion/react';
 import { socialLinks } from '@data/social';
+import { useLocale } from '@i18n/useLocale';
+import { t } from '@i18n/utils';
 
 function GitHubIcon({ className }: { className?: string }) {
   return (
@@ -48,6 +50,7 @@ interface Props {
 }
 
 export default function SocialLinks({ className = '', delay = 0 }: Props) {
+  const locale = useLocale();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -58,16 +61,19 @@ export default function SocialLinks({ className = '', delay = 0 }: Props) {
       {socialLinks.map((link) => {
         const Icon = icons[link.name];
         const external = link.url.startsWith('http');
+        // Brand icons are recognisable on their own; the email is the action, so it keeps its word on phones.
+        const isEmail = link.url.startsWith('mailto:');
+        const label = isEmail ? t('social.email', locale) : link.name;
         return (
           <a
             key={link.name}
             href={link.url}
             {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
             className="flex items-center gap-2 rounded-btn border border-border px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
-            aria-label={link.name}
+            aria-label={label}
           >
             {Icon && <Icon className="h-5 w-5" />}
-            <span className="hidden sm:inline">{link.name}</span>
+            <span className={isEmail ? 'inline' : 'hidden sm:inline'}>{label}</span>
           </a>
         );
       })}
