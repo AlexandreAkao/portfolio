@@ -104,7 +104,7 @@ const breadcrumbJsonLd = {
           <span data-lang-show="pt">{ptDate}</span>
         </p>
         <h1 class="mb-4 font-heading text-4xl font-bold text-text">{title}</h1>
-        <p class="max-w-[65ch] text-lg text-text-secondary">{description}</p>
+        <p class="max-w-[40rem] text-lg text-text-secondary">{description}</p>
         {tags && tags.length > 0 && (
           <div class="mt-4 flex flex-wrap gap-2">
             {tags.map((tag) => (
@@ -252,9 +252,10 @@ const breadcrumbJsonLd = {
   }
 
   /* Paragraphs */
-  /* Text keeps a 72ch measure inside the wide article; code blocks, tables and images use the full width */
+  /* Text keeps a ~70-character measure inside the wide article (40rem at 1.125rem;
+     ch would run wide in DM Sans); code blocks, tables and images use the full width */
   .prose :global(:is(p, li, blockquote)) {
-    max-width: 72ch;
+    max-width: 40rem;
   }
 
   .prose :global(p) {
@@ -310,13 +311,15 @@ const breadcrumbJsonLd = {
     padding: 0.15em 0.4em;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.85em;
-    color: var(--accent);
+    color: var(--accent-text);
     word-break: break-word;
   }
 
-  /* Code blocks */
+  /* Code blocks: Shiki's github-dark-default palette on a dark panel in every world
+     (5.1:1 or more for every token); light worlds set the panel in their own ink */
   .prose :global(pre) {
-    background: var(--bg-secondary) !important;
+    background: var(--code-bg) !important;
+    color-scheme: dark;
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 1.25rem 1.5rem;

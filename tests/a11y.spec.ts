@@ -27,3 +27,26 @@ test('Editorial keeps its orange readable: ink on fills, Signal Orange Ink for s
   const cv = page.locator('#hero [data-design-show="editorial"]').getByRole('link', { name: 'Download CV' });
   await expect(cv).toHaveCSS('color', 'rgb(191, 57, 0)');
 });
+
+test('blog code reads in every world: every syntax token at 4.5:1 or more on its panel', async ({ page }) => {
+  for (const world of ['editorial', 'creative', 'avantgarde', 'engineer', 'arcade']) {
+    await page.addInitScript((w) => localStorage.setItem('design', w), world);
+    await page.goto('/blog/es6-es7-es8-what-feature-is-that/');
+    await expect(page.locator('html')).toHaveAttribute('data-design', world);
+    const min = await page.evaluate(() => {
+      const rgb = (s: string) => (s.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+      const lin = (c: number) => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+      const L = ([r, g, b]: number[]) => 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+      const cr = (a: number[], b: number[]) => { const [x, y] = [L(a), L(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+      let lowest = 99;
+      for (const pre of document.querySelectorAll('.prose pre')) {
+        const bg = rgb(getComputedStyle(pre).backgroundColor);
+        for (const s of pre.querySelectorAll('span')) {
+          if (s.textContent?.trim() && !s.children.length) lowest = Math.min(lowest, cr(rgb(getComputedStyle(s).color), bg));
+        }
+      }
+      return lowest;
+    });
+    expect(min, `${world}: lowest code token contrast`).toBeGreaterThanOrEqual(4.5);
+  }
+});

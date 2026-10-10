@@ -36,11 +36,13 @@
   --radius-btn: var(--radius-btn);
 }
 
-/* Every world: text on an accent fill takes the page colour, and small accent
-   text uses the accent itself. A world overrides either when its accent needs it. */
+/* Every world: text on an accent fill takes the page colour, small accent text
+   uses the accent itself, and code sits on the raised surface. A world overrides
+   any of them when its palette needs it. */
 [data-design] {
   --on-accent: var(--bg);
   --accent-text: var(--accent);
+  --code-bg: var(--bg-secondary);
 }
 
 /* Engineer Design Tokens */
@@ -73,6 +75,8 @@
   --card-hover: #f8f4ef;
   --font-heading: 'Sora', sans-serif;
   --font-body: 'Source Serif 4', serif;
+  /* Code is set on the world's own ink: the dark syntax palette needs a dark panel */
+  --code-bg: var(--text);
   --radius-card: 16px;
   --radius-btn: 9999px;
 }
@@ -105,6 +109,8 @@
   /* Signal Orange is 3:1 on newsprint: fills take Ink (5.2:1), small text takes Signal Orange Ink (4.5:1 or more on every surface) */
   --on-accent: var(--text);
   --accent-text: #bf3900;
+  /* Code is set on the world's own ink, like a boxed insert on the page */
+  --code-bg: var(--text);
   --border: #d4d0c8;
   --card: #ffffff;
   --card-hover: #f9f8f5;
