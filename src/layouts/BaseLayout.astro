@@ -4,6 +4,7 @@ import '@/styles/global.css';
 import AvantgardeCursor from '@components/designs/avantgarde/AvantgardeCursor.tsx';
 import SiteIntro from '@components/common/SiteIntro.astro';
 import T from '@components/ui/T.astro';
+import { designIds, defaultDesign } from '@data/designs';
 
 interface Props {
   title: string;
@@ -74,7 +75,7 @@ const jsonLd = type === 'article'
     };
 ---
 
-<html lang={locale || 'en'} data-design="avantgarde" data-lang={locale || 'en'} data-lang-fixed={localeFixed || undefined}>
+<html lang={locale || 'en'} data-design={defaultDesign} data-lang={locale || 'en'} data-lang-fixed={localeFixed || undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -120,12 +121,11 @@ const jsonLd = type === 'article'
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap" />
     <ClientRouter />
-    <script is:inline>
+    <script is:inline define:vars={{ validDesigns: designIds, fallbackDesign: defaultDesign }}>
       (function() {
         try {
-          var validDesigns = ['engineer','creative','avantgarde','editorial','arcade'];
-          var d = localStorage.getItem('design') || 'avantgarde';
-          if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
+          var d = localStorage.getItem('design') || fallbackDesign;
+          if (validDesigns.indexOf(d) === -1) d = fallbackDesign;
           document.documentElement.dataset.design = d;
 
           // An explicit ?lang= or the /pt/ address wins over the stored preference.
@@ -146,9 +146,8 @@ const jsonLd = type === 'article'
       })();
       document.addEventListener('astro:after-swap', function() {
         try {
-          var validDesigns = ['engineer','creative','avantgarde','editorial','arcade'];
-          var d = localStorage.getItem('design') || 'avantgarde';
-          if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
+          var d = localStorage.getItem('design') || fallbackDesign;
+          if (validDesigns.indexOf(d) === -1) d = fallbackDesign;
           document.documentElement.dataset.design = d;
           var pathLang = /^\/pt\/?$/.test(window.location.pathname) ? 'pt' : null;
           var fixed = document.documentElement.hasAttribute('data-lang-fixed');

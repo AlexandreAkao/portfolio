@@ -65,6 +65,10 @@
   "design.switch": "Trocar design",
   "design.current": "atual",
   "design.options": "Opções de design",
+  "design.label": "Design",
+  "design.intro": "Mesmo conteúdo, {n} designs",
+  "design.invite": "Um portfólio, {n} designs.",
+  "design.inviteCta": "Trocar para {name}",
   "blog.breadcrumb": "Trilha de navegação",
   "blog.shareOn": "Compartilhar no",
   "home.title": "Alexandre Akira - Desenvolvedor Full-Stack Sênior"

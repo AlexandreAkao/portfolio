@@ -4,6 +4,7 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
+import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 
@@ -94,6 +95,7 @@ function EngineerHeroInner() {
       </motion.div>
 
       <SocialLinks delay={0.8} className="mt-8 justify-center" />
+      <DesignInvite world="engineer" locale={locale} delay={1.0} className="mt-6" />
     </div>
   );
 }

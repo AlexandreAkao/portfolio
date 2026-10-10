@@ -6,6 +6,7 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
+import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 
 const PARTICLE_COUNT_DESKTOP = 200;
@@ -321,6 +322,7 @@ function AvantgardeHeroInner() {
         </motion.div>
 
         <SocialLinks delay={1.1} className="mt-8" />
+        <DesignInvite world="avantgarde" locale={locale} delay={1.3} className="mt-6" />
       </div>
     </div>
   );

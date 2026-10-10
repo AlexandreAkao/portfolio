@@ -7,7 +7,7 @@ related_targets: ["src/components/sections/Hero.astro","src/components/sections/
 
 # Home surface
 
-Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: five worlds (Avant-garde, Engineer, Creative, Editorial, Arcade), all restaging the same content from `src/data` and `src/i18n`. Constraints: shared sections (About, Education, Projects, Contact) re-skin through tokens only; bespoke sections are Hero, Experience, Skills; every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Unresolved: switcher permanence (PRODUCT.md) and which world opens the site (currently Avant-garde; the user chose to decide later, 2026-10-10).
+Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: five worlds (Editorial, Avant-garde, Engineer, Creative, Arcade), all restaging the same content from `src/data` and `src/i18n`. Constraints: shared sections (About, Education, Projects, Contact) re-skin through tokens only; bespoke sections are Hero, Experience, Skills; every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10: the most authored of the five, and no WebGL on a first visit). Unresolved: switcher permanence (PRODUCT.md).
 
 ## Retired worlds (2026-10-10)
 

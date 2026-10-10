@@ -77,7 +77,7 @@ test('quick-change: switching worlds hydrates the incoming hero and warms code o
 
   for (const [label, world] of [['Avant-garde', 'avantgarde'], ['Arcade', 'arcade'], ['Creative', 'creative']] as const) {
     await trigger.click();
-    await page.getByRole('option', { name: label }).getByRole('button').click();
+    await page.getByRole('list', { name: 'Design options' }).getByRole('button', { name: label }).click();
     await expect.poll(() => page.evaluate(() => document.documentElement.dataset.design)).toBe(world);
     await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro), { timeout: 10_000 }).toBe('done');
     await expectHeroVisible(page, world);
@@ -90,7 +90,7 @@ test('editorial keeps its greeting above the name after a switch and a scroll', 
   await arrive(page, 'creative');
   await page.waitForTimeout(5_000); // let idle work settle
   await page.getByRole('button', { name: /switch design/i }).click();
-  await page.getByRole('option', { name: 'Editorial' }).getByRole('button').click();
+  await page.getByRole('list', { name: 'Design options' }).getByRole('button', { name: 'Editorial' }).click();
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro), { timeout: 10_000 }).toBe('done');
   await expectHeroVisible(page, 'editorial');
   await page.mouse.wheel(0, 300);

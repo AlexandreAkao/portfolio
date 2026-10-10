@@ -65,6 +65,10 @@
   "design.switch": "Switch design",
   "design.current": "current",
   "design.options": "Design options",
+  "design.label": "Design",
+  "design.intro": "Same content, {n} designs",
+  "design.invite": "One portfolio, {n} designs.",
+  "design.inviteCta": "Switch to {name}",
   "blog.breadcrumb": "Breadcrumb",
   "blog.shareOn": "Share on",
   "home.title": "Alexandre Akira - Senior Full-Stack Engineer"

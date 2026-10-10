@@ -272,7 +272,7 @@ components:
 
 **Creative North Star: "The Repertoire"**
 
-One performer, five staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of five complete visual worlds: Avant-garde (the default), Engineer, Creative, Editorial, and Arcade. The system's personality is plural on purpose. Each world commits fully to its own register (the terminal, the studio, the dark gallery, the broadsheet, and the arcade cabinet). None of them is a theme laid over a neutral base, because the neutral base does not exist.
+One performer, five staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of five complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, and Arcade. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the terminal, the studio, and the arcade cabinet). None of them is a theme laid over a neutral base, because the neutral base does not exist.
 
 Underneath, one skeleton carries all five: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Only Hero, Experience, and Skills get a bespoke component per world.
 
@@ -328,6 +328,8 @@ Candy surfaces cycle by index across experience and skill cards: Candy Green (#0
 ### Hierarchy
 - **Display** (hero name): Engineer 700, 3rem rising to 4.5rem at 768px, line-height 1. Creative 700, 3.75rem rising to 6rem, line-height 1.25, surname in Royal Violet. Avant-garde 700, clamp(2.25rem, 8vw, 6.5rem), line-height 0.95, characters staggered in. Editorial 700, clamp(2.5rem, 10vw, 9rem), line-height 0.9, letter-spacing -0.025em, beside a ghost "01". Arcade 400, 3rem rising to 4.5rem, uppercase.
 - **Hero role line**: 1.25rem to 2.25rem depending on world, in secondary text. Engineer prefixes "> ". Arcade sets it in Bungee uppercase Coin Gold. Editorial pairs it with a 3px orange rule.
+- **Currently at** (every hero): "Currently at Seva / Appointally · AmbevTech" right under the role, derived from the roles still in progress, in secondary text with the company names in primary text (medium or semibold, never broken across lines). Engineer prints it as a `//` comment in monospace; Editorial indents it to the role's first letter, beside the rule.
+- **Design invitation** (every hero, after the socials): "One portfolio, 5 designs." in secondary text at 0.875rem, then a text button "Switch to <next world>" in primary text with a 2px accent underline at a 4px offset. It switches to the next world in order through the header switcher, so it plays the same quick-change.
 - **Headline** (section h2): 700, 1.875rem, line-height 1.2, centered, 48px below. Engineer wraps it in teal "<" and "/>". Arcade underlines it in Coin Gold, 4px thick, 8px offset.
 - **Title** (card h3 and h4, company names): 700, 1.125rem, line-height 1.55 in the heading face. Editorial scales experience titles to clamp(1.5rem, 3vw, 2.5rem) and skill headings to clamp(2rem, 4vw, 3rem).
 - **Body**: 400, 1rem, line-height 1.5 in About and Contact; 0.875rem, line-height 1.43 inside cards. The 896px section column gives About roughly 65 to 75 characters per line.
@@ -351,12 +353,12 @@ A single centered column at medium density with the same section order in every 
 - **Experience:** per world. Engineer: vertical timeline with 12px ring nodes on a 1px line, sub-roles indented 16px behind a left border. Creative: a scrollable row of pill tabs above one 32px-padded card. Avant-garde: stacked cards with 24px gaps, a 3px accent left edge, and a ghost year watermark. Editorial: entries 48px apart in a 1fr/2fr grid from 768px, each opened by a hairline that draws in. Arcade: stacked candy cards with 16px gaps and a details toggle.
 - **Education and Projects:** card grids with 24px gaps. Education and professional projects in two columns from 768px; personal projects in three from 1024px.
 - **Skills:** per world. Engineer: one JSON-formatted block. Creative: centered filter pills over a centered pill cloud. Avant-garde: seven numbered rows with a hairline, chips wrapping at 8px. Editorial: giant headings alternating left and right with hairlines, 48px apart. Arcade: a candy grid, two columns from 640px and three from 1024px.
-- **Contact:** a 672px centered column with a full-width accent button.
+- **Contact:** a 672px centered column: a direct first-person line, the full-width accent "Email me" button, then a row (stacked below 640px) with the address in primary text, selectable in one click, beside a bordered "Copy" chip, and the CV as a text link with a 2px accent underline.
 - **Footer:** 1px top border, 32px vertical padding, social icons at 24px gap, then two 12px lines.
 - **Blog:** the list runs 768px wide with tag filters; the article runs 1024px wide with a breadcrumb, an optional 340px cover, a table-of-contents block, prose, a share row, and a related-posts grid.
-- **Breakpoints:** 640px, 768px (navigation, most grids), 1024px (three-column grids, the switcher's label).
+- **Breakpoints:** 640px, 768px (navigation, most grids), 1024px (three-column grids, the switcher's glyph and world name).
 - **Rhythm:** a 4px scale. Reused steps are 4, 8, 16, 24, 32, 48, and 80px.
-- **Mobile:** navigation collapses to a hamburger; a 256px panel slides in from the right over a 50% black backdrop with body scroll locked. The design switcher drops its name and keeps only the glyph below 1024px.
+- **Mobile:** navigation collapses to a hamburger; a 256px panel slides in from the right over a 50% black backdrop with body scroll locked. The design switcher reads "Design" below 1024px. The header pads 16px at the sides below 640px (24px from 640px) and its controls sit 8px apart, so it fits a 320px phone in every world.
 
 ### Named Rules
 **The Same Bones Rule.** Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it; today that is Hero, Experience, and Skills.
@@ -431,9 +433,9 @@ None. Contact is a `mailto:` button by product decision.
 
 ### Navigation
 - **Desktop links:** 0.875rem in secondary text, accent on hover, 24px apart, hidden below 768px.
-- **Design switcher:** a pill with a 1px border on the raised surface, a monospace 0.75rem uppercase label showing the world's glyph ("//", "{ }", "~", "01", a joystick) plus its name from 1024px, and a chevron that rotates 180 degrees when open. The list drops 8px below at 160px minimum width, 8px radius, and the floating shadow; options are 0.875rem with a 10% accent hover wash, the active one in accent with a check mark.
+- **Design switcher:** a pill with a 1px border on the raised surface, a monospace 0.75rem uppercase label that reads "Design" below 1024px and the world's glyph ("01", "//", "{ }", "~", a joystick) plus its name from 1024px, and a chevron that rotates 180 degrees when open. A disclosure, not a listbox: the panel drops 8px below at 224px wide, 8px radius, and the floating shadow, opens with one 0.75rem secondary line ("Same content, 5 designs") over a hairline, then lists the worlds in order as toggle buttons (aria-pressed) at 0.875rem with a 10% accent hover wash, the current one in accent with a check mark. Escape closes it and returns focus to the pill.
 - **Language toggle:** a 0.75rem bordered chip reading "PT" or "EN", 6px radius.
-- **Mobile:** a 20px three-bar hamburger that folds into an X; a 256px right panel with 12px-padded links and a divider before Blog.
+- **Mobile:** a 20px three-bar hamburger that folds into an X; a 256px right panel that carries its own 44px close button (focused on open), 12px-padded links, a divider before Blog, and at its foot the CV as a bordered button in primary text and the email address beside a mail icon.
 - **Skip link:** an accent pill that drops into view on focus.
 - **Reading progress (blog):** a 4px accent bar fixed at the top.
 

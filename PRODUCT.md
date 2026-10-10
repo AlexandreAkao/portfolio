@@ -20,7 +20,7 @@ Personal portfolio and blog for Alexandre Akira, Senior Full-Stack Engineer, liv
 
 ## Positioning
 
-One body of content rendered through five complete, switchable visual identities (Avant-garde as default, then Engineer, Creative, Editorial, Arcade). The site is itself the demonstration of frontend range instead of a claim about it, paired with backend depth (a 19-microservice SaaS, a warehouse system for 200+ distribution centers) that a frontend-only portfolio cannot truthfully show. The confirmed self-description in copy: "the intersection of backend robustness and frontend elegance."
+One body of content rendered through five complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Creative, Arcade). The site is itself the demonstration of frontend range instead of a claim about it, paired with backend depth (a 19-microservice SaaS, a warehouse system for 200+ distribution centers) that a frontend-only portfolio cannot truthfully show. The confirmed self-description in copy: "the intersection of backend robustness and frontend elegance."
 
 **Open decision:** whether all five designs remain long-term. The user is open to consolidating later. Future work must neither assume the switcher is permanent nor remove a design without an explicit decision.
 
