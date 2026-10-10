@@ -33,3 +33,19 @@ test('the mobile menu closes from inside and carries the CV and the email @mobil
   await close.click();
   await expect(panel).toBeHidden();
 });
+
+test('contact names the action, shows the address and copies it', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/');
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro ?? 'none'), { timeout: 15_000 }).toMatch(/done|none/);
+  const contact = page.locator('#contact');
+  await contact.scrollIntoViewIfNeeded();
+
+  await expect(contact.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', /^mailto:/);
+  await expect(contact.getByRole('link', { name: 'Download CV' })).toHaveAttribute('href', /\.pdf$/);
+  await expect(contact.getByText(/@gmail\.com$/)).toBeVisible();
+
+  await contact.getByRole('button', { name: 'Copy email address' }).click();
+  await expect(contact.getByRole('button', { name: 'Copy email address' })).toHaveText('Copied');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/@gmail\.com$/);
+});

@@ -38,7 +38,7 @@ One body of content rendered through five complete, switchable visual identities
 - Locales: English is the default at `/`, Portuguese at `/pt/`. **Confirmed decision:** keep English as the default locale. Portuguese is a full peer with content parity, not a fallback.
 - Design registry lives in `src/data/designs.ts`. All designs render at once and CSS visibility toggles the active one via `data-design`. Adding a design means registry entry, per-section components, and tokens (see CLAUDE.md).
 - Shared content lives in `src/data/*.ts` (experience, education, skills, projects, social) and `src/i18n/*.json`. Designs consume it; they never fork it.
-- **Confirmed decision:** the mailto button is the contact mechanism. The unused form strings in i18n (`contact.name`, `contact.email`, `contact.message`) are leftovers and may be removed.
+- **Confirmed decision:** the mailto button is the contact mechanism. The form strings that went unused (`contact.name`, `contact.email`, `contact.message`) were removed on 2026-10-10; Contact now pairs the mailto button with the visible address (with copy) and the CV.
 - Terminology: English copy says "Engineer", not "Developer" (enforced via PR #1). Deliberate exceptions: "junior developers" in the NATI bullet and "Research Scholarship - Developer" for FUNCAP.
 - No linter or test runner is configured.
 

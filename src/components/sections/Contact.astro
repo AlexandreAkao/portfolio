@@ -2,7 +2,8 @@
 import { t } from '@i18n/utils';
 import T from '@components/ui/T.astro';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
-import { email } from '@data/social';
+import EmailCopy from '@components/islands/EmailCopy.tsx';
+import { cvUrl, email } from '@data/social';
 ---
 
 <section id="contact" class="py-20">
@@ -22,8 +23,19 @@ import { email } from '@data/social';
         href={`mailto:${email}`}
         class="inline-block w-full rounded-btn bg-accent px-6 py-3 font-heading text-sm font-semibold text-bg transition-colors hover:bg-accent-hover"
       >
-        <T k="contact.send" />
+        <T k="contact.emailMe" />
       </a>
+
+      <div class="mt-6 flex flex-col items-center gap-4 text-sm sm:flex-row sm:justify-center sm:gap-8">
+        <EmailCopy client:visible />
+        <a
+          href={cvUrl}
+          download
+          class="font-medium text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
+        >
+          <T k="hero.cta.cv" />
+        </a>
+      </div>
     </ScrollReveal>
   </div>
 </section>
