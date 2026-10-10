@@ -70,26 +70,6 @@
       <span class="intro-arc__bar"></span>
     </div>
   </div>
-
-  <!-- Night Shift: a tunnel at 3 a.m. The overhead sign carries the name, the exit
-       light grows at the vanishing point, and you drive out into the night -->
-  <div class="intro intro-ns" data-design-show="nightshift" data-intro-gate="ns-out" data-intro-exit-at="1100" data-intro-exit-at-quick="180">
-    <div class="intro-ns__tunnel">
-      <span class="intro-ns__wall intro-ns__wall--left"></span>
-      <span class="intro-ns__wall intro-ns__wall--right"></span>
-      <span class="intro-ns__lamps"></span>
-      <span class="intro-ns__lane"></span>
-      <span class="intro-ns__exit"></span>
-      <p class="intro-ns__plate">Alexandre Akira</p>
-    </div>
-  </div>
-
-  <!-- Metro: the station sign slides onto the platform, then the train doors part -->
-  <div class="intro intro-mt" data-design-show="metro">
-    <div class="intro-mt__door intro-mt__door--left"><span class="intro-mt__window"></span></div>
-    <div class="intro-mt__door intro-mt__door--right"><span class="intro-mt__window"></span></div>
-    <div class="intro-mt__sign"><p class="intro-mt__name">Alexandre Akira</p></div>
-  </div>
 </div>
 
 <script is:inline data-astro-rerun>
@@ -109,15 +89,8 @@
     function run(mode, opts) {
       var el = document.getElementById('site-intro');
       if (!el) return null;
-      var s = { revealed: false, finished: false, applied: false, exited: false };
+      var s = { revealed: false, finished: false, applied: false };
       active = s;
-      // A world whose block carries data-intro-gate names the animation its exit
-      // ends with; its exit waits for the world's scene to report a drawn frame
-      // (html[data-scene="drawn"]) as well as its own minimum time, with a grace
-      // period so a scene that never reports still gets its exit.
-      var design = mode === 'arrival' ? html.dataset.design : opts.design;
-      var gateBlock = el.querySelector('[data-design-show="' + design + '"][data-intro-gate]');
-      var gate = gateBlock ? gateBlock.getAttribute('data-intro-gate') : null;
 
       function reveal() {
         if (s.revealed) return;
@@ -144,43 +117,19 @@
         document.removeEventListener('keydown', onKey);
         clearTimeout(s.timer);
         clearTimeout(s.applyTimer);
-        clearTimeout(s.gateMin);
-        clearTimeout(s.gateGrace);
-        if (s.gateObs) s.gateObs.disconnect();
-        delete el.dataset.exit;
         active = null;
         document.dispatchEvent(new CustomEvent('site-intro:done'));
       }
       function onEnd(e) {
-        if (gate && e.animationName === gate) { finish(); return; }
         if (e.target !== el) return;
         if (e.animationName === 'intro-reveal') { if (mode === 'arrival') reveal(); }
-        else if (e.animationName === 'intro-root' && !gate) finish();
+        else if (e.animationName === 'intro-root') finish();
       }
       function onKey(e) {
         if (e.key === 'Escape') finish();
       }
-      function armGate() {
-        if (!gate) return;
-        var minAt = +gateBlock.getAttribute(mode === 'arrival' ? 'data-intro-exit-at' : 'data-intro-exit-at-quick') || 0;
-        var minPassed = false;
-        var drawn = false;
-        function tryExit() {
-          if (s.exited || s.finished) return;
-          if (!minPassed || !drawn) return;
-          s.exited = true;
-          if (s.gateObs) s.gateObs.disconnect();
-          el.dataset.exit = '';
-        }
-        s.gateObs = new MutationObserver(function () {
-          if (html.dataset.scene === 'drawn') { drawn = true; tryExit(); }
-        });
-        s.gateObs.observe(html, { attributes: true, attributeFilter: ['data-scene'] });
-        s.gateMin = setTimeout(function () { minPassed = true; tryExit(); }, minAt);
-        s.gateGrace = setTimeout(function () { drawn = true; tryExit(); }, minAt + 1500);
-      }
       function play() {
-        if (html.dataset.intro === 'wait') { html.dataset.intro = 'play'; armGate(); }
+        if (html.dataset.intro === 'wait') html.dataset.intro = 'play';
       }
 
       el.addEventListener('animationend', onEnd);
@@ -188,7 +137,7 @@
       el.addEventListener('wheel', block, { passive: false });
       el.addEventListener('touchmove', block, { passive: false });
       document.addEventListener('keydown', onKey);
-      s.timer = setTimeout(finish, (mode === 'arrival' ? 4000 : 2000) + (gate ? 1500 : 0));
+      s.timer = setTimeout(finish, mode === 'arrival' ? 4000 : 2000);
 
       if (mode === 'arrival') {
         // Hold the curtain still until the world's display face is ready, so
@@ -199,7 +148,6 @@
       } else {
         el.dataset.design = opts.design;
         html.dataset.intro = 'quick';
-        armGate();
         s.applyTimer = setTimeout(applyTheme, 170);
       }
       return s;
@@ -260,9 +208,6 @@
   [data-design='creative']   #site-intro { --intro-reveal: 1.05s; --intro-total: 1.75s; }
   [data-design='editorial']  #site-intro { --intro-reveal: 0.95s; --intro-total: 1.65s; }
   [data-design='arcade']     #site-intro { --intro-reveal: 1.25s; --intro-total: 1.9s; }
-  /* Night Shift's exit is gated on its scene (data-intro-gate), so the root's own end sits far out as a ceiling */
-  [data-design='nightshift'] #site-intro { --intro-reveal: 0.95s; --intro-total: 6s; }
-  [data-design='metro']      #site-intro { --intro-reveal: 0.85s; --intro-total: 1.55s; }
 
   /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
   /* The curtain carries the incoming design on its own data-design so it can
@@ -273,9 +218,7 @@
   #site-intro[data-design='engineer'] [data-design-show='engineer'],
   #site-intro[data-design='creative'] [data-design-show='creative'],
   #site-intro[data-design='editorial'] [data-design-show='editorial'],
-  #site-intro[data-design='arcade'] [data-design-show='arcade'],
-  #site-intro[data-design='nightshift'] [data-design-show='nightshift'],
-  #site-intro[data-design='metro'] [data-design-show='metro'] { display: block !important; }
+  #site-intro[data-design='arcade'] [data-design-show='arcade'] { display: block !important; }
 
   html[data-intro='quick'] #site-intro {
     display: block;
@@ -291,8 +234,6 @@
   html[data-intro='quick'] #site-intro[data-design='creative']   { --intro-total: 0.75s; }
   html[data-intro='quick'] #site-intro[data-design='editorial']  { --intro-total: 0.75s; }
   html[data-intro='quick'] #site-intro[data-design='arcade']     { --intro-total: 0.8s; }
-  html[data-intro='quick'] #site-intro[data-design='nightshift'] { --intro-total: 4s; }
-  html[data-intro='quick'] #site-intro[data-design='metro']      { --intro-total: 0.75s; }
 
   /* Avant-garde: no title card, the stage just splits */
   html[data-intro='quick'] .intro-ag__stage { display: none; }
@@ -333,16 +274,6 @@
   html[data-intro='quick'] .intro-arc__bar:nth-child(4) { animation-delay: 0.30s; }
   html[data-intro='quick'] .intro-arc__bar:nth-child(5) { animation-delay: 0.34s; }
   @keyframes arc-sweep-out { from { transform: translateX(0); } to { transform: translateX(101%); } }
-
-  /* Night Shift: no sign, the tunnel just opens onto the night (once the scene has drawn, see the gate) */
-  html[data-intro='quick'] .intro-ns__plate { display: none; }
-  html[data-intro='quick'] .intro-ns__exit { transform: scale(1.1); opacity: 1; animation: none; }
-  html[data-intro='quick'] .intro-ns__tunnel { animation-duration: 0.55s; }
-
-  /* Metro: no sign, the doors part straight away */
-  html[data-intro='quick'] .intro-mt__sign { display: none; }
-  html[data-intro='quick'] .intro-mt__door--left  { animation: mt-door-left  0.55s cubic-bezier(0.83, 0, 0.17, 1) 0.18s forwards; }
-  html[data-intro='quick'] .intro-mt__door--right { animation: mt-door-right 0.55s cubic-bezier(0.83, 0, 0.17, 1) 0.18s forwards; }
 
   /* ---------- Avant-garde: sharpen, rule, split ---------- */
   .intro-ag__panel {
@@ -665,202 +596,4 @@
     55%  { transform: translateX(0); animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0); }
     100% { transform: translateX(101%); }
   }
-
-  /* ---------- Night Shift: the tunnel, the overhead sign, out into the night ---------- */
-  /* The tunnel: two wall wedges clipped from the corners to the centre (flat,
-     cheap), and two receding strips in one perspective, the lamps overhead and
-     the lane underfoot. Each strip hangs off its own viewport edge and recedes
-     to the vanishing point at the centre: with perspective 300px, a plane at
-     33.6deg vanishes 300 / tan 33.6deg = 452px away (half the height). Strips are
-     600% tall so they reach within about 50px of that point and their masks
-     fade them out just before it, under the exit glow. The exit itself waits
-     for the scene: it plays only once #site-intro carries data-exit. */
-  .intro-ns__tunnel {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    background: linear-gradient(to bottom, #1c1f23, var(--bg) 42%, var(--bg) 58%, #1c1f23);
-    transform-origin: 50% 50%;
-    animation: ns-out 0.65s cubic-bezier(0.7, 0, 0.84, 0) forwards;
-    animation-play-state: paused;
-  }
-  #site-intro[data-exit] .intro-ns__tunnel { animation-play-state: running; }
-  .intro-ns__wall,
-  .intro-ns__lamps,
-  .intro-ns__lane {
-    position: absolute;
-    overflow: hidden;
-  }
-  .intro-ns__wall::before,
-  .intro-ns__lamps::before,
-  .intro-ns__lane::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    animation: ns-rush 0.42s linear infinite;
-  }
-  /* Walls: wedges from each side edge to the centre, lit at the near edge and dark at the far end */
-  .intro-ns__wall {
-    top: 0;
-    bottom: 0;
-    width: 50%;
-    overflow: visible;
-  }
-  .intro-ns__wall::before {
-    content: none;
-  }
-  .intro-ns__wall--left {
-    left: 0;
-    background: linear-gradient(to right, #24282d, #1a1d21 55%, var(--bg));
-    clip-path: polygon(0 0, 100% 50%, 0 100%);
-  }
-  .intro-ns__wall--right {
-    right: 0;
-    background: linear-gradient(to left, #24282d, #1a1d21 55%, var(--bg));
-    clip-path: polygon(100% 0, 0 50%, 100% 100%);
-  }
-  /* Ceiling: a strip of sodium lamps, the near ones at the top edge */
-  .intro-ns__lamps {
-    left: 50%;
-    top: 0;
-    width: 26vmin;
-    height: 600%;
-    margin-left: -13vmin;
-    opacity: 0.9;
-    transform: perspective(300px) rotateX(-33.6deg);
-    transform-origin: 50% 0;
-    -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 10%, transparent 84%);
-    mask-image: linear-gradient(to bottom, #000 0, #000 10%, transparent 84%);
-  }
-  .intro-ns__lamps::before {
-    bottom: -64px;
-    background: repeating-linear-gradient(to bottom, #ff9a2e 0 6px, transparent 6px 64px);
-  }
-  /* Floor: the centre lane's dashes, the near ones at the bottom edge */
-  .intro-ns__lane {
-    left: 50%;
-    bottom: 0;
-    width: 3vmin;
-    height: 600%;
-    margin-left: -1.5vmin;
-    opacity: 0.75;
-    transform: perspective(300px) rotateX(33.6deg);
-    transform-origin: 50% 100%;
-    -webkit-mask-image: linear-gradient(to top, #000 0, #000 10%, transparent 84%);
-    mask-image: linear-gradient(to top, #000 0, #000 10%, transparent 84%);
-  }
-  .intro-ns__lane::before {
-    top: -64px;
-    background: repeating-linear-gradient(to top, #f5c400 0 26px, transparent 26px 64px);
-    animation-name: ns-rush-down;
-  }
-  /* The exit: a blue glow at the vanishing point that grows as you approach */
-  .intro-ns__exit {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 70vmax;
-    height: 70vmax;
-    margin: -35vmax 0 0 -35vmax;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(63, 140, 255, 0.6) 0%, rgba(63, 140, 255, 0.2) 20%, transparent 48%);
-    mix-blend-mode: screen;
-    transform: scale(0.12);
-    opacity: 0.5;
-    animation: ns-approach 1.2s cubic-bezier(0.45, 0, 0.55, 1) 0.1s forwards;
-  }
-  /* The overhead sign: it approaches, then passes over the roof as you leave */
-  .intro-ns__plate {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.86);
-    margin: 0;
-    padding: 0.5em 1em 0.42em;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-card);
-    box-shadow: inset 0 0 0 3px var(--bg-secondary), inset 0 0 0 4px var(--border);
-    font-family: var(--font-heading);
-    font-size: clamp(1.75rem, 4.5vw, 3.25rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    line-height: 1;
-    white-space: nowrap;
-    color: var(--text);
-    opacity: 0;
-    animation:
-      ns-plate 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards,
-      ns-plate-pass 0.5s cubic-bezier(0.7, 0, 0.84, 0) 1.05s forwards;
-  }
-  @keyframes ns-rush { to { transform: translateY(-64px); } }
-  @keyframes ns-rush-down { to { transform: translateY(64px); } }
-  @keyframes ns-approach { to { transform: scale(1.15); opacity: 1; } }
-  @keyframes ns-plate { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
-  @keyframes ns-plate-pass { to { opacity: 0; transform: translate(-50%, -190%) scale(1.35); } }
-  @keyframes ns-out { to { transform: scale(1.5); opacity: 0; } }
-
-  /* ---------- Metro: station sign, then the doors part ---------- */
-  .intro-mt__door {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 50.5%;
-    background: var(--bg);
-    overflow: hidden;
-    animation-duration: 0.6s;
-    animation-delay: 0.9s;
-    animation-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
-    animation-fill-mode: forwards;
-  }
-  .intro-mt__door::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 62%;
-    height: 1px;
-    background: var(--border);
-  }
-  .intro-mt__door--left  { left: 0;  box-shadow: inset -5px 0 0 var(--accent); animation-name: mt-door-left; }
-  .intro-mt__door--right { right: 0; box-shadow: inset 5px 0 0 var(--accent);  animation-name: mt-door-right; }
-  .intro-mt__window {
-    position: absolute;
-    top: 22%;
-    width: min(28vw, 150px);
-    height: min(28vw, 150px);
-    border: 2px solid var(--border);
-    border-radius: 50%;
-    background: var(--bg-secondary);
-  }
-  .intro-mt__door--left  .intro-mt__window { right: 12%; }
-  .intro-mt__door--right .intro-mt__window { left: 12%; }
-  .intro-mt__sign {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translate(-100%, -50%);
-    padding: 1.1rem 0;
-    background: var(--accent);
-    text-align: center;
-    animation:
-      mt-sign-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards,
-      mt-sign-out 0.18s ease-in 0.82s forwards;
-  }
-  .intro-mt__name {
-    margin: 0;
-    font-family: var(--font-heading);
-    font-size: clamp(2rem, 6vw, 4.5rem);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1;
-    color: #ffffff;
-  }
-  @keyframes mt-sign-in  { to { transform: translate(0, -50%); } }
-  @keyframes mt-sign-out { from { opacity: 1; } to { opacity: 0; } }
-  @keyframes mt-door-left  { to { transform: translateX(-101%); } }
-  @keyframes mt-door-right { to { transform: translateX(101%); } }
 </style>

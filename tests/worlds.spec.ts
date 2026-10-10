@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { designs } from '../src/data/designs';
 
 const worlds = designs.map((d) => d.id);
-const webglWorlds = new Set(['avantgarde', 'nightshift']);
+const webglWorlds = new Set(['avantgarde']);
 
 /** Collect console errors and uncaught exceptions for the life of a page. */
 function watchErrors(page: Page) {
@@ -75,7 +75,7 @@ test('quick-change: switching worlds hydrates the incoming hero and warms code o
   await trigger.hover();
   await expect.poll(() => three.length, { timeout: 10_000 }).toBeGreaterThan(0);
 
-  for (const [label, world] of [['Night Shift', 'nightshift'], ['Metro', 'metro'], ['Creative', 'creative']] as const) {
+  for (const [label, world] of [['Avant-garde', 'avantgarde'], ['Arcade', 'arcade'], ['Creative', 'creative']] as const) {
     await trigger.click();
     await page.getByRole('option', { name: label }).getByRole('button').click();
     await expect.poll(() => page.evaluate(() => document.documentElement.dataset.design)).toBe(world);
@@ -112,8 +112,8 @@ test('portuguese visit: no hydration mismatch and the hero speaks pt', async ({ 
 test('reduced motion: no curtain, hero visible at once', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const errors = watchErrors(page);
-  await arrive(page, 'metro');
+  await arrive(page, 'arcade');
   expect(await page.evaluate(() => document.documentElement.dataset.intro ?? 'none')).toBe('none');
-  await expectHeroVisible(page, 'metro');
+  await expectHeroVisible(page, 'arcade');
   expect(errors).toEqual([]);
 });

@@ -5,8 +5,6 @@ import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
 import AvantgardeHero from '@components/designs/avantgarde/AvantgardeHero.tsx';
 import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
 import ArcadeHero from '@components/designs/arcade/ArcadeHero.tsx';
-import NightshiftHero from '@components/designs/nightshift/NightshiftHero.tsx';
-import MetroHero from '@components/designs/metro/MetroHero.tsx';
 import avatarImg from '@/assets/images/avatar.jpeg';
 
 const avatar1x = await getImage({ src: avatarImg, width: 224, height: 224 });
@@ -29,11 +27,5 @@ const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
   </div>
   <div data-design-show="arcade">
     <ArcadeHero client:intro />
-  </div>
-  <div data-design-show="nightshift">
-    <NightshiftHero client:intro />
-  </div>
-  <div data-design-show="metro">
-    <MetroHero client:intro />
   </div>
 </section>

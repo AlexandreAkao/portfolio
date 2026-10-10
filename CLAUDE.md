@@ -14,18 +14,18 @@ No linter or test runner is configured.
 
 ## Architecture
 
-Astro 5 portfolio site with 4 swappable visual designs (Engineer, Creative, Avant-garde, Editorial) and i18n (en/pt). React 19 islands handle interactive components; everything else is Astro server-rendered.
+Astro 5 portfolio site with 5 swappable visual designs (Avant-garde, Engineer, Creative, Editorial, Arcade) and i18n (en/pt). React 19 islands handle interactive components; everything else is Astro server-rendered.
 
 ### Multi-Design System
 
-The core architectural pattern: all 4 designs render simultaneously, with CSS visibility toggling the active one.
+The core architectural pattern: all 5 designs render simultaneously, with CSS visibility toggling the active one.
 
 - **Registry:** `src/data/designs.ts` — config-driven list of design IDs. Adding a design means adding it here plus creating components and CSS tokens.
 - **Switching:** `localStorage` key `design` sets `data-design` attribute on `<html>`. An inline script in `BaseLayout.astro` runs before paint to prevent FOUC.
 - **CSS visibility:** `[data-design='X'] [data-design-show]:not([data-design-show='X']) { display: none !important }` in `global.css`. To conditionally show content for a design, wrap it in `<div data-design-show="designId">`.
 - **Design tokens:** Each design defines CSS custom properties (`--bg`, `--text`, `--accent`, `--font-heading`, etc.) scoped to `[data-design='X']` in `global.css`. Tailwind reads these via `@theme` mappings.
 - **Section pattern:** Each section in `src/components/sections/` (Hero, Experience, Skills, etc.) imports all design variants and wraps each in `data-design-show`. See `Hero.astro` for the canonical example.
-- **Design components:** `src/components/designs/{engineer,creative,avantgarde,editorial}/` — React (.tsx) components for each design's variant of a section. Use `client:load` or `client:visible` Astro directives.
+- **Design components:** `src/components/designs/{avantgarde,engineer,creative,editorial,arcade}/` — React (.tsx) components for each design's variant of a section. Use `client:load` or `client:visible` Astro directives.
 
 ### i18n
 
