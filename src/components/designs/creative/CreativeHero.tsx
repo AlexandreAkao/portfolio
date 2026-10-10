@@ -3,6 +3,7 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
+import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
@@ -48,7 +49,7 @@ function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: 
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-2 text-xl text-text-secondary md:text-2xl"
           >
-            {t('hero.title', locale)}
+            <KeepWords text={t('hero.title', locale)} />
           </motion.h2>
 
           <motion.p

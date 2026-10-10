@@ -3,6 +3,7 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
+import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
@@ -36,7 +37,7 @@ function ArcadeHeroInner() {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="mb-2 font-heading text-2xl uppercase text-accent md:mb-3 md:text-4xl"
       >
-        {t('hero.title', locale)}
+        <KeepWords text={t('hero.title', locale)} />
       </motion.h2>
 
       <motion.p

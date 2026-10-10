@@ -6,6 +6,7 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
+import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 
@@ -279,7 +280,7 @@ function AvantgardeHeroInner() {
           transition={{ duration: 0.5, delay: 0.7 }}
           className="mb-3 text-xl text-text-secondary md:text-2xl"
         >
-          {title}
+          <KeepWords text={title} />
         </motion.h2>
 
         <motion.p

@@ -799,7 +799,7 @@
       },
       "prose": {
         "displayName": "Prose",
-        "purpose": "Blog article body; paragraphs, list items, and blockquotes capped at 72ch inside the 1024px article."
+        "purpose": "Blog article body; paragraphs, list items, and blockquotes capped at 40rem (about 70 characters) inside the 1024px article, the lede likewise; code blocks, tables, and images take the full width."
       },
       "label": {
         "displayName": "Label",
@@ -815,7 +815,7 @@
       },
       "mono": {
         "displayName": "Mono",
-        "purpose": "Engineer buttons, the JSON skills block, code, and the switcher label."
+        "purpose": "Engineer buttons, the JSON skills block, blog code (inline in the accent-text token, blocks in Shiki's github-dark-default on the --code-bg panel), and the switcher label."
       }
     },
     "shadows": [
@@ -929,7 +929,7 @@
       {
         "name": "intro-curtain",
         "value": "1.65s to 1.9s per world, fonts awaited up to 700ms; heroes hydrate as the exit begins (0.95s to 1.35s)",
-        "purpose": "Arrival on a hard load; skipped on in-site navigation, under reduced motion, or on click or Escape."
+        "purpose": "Arrival on the home's first hard load of the session (sessionStorage key intro-seen, set in BaseLayout's inline script); deep links, later loads, in-site navigation, and reduced motion skip it; click, Escape, a wheel, or a swipe over it ends it."
       },
       {
         "name": "cursor-hover-scale",
@@ -986,9 +986,25 @@
       "name": "Content Card",
       "kind": "card",
       "refersTo": "avantgarde-card",
-      "description": "Bordered surface for projects, education, and blog entries; border tints to accent on hover.",
-      "html": "<article class=\"ds-card\"><h4>Appointally</h4><p>SaaS scheduling platform with 19 microservices, Clean Architecture, CQRS, and event-driven communication.</p><p class=\"ds-card__metric\">19 microservices</p><div class=\"ds-card__chips\"><span>Node.js</span><span>TypeScript</span><span>PostgreSQL</span></div></article>",
-      "css": ".ds-card{background:var(--card,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:var(--radius-card,8px);padding:24px;max-width:360px;transition:border-color .15s}.ds-card:hover{border-color:color-mix(in srgb,var(--accent,#c5ff41) 50%,transparent)}.ds-card h4{margin:0 0 8px;font-family:var(--font-heading, Poppins, sans-serif);font-size:1.125rem;font-weight:700;line-height:1.55;color:var(--text,#f0ece6)}.ds-card p{margin:0 0 16px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;line-height:1.43;color:var(--text-secondary,#9a948b)}.ds-card__metric{margin:0 0 12px!important;font-size:.75rem!important;font-weight:600;color:var(--accent,#c5ff41)!important}.ds-card__chips{display:flex;flex-wrap:wrap;gap:4px}.ds-card__chips span{border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:2px 8px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;color:var(--text-secondary,#9a948b)}"
+      "description": "Bordered surface for personal projects, education, and blog entries; border tints to accent on hover. Professional projects are Project Lines instead.",
+      "html": "<article class=\"ds-card\"><h4>Azure Open PR</h4><p>Browser extension that streamlines Azure DevOps pull request management and review workflows.</p><div class=\"ds-card__chips\"><span>TypeScript</span><span>Browser Extension</span><span>Azure DevOps API</span></div></article>",
+      "css": ".ds-card{background:var(--card,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:var(--radius-card,8px);padding:24px;max-width:360px;transition:border-color .15s}.ds-card:hover{border-color:color-mix(in srgb,var(--accent,#c5ff41) 50%,transparent)}.ds-card h4{margin:0 0 8px;font-family:var(--font-heading, Poppins, sans-serif);font-size:1.125rem;font-weight:700;line-height:1.55;color:var(--text,#f0ece6)}.ds-card p{margin:0 0 16px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;line-height:1.43;color:var(--text-secondary,#9a948b)}.ds-card__chips{display:flex;flex-wrap:wrap;gap:4px}.ds-card__chips span{border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:2px 8px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;color:var(--text-secondary,#9a948b)}"
+    },
+    {
+      "name": "Project Line",
+      "kind": "custom",
+      "refersTo": "title",
+      "description": "Professional project in Projects: one ruled line (1px border-token rules) with the title in the heading face beside its metric in accent text, stacked below 640px; each line links to #experience, where the work is told.",
+      "html": "<ul class=\"ds-plines\"><li><a href=\"#experience\"><span class=\"ds-plines__title\">Appointally</span><span class=\"ds-plines__metric\">19 microservices</span></a></li><li><a href=\"#experience\"><span class=\"ds-plines__title\">WMS - AmbevTech</span><span class=\"ds-plines__metric\">200+ distribution centers</span></a></li></ul>",
+      "css": ".ds-plines{list-style:none;margin:0;padding:0;max-width:896px;border-top:1px solid var(--border,#2a2725)}.ds-plines li{border-bottom:1px solid var(--border,#2a2725)}.ds-plines a{display:flex;flex-direction:column;gap:4px;padding:16px 0;text-decoration:none}@media (min-width:640px){.ds-plines a{flex-direction:row;align-items:baseline;justify-content:space-between;gap:24px}}.ds-plines__title{font-family:var(--font-heading, Poppins, sans-serif);font-size:1.125rem;font-weight:700;line-height:1.55;color:var(--text,#f0ece6);transition:color .15s}.ds-plines a:hover .ds-plines__title{color:var(--accent-text,#c5ff41)}.ds-plines__metric{font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;font-weight:500;color:var(--accent-text,#c5ff41)}"
+    },
+    {
+      "name": "Code Block",
+      "kind": "custom",
+      "refersTo": "mono",
+      "description": "Blog code block: Shiki's github-dark-default palette in every world on the --code-bg panel (the raised surface in dark worlds, the world's ink in Editorial and Creative) with color-scheme: dark, so every syntax token reads at 5.1:1 or more. Inline code sits in a 6px box on the raised surface in the accent-text token.",
+      "html": "<pre class=\"ds-code\"><code><span style=\"color:#ff7b72\">const</span> <span style=\"color:#e6edf3\">port</span> <span style=\"color:#ff7b72\">=</span> <span style=\"color:#79c0ff\">4321</span>;</code></pre><p class=\"ds-code-p\">Run <code>npm run dev</code> to start.</p>",
+      "css": ".ds-code{background:var(--code-bg,#1c1a18);color-scheme:dark;color:#e6edf3;border:1px solid var(--border,#2a2725);border-radius:8px;padding:1.25rem 1.5rem;overflow-x:auto;margin:1.5em 0;font-family:\"JetBrains Mono\",monospace;font-size:.875rem;line-height:1.7}.ds-code-p{font-family:var(--font-body, Inter, sans-serif);color:var(--text-secondary,#9a948b)}.ds-code-p code{background:var(--bg-secondary,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:6px;padding:.15em .4em;font-family:\"JetBrains Mono\",monospace;font-size:.85em;color:var(--accent-text,#c5ff41)}"
     },
     {
       "name": "Stat Tile",
