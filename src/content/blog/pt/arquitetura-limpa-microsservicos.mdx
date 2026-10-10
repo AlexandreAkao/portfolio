@@ -1,31 +1,32 @@
 ---
-title: "Clean Architecture em Microsservicos: Licoes de Construir 19 Servicos"
-description: "Insights praticos sobre como aplicar principios de Clean Architecture ao construir microsservicos em escala, baseados em experiencia real."
+title: "Clean Architecture em Microsserviços: Lições de Construir 19 Serviços"
+description: "Insights práticos sobre como aplicar princípios de Clean Architecture ao construir microsserviços em escala, baseados em experiência real."
 date: 2025-03-15
-tags: ["Arquitetura", "Backend", "Microsservicos"]
+tags: ["Arquitetura", "Backend", "Microsserviços"]
+translationKey: "clean-architecture-microservices"
 published: true
 ---
 
 ## O Desafio
 
-Ao construir uma plataforma com 19 microsservicos, um dos maiores desafios e manter consistencia e qualidade de codigo em todos os servicos, permitindo que cada time se mova rapidamente.
+Ao construir uma plataforma com 19 microsserviços, um dos maiores desafios é manter consistência e qualidade de código em todos os serviços, permitindo que cada time se mova rapidamente.
 
-Clean Architecture fornece um framework que resolve isso ao estabelecer limites claros e regras de dependencia.
+Clean Architecture fornece um framework que resolve isso ao estabelecer limites claros e regras de dependência.
 
-## Principios Fundamentais Aplicados
+## Princípios Fundamentais Aplicados
 
-### 1. A Regra de Dependencia
+### 1. A Regra de Dependência
 
-A regra mais importante: dependencias apontam para dentro. Sua logica de negocio nunca deve depender de frameworks, bancos de dados ou servicos externos.
+A regra mais importante: dependências apontam para dentro. Sua lógica de negócio nunca deve depender de frameworks, bancos de dados ou serviços externos.
 
 ```typescript
-// Camada de dominio - logica de negocio pura, sem dependencias
+// Camada de domínio - lógica de negócio pura, sem dependências
 interface OrderRepository {
   findById(id: string): Promise<Order | null>;
   save(order: Order): Promise<void>;
 }
 
-// Camada de aplicacao - orquestra casos de uso
+// Camada de aplicação - orquestra casos de uso
 class CreateOrderUseCase {
   constructor(
     private orderRepo: OrderRepository,
@@ -41,19 +42,19 @@ class CreateOrderUseCase {
 }
 ```
 
-### 2. Separacao CQRS
+### 2. Separação CQRS
 
 Separar leituras e escritas nos permitiu otimizar cada caminho independentemente:
 
-- **Commands** passam pelo modelo de dominio completo com validacao
-- **Queries** acessam modelos de leitura otimizados, as vezes desnormalizados
+- **Commands** passam pelo modelo de domínio completo com validação
+- **Queries** acessam modelos de leitura otimizados, às vezes desnormalizados
 
-### 3. Comunicacao Event-Driven
+### 3. Comunicação Event-Driven
 
-Servicos se comunicam atraves de eventos via RabbitMQ, mantendo-os desacoplados:
+Serviços se comunicam através de eventos via RabbitMQ, mantendo-os desacoplados:
 
 ```typescript
-// Cada servico publica eventos de dominio
+// Cada serviço publica eventos de domínio
 await eventBus.publish(new AppointmentScheduledEvent({
   appointmentId: appointment.id,
   clientId: appointment.clientId,
@@ -63,9 +64,9 @@ await eventBus.publish(new AppointmentScheduledEvent({
 
 ## Principais Aprendizados
 
-1. **Comece pelo modelo de dominio** - entenda o negocio antes de escrever codigo de infraestrutura
-2. **Casos de uso sao a API** - eles documentam o que seu sistema pode fazer
-3. **Infraestrutura e substituivel** - trocamos bancos de dados duas vezes sem tocar na logica de negocio
-4. **Eventos sobre chamadas sincronas** - reduz acoplamento, melhora resiliencia
+1. **Comece pelo modelo de domínio** - entenda o negócio antes de escrever código de infraestrutura
+2. **Casos de uso são a API** - eles documentam o que seu sistema pode fazer
+3. **Infraestrutura é substituível** - trocamos bancos de dados duas vezes sem tocar na lógica de negócio
+4. **Eventos sobre chamadas síncronas** - reduz acoplamento, melhora resiliência
 
-Clean Architecture adiciona boilerplate inicial, mas paga dividendos conforme o sistema cresce. Depois de 19 servicos, os padroes se tornam segunda natureza para o time.
+Clean Architecture adiciona boilerplate inicial, mas paga dividendos conforme o sistema cresce. Depois de 19 serviços, os padrões se tornam segunda natureza para o time.

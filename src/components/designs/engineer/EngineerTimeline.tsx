@@ -2,6 +2,7 @@ import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
+import { t } from '@i18n/utils';
 
 interface Props {
   experiences: Experience[];
@@ -27,7 +28,7 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
       <div className="absolute left-1.25 top-5 h-full w-px bg-border" />
 
       <div className="pb-8">
-        <p className="font-mono text-xs text-accent">{exp.period}</p>
+        <p className="font-mono text-xs text-accent">{exp.period[locale]}</p>
         <h3 className="font-mono text-lg font-bold text-text">{exp.company}</h3>
         <p className="font-mono text-sm text-text-secondary">{exp.role[locale]}</p>
         {exp.summary[locale] && (
@@ -38,7 +39,7 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
           <div key={i} className={exp.subEntries ? 'mt-4 border-l border-border pl-4' : 'mt-2'}>
             {exp.subEntries && (
               <>
-                <p className="font-mono text-xs text-accent">{entry.period}</p>
+                <p className="font-mono text-xs text-accent">{entry.period[locale]}</p>
                 <p className="font-mono text-sm font-semibold text-text">{entry.company.replace('AmbevTech - ', '')}</p>
                 <p className="text-xs text-text-secondary">{entry.role[locale]}</p>
                 <p className="mt-1 text-sm text-text-secondary">{entry.summary[locale]}</p>
@@ -50,7 +51,7 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
                 onClick={() => setExpanded(!expanded)}
                 className="mt-2 font-mono text-xs text-accent hover:underline"
               >
-                {expanded ? '[-] collapse' : '[+] details'}
+                {expanded ? `[-] ${t('experience.collapse', locale)}` : `[+] ${t('experience.details', locale)}`}
               </button>
             )}
 
@@ -65,9 +66,9 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
             )}
 
             <div className="mt-2 flex flex-wrap gap-1">
-              {entry.tech.map((t) => (
-                <span key={t} className="rounded-xs border border-border px-2 py-0.5 font-mono text-xs text-text-secondary">
-                  {t}
+              {entry.tech.map((tech) => (
+                <span key={tech} className="rounded-xs border border-border px-2 py-0.5 font-mono text-xs text-text-secondary">
+                  {tech}
                 </span>
               ))}
             </div>

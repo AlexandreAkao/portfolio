@@ -54,5 +54,16 @@
   "404.back": "Back to Home",
   "blog.related": "Related Posts",
   "blog.share": "Share this article",
-  "blog.filter.all": "All"
+  "blog.filter.all": "All",
+  "a11y.skip": "Skip to content",
+  "lang.switch": "Switch to Portuguese",
+  "menu.open": "Open menu",
+  "menu.close": "Close menu",
+  "menu.label": "Mobile navigation",
+  "design.switch": "Switch design",
+  "design.current": "current",
+  "design.options": "Design options",
+  "blog.breadcrumb": "Breadcrumb",
+  "blog.shareOn": "Share on",
+  "home.title": "Alexandre Akira - Senior Full-Stack Engineer"
 }

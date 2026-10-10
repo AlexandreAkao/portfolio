@@ -17,7 +17,7 @@ interface Props {
 const { title, description, date, tags, coverImage, href, locale, readingTime } = Astro.props;
 
 const dateLocale = locale === 'pt' ? 'pt-BR' : 'en-US';
-const formattedDate = date.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' });
+const formattedDate = date.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
 
 <a href={href} class="group block overflow-hidden rounded-card border border-border bg-card transition-all duration-300 hover:border-accent/50 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/5">

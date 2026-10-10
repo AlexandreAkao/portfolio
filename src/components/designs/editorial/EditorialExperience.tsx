@@ -39,7 +39,7 @@ function ExperienceEntry({ exp, index }: { exp: Experience; index: number }) {
           >
             {num}
           </span>
-          <p className="text-sm text-text-secondary">{exp.period}</p>
+          <p className="text-sm text-text-secondary">{exp.period[locale]}</p>
         </div>
 
         {/* Right column: content */}
@@ -67,7 +67,7 @@ function ExperienceEntry({ exp, index }: { exp: Experience; index: number }) {
             >
               {exp.subEntries && (
                 <>
-                  <p className="text-xs text-text-secondary">{entry.period}</p>
+                  <p className="text-xs text-text-secondary">{entry.period[locale]}</p>
                   <p
                     className="text-lg font-semibold text-text"
                     style={{ fontFamily: 'var(--font-heading)' }}

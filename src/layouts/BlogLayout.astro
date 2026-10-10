@@ -24,12 +24,13 @@ interface Props {
   lang: 'en' | 'pt';
   headings?: MarkdownHeading[];
   relatedPosts?: RelatedPost[];
+  alternates?: { en: string; pt: string };
 }
 
-const { title, description, date, tags, coverImage, lang, headings = [], relatedPosts = [] } = Astro.props;
+const { title, description, date, tags, coverImage, lang, headings = [], relatedPosts = [], alternates } = Astro.props;
 const tocHeadings = headings.filter((h) => h.depth <= 3);
-const enDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
+const enDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const ptDate = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 
 const shareUrl = new URL(Astro.url.pathname, Astro.site).href;
 const shareTitle = encodeURIComponent(title);
@@ -54,6 +55,8 @@ const breadcrumbJsonLd = {
   publishedTime={date.toISOString()}
   tags={tags}
   locale={lang}
+  localeFixed
+  alternates={alternates}
 >
   <!-- Reading progress bar -->
   <div id="reading-progress" class="fixed top-0 left-0 z-51 h-1 bg-accent" style="width: 0%" aria-hidden="true" />
@@ -62,7 +65,7 @@ const breadcrumbJsonLd = {
   <main id="main-content" class="pt-24 pb-16">
     <article class="mx-auto max-w-5xl px-6">
       <!-- Breadcrumb navigation -->
-      <nav aria-label="Breadcrumb" class="mb-8">
+      <nav aria-label={t('blog.breadcrumb', lang)} class="mb-8">
         <ol class="flex items-center gap-1 text-sm text-text-secondary">
           <li>
             <a href="/" class="transition-colors hover:text-accent">
@@ -114,14 +117,14 @@ const breadcrumbJsonLd = {
       </header>
 
       {tocHeadings.length > 2 && (
-        <details class="toc group mb-10 rounded-sm border-l-4 border-accent bg-accent/4 p-0">
+        <details class="toc group mb-10 rounded-card border border-border bg-card p-0">
           <summary class="flex cursor-pointer list-none items-center gap-2 px-5 py-4 text-xs font-semibold uppercase tracking-widest text-accent [&::-webkit-details-marker]:hidden">
             <svg class="h-3.5 w-3.5 shrink-0 transition-transform group-open:rotate-90" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M8 5v14l11-7z" />
             </svg>
             <T k="blog.toc" />
           </summary>
-          <nav aria-label="Table of contents" class="border-t border-accent/10 px-5 py-4">
+          <nav aria-label={t('blog.toc', lang)} class="border-t border-accent/10 px-5 py-4">
             <ol class="space-y-2">
               {tocHeadings.map((h) => (
                 <li class={h.depth === 3 ? 'ml-4' : ''}>
@@ -156,7 +159,7 @@ const breadcrumbJsonLd = {
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 rounded-btn border border-border px-4 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
-            aria-label="Share on X"
+            aria-label={`${t('blog.shareOn', lang)} X`}
           >
             <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" aria-hidden="true">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -168,7 +171,7 @@ const breadcrumbJsonLd = {
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 rounded-btn border border-border px-4 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
-            aria-label="Share on LinkedIn"
+            aria-label={`${t('blog.shareOn', lang)} LinkedIn`}
           >
             <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" aria-hidden="true">
               <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -198,6 +201,7 @@ const breadcrumbJsonLd = {
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric',
+                    timeZone: 'UTC',
                   })}
                 </time>
                 {rp.tags && rp.tags.length > 0 && (
@@ -327,10 +331,8 @@ const breadcrumbJsonLd = {
 
   /* Blockquotes */
   .prose :global(blockquote) {
-    border-left: 4px solid var(--accent);
-    background: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
-    border-radius: 0 8px 8px 0;
-    padding: 1rem 1.25rem;
+    border-left: 1px solid var(--accent);
+    padding: 0.25rem 0 0.25rem 1.5rem;
     margin: 2em 0;
     font-style: italic;
     color: var(--text);

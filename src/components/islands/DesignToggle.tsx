@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { designs, designIds, defaultDesign } from '@data/designs';
 import { safeGetItem, safeSetItem } from '@/lib/storage';
+import { useLocale } from '@i18n/useLocale';
+import { t } from '@i18n/utils';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 
 const sortedDesigns = designs.sort((a, b) => a.order - b.order);
@@ -14,6 +16,7 @@ function announceIntent() {
 }
 
 function DesignToggleInner() {
+  const locale = useLocale();
   const [design, setDesign] = useState(defaultDesign);
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -73,7 +76,7 @@ function DesignToggleInner() {
         onPointerEnter={announceIntent}
         onFocus={announceIntent}
         className="flex items-center gap-2 rounded-full border border-border bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-accent"
-        aria-label={`Switch design (current: ${config?.label})`}
+        aria-label={`${t('design.switch', locale)} (${t('design.current', locale)}: ${config?.label})`}
         aria-expanded={open}
         aria-haspopup="listbox"
       >
@@ -99,7 +102,7 @@ function DesignToggleInner() {
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15 }}
             role="listbox"
-            aria-label="Design options"
+            aria-label={t('design.options', locale)}
             className="absolute right-0 top-full z-50 mt-2 min-w-40 overflow-hidden rounded-lg border border-border bg-bg-secondary shadow-lg"
           >
             {sortedDesigns.map((d) => (

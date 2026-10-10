@@ -10,6 +10,8 @@ const blog = defineCollection({
       description: z.string(),
       date: z.coerce.date(),
       tags: z.array(z.string()).optional(),
+      /** Shared by a post and its translation, so each can link to the other. */
+      translationKey: z.string().optional(),
       coverImage: image().optional(),
       published: z.boolean().default(true),
     }),

@@ -1,7 +1,7 @@
 export interface Experience {
   company: string;
   role: { en: string; pt: string };
-  period: string;
+  period: { en: string; pt: string };
   summary: { en: string; pt: string };
   bullets: { en: string[]; pt: string[] };
   tech: string[];
@@ -14,12 +14,12 @@ export const experiences: Experience[] = [
     company: 'Seva / Appointally',
     role: {
       en: 'Senior Full-Stack Engineer',
-      pt: 'Desenvolvedor Full-Stack Senior',
+      pt: 'Desenvolvedor Full-Stack Sênior',
     },
-    period: 'Apr 2025 - Present',
+    period: { en: 'Apr 2025 - Present', pt: 'abr 2025 - atual' },
     summary: {
       en: 'Leading development of a SaaS scheduling platform with 19 microservices architecture.',
-      pt: 'Liderando o desenvolvimento de uma plataforma SaaS de agendamento com arquitetura de 19 microsservicos.',
+      pt: 'Liderando o desenvolvimento de uma plataforma SaaS de agendamento com arquitetura de 19 microsserviços.',
     },
     bullets: {
       en: [
@@ -28,9 +28,9 @@ export const experiences: Experience[] = [
         'Built multi-tenant system supporting multiple business verticals',
       ],
       pt: [
-        'Arquitetou 19 microsservicos usando Clean Architecture e padroes CQRS',
-        'Implementou comunicacao event-driven com RabbitMQ e Redis',
-        'Construiu sistema multi-tenant suportando multiplas verticais de negocio',
+        'Arquitetou 19 microsserviços usando Clean Architecture e padrões CQRS',
+        'Implementou comunicação event-driven com RabbitMQ e Redis',
+        'Construiu sistema multi-tenant suportando múltiplas verticais de negócio',
       ],
     },
     tech: ['Node.js', 'TypeScript', 'React', 'PostgreSQL', 'RabbitMQ', 'Redis', 'Docker', 'AWS'],
@@ -41,10 +41,10 @@ export const experiences: Experience[] = [
       en: 'Full-Stack Engineer',
       pt: 'Desenvolvedor Full-Stack',
     },
-    period: 'Nov 2020 - Present',
+    period: { en: 'Nov 2020 - Present', pt: 'nov 2020 - atual' },
     summary: {
       en: 'Building and maintaining high-scale enterprise applications for AB InBev ecosystem.',
-      pt: 'Construindo e mantendo aplicacoes enterprise de alta escala para o ecossistema AB InBev.',
+      pt: 'Construindo e mantendo aplicações enterprise de alta escala para o ecossistema AB InBev.',
     },
     bullets: { en: [], pt: [] },
     tech: [],
@@ -55,10 +55,10 @@ export const experiences: Experience[] = [
           en: 'Full-Stack Engineer',
           pt: 'Desenvolvedor Full-Stack',
         },
-        period: 'Nov 2020 - Present',
+        period: { en: 'Nov 2020 - Present', pt: 'nov 2020 - atual' },
         summary: {
           en: 'Warehouse Management System serving 200+ distribution centers across Brazil.',
-          pt: 'Sistema de Gestao de Armazem atendendo 200+ centros de distribuicao no Brasil.',
+          pt: 'Sistema de Gestão de Armazém atendendo 200+ centros de distribuição no Brasil.',
         },
         bullets: {
           en: [
@@ -67,9 +67,9 @@ export const experiences: Experience[] = [
             'Reduced order processing time by 40% through optimized algorithms',
           ],
           pt: [
-            'Desenvolveu e manteve WMS atendendo 200+ centros de distribuicao',
-            'Implementou rastreamento de inventario em tempo real com SignalR e arquitetura event-driven',
-            'Reduziu tempo de processamento de pedidos em 40% atraves de algoritmos otimizados',
+            'Desenvolveu e manteve WMS atendendo 200+ centros de distribuição',
+            'Implementou rastreamento de inventário em tempo real com SignalR e arquitetura event-driven',
+            'Reduziu tempo de processamento de pedidos em 40% através de algoritmos otimizados',
           ],
         },
         tech: ['.NET', 'C#', 'React', 'SQL Server', 'Azure', 'SignalR', 'Docker'],
@@ -80,10 +80,10 @@ export const experiences: Experience[] = [
           en: 'Frontend Engineer',
           pt: 'Desenvolvedor Frontend',
         },
-        period: '2022 - 2023',
+        period: { en: '2022 - 2023', pt: '2022 - 2023' },
         summary: {
           en: 'B2B e-commerce platform used across Latin America for AB InBev products.',
-          pt: 'Plataforma de e-commerce B2B usada em toda a America Latina para produtos AB InBev.',
+          pt: 'Plataforma de e-commerce B2B usada em toda a América Latina para produtos AB InBev.',
         },
         bullets: {
           en: [
@@ -92,7 +92,7 @@ export const experiences: Experience[] = [
             'Implemented A/B testing and feature flags for gradual rollouts',
           ],
           pt: [
-            'Construiu features para plataforma de e-commerce B2B atendendo multiplos paises da LATAM',
+            'Construiu features para plataforma de e-commerce B2B atendendo múltiplos países da LATAM',
             'Desenvolveu arquitetura de micro-frontends para deploys independentes por equipe',
             'Implementou A/B testing e feature flags para rollouts graduais',
           ],
@@ -105,10 +105,10 @@ export const experiences: Experience[] = [
           en: 'Frontend Engineer',
           pt: 'Desenvolvedor Frontend',
         },
-        period: '2021 - 2022',
+        period: { en: '2021 - 2022', pt: '2021 - 2022' },
         summary: {
           en: 'Internal design system with 52 reusable UI components.',
-          pt: 'Design system interno com 52 componentes UI reutilizaveis.',
+          pt: 'Design system interno com 52 componentes UI reutilizáveis.',
         },
         bullets: {
           en: [
@@ -117,9 +117,9 @@ export const experiences: Experience[] = [
             'Achieved 95%+ test coverage with unit and visual regression tests',
           ],
           pt: [
-            'Criou 52 componentes React reutilizaveis usados em 10+ aplicacoes internas',
-            'Construiu documentacao Storybook abrangente com exemplos interativos',
-            'Alcancou 95%+ de cobertura de testes com testes unitarios e de regressao visual',
+            'Criou 52 componentes React reutilizáveis usados em 10+ aplicações internas',
+            'Construiu documentação Storybook abrangente com exemplos interativos',
+            'Alcançou 95%+ de cobertura de testes com testes unitários e de regressão visual',
           ],
         },
         tech: ['React', 'TypeScript', 'Storybook', 'Jest', 'Styled Components'],
@@ -132,10 +132,10 @@ export const experiences: Experience[] = [
       en: 'Full-Stack Engineer',
       pt: 'Desenvolvedor Full-Stack',
     },
-    period: 'Aug 2019 - Nov 2020',
+    period: { en: 'Aug 2019 - Nov 2020', pt: 'ago 2019 - nov 2020' },
     summary: {
       en: 'Technology innovation hub at University of Fortaleza, developing solutions for partner companies.',
-      pt: 'Hub de inovacao tecnologica da Universidade de Fortaleza, desenvolvendo solucoes para empresas parceiras.',
+      pt: 'Hub de inovação tecnológica da Universidade de Fortaleza, desenvolvendo soluções para empresas parceiras.',
     },
     bullets: {
       en: [
@@ -144,9 +144,9 @@ export const experiences: Experience[] = [
         'Mentored junior developers on best practices and code review processes',
       ],
       pt: [
-        'Desenvolveu aplicacoes web e mobile para parceiros da universidade',
-        'Liderou decisoes tecnicas de arquitetura frontend usando React e React Native',
-        'Mentorou desenvolvedores juniores em boas praticas e processos de code review',
+        'Desenvolveu aplicações web e mobile para parceiros da universidade',
+        'Liderou decisões técnicas de arquitetura frontend usando React e React Native',
+        'Mentorou desenvolvedores juniores em boas práticas e processos de code review',
       ],
     },
     tech: ['React', 'React Native', 'Node.js', 'MongoDB', 'Firebase'],
@@ -157,10 +157,10 @@ export const experiences: Experience[] = [
       en: 'Research Scholarship - Developer',
       pt: 'Bolsista de Pesquisa - Desenvolvedor',
     },
-    period: 'May 2020 - Oct 2020',
+    period: { en: 'May 2020 - Oct 2020', pt: 'mai 2020 - out 2020' },
     summary: {
       en: 'Research foundation scholarship for developing technology solutions.',
-      pt: 'Bolsa de fundacao de pesquisa para desenvolvimento de solucoes tecnologicas.',
+      pt: 'Bolsa de fundação de pesquisa para desenvolvimento de soluções tecnológicas.',
     },
     bullets: {
       en: [
@@ -168,8 +168,8 @@ export const experiences: Experience[] = [
         'Built APIs for data collection and analysis workflows',
       ],
       pt: [
-        'Desenvolveu ferramentas de pesquisa e dashboards de visualizacao de dados',
-        'Construiu APIs para fluxos de coleta e analise de dados',
+        'Desenvolveu ferramentas de pesquisa e dashboards de visualização de dados',
+        'Construiu APIs para fluxos de coleta e análise de dados',
       ],
     },
     tech: ['Python', 'React', 'D3.js', 'PostgreSQL'],

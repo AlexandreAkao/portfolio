@@ -24,12 +24,12 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
     >
       {/* Year watermark */}
       <span className="pointer-events-none absolute right-4 top-0 select-none font-heading text-[120px] font-bold leading-none text-text/4">
-        {exp.period.split(' ').pop()}
+        {exp.period.en.match(/\d{4}/g)?.pop()}
       </span>
 
       <div className="relative z-10">
         <p className="mb-1 text-xs font-medium uppercase tracking-wider text-accent">
-          {exp.period}
+          {exp.period[locale]}
         </p>
         <h3 className="mb-1 font-heading text-xl font-bold text-text">
           {exp.company}
@@ -49,7 +49,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
           >
             {exp.subEntries && (
               <>
-                <p className="text-xs font-medium text-accent">{entry.period}</p>
+                <p className="text-xs font-medium text-accent">{entry.period[locale]}</p>
                 <p className="font-heading text-sm font-semibold text-text">
                   {entry.company.replace('AmbevTech - ', '')}
                 </p>

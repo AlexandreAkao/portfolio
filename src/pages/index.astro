@@ -1,33 +1,5 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import Header from '@components/common/Header.astro';
-import Footer from '@components/common/Footer.astro';
-import Hero from '@components/sections/Hero.astro';
-import About from '@components/sections/About.astro';
-import Experience from '@components/sections/Experience.astro';
-import Education from '@components/sections/Education.astro';
-import Skills from '@components/sections/Skills.astro';
-import Projects from '@components/sections/Projects.astro';
-import Contact from '@components/sections/Contact.astro';
-import AvantgardeMarquee from '@components/designs/avantgarde/AvantgardeMarquee.tsx';
+import HomePage from '@components/pages/HomePage.astro';
 ---
 
-<BaseLayout title="Alexandre Akira - Senior Full-Stack Engineer">
-  <Header />
-  <main id="main-content" class="pt-16">
-    <Hero />
-    <div data-design-show="avantgarde">
-      <AvantgardeMarquee client:visible />
-    </div>
-    <About />
-    <Experience />
-    <Education />
-    <Skills />
-    <Projects />
-    <div data-design-show="avantgarde">
-      <AvantgardeMarquee direction="right" client:visible />
-    </div>
-    <Contact />
-  </main>
-  <Footer />
-</BaseLayout>
+<HomePage locale="en" />

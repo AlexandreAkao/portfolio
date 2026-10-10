@@ -32,6 +32,16 @@ const relatedPosts = allPosts
   .filter((p) => p.overlap > 0)
   .sort((a, b) => b.overlap - a.overlap)
   .slice(0, 3);
+
+const postPath = (id: string) => `/blog/${id.split('/').slice(1).join('/')}/`;
+const translation = post.data.translationKey
+  ? allPosts.find((p) => p.id !== post.id && p.data.translationKey === post.data.translationKey)
+  : undefined;
+const alternates = translation
+  ? lang === 'en'
+    ? { en: postPath(post.id), pt: postPath(translation.id) }
+    : { en: postPath(translation.id), pt: postPath(post.id) }
+  : undefined;
 ---
 
 <BlogLayout
@@ -43,6 +53,7 @@ const relatedPosts = allPosts
   lang={lang}
   headings={headings}
   relatedPosts={relatedPosts}
+  alternates={alternates}
 >
   <Content />
 </BlogLayout>

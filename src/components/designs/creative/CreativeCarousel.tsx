@@ -62,7 +62,7 @@ export default function CreativeCarousel({ experiences }: Props) {
             <p className="text-lg text-accent">{flatExps[active].role[locale]}</p>
           </div>
           <span className="rounded-full bg-accent/10 px-3 py-1 text-sm text-accent">
-            {flatExps[active].period}
+            {flatExps[active].period[locale]}
           </span>
         </div>
 

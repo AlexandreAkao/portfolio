@@ -56,7 +56,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
       <button
         onClick={() => setOpen(!open)}
         className="relative z-60 flex h-8 w-8 flex-col items-center justify-center gap-1.5"
-        aria-label={open ? 'Close menu' : 'Open menu'}
+        aria-label={t(open ? 'menu.close' : 'menu.open', locale)}
         aria-expanded={open}
       >
         <motion.span
@@ -95,7 +95,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
                 exit={{ x: '100%' }}
                 transition={{ type: 'tween', duration: 0.3 }}
                 className="fixed right-0 top-0 z-50 flex h-full w-64 flex-col bg-bg border-l border-border shadow-xl"
-                aria-label="Mobile navigation"
+                aria-label={t('menu.label', locale)}
               >
                 <div className="flex flex-col gap-1 px-6 pt-20">
                   {links.map((link) => (

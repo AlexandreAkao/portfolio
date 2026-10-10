@@ -32,7 +32,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
     >
       <div className="text-2xl">{emoji}</div>
       <p className="mt-2 text-xs font-bold uppercase tracking-wider opacity-70" style={{ color: '#0f0d0e' }}>
-        {exp.period}
+        {exp.period[locale]}
       </p>
       <h3 className="mt-1 font-heading text-lg uppercase" style={{ color: '#0f0d0e' }}>
         {exp.company}
@@ -62,7 +62,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
             {exp.subEntries && (
               <>
                 <p className="text-xs font-bold uppercase opacity-70" style={{ color: '#0f0d0e' }}>
-                  {entry.period}
+                  {entry.period[locale]}
                 </p>
                 <p className="text-sm font-bold" style={{ color: '#0f0d0e' }}>
                   {entry.company.replace('AmbevTech - ', '')}

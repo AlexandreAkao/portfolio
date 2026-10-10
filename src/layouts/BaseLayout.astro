@@ -3,6 +3,7 @@ import { ClientRouter } from 'astro:transitions';
 import '@/styles/global.css';
 import AvantgardeCursor from '@components/designs/avantgarde/AvantgardeCursor.tsx';
 import SiteIntro from '@components/common/SiteIntro.astro';
+import T from '@components/ui/T.astro';
 
 interface Props {
   title: string;
@@ -12,6 +13,10 @@ interface Props {
   publishedTime?: string;
   tags?: string[];
   locale?: 'en' | 'pt';
+  /** Paths of this page in each language, when both exist. Drives hreflang and the language switch. */
+  alternates?: { en: string; pt: string };
+  /** The page is written in one language (a post): its chrome follows it instead of the visitor's preference. */
+  localeFixed?: boolean;
 }
 
 const {
@@ -22,6 +27,8 @@ const {
   publishedTime,
   tags,
   locale,
+  alternates,
+  localeFixed = false,
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
@@ -67,7 +74,7 @@ const jsonLd = type === 'article'
     };
 ---
 
-<html lang={locale || 'en'} data-design="avantgarde" data-lang={locale || 'en'}>
+<html lang={locale || 'en'} data-design="avantgarde" data-lang={locale || 'en'} data-lang-fixed={localeFixed || undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -99,10 +106,14 @@ const jsonLd = type === 'article'
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- hreflang -->
-    <link rel="alternate" hreflang="x-default" href={canonicalUrl.href} />
-    <link rel="alternate" hreflang="en" href={canonicalUrl.href} />
-    <link rel="alternate" hreflang="pt" href={`${canonicalUrl.href}${canonicalUrl.search ? '&' : '?'}lang=pt`} />
+    <!-- hreflang: only pages that exist in both languages declare alternates -->
+    {alternates && (
+      <>
+        <link rel="alternate" hreflang="x-default" href={new URL(alternates.en, Astro.site).href} />
+        <link rel="alternate" hreflang="en" href={new URL(alternates.en, Astro.site).href} />
+        <link rel="alternate" hreflang="pt-BR" href={new URL(alternates.pt, Astro.site).href} />
+      </>
+    )}
 
     <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -117,13 +128,16 @@ const jsonLd = type === 'article'
           if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
           document.documentElement.dataset.design = d;
 
+          // An explicit ?lang= or the /pt/ address wins over the stored preference.
           var params = new URLSearchParams(window.location.search);
           var langParam = params.get('lang');
-          var lang = langParam || localStorage.getItem('lang') || 'en';
+          var pathLang = /^\/pt\/?$/.test(window.location.pathname) ? 'pt' : null;
+          var fixed = document.documentElement.hasAttribute('data-lang-fixed');
+          var lang = fixed ? document.documentElement.dataset.lang : langParam || pathLang || localStorage.getItem('lang') || 'en';
           if (lang !== 'en' && lang !== 'pt') lang = 'en';
           document.documentElement.dataset.lang = lang;
           document.documentElement.lang = lang;
-          localStorage.setItem('lang', lang);
+          if (!fixed) localStorage.setItem('lang', lang);
 
           // Arm the intro curtain before first paint; reduced-motion visitors skip it.
           var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -136,9 +150,13 @@ const jsonLd = type === 'article'
           var d = localStorage.getItem('design') || 'avantgarde';
           if (validDesigns.indexOf(d) === -1) d = 'avantgarde';
           document.documentElement.dataset.design = d;
-          var lang = localStorage.getItem('lang') || 'en';
+          var pathLang = /^\/pt\/?$/.test(window.location.pathname) ? 'pt' : null;
+          var fixed = document.documentElement.hasAttribute('data-lang-fixed');
+          var lang = fixed ? document.documentElement.dataset.lang : pathLang || localStorage.getItem('lang') || 'en';
+          if (lang !== 'en' && lang !== 'pt') lang = 'en';
           document.documentElement.dataset.lang = lang;
           document.documentElement.lang = lang;
+          if (!fixed) localStorage.setItem('lang', lang);
         } catch(e) {}
       });
     </script>
@@ -149,7 +167,7 @@ const jsonLd = type === 'article'
       href="#main-content"
       class="fixed left-4 top-4 z-100 -translate-y-20 rounded-btn bg-accent px-4 py-2 text-sm font-medium text-bg transition-transform focus:translate-y-0"
     >
-      Skip to content
+      <T k="a11y.skip" />
     </a>
     <slot />
     <AvantgardeCursor client:load transition:persist />
