@@ -45,6 +45,7 @@ const ptTags = [...new Set(ptPosts.flatMap((p) => p.data.tags || []))].sort();
                   class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
                   data-filter="all"
                   data-active
+                  aria-pressed="true"
                 >
                   {t('blog.filter.all', 'en')}
                 </button>
@@ -52,6 +53,7 @@ const ptTags = [...new Set(ptPosts.flatMap((p) => p.data.tags || []))].sort();
                   <button
                     class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
                     data-filter={tag}
+                    aria-pressed="false"
                   >
                     {tag}
                   </button>
@@ -89,6 +91,7 @@ const ptTags = [...new Set(ptPosts.flatMap((p) => p.data.tags || []))].sort();
                   class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
                   data-filter="all"
                   data-active
+                  aria-pressed="true"
                 >
                   {t('blog.filter.all', 'pt')}
                 </button>
@@ -96,6 +99,7 @@ const ptTags = [...new Set(ptPosts.flatMap((p) => p.data.tags || []))].sort();
                   <button
                     class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
                     data-filter={tag}
+                    aria-pressed="false"
                   >
                     {tag}
                   </button>
@@ -137,8 +141,12 @@ const ptTags = [...new Set(ptPosts.flatMap((p) => p.data.tags || []))].sort();
         btn.addEventListener('click', () => {
           const filter = btn.dataset.filter;
 
-          group.querySelectorAll('.tag-filter').forEach((b) => b.removeAttribute('data-active'));
+          group.querySelectorAll('.tag-filter').forEach((b) => {
+            b.removeAttribute('data-active');
+            b.setAttribute('aria-pressed', 'false');
+          });
           btn.setAttribute('data-active', '');
+          btn.setAttribute('aria-pressed', 'true');
 
           posts.querySelectorAll<HTMLElement>('[data-tags]').forEach((card) => {
             const tags: string[] = JSON.parse(card.dataset.tags || '[]');

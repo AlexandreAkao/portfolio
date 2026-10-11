@@ -38,6 +38,7 @@ export default function CreativeCarousel({ experiences }: Props) {
           <button
             key={i}
             onClick={() => setActive(i)}
+            aria-pressed={active === i}
             className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-all ${
               active === i
                 ? 'bg-accent text-white shadow-lg'

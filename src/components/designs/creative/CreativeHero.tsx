@@ -7,6 +7,7 @@ import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import HeroFallback from '@components/ui/HeroFallback';
 
 interface Props {
   avatarSrc?: string;
@@ -127,7 +128,7 @@ function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: 
 
 export default function CreativeHero(props: Props) {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={<HeroFallback />}>
       <CreativeHeroInner {...props} />
     </ErrorBoundary>
   );

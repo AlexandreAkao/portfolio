@@ -2,6 +2,7 @@ import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
 import type { SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
+import { t } from '@i18n/utils';
 
 interface Props {
   skillGroups: SkillGroup[];
@@ -27,18 +28,20 @@ export default function CreativeSkills({ skillGroups }: Props) {
       <div className="mb-8 flex flex-wrap justify-center gap-2">
         <button
           onClick={() => setActiveGroup(null)}
+          aria-pressed={activeGroup === null}
           className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
             activeGroup === null
               ? 'bg-accent text-white'
               : 'border border-border text-text-secondary hover:border-accent'
           }`}
         >
-          All
+          {t('blog.filter.all', locale)}
         </button>
         {skillGroups.map((g, i) => (
           <button
             key={i}
             onClick={() => setActiveGroup(i)}
+            aria-pressed={activeGroup === i}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
               activeGroup === i
                 ? 'bg-accent text-white'

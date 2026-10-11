@@ -7,6 +7,7 @@ import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import HeroFallback from '@components/ui/HeroFallback';
 
 function ArcadeHeroInner() {
   const locale = useLocale();
@@ -87,7 +88,7 @@ function ArcadeHeroInner() {
 
 export default function ArcadeHero() {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={<HeroFallback />}>
       <ArcadeHeroInner />
     </ErrorBoundary>
   );

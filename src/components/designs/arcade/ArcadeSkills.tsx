@@ -7,7 +7,7 @@ interface Props {
   skillGroups: SkillGroup[];
 }
 
-const CARD_COLORS = ['#0ba95b', '#12b5e5', '#f38ba3', '#7b5ea7', '#ed203d', '#fcba28'];
+const CARD_COLORS = ['#0ba95b', '#12b5e5', '#f38ba3', '#a189cc', '#f55a6e', '#fcba28'];
 const EMOJIS = ['⚙️', '🖥️', '🗄️', '☁️', '📨', '📊', '🏗️'];
 
 export default function ArcadeSkills({ skillGroups }: Props) {

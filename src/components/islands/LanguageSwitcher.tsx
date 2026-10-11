@@ -40,8 +40,8 @@ function LanguageSwitcherInner() {
   return (
     <button
       onClick={toggle}
-      className="flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs font-medium text-text-secondary transition-colors hover:text-accent"
-      aria-label={t('lang.switch', locale)}
+      className="flex h-11 min-w-11 items-center justify-center gap-1 rounded-md border border-border px-2 py-1 text-xs font-medium text-text-secondary transition-colors hover:text-accent md:h-auto md:min-w-0"
+      aria-label={`${locale === 'en' ? 'PT' : 'EN'}: ${t('lang.switch', locale)}`}
     >
       {locale === 'en' ? 'PT' : 'EN'}
     </button>

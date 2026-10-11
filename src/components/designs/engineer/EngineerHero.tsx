@@ -8,6 +8,7 @@ import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import HeroFallback from '@components/ui/HeroFallback';
 
 function EngineerHeroInner() {
   const locale = useLocale();
@@ -103,7 +104,7 @@ function EngineerHeroInner() {
 
 export default function EngineerHero() {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={<HeroFallback />}>
       <EngineerHeroInner />
     </ErrorBoundary>
   );

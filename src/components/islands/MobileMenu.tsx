@@ -27,6 +27,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
   useEffect(() => setMounted(true), []);
 
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const close = useCallback(() => setOpen(false), []);
   // Dismissing without choosing a link hands focus back to the toggle.
   const dismiss = useCallback(() => {
@@ -46,14 +47,29 @@ export default function MobileMenu({ isBlog = false }: Props) {
     };
   }, [open]);
 
-  // Close on Escape
+  // While open: Escape closes, and Tab cycles inside the panel instead of reaching the page behind it.
   useEffect(() => {
+    if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') dismiss();
+      if (e.key === 'Escape') {
+        dismiss();
+        return;
+      }
+      if (e.key !== 'Tab' || !panelRef.current) return;
+      const items = panelRef.current.querySelectorAll<HTMLElement>('a[href], button');
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [dismiss]);
+  }, [open, dismiss]);
 
   const links = isBlog ? blogLinks : sectionLinks;
 
@@ -63,7 +79,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
       <button
         ref={toggleRef}
         onClick={() => setOpen(!open)}
-        className="relative z-60 flex h-8 w-8 flex-col items-center justify-center gap-1.5"
+        className="relative z-60 flex h-11 w-11 flex-col items-center justify-center gap-1.5"
         aria-label={t(open ? 'menu.close' : 'menu.open', locale)}
         aria-expanded={open}
       >
@@ -97,12 +113,15 @@ export default function MobileMenu({ isBlog = false }: Props) {
               />
 
               {/* Slide-in panel */}
-              <motion.nav
+              <motion.div
+                ref={panelRef}
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'tween', duration: 0.3 }}
                 className="fixed right-0 top-0 z-50 flex h-full w-64 flex-col bg-bg border-l border-border shadow-xl"
+                role="dialog"
+                aria-modal="true"
                 aria-label={t('menu.label', locale)}
               >
                 {/* The panel covers the header's toggle, so it carries its own close button */}
@@ -120,7 +139,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-1 px-6 pt-4">
+                <nav className="flex flex-col gap-1 px-6 pt-4">
                   {links.map((link) => (
                     <a
                       key={link.key}
@@ -141,7 +160,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
                   >
                     {t('nav.blog', locale)}
                   </a>
-                </div>
+                </nav>
 
                 {/* The two ways to act on what the page showed: the CV and a direct email */}
                 <div className="mt-auto flex flex-col gap-2 border-t border-border px-6 py-6">
@@ -166,7 +185,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
                     </span>
                   </a>
                 </div>
-              </motion.nav>
+              </motion.div>
             </>
           )}
         </AnimatePresence>,

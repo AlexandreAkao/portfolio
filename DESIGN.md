@@ -33,7 +33,7 @@ colors:
   editorial-newsprint-card-hover: "#f9f8f5"
   editorial-newsprint-line: "#d4d0c8"
   editorial-ink: "#1a1a1a"
-  editorial-ink-grey: "#6b6b6b"
+  editorial-ink-grey: "#636363"
   editorial-signal-orange: "#ff4d00"
   editorial-signal-orange-deep: "#e64500"
   editorial-signal-orange-ink: "#bf3900"
@@ -49,8 +49,8 @@ colors:
   arcade-candy-green: "#0ba95b"
   arcade-candy-blue: "#12b5e5"
   arcade-candy-pink: "#f38ba3"
-  arcade-candy-purple: "#7b5ea7"
-  arcade-candy-red: "#ed203d"
+  arcade-candy-purple: "#a189cc"
+  arcade-candy-red: "#f55a6e"
 typography:
   engineer-display:
     fontFamily: "JetBrains Mono, monospace"
@@ -304,14 +304,14 @@ Five self-contained palettes, each a dark or paper neutral family plus exactly o
 - **Coin Gold** (#fcba28): Arcade's accent. The 4px underline beneath section titles, the hero role line, the filled pill button with Cabinet Black text, project metric text. Hover deepens to Coin Gold Deep (#e5a820). It also serves as the sixth candy surface.
 
 ### Secondary (Arcade only)
-Candy surfaces cycle by index across experience and skill cards: Candy Green (#0ba95b), Candy Blue (#12b5e5), Candy Pink (#f38ba3), Candy Purple (#7b5ea7), Candy Red (#ed203d), then Coin Gold. Text on every candy surface is Cabinet Black; chips on them are Cabinet Black at 15%. No other world has a secondary color.
+Candy surfaces cycle by index across experience and skill cards: Candy Green (#0ba95b), Candy Blue (#12b5e5), Candy Pink (#f38ba3), Candy Purple (#a189cc), Candy Red (#f55a6e), then Coin Gold. Text on every candy surface is solid Cabinet Black, never faded by opacity; chips on them are Cabinet Black at 15%. Purple and red were lightened on 2026-10-11 (from #7b5ea7 and #ed203d, which held black text at 3.7:1 and 4.5:1) so every candy reads at 4.6:1 or more, chips included. No other world has a secondary color.
 
 
 ### Neutral
 - **Engineer, the Navy Depth family:** Navy Depth (#0a192f) page; Navy Raised (#112240) cards, the skills block, the header pill; Navy Lifted (#1d3461) card hover; Navy Line (#233554) borders and the timeline; Frost (#ccd6f6) text; Slate (#8892b0) secondary text. A 40px grid of Terminal Teal at 3% is drawn over the page.
 - **Creative, the Warm Paper family:** Warm Paper (#faf5ee) page; Warm Paper Deep (#f0e9df) header pill and raised surfaces; White Card (#ffffff) cards; Warm Card Hover (#f8f4ef); Sand Line (#e2d8cc) borders; Ink Navy (#1a1a2e) text; Ink Muted (#4a4a68) secondary text.
 - **Avant-garde, the Charcoal family:** Charcoal (#131211) page under a 3% fractal-noise overlay; Charcoal Raised (#1c1a18) cards and chips; Charcoal Lifted (#252220) hover; Charcoal Line (#2a2725) borders; Bone (#f0ece6) text; Ash (#9a948b) secondary text. Watermark years use Bone at 4%; the marquee uses Ash at 8%.
-- **Editorial, the Newsprint family:** Newsprint (#f5f5f0) page; Newsprint Deep (#eae8e1) raised; White Card (#ffffff) cards; Newsprint Card Hover (#f9f8f5); Newsprint Line (#d4d0c8) borders and hairlines; Ink (#1a1a1a) text, and the text on every Signal Orange fill; Ink Grey (#6b6b6b) secondary text. Ghost numerals use Ink at 4% to 6%. Signal Orange Ink (#bf3900) is the world's `--accent-text`: 5.05:1 on Newsprint, 4.51:1 on Newsprint Deep, 5.53:1 on White Card, 5.2:1 on card hover.
+- **Editorial, the Newsprint family:** Newsprint (#f5f5f0) page; Newsprint Deep (#eae8e1) raised; White Card (#ffffff) cards; Newsprint Card Hover (#f9f8f5); Newsprint Line (#d4d0c8) borders and hairlines; Ink (#1a1a1a) text, and the text on every Signal Orange fill; Ink Grey (#636363) secondary text: 5.49:1 on Newsprint and 4.9:1 on Newsprint Deep (it was #6b6b6b, 4.35:1 on Deep). Ghost numerals use Ink at 4% to 6%. Signal Orange Ink (#bf3900) is the world's `--accent-text`: 5.05:1 on Newsprint, 4.51:1 on Newsprint Deep, 5.53:1 on White Card, 5.2:1 on card hover.
 - **Arcade, the Cabinet Black family:** Cabinet Black (#0f0d0e) page; Cabinet Plum (#1a1820) header pill; Cabinet Card (#231f20) cards; Cabinet Card Hover (#2d2829); Cabinet Line (#2a2725) borders; Cream (#f9f4da) text; Silver (#b1b4b9) secondary text.
 
 ### Named Rules
@@ -441,8 +441,10 @@ None. Contact is a `mailto:` button by product decision.
 ### Navigation
 - **Desktop links:** 0.875rem in secondary text, accent on hover, 24px apart, hidden below 768px. Section anchors on the home only; Home and Blog everywhere else, the 404 included.
 - **Design switcher:** a pill with a 1px border on the raised surface, a monospace 0.75rem uppercase label that reads "Design" below 1024px and the world's glyph ("01", "//", "{ }", "~", a joystick) plus its name from 1024px, and a chevron that rotates 180 degrees when open. A disclosure, not a listbox: the panel drops 8px below at 224px wide, 8px radius, and the floating shadow, opens with one 0.75rem secondary line ("Same content, 5 designs") over a hairline, then lists the worlds in order as toggle buttons (aria-pressed) at 0.875rem with a 10% accent hover wash, the current one in accent with a check mark. Escape closes it and returns focus to the pill.
-- **Language toggle:** a 0.75rem bordered chip reading "PT" or "EN", 6px radius.
-- **Mobile:** a 20px three-bar hamburger that folds into an X; a 256px right panel that carries its own 44px close button (focused on open), 12px-padded links (the section anchors on the home, Home elsewhere), a divider before Blog, and at its foot the CV as a bordered button in primary text and the email address beside a mail icon.
+- **Header controls on phones:** the design switcher, the language chip and the menu toggle are 44px tall below 768px, inside the same 64px bar (10px vertical padding).
+- **Selected states:** every toggle that filters or selects (blog tag filters, Creative tabs and skill filters, Avant-garde skill rows, the design switcher) carries `aria-pressed`, so selection is never colour alone.
+- **Language toggle:** a 0.75rem bordered chip reading "PT" or "EN", 6px radius, 44px square below 768px. Its accessible name starts with the visible label ("PT: Switch to Portuguese").
+- **Mobile:** a 20px three-bar hamburger in a 44px target that folds into an X; a 256px right panel, a modal dialog (`role="dialog"`, `aria-modal`) that keeps Tab inside while open, that carries its own 44px close button (focused on open), 12px-padded links (the section anchors on the home, Home elsewhere), a divider before Blog, and at its foot the CV as a bordered button in primary text and the email address beside a mail icon.
 - **Skip link:** an accent pill with `--on-accent` text that drops into view on focus.
 - **Socials:** GitHub, LinkedIn, Dev.to, and Email, read from `src/data/social.ts`, as bordered button-radius chips in every hero (icon, plus the name from 640px; Email keeps its word, "Email" / "E-mail", at every width because it is the action) and as bare icons in the footer. External links open a new tab; the `mailto:` link never does.
 - **Reading progress (blog):** a 4px accent bar fixed at the top.
@@ -452,7 +454,7 @@ None. Contact is a `mailto:` button by product decision.
 - **Engineer JSON skills:** the whole skill set rendered as a JSON object in a 2px-radius block: keys in teal, values in Frost, punctuation in Slate.
 - **Creative portrait halo:** a 320px composition of a pulsing violet blur, a 20%-to-transparent gradient disc, and two rings at 20% and 40% violet around a 224px round portrait.
 - **Avant-garde particle field:** 200 Acid Lime points (80 on mobile) with faint connection lines under 1.8 units, drifting and repelled by the cursor, on a transparent WebGL canvas with a CSS fallback of 40 pulsing dots.
-- **Avant-garde cursor:** on fine pointers the native cursor is hidden; an 8px lime dot tracks exactly and a 32px lime ring follows with a 0.15 lerp. Over links and buttons the dot shrinks to 4px and the ring grows to 48px as a `scale` eased in the same frame loop (0.25 and 0.2 per frame), so nothing re-lays out.
+- **Avant-garde cursor:** on fine pointers a 32px lime ring trails the native cursor with a 0.15 lerp and grows to 48px over links and buttons as a `scale` eased in the same frame loop (0.2 per frame), so nothing re-lays out. The native cursor stays visible, so the visitor's pointer size and contrast settings keep working.
 - **Avant-garde marquee:** a 30s linear loop of uppercase capability words at clamp(2rem, 5vw, 3.75rem) in Ash at 8%, running left after the hero and right before Contact.
 - **Editorial ghost numerals:** "01" at clamp(10rem, 25vw, 18rem) beside the hero name, entry numbers at clamp(3rem, 5vw, 4.5rem) in Ink at 6%, and a 3px orange rule that scales in from the left.
 - **Arcade candy stack:** each experience or skill card takes the next candy surface in sequence, a 1.5rem emoji, a Bungee uppercase title, and Cabinet Black text; experience cards keep each result on the face and hide the bullets and stack behind a "▼ details" toggle.
@@ -467,7 +469,8 @@ None. Contact is a `mailto:` button by product decision.
 - **Hero signatures:** Engineer's typewriter; Avant-garde's 0.03s character stagger and a rule that scales in over 0.8s; Editorial's 0.15s word stagger with parallax (name -80px, subtitle -40px across the hero's scroll); Creative's portrait scaling from 0.8 over 0.8s.
 - **Intro curtain:** 1.65s to 1.9s per world, fonts awaited up to 700ms first; heroes hydrate when the exit begins (0.95s to 1.35s) so the curtain opens on a hero mid-entrance.
 - **Reduced motion:** CSS animations and transitions collapse to 0.01ms and smooth scrolling is disabled. Motion's JavaScript animations are reached separately: `src/lib/reduced-motion.ts`, imported by a BaseLayout script, sets `MotionGlobalConfig.skipAnimations`, so every Motion animation jumps to its end state.
-- **No JavaScript:** a `<noscript>` style in BaseLayout forces any element whose inline style starts at opacity 0 to full opacity with no transform, so Motion's server-rendered start states never hide the page.
+- **No JavaScript:** a `<noscript>` style in BaseLayout forces any element whose inline style starts at opacity 0 or `scaleX(0)` to full opacity with no transform, so Motion's server-rendered start states (including Editorial's rule) never hide the page. If a hero island throws, its ErrorBoundary renders a static fallback with the name, the role, the CV and the email instead of nothing.
+- **Accessible names in animated type:** a display name split into per-letter spans for its entrance (Avant-garde) carries the whole name once in an `sr-only` span and hides the letters from assistive tech; word-split names (Editorial) keep real spaces between the words.
 
 ## Do's and Don'ts
 

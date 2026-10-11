@@ -191,6 +191,7 @@ function ParticleFallback() {
 }
 
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import HeroFallback from '@components/ui/HeroFallback';
 
 function AvantgardeHeroInner() {
   const locale = useLocale();
@@ -245,10 +246,11 @@ function AvantgardeHeroInner() {
           className="mb-4 text-left font-heading text-[clamp(2.25rem,8vw,6.5rem)] font-bold leading-[0.95]"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
+          <span className="sr-only">{name}</span>
           {words.map((word, wordIndex) => {
             const charOffset = words.slice(0, wordIndex).reduce((sum, w) => sum + w.length + 1, 0);
             return (
-              <span key={wordIndex} className="inline-block whitespace-nowrap">
+              <span key={wordIndex} aria-hidden="true" className="inline-block whitespace-nowrap">
                 {word.split('').map((char, charIndex) => (
                   <motion.span
                     key={charIndex}
@@ -331,7 +333,7 @@ function AvantgardeHeroInner() {
 
 export default function AvantgardeHero() {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={<HeroFallback />}>
       <AvantgardeHeroInner />
     </ErrorBoundary>
   );

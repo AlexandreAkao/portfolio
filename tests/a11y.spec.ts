@@ -50,3 +50,31 @@ test('blog code reads in every world: every syntax token at 4.5:1 or more on its
     expect(min, `${world}: lowest code token contrast`).toBeGreaterThanOrEqual(4.5);
   }
 });
+
+test('the Avant-garde name is read once, not letter by letter', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('design', 'avantgarde'));
+  await page.goto('/');
+  await expect(page.locator('#hero [data-design-show="avantgarde"]').getByRole('heading', { level: 1 })).toHaveAccessibleName('Alexandre Akira');
+});
+
+test('the mobile menu is a modal dialog that keeps focus inside @mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro ?? 'none'), { timeout: 15_000 }).toMatch(/done|none/);
+  await page.getByRole('button', { name: 'Open menu' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Mobile navigation' });
+  await expect(dialog).toHaveAttribute('aria-modal', 'true');
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press('Tab');
+    expect(await page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]'))).toBe(true);
+  }
+});
+
+test('filters and tabs announce which one is selected', async ({ page }) => {
+  await page.goto('/blog/');
+  const filters = page.locator('[data-filter-group="en"] .tag-filter');
+  await expect(filters.first()).toHaveAttribute('aria-pressed', 'true');
+  await filters.nth(1).click();
+  await expect(filters.nth(1)).toHaveAttribute('aria-pressed', 'true');
+  await expect(filters.first()).toHaveAttribute('aria-pressed', 'false');
+});

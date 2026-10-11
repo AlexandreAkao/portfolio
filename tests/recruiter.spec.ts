@@ -24,7 +24,7 @@ test('the mobile menu closes from inside and carries the CV and the email @mobil
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro ?? 'none'), { timeout: 15_000 }).toMatch(/done|none/);
 
   await page.getByRole('button', { name: 'Open menu' }).click();
-  const panel = page.getByRole('navigation', { name: 'Mobile navigation' });
+  const panel = page.getByRole('dialog', { name: 'Mobile navigation' });
   await expect(panel.getByRole('link', { name: 'Download CV' })).toHaveAttribute('href', /\.pdf$/);
   await expect(panel.getByRole('link', { name: /@/ })).toHaveAttribute('href', /^mailto:/);
 

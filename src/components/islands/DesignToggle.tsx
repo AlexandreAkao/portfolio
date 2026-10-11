@@ -101,7 +101,7 @@ function DesignToggleInner() {
         }}
         onPointerEnter={announceIntent}
         onFocus={announceIntent}
-        className="flex items-center gap-2 rounded-full border border-border bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-accent"
+        className="flex h-11 items-center gap-2 rounded-full border border-border bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-accent md:h-auto"
         aria-label={`${t('design.switch', locale)} (${t('design.current', locale)}: ${config?.label})`}
         aria-expanded={open}
         aria-controls="design-options"

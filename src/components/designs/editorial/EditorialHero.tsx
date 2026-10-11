@@ -8,6 +8,7 @@ import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import HeroFallback from '@components/ui/HeroFallback';
 
 function EditorialHeroInner() {
   const locale = useLocale();
@@ -55,11 +56,11 @@ function EditorialHeroInner() {
               initial={{ opacity: 0, y: 60 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 + i * 0.15 }}
-              className="mr-[0.25em] inline-block text-text"
+              className="inline-block text-text"
             >
               {word}
             </motion.span>
-          ))}
+          )).flatMap((span, i) => (i ? [' ', span] : [span]))}
         </motion.h1>
 
         <motion.div style={{ y: subtitleY }}>
@@ -134,7 +135,7 @@ function EditorialHeroInner() {
 
 export default function EditorialHero() {
   return (
-    <ErrorBoundary>
+    <ErrorBoundary fallback={<HeroFallback />}>
       <EditorialHeroInner />
     </ErrorBoundary>
   );

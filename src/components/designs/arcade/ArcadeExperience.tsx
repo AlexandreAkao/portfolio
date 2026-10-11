@@ -8,7 +8,7 @@ interface Props {
   experiences: Experience[];
 }
 
-const CARD_COLORS = ['#0ba95b', '#12b5e5', '#f38ba3', '#7b5ea7', '#ed203d', '#fcba28'];
+const CARD_COLORS = ['#0ba95b', '#12b5e5', '#f38ba3', '#a189cc', '#f55a6e', '#fcba28'];
 const EMOJIS = ['🚀', '⚡', '💼', '🔥', '🎯', '💡'];
 
 function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
@@ -31,7 +31,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
       style={{ backgroundColor: color }}
     >
       <div className="text-2xl">{emoji}</div>
-      <p className="mt-2 text-xs font-bold uppercase tracking-wider opacity-70" style={{ color: '#0f0d0e' }}>
+      <p className="mt-2 text-xs font-bold uppercase tracking-wider" style={{ color: '#0f0d0e' }}>
         {exp.period[locale]}
       </p>
       <h3 className="mt-1 font-heading text-lg uppercase" style={{ color: '#0f0d0e' }}>
@@ -41,7 +41,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
         {exp.role[locale]}
       </p>
       {exp.summary[locale] && (
-        <p className="mt-2 text-sm opacity-80" style={{ color: '#0f0d0e' }}>
+        <p className="mt-2 text-sm" style={{ color: '#0f0d0e' }}>
           {exp.summary[locale]}
         </p>
       )}
@@ -74,7 +74,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
           <div key={i} className={exp.subEntries ? 'mt-3 border-l-2 border-[#0f0d0e]/20 pl-3' : 'mt-2'}>
             {exp.subEntries && (
               <>
-                <p className="text-xs font-bold uppercase opacity-70" style={{ color: '#0f0d0e' }}>
+                <p className="text-xs font-bold uppercase" style={{ color: '#0f0d0e' }}>
                   {entry.period[locale]}
                 </p>
                 <p className="text-sm font-bold" style={{ color: '#0f0d0e' }}>

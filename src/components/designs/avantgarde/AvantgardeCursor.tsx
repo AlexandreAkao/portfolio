@@ -1,37 +1,35 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 
+/**
+ * Avant-garde's cursor ring: a 32px lime ring that trails the native cursor on
+ * fine pointers and grows to 48px over interactive elements. The native cursor
+ * stays visible, so pointer size and contrast settings keep working.
+ */
 function AvantgardeCursorInner() {
   const [active, setActive] = useState(false);
-  const dotRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<HTMLDivElement>(null);
   const mouse = useRef({ x: -100, y: -100 });
   const circlePos = useRef({ x: -100, y: -100 });
   const rafRef = useRef<number>(0);
   const hoveringRef = useRef(false);
-  // Hover grows the ring and shrinks the dot by scale, eased in the frame loop, so nothing re-lays out.
-  const scale = useRef({ dot: 1, circle: 1 });
+  // Hover grows the ring by scale, eased in the frame loop, so nothing re-lays out.
+  const scale = useRef(1);
 
   const animate = useCallback(() => {
-    const dot = dotRef.current;
     const circle = circleRef.current;
-    if (!dot || !circle) {
+    if (!circle) {
       rafRef.current = requestAnimationFrame(animate);
       return;
     }
 
-    // Hover: the 8px dot shrinks to 4px and the 32px ring grows to 48px
-    const isHovering = hoveringRef.current;
-    scale.current.dot += ((isHovering ? 0.5 : 1) - scale.current.dot) * 0.25;
-    scale.current.circle += ((isHovering ? 1.5 : 1) - scale.current.circle) * 0.2;
+    // Hover: the 32px ring grows to 48px
+    scale.current += ((hoveringRef.current ? 1.5 : 1) - scale.current) * 0.2;
 
-    // Dot follows mouse exactly
-    dot.style.transform = `translate(${mouse.current.x}px, ${mouse.current.y}px) translate(-50%, -50%) scale(${scale.current.dot})`;
-
-    // Circle follows with lerp delay
+    // The ring follows with lerp delay
     circlePos.current.x += (mouse.current.x - circlePos.current.x) * 0.15;
     circlePos.current.y += (mouse.current.y - circlePos.current.y) * 0.15;
-    circle.style.transform = `translate(${circlePos.current.x}px, ${circlePos.current.y}px) translate(-50%, -50%) scale(${scale.current.circle})`;
+    circle.style.transform = `translate(${circlePos.current.x}px, ${circlePos.current.y}px) translate(-50%, -50%) scale(${scale.current})`;
 
     rafRef.current = requestAnimationFrame(animate);
   }, []);
@@ -51,7 +49,6 @@ function AvantgardeCursorInner() {
       if (!hasMoved) {
         hasMoved = true;
         circlePos.current = { x: e.clientX, y: e.clientY };
-        if (dotRef.current) dotRef.current.style.opacity = '1';
         if (circleRef.current) circleRef.current.style.opacity = '1';
       }
     };
@@ -90,11 +87,10 @@ function AvantgardeCursorInner() {
 
   useEffect(() => {
     if (active) {
-      // If mouse already moved before becoming active, show cursor immediately
+      // If mouse already moved before becoming active, show the ring immediately
       if (mouse.current.x !== -100) {
         circlePos.current = { ...mouse.current };
         requestAnimationFrame(() => {
-          if (dotRef.current) dotRef.current.style.opacity = '1';
           if (circleRef.current) circleRef.current.style.opacity = '1';
         });
       }
@@ -108,39 +104,23 @@ function AvantgardeCursorInner() {
   if (!active) return null;
 
   return (
-    <>
-      <div
-        ref={dotRef}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: 8,
-          height: 8,
-          borderRadius: '50%',
-          backgroundColor: 'var(--accent)',
-          pointerEvents: 'none',
-          zIndex: 10000,
-          opacity: 0,
-        }}
-      />
-      <div
-        ref={circleRef}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: 32,
-          height: 32,
-          borderRadius: '50%',
-          border: '1px solid var(--accent)',
-          opacity: 0,
-          pointerEvents: 'none',
-          zIndex: 10000,
-          transition: 'opacity 0.2s',
-        }}
-      />
-    </>
+    <div
+      ref={circleRef}
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: 32,
+        height: 32,
+        borderRadius: '50%',
+        border: '1px solid var(--accent)',
+        opacity: 0,
+        pointerEvents: 'none',
+        zIndex: 10000,
+        transition: 'opacity 0.2s',
+      }}
+    />
   );
 }
 
