@@ -3,6 +3,7 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import { email } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 type Status = 'idle' | 'copied' | 'selected';
 
@@ -57,10 +58,12 @@ function EmailCopyInner({ showAddress = true, className = '' }: { showAddress?: 
   );
 }
 
-export default function EmailCopy(props: { showAddress?: boolean; className?: string }) {
+function EmailCopy(props: { showAddress?: boolean; className?: string }) {
   return (
     <ErrorBoundary fallback={<span className="select-all text-text">{email}</span>}>
       <EmailCopyInner {...props} />
     </ErrorBoundary>
   );
 }
+
+export default withServerLocale(EmailCopy);

@@ -8,22 +8,24 @@ interface Props {
 }
 
 /**
- * "Currently at Seva / Appointally · AmbevTech", derived from the roles still
- * in progress. Each hero wraps it in a line of its own world.
+ * "Currently at Seva / Appointally and AmbevTech", derived from the roles still
+ * in progress and joined the way each language joins a list. Each hero wraps it
+ * in a line of its own world.
  */
 export default function CurrentCompanies({ locale, companyClassName = '' }: Props) {
+  const parts = new Intl.ListFormat(locale === 'pt' ? 'pt-BR' : 'en', { type: 'conjunction' }).formatToParts(currentCompanies);
   return (
     <>
       {t('hero.now', locale)}{' '}
-      {currentCompanies.map((company, i) => (
-        <Fragment key={company}>
-          {i > 0 && ' '}
-          <span className="whitespace-nowrap">
-            {i > 0 && '· '}
-            <span className={companyClassName}>{company}</span>
+      {parts.map((part, i) =>
+        part.type === 'element' ? (
+          <span key={i} className={`whitespace-nowrap ${companyClassName}`}>
+            {part.value}
           </span>
-        </Fragment>
-      ))}
+        ) : (
+          <Fragment key={i}>{part.value}</Fragment>
+        ),
+      )}
     </>
   );
 }

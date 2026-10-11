@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import type { SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   skillGroups: SkillGroup[];
@@ -74,7 +75,7 @@ function SkillCategory({
   );
 }
 
-export default function EditorialSkills({ skillGroups }: Props) {
+function EditorialSkills({ skillGroups }: Props) {
   return (
     <div className="space-y-12">
       {skillGroups.map((group, i) => (
@@ -88,3 +89,5 @@ export default function EditorialSkills({ skillGroups }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(EditorialSkills);

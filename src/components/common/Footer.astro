@@ -6,6 +6,13 @@ import { Icon } from 'astro-icon/components';
 import DesignInvite from '@components/ui/DesignInvite.tsx';
 
 const year = new Date().getFullYear();
+
+interface Props {
+  /** The page's language, so the islands render in it on the server. */
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
 ---
 
 <footer>
@@ -57,7 +64,7 @@ const year = new Date().getFullYear();
             </a>
           ))}
         </div>
-        <DesignInvite client:visible world="editorial" />
+        <DesignInvite client:visible world="editorial" locale={locale} />
       </div>
     </div>
   </div>

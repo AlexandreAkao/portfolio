@@ -7,6 +7,13 @@ import AvantgardeSkills from '@components/designs/avantgarde/AvantgardeSkills.ts
 import EditorialSkills from '@components/designs/editorial/EditorialSkills.tsx';
 import ArcadeSkills from '@components/designs/arcade/ArcadeSkills.tsx';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
+
+interface Props {
+  /** The page's language, so the islands render in it on the server. */
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
 ---
 
 <section id="skills" class="py-20">
@@ -18,19 +25,19 @@ import ScrollReveal from '@components/islands/ScrollReveal.tsx';
     </ScrollReveal>
 
     <div data-design-show="engineer">
-      <EngineerSkills skillGroups={skillGroups} client:visible />
+      <EngineerSkills skillGroups={skillGroups} locale={locale} client:visible />
     </div>
     <div data-design-show="creative">
-      <CreativeSkills skillGroups={skillGroups} client:visible />
+      <CreativeSkills skillGroups={skillGroups} locale={locale} client:visible />
     </div>
     <div data-design-show="avantgarde">
-      <AvantgardeSkills skillGroups={skillGroups} client:visible />
+      <AvantgardeSkills skillGroups={skillGroups} locale={locale} client:visible />
     </div>
     <div data-design-show="editorial">
-      <EditorialSkills skillGroups={skillGroups} client:visible />
+      <EditorialSkills skillGroups={skillGroups} locale={locale} client:visible />
     </div>
     <div data-design-show="arcade">
-      <ArcadeSkills skillGroups={skillGroups} client:visible />
+      <ArcadeSkills skillGroups={skillGroups} locale={locale} client:visible />
     </div>
   </div>
 </section>

@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'motion/react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   experiences: Experience[];
@@ -99,7 +100,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
   );
 }
 
-export default function AvantgardeExperience({ experiences }: Props) {
+function AvantgardeExperience({ experiences }: Props) {
   return (
     <div className="space-y-6">
       {experiences.map((exp, i) => (
@@ -108,3 +109,5 @@ export default function AvantgardeExperience({ experiences }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(AvantgardeExperience);

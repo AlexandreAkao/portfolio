@@ -10,22 +10,29 @@ import avatarImg from '@/assets/images/avatar.jpeg';
 const avatar1x = await getImage({ src: avatarImg, width: 224, height: 224 });
 const avatar2x = await getImage({ src: avatarImg, width: 448, height: 448 });
 const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
+
+interface Props {
+  /** The page's language, so the islands render in it on the server. */
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
 ---
 
 <section id="hero">
   <div data-design-show="engineer">
-    <EngineerHero client:intro />
+    <EngineerHero locale={locale} client:intro />
   </div>
   <div data-design-show="creative">
-    <CreativeHero avatarSrc={avatar1x.src} avatarSrcSet={avatarSrcSet} client:intro />
+    <CreativeHero avatarSrc={avatar1x.src} avatarSrcSet={avatarSrcSet} locale={locale} client:intro />
   </div>
   <div data-design-show="avantgarde">
-    <AvantgardeHero client:intro />
+    <AvantgardeHero locale={locale} client:intro />
   </div>
   <div data-design-show="editorial">
-    <EditorialHero client:intro />
+    <EditorialHero locale={locale} client:intro />
   </div>
   <div data-design-show="arcade">
-    <ArcadeHero client:intro />
+    <ArcadeHero locale={locale} client:intro />
   </div>
 </section>

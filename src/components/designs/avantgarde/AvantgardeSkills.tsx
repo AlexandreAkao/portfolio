@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import type { SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   skillGroups: SkillGroup[];
@@ -63,7 +64,7 @@ function CategoryBlock({
   );
 }
 
-export default function AvantgardeSkills({ skillGroups }: Props) {
+function AvantgardeSkills({ skillGroups }: Props) {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
 
   return (
@@ -80,3 +81,5 @@ export default function AvantgardeSkills({ skillGroups }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(AvantgardeSkills);

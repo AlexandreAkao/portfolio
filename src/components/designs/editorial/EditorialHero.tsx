@@ -9,6 +9,7 @@ import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 function EditorialHeroInner() {
   const locale = useLocale();
@@ -123,10 +124,12 @@ function EditorialHeroInner() {
   );
 }
 
-export default function EditorialHero() {
+function EditorialHero() {
   return (
     <ErrorBoundary fallback={<HeroFallback />}>
       <EditorialHeroInner />
     </ErrorBoundary>
   );
 }
+
+export default withServerLocale(EditorialHero);

@@ -192,6 +192,7 @@ function ParticleFallback() {
 
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 function AvantgardeHeroInner() {
   const locale = useLocale();
@@ -331,10 +332,12 @@ function AvantgardeHeroInner() {
   );
 }
 
-export default function AvantgardeHero() {
+function AvantgardeHero() {
   return (
     <ErrorBoundary fallback={<HeroFallback />}>
       <AvantgardeHeroInner />
     </ErrorBoundary>
   );
 }
+
+export default withServerLocale(AvantgardeHero);

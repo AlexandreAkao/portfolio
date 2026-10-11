@@ -3,6 +3,7 @@ import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import { safeSetItem } from '@/lib/storage';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 const isHome = (pathname: string) => pathname === '/' || /^\/pt\/?$/.test(pathname);
 
@@ -48,10 +49,12 @@ function LanguageSwitcherInner() {
   );
 }
 
-export default function LanguageSwitcher() {
+function LanguageSwitcher() {
   return (
     <ErrorBoundary>
       <LanguageSwitcherInner />
     </ErrorBoundary>
   );
 }
+
+export default withServerLocale(LanguageSwitcher);

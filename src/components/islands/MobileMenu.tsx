@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import { cvUrl, email } from '@data/social';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   isBlog?: boolean;
@@ -17,9 +18,8 @@ const sectionLinks = [
   { key: 'nav.contact', href: '#contact' },
 ];
 
-const blogLinks = [{ key: 'nav.home', href: '/' }];
 
-export default function MobileMenu({ isBlog = false }: Props) {
+function MobileMenu({ isBlog = false }: Props) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const locale = useLocale();
@@ -71,7 +71,8 @@ export default function MobileMenu({ isBlog = false }: Props) {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [open, dismiss]);
 
-  const links = isBlog ? blogLinks : sectionLinks;
+  const homeLinks = [{ key: 'nav.home', href: locale === 'pt' ? '/pt/' : '/' }];
+  const links = isBlog ? homeLinks : sectionLinks;
 
   return (
     <div className="md:hidden">
@@ -154,7 +155,7 @@ export default function MobileMenu({ isBlog = false }: Props) {
                   <span className="my-2 h-px bg-border" />
 
                   <a
-                    href="/blog"
+                    href={locale === 'pt' ? '/pt/blog/' : '/blog/'}
                     onClick={close}
                     className="rounded-lg px-3 py-3 text-base font-medium text-text-secondary transition-colors hover:bg-accent/10 hover:text-accent"
                   >
@@ -194,3 +195,5 @@ export default function MobileMenu({ isBlog = false }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(MobileMenu);

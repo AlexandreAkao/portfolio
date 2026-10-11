@@ -6,6 +6,13 @@ import EmailCopy from '@components/islands/EmailCopy.tsx';
 import { cvUrl, email } from '@data/social';
 
 const [emailUser, emailDomain] = email.split('@');
+
+interface Props {
+  /** The page's language, so the islands render in it on the server. */
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
 ---
 
 <section id="contact" class="py-20">
@@ -29,7 +36,7 @@ const [emailUser, emailDomain] = email.split('@');
       </a>
 
       <div class="mt-6 flex flex-col items-center gap-4 text-sm sm:flex-row sm:justify-center sm:gap-8">
-        <EmailCopy client:visible />
+        <EmailCopy client:visible locale={locale} />
         <a
           href={cvUrl}
           download
@@ -72,6 +79,7 @@ const [emailUser, emailDomain] = email.split('@');
           <li class="border-b border-border py-4">
             <EmailCopy
               client:visible
+              locale={locale}
               showAddress={false}
               className="text-base font-medium text-text transition-colors hover:text-accent"
             />

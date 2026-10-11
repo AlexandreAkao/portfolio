@@ -9,6 +9,7 @@ import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 function EngineerHeroInner() {
   const locale = useLocale();
@@ -102,10 +103,12 @@ function EngineerHeroInner() {
   );
 }
 
-export default function EngineerHero() {
+function EngineerHero() {
   return (
     <ErrorBoundary fallback={<HeroFallback />}>
       <EngineerHeroInner />
     </ErrorBoundary>
   );
 }
+
+export default withServerLocale(EngineerHero);

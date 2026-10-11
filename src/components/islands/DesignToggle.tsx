@@ -5,6 +5,7 @@ import { safeGetItem, safeSetItem } from '@/lib/storage';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 const sortedDesigns = designs.sort((a, b) => a.order - b.order);
 const designMap = Object.fromEntries(designs.map((d) => [d.id, d]));
@@ -166,10 +167,12 @@ function DesignToggleInner() {
   );
 }
 
-export default function DesignToggle() {
+function DesignToggle() {
   return (
     <ErrorBoundary>
       <DesignToggleInner />
     </ErrorBoundary>
   );
 }
+
+export default withServerLocale(DesignToggle);

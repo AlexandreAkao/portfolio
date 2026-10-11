@@ -1,7 +1,10 @@
 ---
 import { t } from '@i18n/utils';
 
+const { locale } = Astro.props as { locale?: 'en' | 'pt' };
 const onHome = /^\/(pt\/?)?$/.test(Astro.url.pathname);
+const homeHref = locale === 'pt' ? '/pt/' : '/';
+const blogHref = locale === 'pt' ? '/pt/blog/' : '/blog/';
 
 const sectionLinks = [
   { key: 'nav.about', href: '#about' },
@@ -12,7 +15,7 @@ const sectionLinks = [
 ];
 
 const blogLinks = [
-  { key: 'nav.home', href: '/' },
+  { key: 'nav.home', href: homeHref },
 ];
 ---
 
@@ -42,7 +45,7 @@ const blogLinks = [
   <span class="h-4 w-px bg-border" />
 
   <a
-    href="/blog"
+    href={blogHref}
     class="text-sm text-text-secondary transition-colors hover:text-accent"
   >
     <span data-lang-show="en">{t('nav.blog', 'en')}</span>

@@ -7,6 +7,13 @@ import AvantgardeExperience from '@components/designs/avantgarde/AvantgardeExper
 import EditorialExperience from '@components/designs/editorial/EditorialExperience.tsx';
 import ArcadeExperience from '@components/designs/arcade/ArcadeExperience.tsx';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
+
+interface Props {
+  /** The page's language, so the islands render in it on the server. */
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
 ---
 
 <section id="experience" class="py-20">
@@ -18,19 +25,19 @@ import ScrollReveal from '@components/islands/ScrollReveal.tsx';
     </ScrollReveal>
 
     <div data-design-show="engineer">
-      <EngineerTimeline experiences={experiences} client:visible />
+      <EngineerTimeline experiences={experiences} locale={locale} client:visible />
     </div>
     <div data-design-show="creative">
-      <CreativeCarousel experiences={experiences} client:visible />
+      <CreativeCarousel experiences={experiences} locale={locale} client:visible />
     </div>
     <div data-design-show="avantgarde">
-      <AvantgardeExperience experiences={experiences} client:visible />
+      <AvantgardeExperience experiences={experiences} locale={locale} client:visible />
     </div>
     <div data-design-show="editorial">
-      <EditorialExperience experiences={experiences} client:visible />
+      <EditorialExperience experiences={experiences} locale={locale} client:visible />
     </div>
     <div data-design-show="arcade">
-      <ArcadeExperience experiences={experiences} client:visible />
+      <ArcadeExperience experiences={experiences} locale={locale} client:visible />
     </div>
   </div>
 </section>

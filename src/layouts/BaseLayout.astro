@@ -145,7 +145,7 @@ const jsonLd = type === 'article'
           // An explicit ?lang= or the /pt/ address wins over the stored preference.
           var params = new URLSearchParams(window.location.search);
           var langParam = params.get('lang');
-          var pathLang = /^\/pt\/?$/.test(window.location.pathname) ? 'pt' : null;
+          var pathLang = /^\/pt(\/|$)/.test(window.location.pathname) ? 'pt' : null;
           var fixed = document.documentElement.hasAttribute('data-lang-fixed');
           var lang = fixed ? document.documentElement.dataset.lang : langParam || pathLang || localStorage.getItem('lang') || 'en';
           if (lang !== 'en' && lang !== 'pt') lang = 'en';
@@ -168,7 +168,7 @@ const jsonLd = type === 'article'
           var d = localStorage.getItem('design') || fallbackDesign;
           if (validDesigns.indexOf(d) === -1) d = fallbackDesign;
           document.documentElement.dataset.design = d;
-          var pathLang = /^\/pt\/?$/.test(window.location.pathname) ? 'pt' : null;
+          var pathLang = /^\/pt(\/|$)/.test(window.location.pathname) ? 'pt' : null;
           var fixed = document.documentElement.hasAttribute('data-lang-fixed');
           var lang = fixed ? document.documentElement.dataset.lang : pathLang || localStorage.getItem('lang') || 'en';
           if (lang !== 'en' && lang !== 'pt') lang = 'en';

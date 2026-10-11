@@ -3,12 +3,13 @@ import { useRef, useState } from 'react';
 import type { SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   skillGroups: SkillGroup[];
 }
 
-export default function CreativeSkills({ skillGroups }: Props) {
+function CreativeSkills({ skillGroups }: Props) {
   const locale = useLocale();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
@@ -72,3 +73,5 @@ export default function CreativeSkills({ skillGroups }: Props) {
     </motion.div>
   );
 }
+
+export default withServerLocale(CreativeSkills);

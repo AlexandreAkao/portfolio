@@ -2,12 +2,13 @@ import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
 import type { SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   skillGroups: SkillGroup[];
 }
 
-export default function EngineerSkills({ skillGroups }: Props) {
+function EngineerSkills({ skillGroups }: Props) {
   const locale = useLocale();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
@@ -52,3 +53,5 @@ export default function EngineerSkills({ skillGroups }: Props) {
     </motion.div>
   );
 }
+
+export default withServerLocale(EngineerSkills);

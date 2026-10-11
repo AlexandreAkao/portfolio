@@ -3,6 +3,7 @@ import { motion, useInView } from 'motion/react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
 import { t, type Locale } from '@i18n/utils';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   experiences: Experience[];
@@ -137,7 +138,7 @@ function ExperienceEntry({ exp, index }: { exp: Experience; index: number }) {
   );
 }
 
-export default function EditorialExperience({ experiences }: Props) {
+function EditorialExperience({ experiences }: Props) {
   return (
     <div className="space-y-12">
       {experiences.map((exp, i) => (
@@ -146,3 +147,5 @@ export default function EditorialExperience({ experiences }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(EditorialExperience);

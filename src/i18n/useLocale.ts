@@ -1,13 +1,20 @@
-import { useSyncExternalStore } from 'react';
+import { createContext, useContext, useSyncExternalStore } from 'react';
 import type { Locale } from './utils';
+
+/**
+ * The language a page was rendered in: 'pt' on /pt/ and on Portuguese posts,
+ * 'en' everywhere else. Islands receive it as a prop (see withServerLocale) so
+ * they render in that language on the server, without JavaScript too.
+ */
+export const ServerLocaleContext = createContext<Locale>('en');
 
 /**
  * The active locale, read from <html data-lang>.
  *
- * Islands are server-rendered in English and may hydrate at any time, including
- * after the visitor has switched to Portuguese. useSyncExternalStore hydrates
- * with the server snapshot (English) and re-renders with the live value right
- * after, so a Portuguese page never reports a hydration text mismatch.
+ * Islands are server-rendered in the page's language and may hydrate at any
+ * time, including after the visitor has switched languages. useSyncExternalStore
+ * hydrates with the server snapshot (the page's language) and re-renders with
+ * the live value right after, so a page never reports a hydration text mismatch.
  */
 const read = (): Locale => {
   const lang = document.documentElement.dataset.lang;
@@ -20,8 +27,7 @@ const subscribe = (onChange: () => void) => {
   return () => observer.disconnect();
 };
 
-const getServerSnapshot = (): Locale => 'en';
-
 export function useLocale(): Locale {
-  return useSyncExternalStore(subscribe, read, getServerSnapshot);
+  const serverLocale = useContext(ServerLocaleContext);
+  return useSyncExternalStore(subscribe, read, () => serverLocale);
 }

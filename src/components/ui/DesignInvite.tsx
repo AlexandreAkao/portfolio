@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { designIds, designs, nextDesign } from '@data/designs';
 import { t, type Locale } from '@i18n/utils';
 import { useLocale } from '@i18n/useLocale';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   /** The world this hero belongs to; the invitation offers the one after it. */
@@ -16,7 +17,7 @@ interface Props {
  * by doing it. The switch runs through DesignToggle, so it plays the same
  * quick-change curtain as the header.
  */
-export default function DesignInvite({ world, locale: localeProp, delay = 0, className = '' }: Props) {
+function DesignInvite({ world, locale: localeProp, delay = 0, className = '' }: Props) {
   const liveLocale = useLocale();
   const locale = localeProp ?? liveLocale;
   const next = nextDesign(world);
@@ -42,3 +43,5 @@ export default function DesignInvite({ world, locale: localeProp, delay = 0, cla
     </motion.p>
   );
 }
+
+export default withServerLocale(DesignInvite);

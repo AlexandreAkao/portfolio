@@ -24,7 +24,8 @@ export async function generateRssFeed({ context, locale, description, language }
   return rss({
     title: 'Alexandre Akira - Blog',
     description,
-    site: context.site!,
+    // The channel links to this locale's blog; item links (/blog/…) resolve from the root.
+    site: new URL(locale === 'pt' ? '/pt/blog/' : '/blog/', context.site!).href,
     items: sortedPosts.map((post) => {
       const slug = post.id.replace(`${locale}/`, '');
       return {

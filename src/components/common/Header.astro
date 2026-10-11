@@ -4,21 +4,28 @@ import LanguageSwitcher from '@components/islands/LanguageSwitcher.tsx';
 import MobileMenu from '@components/islands/MobileMenu.tsx';
 import Nav from './Nav.astro';
 
+interface Props {
+  /** The page's language: islands render in it, and home links stay in it. */
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
 const onHome = /^\/(pt\/?)?$/.test(Astro.url.pathname);
+const homeHref = locale === 'pt' ? '/pt/' : '/';
 ---
 
 <header class="fixed top-0 z-50 w-full border-b border-border bg-bg/80 backdrop-blur-md">
   <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5 sm:px-6 md:py-3">
-    <a href="/" class="whitespace-nowrap font-heading text-lg font-bold text-accent">
+    <a href={homeHref} aria-label={locale === 'pt' ? 'Alexandre Akira, início' : 'Alexandre Akira, home'} class="whitespace-nowrap font-heading text-lg font-bold text-accent">
       {'<A4 />'}
     </a>
 
-    <Nav />
+    <Nav locale={locale} />
 
     <div class="flex items-center gap-2 sm:gap-3">
-      <DesignToggle client:load />
-      <LanguageSwitcher client:load />
-      <MobileMenu client:load isBlog={!onHome} />
+      <DesignToggle client:load locale={locale} />
+      <LanguageSwitcher client:load locale={locale} />
+      <MobileMenu client:load isBlog={!onHome} locale={locale} />
     </div>
   </div>
 </header>

@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   experiences: Experience[];
@@ -109,7 +110,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
   );
 }
 
-export default function ArcadeExperience({ experiences }: Props) {
+function ArcadeExperience({ experiences }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {experiences.map((exp, i) => (
@@ -118,3 +119,5 @@ export default function ArcadeExperience({ experiences }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(ArcadeExperience);

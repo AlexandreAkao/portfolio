@@ -28,21 +28,21 @@ const { locale } = Astro.props;
   locale={locale}
   alternates={{ en: '/', pt: '/pt/' }}
 >
-  <Header />
+  <Header locale={locale} />
   <main id="main-content" class="pt-16">
-    <Hero />
+    <Hero locale={locale} />
     <div data-design-show="avantgarde">
       <AvantgardeMarquee client:visible />
     </div>
     <About />
-    <Experience />
+    <Experience locale={locale} />
     <Education />
-    <Skills />
+    <Skills locale={locale} />
     <Projects />
     <div data-design-show="avantgarde">
       <AvantgardeMarquee direction="right" client:visible />
     </div>
-    <Contact />
+    <Contact locale={locale} />
   </main>
-  <Footer />
+  <Footer locale={locale} />
 </BaseLayout>

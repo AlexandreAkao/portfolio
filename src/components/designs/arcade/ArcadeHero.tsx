@@ -8,6 +8,7 @@ import DesignInvite from '@components/ui/DesignInvite';
 import { cvUrl } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 function ArcadeHeroInner() {
   const locale = useLocale();
@@ -86,10 +87,12 @@ function ArcadeHeroInner() {
   );
 }
 
-export default function ArcadeHero() {
+function ArcadeHero() {
   return (
     <ErrorBoundary fallback={<HeroFallback />}>
       <ArcadeHeroInner />
     </ErrorBoundary>
   );
 }
+
+export default withServerLocale(ArcadeHero);

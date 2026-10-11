@@ -2,6 +2,7 @@ import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
 import type { SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   skillGroups: SkillGroup[];
@@ -10,7 +11,7 @@ interface Props {
 const CARD_COLORS = ['#0ba95b', '#12b5e5', '#f38ba3', '#a189cc', '#f55a6e', '#fcba28'];
 const EMOJIS = ['⚙️', '🖥️', '🗄️', '☁️', '📨', '📊', '🏗️'];
 
-export default function ArcadeSkills({ skillGroups }: Props) {
+function ArcadeSkills({ skillGroups }: Props) {
   const locale = useLocale();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
@@ -51,3 +52,5 @@ export default function ArcadeSkills({ skillGroups }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(ArcadeSkills);

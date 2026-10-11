@@ -19,7 +19,7 @@ test('/pt/ opens in Portuguese even when the stored preference is English @mobil
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'pt_BR');
   await expect(page.locator('#experience h2 [data-lang-show="pt"]')).toHaveText('Experiência');
   await page.locator('#experience').scrollIntoViewIfNeeded();
-  await expect(page.locator('#experience').getByText('abr 2025 - atual').first()).toBeVisible();
+  await expect(page.locator('#experience').getByText('abr 2025 - atual').filter({ visible: true }).first()).toBeVisible();
 });
 
 test('the language switch on the home keeps the address in step', async ({ page }) => {
@@ -53,4 +53,24 @@ test('post dates print the calendar day they were written on', async ({ page }) 
   await page.goto('/blog/');
   await expect(page.locator('time', { hasText: 'March 15, 2025' })).toHaveCount(1);
   await expect(page.locator('time', { hasText: '15 de março de 2025' })).toHaveCount(1);
+});
+
+test('without JavaScript /pt/ is Portuguese in every hero, not just the headings', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto('/pt/');
+  const hero = page.locator('#hero [data-design-show="editorial"]');
+  await expect(hero).toContainText('Desenvolvedor Full-Stack Sênior');
+  await expect(hero).toContainText('Atualmente em');
+  await expect(hero).not.toContainText('Senior Full-Stack Engineer');
+  await expect(page.locator('#experience [data-design-show="editorial"]')).toContainText('19 microsserviços com Clean Architecture e CQRS');
+  await context.close();
+});
+
+test('/pt/blog/ is the Portuguese blog index, and its links stay in Portuguese', async ({ page }) => {
+  const response = await page.goto('/pt/blog/');
+  expect(response?.status()).toBe(200);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'pt');
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Artigos/);
+  await expect(page.getByRole('link', { name: 'Alexandre Akira, início' })).toHaveAttribute('href', '/pt/');
 });

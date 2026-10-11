@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
 import { t, type Locale } from '@i18n/utils';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   experiences: Experience[];
@@ -103,7 +104,7 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
   );
 }
 
-export default function EngineerTimeline({ experiences }: Props) {
+function EngineerTimeline({ experiences }: Props) {
   return (
     <div className="relative">
       {experiences.map((exp, i) => (
@@ -112,3 +113,5 @@ export default function EngineerTimeline({ experiences }: Props) {
     </div>
   );
 }
+
+export default withServerLocale(EngineerTimeline);

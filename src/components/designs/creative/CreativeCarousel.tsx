@@ -2,6 +2,7 @@ import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
+import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
   experiences: Experience[];
@@ -19,7 +20,7 @@ function flattenExperiences(experiences: Experience[]): Experience[] {
   return flat;
 }
 
-export default function CreativeCarousel({ experiences }: Props) {
+function CreativeCarousel({ experiences }: Props) {
   const locale = useLocale();
   const [active, setActive] = useState(0);
   const ref = useRef(null);
@@ -94,3 +95,5 @@ export default function CreativeCarousel({ experiences }: Props) {
     </motion.div>
   );
 }
+
+export default withServerLocale(CreativeCarousel);

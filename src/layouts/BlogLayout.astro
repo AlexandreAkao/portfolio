@@ -61,20 +61,20 @@ const breadcrumbJsonLd = {
   <!-- Reading progress bar -->
   <div id="reading-progress" class="fixed top-0 left-0 z-51 h-1 bg-accent" style="width: 0%" aria-hidden="true" />
 
-  <Header />
+  <Header locale={lang} />
   <main id="main-content" class="pt-24 pb-16">
     <article class="mx-auto max-w-5xl px-6">
       <!-- Breadcrumb navigation -->
       <nav aria-label={t('blog.breadcrumb', lang)} class="mb-8">
         <ol class="flex items-center gap-1 text-sm text-text-secondary">
           <li>
-            <a href="/" class="transition-colors hover:text-accent">
+            <a href={lang === 'pt' ? '/pt/' : '/'} class="transition-colors hover:text-accent">
               <T k="nav.home" />
             </a>
           </li>
           <li aria-hidden="true" class="mx-1">/</li>
           <li>
-            <a href="/blog" class="transition-colors hover:text-accent">
+            <a href={lang === 'pt' ? '/pt/blog/' : '/blog/'} class="transition-colors hover:text-accent">
               <T k="nav.blog" />
             </a>
           </li>
@@ -220,7 +220,7 @@ const breadcrumbJsonLd = {
       )}
     </article>
   </main>
-  <Footer />
+  <Footer locale={lang} />
 </BaseLayout>
 
 <!-- Reading progress script -->
