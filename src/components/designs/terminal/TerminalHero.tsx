@@ -59,9 +59,28 @@ function TerminalHeroInner({ login }: Props) {
       setPos({ step, chars });
       timer = window.setTimeout(tick, cmd !== undefined ? 70 : 55);
     };
-    timer = window.setTimeout(tick, 120);
-    return () => window.clearTimeout(timer);
+    const begin = () => {
+      timer = window.setTimeout(tick, 120);
+    };
+    // Under a running intro curtain the session waits at its first prompt, so the
+    // curtain lifts onto exactly the frame it ends on; typing starts after.
+    const intro = document.documentElement.dataset.intro;
+    if (intro === 'wait' || intro === 'play' || intro === 'reveal' || intro === 'quick') {
+      document.addEventListener('site-intro:done', begin, { once: true });
+    } else {
+      begin();
+    }
+    return () => {
+      window.clearTimeout(timer);
+      document.removeEventListener('site-intro:done', begin);
+    };
   }, []);
+
+  // The intro curtain ends on that frame (the login line and an empty prompt) and
+  // waits for it: once the replay has reset, the curtain can lift onto it.
+  useEffect(() => {
+    if (pos.step === 0 && pos.chars === 0) document.dispatchEvent(new CustomEvent('site-hero:ready', { detail: 'terminal' }));
+  }, [pos]);
 
   const index = (id: (typeof script)[number]) => script.indexOf(id);
   const shown = (id: (typeof script)[number]): CSSProperties | undefined =>

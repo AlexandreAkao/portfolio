@@ -8,6 +8,7 @@ import ArcadeHero from '@components/designs/arcade/ArcadeHero.tsx';
 import TerminalHero from '@components/designs/terminal/TerminalHero.tsx';
 import TapeHero from '@components/designs/tape/TapeHero.tsx';
 import { rfcDate } from '@components/designs/engineer/rfc';
+import { loginDate } from '@components/designs/terminal/session';
 import avatarImg from '@/assets/images/avatar.jpeg';
 
 const avatar1x = await getImage({ src: avatarImg, width: 224, height: 224 });
@@ -16,8 +17,6 @@ const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
 
 // Dates some worlds print, formatted here so the islands hydrate with the same text
 const draftDate = { en: rfcDate('en'), pt: rfcDate('pt') };
-const loginDate = (l: 'en' | 'pt') =>
-  new Intl.DateTimeFormat(l === 'pt' ? 'pt-BR' : 'en', { weekday: 'short', month: 'short', day: 'numeric' }).format(new Date());
 const login = { en: loginDate('en'), pt: loginDate('pt') };
 
 interface Props {

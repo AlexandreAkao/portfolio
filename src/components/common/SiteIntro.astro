@@ -5,6 +5,25 @@
 // Reduced-motion visitors never see it, and the page stays fully usable
 // without JS because the curtain is display:none until the flag is set.
 import TapeStrip from '@components/designs/tape/TapeStrip';
+import T from '@components/ui/T.astro';
+import { t } from '@i18n/utils';
+import { RFC_FILE, rfcDate } from '@components/designs/engineer/rfc';
+import { loginDate } from '@components/designs/terminal/session';
+import { socialLinks } from '@data/social';
+
+// Engineer: the draft's pages after the first, with what the pager's status line
+// reads on each (the section on screen, how far through the file).
+const draftPages = [
+  { page: 2, n: '1.', k: 'rfc.intro', pct: '14%' },
+  { page: 3, n: '2.', k: 'experience.title', pct: '29%' },
+  { page: 4, n: '3.', k: 'education.title', pct: '43%' },
+  { page: 5, n: '4.', k: 'skills.title', pct: '57%' },
+  { page: 6, n: '5.', k: 'projects.title', pct: '71%' },
+  { page: 7, n: '6.', k: 'rfc.address', pct: '86%' },
+  { page: 8, n: '7.', k: 'rfc.references', pct: '' },
+];
+const draftDate = { en: rfcDate('en'), pt: rfcDate('pt') };
+const login = { en: loginDate('en'), pt: loginDate('pt') };
 ---
 
 <div id="site-intro" aria-hidden="true">
@@ -18,15 +37,54 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
     </div>
   </div>
 
-  <!-- Engineer: `less` opens the draft. The command types, the title prints,
-       then the sheet pages up onto the hero. -->
+  <!-- Engineer: the draft opens at its end, (END) on page 8, then the pager pages
+       back one whole screen at a time to page 1, where the hero prints. The script
+       turns the pages; the status line is drawn as the page's pinned pager, so it
+       stays put through the cut. -->
   <div class="intro intro-eng" data-design-show="engineer">
-    <div class="intro-eng__sheet">
-      <div class="intro-eng__col">
-        <p class="intro-eng__cmd"><b>$</b> <span class="intro-eng__typed">less draft-akira-full-stack-engineer.txt</span><span class="intro-eng__caret"></span></p>
-        <p class="intro-eng__title">Alexandre Akira</p>
-        <p class="intro-eng__rule"></p>
-      </div>
+    <div class="intro-eng__reel">
+      <div class="intro-eng__page"></div>
+      {draftPages.map((p) => (
+        <div class="intro-eng__page">
+          <div class="rfc-col rfc-seam">
+            <div class="rfc-seam__ln">
+              <span><T k="rfc.draft" /></span><span><T k="hero.title" /></span><span><span data-lang-show="en">{draftDate.en}</span><span data-lang-show="pt">{draftDate.pt}</span></span>
+            </div>
+          </div>
+          <div class="rfc-col intro-eng__body">
+            <p class="rfc-h"><span class="rfc-n">{p.n}</span><T k={p.k} /></p>
+            {p.page === 8 && (
+              <dl class="rfc-refs">
+                {socialLinks.map((link) => (
+                  <>
+                    <dt>[{link.name.toUpperCase().replace('.', '')}]</dt>
+                    <dd><span class="intro-eng__a">{link.url.replace('mailto:', '')}</span></dd>
+                  </>
+                ))}
+              </dl>
+            )}
+          </div>
+          <div class="rfc-col rfc-seam intro-eng__foot">
+            <div class="rfc-seam__ln">
+              <span>Akira</span><span><T k="rfc.informational" /></span><span>[<T k="rfc.page" /> {p.page}]</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="rfc-pager">
+      <span class="rfc-pager__file">{RFC_FILE}</span>
+      <span class="rfc-pager__sec" data-eng-sec><span class="rfc-n">7.</span><T k="rfc.references" /></span>
+      <span class="rfc-pager__pct" data-eng-pct data-end><T k="rfc.end" /></span>
+    </div>
+    <div hidden>
+      <span data-eng-row><span><T k="rfc.abstract" /></span><span>0%</span></span>
+      {draftPages.map((p) => (
+        <span data-eng-row data-end={p.page === 8 ? '' : undefined}>
+          <span><span class="rfc-n">{p.n}</span><T k={p.k} /></span>
+          <span>{p.page === 8 ? <T k="rfc.end" /> : p.pct}</span>
+        </span>
+      ))}
     </div>
   </div>
 
@@ -54,10 +112,16 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
     </div>
   </div>
 
-  <!-- Terminal: a prompt runs the portfolio, then the screen scrolls up line by line onto the hero -->
-  <div class="intro intro-term" data-design-show="terminal">
-    <div class="intro-term__screen">
-      <p class="intro-term__ln"><span class="intro-term__u">akira@portfolio</span>:<span class="intro-term__w">~</span>$ <span class="intro-term__typed">./portfolio</span><span class="intro-term__cur"></span></p>
+  <!-- Terminal: the visitor's own plain shell connects over ssh. The remote session's
+       first two lines land exactly on the hero's (the script lines them up), and the
+       curtain lifts only once the hero has reset to that same frame (data-intro-hold),
+       so the hero's replay carries straight on from the curtain. -->
+  <div class="intro intro-term" data-design-show="terminal" data-intro-hold>
+    <div class="term intro-ssh">
+      <p class="intro-ssh__ln intro-ssh__cmd"><span class="intro-ssh__who">visitor@local </span>~ % <span class="intro-ssh__typed">ssh akira@alexandreakira.dev</span><span class="term-cursor intro-ssh__cur"></span></p>
+      <p class="intro-ssh__ln intro-ssh__warn">Warning: Permanently added 'alexandreakira.dev' (ED25519) to the list of known hosts.</p>
+      <p class="term-muted mb-5 intro-ssh__login">{(['en', 'pt'] as const).map((l) => <span data-lang-show={l}>{t('term.lastLogin', l)}: {login[l]} {t('term.on', l)} ttys001</span>)}</p>
+      <p class="term-pl intro-ssh__prompt"><span class="term-u">akira@portfolio</span>:<span class="term-w">~</span>$ <span class="term-cursor"></span></p>
     </div>
   </div>
 
@@ -89,6 +153,51 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var active = null;
 
+    // Engineer: put one page of the draft on screen, and the status line it reads.
+    function draftPage(block, page) {
+      var row = block.querySelectorAll('[data-eng-row]')[page - 1];
+      var sec = block.querySelector('[data-eng-sec]');
+      var pct = block.querySelector('[data-eng-pct]');
+      if (!row || !sec || !pct) return;
+      block.style.setProperty('--eng-page', String(page));
+      sec.innerHTML = row.children[0].innerHTML;
+      pct.innerHTML = row.children[1].innerHTML;
+      if (row.hasAttribute('data-end')) pct.dataset.end = '';
+      else delete pct.dataset.end;
+    }
+
+    // Terminal: set the remote session's first lines exactly on the hero's, so
+    // lifting the curtain changes nothing on screen.
+    function sshPlace(block) {
+      var box = block.querySelector('.intro-ssh');
+      var mine = block.querySelector('.intro-ssh__login');
+      var hero = document.querySelector('#hero [data-design-show="terminal"] .term > .term-muted');
+      if (!box || !mine || !hero) return;
+      var r = hero.getBoundingClientRect();
+      if (!r.width) return;
+      box.style.left = r.left + 'px';
+      box.style.width = r.width + 'px';
+      box.style.top = Math.max(0, r.top - mine.offsetTop) + 'px';
+    }
+
+    // Curtains staged by script as well as CSS. prepare() runs before the curtain
+    // shows; start() when it begins to move: after the font wait on arrival, and
+    // once the theme has swapped underneath on a quick change, so the incoming
+    // hero is laid out and can be measured.
+    var stages = {
+      engineer: {
+        prepare: function (block) { draftPage(block, 8); },
+        start: function (block, mode, later) {
+          var first = mode === 'arrival' ? 700 : 30;
+          var every = mode === 'arrival' ? 85 : 50;
+          for (var p = 7; p >= 1; p--) later(draftPage.bind(null, block, p), first + (7 - p) * every);
+        }
+      },
+      terminal: {
+        start: function (block) { sshPlace(block); }
+      }
+    };
+
     // One curtain session. mode "arrival": the full intro armed by BaseLayout
     // (data-intro="wait"). mode "quick": a theme switch; the curtain wears the
     // incoming world, covers the page, the theme swaps underneath, then the
@@ -96,9 +205,35 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
     function run(mode, opts) {
       var el = document.getElementById('site-intro');
       if (!el) return null;
-      var s = { revealed: false, finished: false, applied: false };
+      var world = mode === 'arrival' ? html.dataset.design : opts.design;
+      var block = el.querySelector('.intro[data-design-show="' + world + '"]');
+      var stage = (block && stages[world]) || {};
+      // A curtain that holds (Terminal) ends on the frame its hero starts from, so
+      // it lifts only once that hero has reset underneath; --intro-total is the cap.
+      var holds = !!block && block.hasAttribute('data-intro-hold');
+      var s = { revealed: false, finished: false, applied: false, started: false, due: false, heroReady: false, timers: [] };
       active = s;
 
+      function later(fn, ms) {
+        s.timers.push(setTimeout(fn, ms));
+      }
+      function begin() {
+        if (s.started || s.finished) return;
+        s.started = true;
+        if (stage.start) stage.start(block, mode, later);
+      }
+      // A hero hydrated earlier (a later switch back to its world) will not reset again
+      function heroLive() {
+        return !!document.querySelector('#hero [data-design-show="' + world + '"] astro-island:not([ssr])');
+      }
+      function lift() {
+        if (s.due && (s.heroReady || heroLive())) finish();
+      }
+      function onHeroReady(e) {
+        if (e.detail !== world) return;
+        s.heroReady = true;
+        lift();
+      }
       function reveal() {
         if (s.revealed) return;
         s.revealed = true;
@@ -109,6 +244,7 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
         if (s.applied) return;
         s.applied = true;
         if (opts && opts.apply) opts.apply();
+        if (mode === 'quick') begin();
       }
       function finish() {
         if (s.finished) return;
@@ -122,23 +258,33 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
         el.removeEventListener('wheel', finish);
         el.removeEventListener('touchmove', finish);
         document.removeEventListener('keydown', onKey);
+        document.removeEventListener('site-hero:ready', onHeroReady);
         clearTimeout(s.timer);
         clearTimeout(s.applyTimer);
+        s.timers.forEach(clearTimeout);
         active = null;
         document.dispatchEvent(new CustomEvent('site-intro:done'));
       }
       function onEnd(e) {
         if (e.target !== el) return;
-        if (e.animationName === 'intro-reveal') { if (mode === 'arrival') reveal(); }
+        if (e.animationName === 'intro-reveal') {
+          if (mode !== 'arrival') return;
+          reveal();
+          if (holds) { s.due = true; lift(); }
+        }
         else if (e.animationName === 'intro-root') finish();
       }
       function onKey(e) {
         if (e.key === 'Escape') finish();
       }
       function play() {
-        if (html.dataset.intro === 'wait') html.dataset.intro = 'play';
+        if (html.dataset.intro !== 'wait') return;
+        begin();
+        html.dataset.intro = 'play';
       }
 
+      if (stage.prepare) stage.prepare(block);
+      if (holds) document.addEventListener('site-hero:ready', onHeroReady);
       el.addEventListener('animationend', onEnd);
       el.addEventListener('click', finish);
       // A scroll gesture means "let me read": it ends the curtain instead of being swallowed.
@@ -161,6 +307,7 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
         el.dataset.design = opts.design;
         html.dataset.intro = 'quick';
         s.applyTimer = setTimeout(applyTheme, 170);
+        if (holds) later(function () { s.due = true; lift(); }, 450);
       }
       return s;
     }
@@ -216,11 +363,12 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
 
   /* --intro-reveal: when the exit begins (heroes hydrate); --intro-total: when the curtain is gone */
   [data-design='avantgarde'] #site-intro { --intro-reveal: 1.05s; --intro-total: 1.75s; }
-  [data-design='engineer']   #site-intro { --intro-reveal: 1.3s; --intro-total: 1.85s; }
+  [data-design='engineer']   #site-intro { --intro-reveal: 1.25s; --intro-total: 1.3s; }
   [data-design='creative']   #site-intro { --intro-reveal: 1.05s; --intro-total: 1.75s; }
   [data-design='editorial']  #site-intro { --intro-reveal: 0.95s; --intro-total: 1.65s; }
   [data-design='arcade']     #site-intro { --intro-reveal: 1.25s; --intro-total: 1.9s; }
-  [data-design='terminal']   #site-intro { --intro-reveal: 1s; --intro-total: 1.5s; }
+  /* Terminal lifts as soon as its hero has reset under it (see data-intro-hold); 2.2s is the cap */
+  [data-design='terminal']   #site-intro { --intro-reveal: 1.3s; --intro-total: 2.2s; }
   [data-design='tape']       #site-intro { --intro-reveal: 1.1s; --intro-total: 1.7s; }
 
   /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
@@ -246,28 +394,27 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
   }
   @keyframes intro-in { from { opacity: 0; } }
   html[data-intro='quick'] #site-intro[data-design='avantgarde'] { --intro-total: 0.8s; }
-  html[data-intro='quick'] #site-intro[data-design='engineer']   { --intro-total: 0.65s; }
+  html[data-intro='quick'] #site-intro[data-design='engineer']   { --intro-total: 0.55s; }
   html[data-intro='quick'] #site-intro[data-design='creative']   { --intro-total: 0.75s; }
   html[data-intro='quick'] #site-intro[data-design='editorial']  { --intro-total: 0.75s; }
   html[data-intro='quick'] #site-intro[data-design='arcade']     { --intro-total: 0.8s; }
-  html[data-intro='quick'] #site-intro[data-design='terminal']   { --intro-total: 0.6s; }
+  html[data-intro='quick'] #site-intro[data-design='terminal']   { --intro-total: 1.2s; }
   html[data-intro='quick'] #site-intro[data-design='tape']       { --intro-total: 0.7s; }
 
   /* Avant-garde: no title card, the stage just splits */
   html[data-intro='quick'] .intro-ag__stage { display: none; }
   html[data-intro='quick'] .intro-ag__panel { animation-delay: 0.18s; }
 
-  /* Engineer: the draft is already open, the sheet pages up */
-  html[data-intro='quick'] .intro-eng__typed { width: 41ch; animation: none; }
-  html[data-intro='quick'] .intro-eng__caret,
-  html[data-intro='quick'] .intro-eng__title,
-  html[data-intro='quick'] .intro-eng__rule { display: none; }
-  html[data-intro='quick'] .intro-eng__sheet { animation: eng-page 0.42s cubic-bezier(0.7, 0, 0.3, 1) 0.2s forwards; }
+  /* Engineer: no hold on (END); the script pages back to page 1 in 0.3s */
 
-  /* Terminal: the command already ran, the screen scrolls away */
-  html[data-intro='quick'] .intro-term__typed { width: 11ch; animation: none; }
-  html[data-intro='quick'] .intro-term__cur { display: none; }
-  html[data-intro='quick'] .intro-term__screen { animation: term-scroll 0.36s steps(9, end) 0.18s forwards; }
+  /* Terminal: the command is already typed; the session prints, then lifts at 0.45s,
+     or once a hero switched on for the first time has reset under it (1.2s cap) */
+  html[data-intro='quick'] .intro-ssh__typed { width: 28ch; animation: none; }
+  html[data-intro='quick'] .intro-ssh .intro-ssh__cur { display: none; }
+  html[data-intro='quick'] .intro-ssh__cmd { animation-delay: 0.2s; }
+  html[data-intro='quick'] .intro-ssh__warn { animation-delay: 0.26s; }
+  html[data-intro='quick'] .intro-ssh__login { animation-delay: 0.32s; }
+  html[data-intro='quick'] .intro-ssh__prompt { animation-delay: 0.38s; }
 
   /* Tape: the tape is already fed, the sheet is pulled off */
   html[data-intro='quick'] .intro-tape__band,
@@ -364,102 +511,103 @@ import TapeStrip from '@components/designs/tape/TapeStrip';
     to { transform: translateY(101%); }
   }
 
-  /* ---------- Engineer: `less` opens the draft, then the sheet pages up ---------- */
-  .intro-eng__sheet {
-    position: absolute;
-    inset: 0;
+  /* ---------- Engineer: the draft opens at (END), then pages back to page 1 ---------- */
+  .intro-eng {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Courier Prime', monospace;
-    font-size: clamp(0.9375rem, 0.86rem + 0.3vw, 1.0625rem);
-    line-height: 1.55;
-    animation: eng-page 0.55s cubic-bezier(0.7, 0, 0.3, 1) 1.3s forwards;
   }
-  .intro-eng__col {
-    max-width: 72ch;
-    margin: 0 auto;
-    padding: 7.5rem 1.5rem 0;
+  /* One page per screen. The script sets --eng-page from 8 down to 1, so the reel
+     moves in whole pages, the way a pager redraws, never in between. */
+  .intro-eng__reel {
+    position: absolute;
+    inset: 0;
+    transform: translateY(calc((1 - var(--eng-page, 8)) * 100%));
   }
-  .intro-eng__cmd {
+  .intro-eng__page {
+    position: relative;
+    height: 100%;
+    padding: 1.25rem 1.5rem 0;
+  }
+  .intro-eng__body {
+    margin-top: 3.1em;
+  }
+  .intro-eng__body > .rfc-h {
+    margin-top: 0;
+  }
+  /* The page's footer sits a line above the status line */
+  .intro-eng__foot {
+    position: absolute;
+    left: 1.5rem;
+    right: 1.5rem;
+    bottom: 3.25rem;
+  }
+  .intro-eng__a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    overflow-wrap: anywhere;
+  }
+  /* Nothing is set in a fallback face while the font wait holds the first frame */
+  html[data-intro='wait'] .intro-eng__reel,
+  html[data-intro='wait'] .intro-eng .rfc-pager {
+    visibility: hidden;
+  }
+
+  /* ---------- Terminal: the visitor's shell connects over ssh ---------- */
+  .intro-term {
+    background: var(--bg);
+  }
+  /* A column like the hero's, so the margins between the login line and the prompt
+     add up the same way. The script moves it onto the hero's own first lines. */
+  .intro-ssh {
+    position: absolute;
+    top: 6.5rem;
+    left: max(1.5rem, calc((100vw - 56rem) / 2 + 1.5rem));
+    width: min(53rem, calc(100vw - 3rem));
+    display: flex;
+    flex-direction: column;
+  }
+  .intro-ssh__ln {
     margin: 0;
     color: var(--text-secondary);
+  }
+  .intro-ssh__cmd {
     white-space: nowrap;
   }
-  .intro-eng__cmd b { color: var(--text); }
-  .intro-eng__typed {
+  /* The local shell has no theme: plain text, no colour */
+  .intro-ssh__typed {
     display: inline-block;
     overflow: hidden;
     vertical-align: bottom;
     width: 0;
-    animation: eng-type 0.6s steps(41, end) 0.15s forwards;
-  }
-  .intro-eng__caret {
-    display: inline-block;
-    width: 1ch;
-    height: 1.1em;
-    vertical-align: text-bottom;
-    background: var(--text);
-    animation: eng-blink 0.9s steps(2, start) infinite;
-  }
-  .intro-eng__title {
-    margin: 22vh 0 0;
-    text-align: center;
-    font-weight: 700;
-    font-size: clamp(2.1rem, 6vw, 3.4rem);
-    line-height: 1.05;
-    opacity: 0;
-    animation: eng-show 1ms linear 0.85s forwards;
-  }
-  .intro-eng__rule {
-    width: 0;
-    margin: 1.25rem auto 0;
-    border-top: 1px dashed var(--border);
-    animation: eng-rule 0.3s steps(18, end) 0.95s forwards;
-  }
-  @media (max-width: 639px) {
-    .intro-eng__col { padding-top: 6rem; }
-    .intro-eng__cmd { font-size: 0.8125rem; }
-  }
-  @keyframes eng-type { to { width: 41ch; } }
-  @keyframes eng-blink { to { visibility: hidden; } }
-  @keyframes eng-show { to { opacity: 1; } }
-  @keyframes eng-rule { to { width: 36ch; } }
-  /* The pager's page down: the sheet leaves upward in one move */
-  @keyframes eng-page { to { transform: translateY(-100%); } }
-
-  /* ---------- Terminal: ./portfolio, then the screen scrolls up ---------- */
-  .intro-term__screen {
-    position: absolute;
-    inset: 0;
-    background: var(--bg);
     color: var(--text);
-    font: 0.9375rem/1.65 'JetBrains Mono', monospace;
-    padding: 6.5rem max(1.5rem, calc((100vw - 56rem) / 2 + 1.5rem)) 0;
-    animation: term-scroll 0.5s steps(12, end) 1s forwards;
+    animation: ssh-type 0.66s 0.28s forwards;
   }
-  .intro-term__ln { margin: 0; white-space: nowrap; }
-  .intro-term__u { color: var(--prompt); font-weight: 700; }
-  .intro-term__w { color: var(--accent); font-weight: 700; }
-  .intro-term__typed {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: bottom;
-    width: 0;
-    color: var(--bright);
-    animation: term-type 0.33s steps(11, end) 0.25s forwards;
+  /* Steady while typing, gone at Enter */
+  .intro-ssh .intro-ssh__cur {
+    animation: ssh-off 1ms linear 0.98s forwards;
   }
-  .intro-term__cur {
-    display: inline-block;
-    width: 0.62em;
-    height: 1.15em;
-    vertical-align: text-bottom;
-    background: var(--text);
-    animation: term-cur 1.1s steps(2, start) infinite;
+  /* Each line prints whole, after the last */
+  .intro-ssh > * {
+    visibility: hidden;
+    animation: ssh-on 1ms linear forwards;
   }
-  @keyframes term-type { to { width: 11ch; } }
-  @keyframes term-cur { to { visibility: hidden; } }
-  /* A terminal scrolls in whole lines: the screen leaves upward in steps */
-  @keyframes term-scroll { to { transform: translateY(-100%); } }
+  .intro-ssh__cmd { animation-delay: 0.1s; }
+  .intro-ssh__warn { animation-delay: 1.08s; }
+  .intro-ssh__login { animation-delay: 1.2s; }
+  .intro-ssh__prompt { animation-delay: 1.26s; }
+  @media (max-width: 639px) {
+    .intro-ssh__who { display: none; }
+  }
+  @keyframes ssh-on { to { visibility: visible; } }
+  @keyframes ssh-off { to { visibility: hidden; } }
+  /* "ssh ", a beat, then the address */
+  @keyframes ssh-type {
+    0% { width: 0; animation-timing-function: steps(4, end); }
+    14% { width: 4ch; animation-timing-function: step-end; }
+    32% { width: 4ch; animation-timing-function: steps(24, end); }
+    100% { width: 28ch; }
+  }
 
   /* ---------- Tape: the tape feeds in, the sheet is pulled off ---------- */
   .intro-tape__sheet {
