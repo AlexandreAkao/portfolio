@@ -58,13 +58,13 @@ function EditorialHeroInner() {
             <motion.div
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
               className="h-0.75 w-16 origin-left bg-accent md:w-24"
             />
             <motion.h2
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
               className="text-lg text-text-secondary md:text-xl"
               style={{ fontFamily: 'var(--font-body)' }}
             >
@@ -75,7 +75,7 @@ function EditorialHeroInner() {
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-2 text-sm text-text-secondary sm:pl-20 md:pl-28 md:text-base"
             style={{ fontFamily: 'var(--font-body)' }}
           >
@@ -86,7 +86,7 @@ function EditorialHeroInner() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.9 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
           className="mt-6 sm:mt-8 max-w-lg text-base leading-relaxed text-text-secondary"
           style={{ fontFamily: 'var(--font-body)' }}
         >
@@ -96,7 +96,7 @@ function EditorialHeroInner() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-8 flex flex-wrap gap-4 sm:mt-10"
         >
           <a
@@ -116,8 +116,8 @@ function EditorialHeroInner() {
           </a>
         </motion.div>
 
-        <SocialLinks delay={1.2} className="mt-8" />
-        <DesignInvite world="editorial" locale={locale} delay={1.4} className="mt-6" />
+        <SocialLinks delay={0.4} className="mt-8" />
+        <DesignInvite world="editorial" locale={locale} delay={0.5} className="mt-6" />
       </div>
     </div>
   );

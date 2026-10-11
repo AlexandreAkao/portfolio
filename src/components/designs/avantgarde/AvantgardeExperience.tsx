@@ -56,14 +56,14 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
                 <p className="mb-1 text-xs text-text-secondary">
                   {entry.role[locale]}
                 </p>
-                <p className="mb-2 text-sm text-text-secondary">
+                <p className="mb-2 max-w-prose text-sm text-text-secondary">
                   {entry.summary[locale]}
                 </p>
               </>
             )}
 
             {entry.bullets[locale].length > 0 && (
-              <ul className="mt-2 space-y-1">
+              <ul className="mt-2 max-w-prose space-y-1">
                 {entry.bullets[locale].map((bullet, j) => (
                   <motion.li
                     key={j}

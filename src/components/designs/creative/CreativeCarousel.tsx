@@ -67,10 +67,10 @@ export default function CreativeCarousel({ experiences }: Props) {
           </span>
         </div>
 
-        <p className="mb-4 text-text-secondary">{flatExps[active].summary[locale]}</p>
+        <p className="mb-4 max-w-prose text-text-secondary">{flatExps[active].summary[locale]}</p>
 
         {flatExps[active].bullets[locale].length > 0 && (
-          <ul className="mb-6 space-y-2">
+          <ul className="mb-6 max-w-prose space-y-2">
             {flatExps[active].bullets[locale].map((bullet, j) => (
               <li key={j} className="flex items-start gap-2 text-text-secondary">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />

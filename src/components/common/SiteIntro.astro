@@ -50,7 +50,7 @@
   </div>
 
   <!-- Editorial: an orange rule draws across newsprint beside the issue number, then the page turns -->
-  <div class="intro intro-ed" data-design-show="editorial">
+  <div class="intro intro-ed" data-design-show="editorial" data-intro-no-font-wait>
     <div class="intro-ed__page">
       <span class="intro-ed__issue">01</span>
       <span class="intro-ed__rule"></span>
@@ -137,7 +137,10 @@
       document.addEventListener('keydown', onKey);
       s.timer = setTimeout(finish, mode === 'arrival' ? 4000 : 2000);
 
-      if (mode === 'arrival') {
+      if (mode === 'arrival' && el.querySelector('[data-design-show="' + html.dataset.design + '"][data-intro-no-font-wait]')) {
+        // This world's curtain carries no type that needs its face: play at once.
+        play();
+      } else if (mode === 'arrival') {
         // Hold the curtain still until the world's display face is ready, so
         // the first frame is set in the right type. Never wait longer than 700ms.
         var fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
@@ -532,9 +535,10 @@
     top: 50%;
     height: 3px;
     background: var(--accent);
-    transform: scaleX(0);
+    /* a stub of the rule is on the sheet from the first frame, then it draws across */
+    transform: scaleX(0.06);
     transform-origin: left center;
-    animation: ed-rule 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+    animation: ed-rule 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
   }
   @keyframes ed-issue { to { opacity: 1; transform: translateY(-50%); } }
   @keyframes ed-rule { to { transform: scaleX(1); } }

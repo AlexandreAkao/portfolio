@@ -35,7 +35,7 @@ function EntryDetails({ entry, locale }: { entry: Experience; locale: Locale }) 
       {expanded && (
         <>
           {entry.bullets[locale].length > 0 && (
-            <ul className="mt-2 space-y-1">
+            <ul className="mt-2 max-w-prose space-y-1">
               {entry.bullets[locale].map((bullet, j) => (
                 <li key={j} className="text-sm text-text-secondary">
                   <span className="text-accent">{'>'}</span> {bullet}
@@ -81,7 +81,7 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
         <h3 className="font-mono text-lg font-bold text-text">{exp.company}</h3>
         <p className="font-mono text-sm text-text-secondary">{exp.role[locale]}</p>
         {exp.summary[locale] && (
-          <p className="mt-2 text-sm text-text-secondary">{exp.summary[locale]}</p>
+          <p className="mt-2 max-w-prose text-sm text-text-secondary">{exp.summary[locale]}</p>
         )}
 
         {allEntries.map((entry, i) => (
@@ -91,7 +91,7 @@ function TimelineEntry({ exp, index }: { exp: Experience; index: number }) {
                 <p className="font-mono text-xs text-accent">{entry.period[locale]}</p>
                 <p className="font-mono text-sm font-semibold text-text">{entry.company.replace('AmbevTech - ', '')}</p>
                 <p className="text-xs text-text-secondary">{entry.role[locale]}</p>
-                <p className="mt-1 text-sm text-text-secondary">{entry.summary[locale]}</p>
+                <p className="mt-1 max-w-prose text-sm text-text-secondary">{entry.summary[locale]}</p>
               </>
             )}
 

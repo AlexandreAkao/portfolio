@@ -41,7 +41,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
         {exp.role[locale]}
       </p>
       {exp.summary[locale] && (
-        <p className="mt-2 text-sm" style={{ color: '#0f0d0e' }}>
+        <p className="mt-2 max-w-prose text-sm" style={{ color: '#0f0d0e' }}>
           {exp.summary[locale]}
         </p>
       )}
@@ -84,7 +84,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
               </>
             )}
             {entry.bullets[locale].length > 0 && (
-              <ul className="mt-2 space-y-1">
+              <ul className="mt-2 max-w-prose space-y-1">
                 {entry.bullets[locale].map((bullet, j) => (
                   <li key={j} className="text-sm" style={{ color: '#0f0d0e' }}>
                     → {bullet}
