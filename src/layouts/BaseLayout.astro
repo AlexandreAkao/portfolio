@@ -155,10 +155,12 @@ const jsonLd = type === 'article'
 
           // Arm the intro curtain before first paint, on the home's first hard load
           // of the session only; reduced-motion visitors and deep links skip it.
+          // A link to a section (/#experience) is a deep link too: the visitor goes
+          // straight there, and the session counts as begun, so no curtain later.
           var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           var onHome = /^\/(pt\/?)?$/.test(window.location.pathname);
           if (!reduce && onHome && !sessionStorage.getItem('intro-seen')) {
-            document.documentElement.dataset.intro = 'wait';
+            if (!window.location.hash) document.documentElement.dataset.intro = 'wait';
             sessionStorage.setItem('intro-seen', '1');
           }
         } catch(e) {}
