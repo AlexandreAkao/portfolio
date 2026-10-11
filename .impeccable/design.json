@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-10T00:00:00.000Z",
+  "generatedAt": "2026-10-11T00:00:00.000Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
@@ -472,7 +472,7 @@
       "editorial-ink-grey": {
         "role": "neutral",
         "displayName": "Ink Grey",
-        "canonical": "oklch(52.8% 0.000 89.9)",
+        "canonical": "oklch(50.0% 0.000 89.9)",
         "tonalRamp": [
           "#0b0b0b",
           "#252525",
@@ -712,31 +712,31 @@
       "arcade-candy-purple": {
         "role": "secondary",
         "displayName": "Candy Purple",
-        "canonical": "oklch(54.2% 0.114 301.0)",
+        "canonical": "oklch(67.7% 0.100 300.2)",
         "tonalRamp": [
-          "#120028",
-          "#300f52",
-          "#4d3074",
-          "#6d5097",
-          "#8e71bc",
-          "#b194e1",
-          "#d3bbfd",
-          "#f1ebfd"
+          "#120027",
+          "#2e144d",
+          "#4b336e",
+          "#6a5391",
+          "#8c74b5",
+          "#af97db",
+          "#d3bbff",
+          "#f1ebff"
         ]
       },
       "arcade-candy-red": {
         "role": "secondary",
         "displayName": "Candy Red",
-        "canonical": "oklch(60.7% 0.231 22.0)",
+        "canonical": "oklch(67.7% 0.189 16.2)",
         "tonalRamp": [
-          "#200001",
-          "#4c000b",
-          "#7f0219",
-          "#b60629",
-          "#ed203d",
-          "#fe7273",
-          "#fdb3b0",
-          "#fde9e8"
+          "#1f0004",
+          "#4c0012",
+          "#7f0024",
+          "#b3103a",
+          "#dc425a",
+          "#ff707f",
+          "#ffb1b5",
+          "#ffe8e9"
         ]
       }
     },
@@ -755,7 +755,7 @@
       },
       "editorial-display": {
         "displayName": "Editorial Display",
-        "purpose": "Hero name in Clash Display beside the ghost \"01\"; clamp(2.5rem, 14vw, 9rem) below 768px. Clash headings take word-spacing 0.1em."
+        "purpose": "Hero name in Clash Display beside the ghost \"01\"; clamp(2.5rem, 14vw, 9rem) below 768px; no greeting above it. Clash headings take word-spacing 0.1em."
       },
       "arcade-display": {
         "displayName": "Arcade Display",
@@ -791,11 +791,11 @@
       },
       "body": {
         "displayName": "Body",
-        "purpose": "About and Contact paragraphs."
+        "purpose": "About and Contact paragraphs. Editorial sets its About standfirst at 1.25rem rising to 1.5rem in primary text, opening on a Signal Orange drop cap (.editorial-lede)."
       },
       "body-small": {
         "displayName": "Body Small",
-        "purpose": "Copy inside cards and experience entries."
+        "purpose": "Copy inside cards and experience entries; experience copy capped at 65ch (max-w-prose) in Engineer, Creative, Arcade, and Avant-garde, sub-roles included."
       },
       "prose": {
         "displayName": "Prose",
@@ -803,7 +803,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Eyebrows, periods, chips, and tags; uppercase outside Engineer."
+        "purpose": "Eyebrows, periods, chips, and tags; uppercase outside Engineer. Editorial datelines are 0.75rem semibold caps at 0.15em tracking."
       },
       "button": {
         "displayName": "Button",
@@ -903,8 +903,8 @@
       },
       {
         "name": "word-stagger",
-        "value": "150ms per word, 600ms each, y 60px",
-        "purpose": "Editorial hero name."
+        "value": "150ms per word from 150ms, 600ms each, y 60px; the rule, role, employer line, tagline, and actions follow within 150ms to 500ms without a stagger",
+        "purpose": "Editorial hero name, the only staggered element, so the role is legible in about 0.7s."
       },
       {
         "name": "parallax",
@@ -914,7 +914,7 @@
       {
         "name": "rule-draw",
         "value": "scaleX 0 to 1 from the left, 800ms",
-        "purpose": "Avant-garde and Editorial hero rules; Editorial hairlines."
+        "purpose": "Avant-garde and Editorial hero rules; Editorial hairlines, including the one opening each news item."
       },
       {
         "name": "marquee",
@@ -928,18 +928,18 @@
       },
       {
         "name": "intro-curtain",
-        "value": "1.65s to 1.9s per world, fonts awaited up to 700ms; heroes hydrate as the exit begins (0.95s to 1.35s)",
+        "value": "1.65s to 1.9s per world, fonts awaited up to 700ms except Editorial (data-intro-no-font-wait; its rule is a stub on frame one); heroes hydrate as the exit begins (0.95s to 1.35s)",
         "purpose": "Arrival on the home's first hard load of the session (sessionStorage key intro-seen, set in BaseLayout's inline script); deep links, later loads, in-site navigation, and reduced motion skip it; click, Escape, a wheel, or a swipe over it ends it."
       },
       {
         "name": "cursor-hover-scale",
-        "value": "dot scale 1 to 0.5 (8px to 4px) eased 0.25 per frame; ring scale 1 to 1.5 (32px to 48px) eased 0.2 per frame; ring follows with a 0.15 lerp",
-        "purpose": "Avant-garde cursor over links and buttons; transform only, no re-layout."
+        "value": "ring scale 1 to 1.5 (32px to 48px) eased 0.2 per frame; ring follows the native cursor with a 0.15 lerp",
+        "purpose": "Avant-garde cursor ring over links and buttons on fine pointers; transform only, no re-layout; the native cursor stays visible."
       },
       {
         "name": "no-js",
-        "value": "<noscript> style: elements with inline opacity 0 forced to opacity 1, transform none",
-        "purpose": "Keeps Motion's server-rendered start states from hiding the page without JavaScript."
+        "value": "<noscript> style: elements whose inline style starts at opacity 0 or scaleX(0) forced to opacity 1, transform none; a hero island that throws renders HeroFallback (name, role, CV, email)",
+        "purpose": "Keeps Motion's server-rendered start states (Editorial's rule included) and failed hero islands from hiding the page."
       }
     ],
     "breakpoints": [
@@ -986,7 +986,7 @@
       "name": "Content Card",
       "kind": "card",
       "refersTo": "avantgarde-card",
-      "description": "Bordered surface for personal projects, education, and blog entries; border tints to accent on hover. Professional projects are Project Lines instead.",
+      "description": "Bordered surface for personal projects (cards from 640px, three columns from 1024px; ruled lines below 640px), education, and blog entries; border tints to accent on hover. Blog covers take the card radius. Professional projects are Project Lines instead.",
       "html": "<article class=\"ds-card\"><h4>Azure Open PR</h4><p>Browser extension that streamlines Azure DevOps pull request management and review workflows.</p><div class=\"ds-card__chips\"><span>TypeScript</span><span>Browser Extension</span><span>Azure DevOps API</span></div></article>",
       "css": ".ds-card{background:var(--card,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:var(--radius-card,8px);padding:24px;max-width:360px;transition:border-color .15s}.ds-card:hover{border-color:color-mix(in srgb,var(--accent,#c5ff41) 50%,transparent)}.ds-card h4{margin:0 0 8px;font-family:var(--font-heading, Poppins, sans-serif);font-size:1.125rem;font-weight:700;line-height:1.55;color:var(--text,#f0ece6)}.ds-card p{margin:0 0 16px;font-family:var(--font-body, Inter, sans-serif);font-size:.875rem;line-height:1.43;color:var(--text-secondary,#9a948b)}.ds-card__chips{display:flex;flex-wrap:wrap;gap:4px}.ds-card__chips span{border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:2px 8px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;color:var(--text-secondary,#9a948b)}"
     },
@@ -1034,25 +1034,33 @@
       "name": "Tag Filter",
       "kind": "chip",
       "refersTo": "label",
-      "description": "Blog tag filter with the active state in accent border, text, and 10% tint.",
-      "html": "<div class=\"ds-filters\"><button class=\"ds-filter\" data-active>All</button><button class=\"ds-filter\">Architecture</button><button class=\"ds-filter\">Frontend</button></div>",
-      "css": ".ds-filters{display:flex;flex-wrap:wrap;gap:8px}.ds-filter{background:transparent;border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:6px 12px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;font-weight:500;color:var(--text-secondary,#9a948b);cursor:pointer;transition:color .15s,border-color .15s,background-color .15s}.ds-filter:hover,.ds-filter[data-active]{border-color:var(--accent,#c5ff41);color:var(--accent,#c5ff41)}.ds-filter[data-active]{background:color-mix(in srgb,var(--accent,#c5ff41) 10%,transparent)}.ds-filter:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
+      "description": "Blog tag filter, shown only once a language has four or more posts; the selected state (aria-pressed) takes accent border, text, and a 10% tint.",
+      "html": "<div class=\"ds-filters\"><button class=\"ds-filter\" aria-pressed=\"true\">All</button><button class=\"ds-filter\" aria-pressed=\"false\">Architecture</button><button class=\"ds-filter\" aria-pressed=\"false\">Frontend</button></div>",
+      "css": ".ds-filters{display:flex;flex-wrap:wrap;gap:8px}.ds-filter{background:transparent;border:1px solid var(--border,#2a2725);border-radius:var(--radius-btn,4px);padding:6px 12px;font-family:var(--font-body, Inter, sans-serif);font-size:.75rem;font-weight:500;color:var(--text-secondary,#9a948b);cursor:pointer;transition:color .15s,border-color .15s,background-color .15s}.ds-filter:hover,.ds-filter[aria-pressed=\"true\"]{border-color:var(--accent,#c5ff41);color:var(--accent,#c5ff41)}.ds-filter[aria-pressed=\"true\"]{background:color-mix(in srgb,var(--accent,#c5ff41) 10%,transparent)}.ds-filter:focus-visible{outline:2px solid var(--accent,#c5ff41);outline-offset:2px}"
     },
     {
-      "name": "Editorial Numbered Entry",
+      "name": "Editorial Front-Page Lede",
+      "kind": "custom",
+      "refersTo": "editorial-body",
+      "description": "Editorial About as a front-page lede: the standfirst in primary text opening on a Signal Orange drop cap in the display face (3.6em, .editorial-lede), beside a \"By the numbers\" column opened by the 3px orange rule, figures in the display face over their labels between hairlines.",
+      "html": "<div class=\"ds-lede\"><p class=\"ds-lede__stand\">Senior Full-Stack Engineer with 8+ years of experience building high-scale distributed systems, microservices architectures, and modern web applications.</p><aside class=\"ds-lede__nums\"><div class=\"ds-lede__rule\"></div><p class=\"ds-lede__head\">By the numbers</p><div class=\"ds-lede__fig\"><span>200+</span><small>Distribution Centers</small></div><div class=\"ds-lede__fig\"><span>8+ years</span><small>Experience</small></div></aside></div>",
+      "css": ".ds-lede{display:grid;grid-template-columns:2fr 1fr;gap:32px;background:#f5f5f0;color:#1a1a1a;padding:24px;max-width:896px;font-family:\"DM Sans Variable\",\"DM Sans\",sans-serif}.ds-lede__stand{margin:0;font-size:1.25rem;line-height:1.5}.ds-lede__stand::first-letter{float:left;margin:.06em .12em 0 0;font-family:\"Clash Display\",sans-serif;font-size:3.6em;font-weight:700;line-height:.82;color:#ff4d00}.ds-lede__rule{height:3px;background:#ff4d00}.ds-lede__head{margin:12px 0 0;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#636363}.ds-lede__fig{display:flex;flex-direction:column;padding:12px 0;border-bottom:1px solid #d4d0c8}.ds-lede__fig span{font-family:\"Clash Display\",sans-serif;font-size:2.25rem;font-weight:700;line-height:1}.ds-lede__fig small{margin-top:4px;font-size:.75rem;color:#636363}"
+    },
+    {
+      "name": "Editorial News Item",
       "kind": "custom",
       "refersTo": "editorial-card",
-      "description": "Editorial experience entry: ghost numeral, hairline, and a role line in Signal Orange Ink on Newsprint.",
-      "html": "<div class=\"ds-ed\"><div class=\"ds-ed__rule\"></div><div class=\"ds-ed__grid\"><div><span class=\"ds-ed__num\">01</span><p class=\"ds-ed__period\">Apr 2025 - Present</p></div><div><h3 class=\"ds-ed__title\">Seva / Appointally</h3><p class=\"ds-ed__role\">Senior Full-Stack Engineer</p><p class=\"ds-ed__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><div class=\"ds-ed__tags\"><span>Node.js</span><span>TypeScript</span><span>React</span></div></div></div></div>",
-      "css": ".ds-ed{background:#f5f5f0;color:#1a1a1a;padding:24px;max-width:640px;font-family:\"DM Sans Variable\",\"DM Sans\",sans-serif}.ds-ed__rule{height:1px;background:#d4d0c8;margin-bottom:32px}.ds-ed__grid{display:grid;grid-template-columns:1fr 2fr;gap:32px}.ds-ed__num{display:block;font-family:\"Clash Display\",sans-serif;font-size:4.5rem;font-weight:700;line-height:1;color:rgba(26,26,26,.06)}.ds-ed__period{margin:8px 0 0;font-size:.875rem;color:#6b6b6b}.ds-ed__title{margin:0 0 4px;word-spacing:.1em;font-family:\"Clash Display\",sans-serif;font-size:2rem;font-weight:700;line-height:1.1}.ds-ed__role{margin:0 0 12px;font-size:1rem;font-weight:500;color:#bf3900}.ds-ed__summary{margin:0 0 12px;font-size:.875rem;line-height:1.6;color:#6b6b6b;max-width:36rem}.ds-ed__tags{display:flex;flex-wrap:wrap;gap:8px}.ds-ed__tags span{font-size:.75rem;color:#6b6b6b;border-bottom:1px solid rgba(107,107,107,.3);padding-bottom:2px;transition:color .15s,border-color .15s}.ds-ed__tags span:hover{color:#bf3900;border-color:#ff4d00}"
+      "description": "Editorial experience entry staged as a news item: a hairline, then a 1fr/2fr grid with the ghost number and the dateline left; the company headline, the role in Signal Orange Ink, the result as the lede in primary text, the summary in Ink Grey, and a Details toggle (aria-expanded) for bullets and stack. Sub-roles sit behind a 1px Newsprint Line rule, 20px in.",
+      "html": "<article class=\"ds-ed\"><div class=\"ds-ed__rule\"></div><div class=\"ds-ed__grid\"><div><span class=\"ds-ed__num\" aria-hidden=\"true\">01</span><p class=\"ds-ed__dateline\">Apr 2025 - Present</p></div><div><h3 class=\"ds-ed__title\">Seva / Appointally</h3><p class=\"ds-ed__role\">Senior Full-Stack Engineer</p><p class=\"ds-ed__lede\">19 microservices on Clean Architecture and CQRS</p><p class=\"ds-ed__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><button class=\"ds-ed__toggle\" aria-expanded=\"false\">Details</button></div></div></article>",
+      "css": ".ds-ed{background:#f5f5f0;color:#1a1a1a;padding:24px;max-width:720px;font-family:\"DM Sans Variable\",\"DM Sans\",sans-serif}.ds-ed__rule{height:1px;background:#d4d0c8;margin-bottom:32px}.ds-ed__grid{display:grid;grid-template-columns:1fr 2fr;gap:32px}.ds-ed__num{display:block;margin-bottom:8px;font-family:\"Clash Display\",sans-serif;font-size:4.5rem;font-weight:700;line-height:1;color:rgba(26,26,26,.06)}.ds-ed__dateline{margin:0;font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#636363}.ds-ed__title{margin:0 0 4px;word-spacing:.1em;font-family:\"Clash Display\",sans-serif;font-size:2rem;font-weight:700;line-height:1.1}.ds-ed__role{margin:0 0 16px;font-size:1rem;font-weight:500;color:#bf3900}.ds-ed__lede{margin:0;max-width:36rem;font-size:1.125rem;font-weight:500;line-height:1.375;color:#1a1a1a}.ds-ed__summary{margin:8px 0 0;max-width:36rem;font-size:.875rem;line-height:1.625;color:#636363}.ds-ed__toggle{margin-top:12px;background:none;border:0;padding:0;font:500 .875rem \"DM Sans Variable\",\"DM Sans\",sans-serif;color:#1a1a1a;text-decoration:underline;text-decoration-color:#ff4d00;text-decoration-thickness:2px;text-underline-offset:4px;cursor:pointer;transition:color .15s}.ds-ed__toggle:hover{color:#bf3900}.ds-ed__toggle:focus-visible{outline:2px solid #ff4d00;outline-offset:2px}"
     },
     {
       "name": "Arcade Candy Card",
       "kind": "card",
       "refersTo": "arcade-card",
-      "description": "Arcade experience card on a candy surface: emoji, Bungee title, the role's result on the face, bullets and stack behind a details toggle, Cabinet Black text.",
+      "description": "Arcade experience card on a candy surface: emoji, Bungee title, the role's result on the face, bullets and stack behind a details toggle, solid Cabinet Black text (never faded by opacity), copy capped at 65ch.",
       "html": "<div class=\"ds-candy\"><div class=\"ds-candy__emoji\">🚀</div><p class=\"ds-candy__period\">Apr 2025 - Present</p><h3 class=\"ds-candy__title\">Seva / Appointally</h3><p class=\"ds-candy__role\">Senior Full-Stack Engineer</p><p class=\"ds-candy__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><p class=\"ds-candy__impact\">19 microservices on Clean Architecture and CQRS</p><button class=\"ds-candy__toggle\">▼ details</button><div class=\"ds-candy__chips\"><span>Node.js</span><span>TypeScript</span><span>AWS</span></div></div>",
-      "css": ".ds-candy{background:#0ba95b;color:#0f0d0e;border-radius:12px;padding:24px;max-width:480px;font-family:Outfit,sans-serif}.ds-candy__emoji{font-size:1.5rem}.ds-candy__period{margin:8px 0 0;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.7}.ds-candy__title{margin:4px 0 0;font-family:Bungee,sans-serif;font-size:1.125rem;font-weight:400;text-transform:uppercase}.ds-candy__role{margin:0;font-size:.875rem;font-weight:500}.ds-candy__summary{margin:8px 0 0;font-size:.875rem;opacity:.8}.ds-candy__toggle{margin-top:12px;background:none;border:0;padding:0;font:700 .75rem Outfit,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:underline;color:#0f0d0e;cursor:pointer}.ds-candy__chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.ds-candy__chips span{background:rgba(15,13,14,.15);border-radius:9999px;padding:2px 8px;font-size:.75rem;font-weight:500}.ds-candy__toggle:focus-visible{outline:2px solid #0f0d0e;outline-offset:2px}.ds-candy__impact{margin:12px 0 0;font-size:.875rem;font-weight:600}"
+      "css": ".ds-candy{background:#0ba95b;color:#0f0d0e;border-radius:12px;padding:24px;max-width:480px;font-family:Outfit,sans-serif}.ds-candy__emoji{font-size:1.5rem}.ds-candy__period{margin:8px 0 0;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.ds-candy__title{margin:4px 0 0;font-family:Bungee,sans-serif;font-size:1.125rem;font-weight:400;text-transform:uppercase}.ds-candy__role{margin:0;font-size:.875rem;font-weight:500}.ds-candy__summary{margin:8px 0 0;max-width:65ch;font-size:.875rem}.ds-candy__toggle{margin-top:12px;background:none;border:0;padding:0;font:700 .75rem Outfit,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:underline;color:#0f0d0e;cursor:pointer}.ds-candy__chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.ds-candy__chips span{background:rgba(15,13,14,.15);border-radius:9999px;padding:2px 8px;font-size:.75rem;font-weight:500}.ds-candy__toggle:focus-visible{outline:2px solid #0f0d0e;outline-offset:2px}.ds-candy__impact{margin:12px 0 0;font-size:.875rem;font-weight:600}"
     }
   ],
   "narrative": {
@@ -1096,7 +1104,7 @@
       },
       {
         "name": "The Same Bones Rule",
-        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it; today that is Hero, Experience, and Skills.",
+        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills, and since 2026-10-11 Editorial also stages its own About, Contact, and footer (the user decided to keep all five worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world>\"` and the world's version `data-design-show=\"<world>\"`.",
         "section": "layout"
       },
       {
@@ -1117,7 +1125,7 @@
       "Do resolve headings through the heading slot and body through the body slot; only Engineer's labels and the shared code face name JetBrains Mono directly.",
       "Do render both locales in every text node behind `data-lang-show` so the language toggle never re-renders.",
       "Do respect `prefers-reduced-motion`, and make new motion join the reveal grammar (fade, 30px rise, 0.5s, once).",
-      "Do keep bespoke sections to Hero, Experience, and Skills unless a world's identity needs another (The Same Bones Rule).",
+      "Do fork a shared section only when a world's identity needs it, inside the shared section with `data-design-hide` / `data-design-show` (The Same Bones Rule).",
       "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a CSS fallback, as Avant-garde does."
     ],
     "donts": [

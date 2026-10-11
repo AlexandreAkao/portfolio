@@ -34,7 +34,9 @@ export async function generateRssFeed({ context, locale, description, language }
         pubDate: post.data.date,
         link: `/blog/${slug}`,
         categories: post.data.tags,
-        content: post.body ? parser.render(post.body) : undefined,
+        content: post.body
+          ? parser.render(post.body).replace(/(src|href)="\//g, `$1="${new URL('/', context.site!).href}`)
+          : undefined,
       };
     }),
     customData: `<language>${language}</language>`,

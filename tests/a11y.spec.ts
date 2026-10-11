@@ -70,11 +70,17 @@ test('the mobile menu is a modal dialog that keeps focus inside @mobile', async 
   }
 });
 
-test('filters and tabs announce which one is selected', async ({ page }) => {
+test('filters announce which one is selected, and the blog shows none for two posts', async ({ page }) => {
   await page.goto('/blog/');
-  const filters = page.locator('[data-filter-group="en"] .tag-filter');
-  await expect(filters.first()).toHaveAttribute('aria-pressed', 'true');
-  await filters.nth(1).click();
-  await expect(filters.nth(1)).toHaveAttribute('aria-pressed', 'true');
-  await expect(filters.first()).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('.tag-filter')).toHaveCount(0);
+
+  await page.addInitScript(() => localStorage.setItem('design', 'creative'));
+  await page.goto('/');
+  const skills = page.locator('#skills [data-design-show="creative"]');
+  await skills.scrollIntoViewIfNeeded();
+  const all = skills.getByRole('button', { name: 'All' });
+  await expect(all).toHaveAttribute('aria-pressed', 'true');
+  await skills.getByRole('button', { name: 'Frontend' }).click();
+  await expect(skills.getByRole('button', { name: 'Frontend' })).toHaveAttribute('aria-pressed', 'true');
+  await expect(all).toHaveAttribute('aria-pressed', 'false');
 });

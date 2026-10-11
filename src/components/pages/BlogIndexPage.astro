@@ -58,7 +58,7 @@ const description = {
           <p class="text-text-secondary"><T k="blog.empty" /></p>
         ) : (
           <>
-            {enTags.length > 1 && (
+            {enTags.length > 1 && enPosts.length >= 4 && (
               <div class="mb-8 flex flex-wrap gap-2" data-filter-group="en">
                 <button
                   class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
@@ -104,7 +104,7 @@ const description = {
           <p class="text-text-secondary"><T k="blog.empty" /></p>
         ) : (
           <>
-            {ptTags.length > 1 && (
+            {ptTags.length > 1 && ptPosts.length >= 4 && (
               <div class="mb-8 flex flex-wrap gap-2" data-filter-group="pt">
                 <button
                   class="tag-filter rounded-btn border px-3 py-1.5 text-xs font-medium transition-colors"
