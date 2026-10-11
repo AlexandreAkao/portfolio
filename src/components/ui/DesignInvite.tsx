@@ -36,7 +36,7 @@ function DesignInvite({ world, locale: localeProp, delay = 0, className = '' }: 
         onClick={() => document.dispatchEvent(new CustomEvent('site-design:switch', { detail: next }))}
         onPointerEnter={() => document.dispatchEvent(new CustomEvent('site-design:intent'))}
         onFocus={() => document.dispatchEvent(new CustomEvent('site-design:intent'))}
-        className="font-medium text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
+        className="inline-flex min-h-11 items-center font-medium text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent md:min-h-0"
       >
         {t('design.inviteCta', locale).replace('{name}', nextLabel)}
       </button>

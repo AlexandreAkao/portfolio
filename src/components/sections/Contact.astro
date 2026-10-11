@@ -5,8 +5,6 @@ import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 import EmailCopy from '@components/islands/EmailCopy.tsx';
 import { cvUrl, email } from '@data/social';
 
-const [emailUser, emailDomain] = email.split('@');
-
 interface Props {
   /** The page's language, so the islands render in it on the server. */
   locale?: 'en' | 'pt';
@@ -15,8 +13,8 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<section id="contact" class="py-20">
-  <div class="mx-auto max-w-2xl px-6 text-center" data-design-hide="editorial">
+<section id="contact" class="py-12 md:py-20">
+  <div class="mx-auto max-w-2xl px-6 text-center">
     <ScrollReveal client:visible>
       <h2 class="mb-4 font-heading text-3xl font-bold text-text">
         <span class="section-tag"><T k="contact.title" /></span>
@@ -35,61 +33,15 @@ const { locale } = Astro.props;
         <T k="contact.emailMe" />
       </a>
 
-      <div class="mt-6 flex flex-col items-center gap-4 text-sm sm:flex-row sm:justify-center sm:gap-8">
+      <div class="mt-6 flex flex-col items-center gap-2 text-sm sm:flex-row sm:justify-center sm:gap-8">
         <EmailCopy client:visible locale={locale} />
         <a
           href={cvUrl}
           download
-          class="font-medium text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
+          class="inline-flex min-h-11 items-center font-medium text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent md:min-h-0"
         >
           <T k="hero.cta.cv" />
         </a>
-      </div>
-    </ScrollReveal>
-  </div>
-
-  {/* Editorial: the colophon. The address set as display type is the call to action;
-      the three ways to act sit beneath it as ruled lines. */}
-  <div class="mx-auto max-w-4xl px-6" data-design-show="editorial">
-    <ScrollReveal client:visible>
-      <h2 class="mb-12 text-center font-heading text-3xl font-bold text-text">
-        <span class="section-tag"><T k="contact.title" /></span>
-      </h2>
-    </ScrollReveal>
-
-    <ScrollReveal client:visible delay={0.1}>
-      <div class="border-t-[3px] border-accent pt-8">
-        <p class="max-w-[40rem] text-lg leading-relaxed text-text-secondary">
-          <span data-lang-show="en">{t('contact.description', 'en')}</span>
-          <span data-lang-show="pt">{t('contact.description', 'pt')}</span>
-        </p>
-        <a
-          href={`mailto:${email}`}
-          class="mt-8 block font-heading text-[clamp(1.375rem,5.4vw,3.25rem)] font-bold leading-tight text-text transition-colors hover:text-accent"
-        >
-          {emailUser}<wbr />@{emailDomain}
-        </a>
-
-        <ul class="mt-10 border-t border-border">
-          <li class="border-b border-border">
-            <a href={`mailto:${email}`} class="block py-4 text-base font-medium text-text transition-colors hover:text-accent">
-              <T k="contact.emailMe" />
-            </a>
-          </li>
-          <li class="border-b border-border py-4">
-            <EmailCopy
-              client:visible
-              locale={locale}
-              showAddress={false}
-              className="text-base font-medium text-text transition-colors hover:text-accent"
-            />
-          </li>
-          <li class="border-b border-border">
-            <a href={cvUrl} download class="block py-4 text-base font-medium text-text transition-colors hover:text-accent">
-              <T k="hero.cta.cv" />
-            </a>
-          </li>
-        </ul>
       </div>
     </ScrollReveal>
   </div>

@@ -8,7 +8,7 @@ import { withServerLocale } from '@i18n/withServerLocale';
 type Status = 'idle' | 'copied' | 'selected';
 
 /** The address in plain sight, for pasting into an ATS or a mail client, with a copy button. */
-function EmailCopyInner({ showAddress = true, className = '' }: { showAddress?: boolean; className?: string }) {
+function EmailCopyInner() {
   const locale = useLocale();
   const [status, setStatus] = useState<Status>('idle');
   const addressRef = useRef<HTMLSpanElement>(null);
@@ -40,14 +40,14 @@ function EmailCopyInner({ showAddress = true, className = '' }: { showAddress?: 
 
   return (
     <span className="inline-flex flex-wrap items-center justify-center gap-3">
-      <span ref={addressRef} className={showAddress ? 'select-all text-text' : 'sr-only'}>
+      <span ref={addressRef} className="select-all text-text">
         {email}
       </span>
       <button
         type="button"
         onClick={copy}
         aria-label={t('contact.copyLabel', locale)}
-        className={className || 'rounded-btn border border-border px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent'}
+        className="min-h-11 min-w-11 rounded-btn border border-border px-4 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent md:min-h-0 md:min-w-0 md:px-3"
       >
         {label}
       </button>
@@ -58,10 +58,10 @@ function EmailCopyInner({ showAddress = true, className = '' }: { showAddress?: 
   );
 }
 
-function EmailCopy(props: { showAddress?: boolean; className?: string }) {
+function EmailCopy() {
   return (
     <ErrorBoundary fallback={<span className="select-all text-text">{email}</span>}>
-      <EmailCopyInner {...props} />
+      <EmailCopyInner />
     </ErrorBoundary>
   );
 }

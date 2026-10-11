@@ -78,9 +78,11 @@ test('filters announce which one is selected, and the blog shows none for two po
   await page.goto('/');
   const skills = page.locator('#skills [data-design-show="creative"]');
   await skills.scrollIntoViewIfNeeded();
-  const all = skills.getByRole('button', { name: 'All' });
-  await expect(all).toHaveAttribute('aria-pressed', 'true');
+  // Creative opens on its first category; the full cloud is one tap away under "All".
+  const first = skills.getByRole('button', { name: 'Backend' });
+  await expect(first).toHaveAttribute('aria-pressed', 'true');
+  await expect(skills.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'false');
   await skills.getByRole('button', { name: 'Frontend' }).click();
   await expect(skills.getByRole('button', { name: 'Frontend' })).toHaveAttribute('aria-pressed', 'true');
-  await expect(all).toHaveAttribute('aria-pressed', 'false');
+  await expect(first).toHaveAttribute('aria-pressed', 'false');
 });

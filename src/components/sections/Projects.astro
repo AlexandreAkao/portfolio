@@ -8,10 +8,10 @@ const professional = projects.filter((p) => p.type === 'professional');
 const personal = projects.filter((p) => p.type === 'personal');
 ---
 
-<section id="projects" class="py-20">
+<section id="projects" class="py-12 md:py-20">
   <div class="mx-auto max-w-4xl px-6">
     <ScrollReveal client:visible>
-      <h2 class="mb-12 text-center font-heading text-3xl font-bold text-text">
+      <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
         <span class="section-tag"><T k="projects.title" /></span>
       </h2>
     </ScrollReveal>
@@ -60,12 +60,12 @@ const personal = projects.filter((p) => p.type === 'personal');
               </div>
               <div class="flex gap-3 pt-1">
                 {project.github && (
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub`} class="text-text-secondary transition-colors hover:text-accent">
+                  <a href={project.github} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub`} class="-m-3 inline-flex p-3 text-text-secondary transition-colors hover:text-accent md:m-0 md:p-0">
                     <Icon name="lucide:github" class="h-5 w-5" />
                   </a>
                 )}
                 {project.live && (
-                  <a href={project.live} target="_blank" rel="noopener noreferrer" aria-label={`${project.title}, live site`} class="text-text-secondary transition-colors hover:text-accent">
+                  <a href={project.live} target="_blank" rel="noopener noreferrer" aria-label={`${project.title}, live site`} class="-m-3 inline-flex p-3 text-text-secondary transition-colors hover:text-accent md:m-0 md:p-0">
                     <Icon name="lucide:external-link" class="h-5 w-5" />
                   </a>
                 )}

@@ -1,5 +1,5 @@
 import { motion, useInView } from 'motion/react';
-import { useRef, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import type { Experience } from '@data/experience';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
@@ -17,6 +17,7 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
   const [expanded, setExpanded] = useState(false);
+  const detailsId = useId();
   const color = CARD_COLORS[index % CARD_COLORS.length];
   const emoji = EMOJIS[index % EMOJIS.length];
 
@@ -61,51 +62,56 @@ function ExperienceCard({ exp, index }: { exp: Experience; index: number }) {
 
       {allEntries.some((e) => e.bullets[locale].length > 0) && (
         <button
+          type="button"
           onClick={() => setExpanded(!expanded)}
           aria-expanded={expanded}
-          className="mt-3 text-xs font-bold uppercase tracking-wider underline"
+          aria-controls={detailsId}
+          className="-mx-2 mt-1 inline-flex min-h-11 items-center px-2 text-xs font-bold uppercase tracking-wider underline md:mt-3 md:min-h-0"
           style={{ color: '#0f0d0e' }}
         >
           {expanded ? `▲ ${t('experience.collapse', locale)}` : `▼ ${t('experience.details', locale)}`}
         </button>
       )}
 
-      {expanded &&
-        allEntries.map((entry, i) => (
-          <div key={i} className={exp.subEntries ? 'mt-3 border-l-2 border-[#0f0d0e]/20 pl-3' : 'mt-2'}>
-            {exp.subEntries && (
-              <>
-                <p className="text-xs font-bold uppercase" style={{ color: '#0f0d0e' }}>
-                  {entry.period[locale]}
-                </p>
-                <p className="text-sm font-bold" style={{ color: '#0f0d0e' }}>
-                  {entry.company.replace('AmbevTech - ', '')}
-                </p>
-                <p className="text-xs" style={{ color: '#0f0d0e' }}>{entry.role[locale]}</p>
-              </>
-            )}
-            {entry.bullets[locale].length > 0 && (
-              <ul className="mt-2 max-w-prose space-y-1">
-                {entry.bullets[locale].map((bullet, j) => (
-                  <li key={j} className="text-sm" style={{ color: '#0f0d0e' }}>
-                    → {bullet}
-                  </li>
+      {expanded && (
+        <div id={detailsId}>
+          {allEntries.map((entry, i) => (
+            <div key={i} className={exp.subEntries ? 'mt-3 border-l-2 border-[#0f0d0e]/20 pl-3' : 'mt-2'}>
+              {exp.subEntries && (
+                <>
+                  <p className="text-xs font-bold uppercase" style={{ color: '#0f0d0e' }}>
+                    {entry.period[locale]}
+                  </p>
+                  <p className="text-sm font-bold" style={{ color: '#0f0d0e' }}>
+                    {entry.company.replace('AmbevTech - ', '')}
+                  </p>
+                  <p className="text-xs" style={{ color: '#0f0d0e' }}>{entry.role[locale]}</p>
+                </>
+              )}
+              {entry.bullets[locale].length > 0 && (
+                <ul className="mt-2 max-w-prose space-y-1">
+                  {entry.bullets[locale].map((bullet, j) => (
+                    <li key={j} className="text-sm" style={{ color: '#0f0d0e' }}>
+                      → {bullet}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className="mt-2 flex flex-wrap gap-1">
+                {entry.tech.map((techName) => (
+                  <span
+                    key={techName}
+                    className="rounded-full bg-[#0f0d0e]/15 px-2 py-0.5 text-xs font-medium"
+                    style={{ color: '#0f0d0e' }}
+                  >
+                    {techName}
+                  </span>
                 ))}
-              </ul>
-            )}
-            <div className="mt-2 flex flex-wrap gap-1">
-              {entry.tech.map((techName) => (
-                <span
-                  key={techName}
-                  className="rounded-full bg-[#0f0d0e]/15 px-2 py-0.5 text-xs font-medium"
-                  style={{ color: '#0f0d0e' }}
-                >
-                  {techName}
-                </span>
-              ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 }

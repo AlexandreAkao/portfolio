@@ -69,7 +69,7 @@ export default function SocialLinks({ className = '', delay = 0 }: Props) {
             key={link.name}
             href={link.url}
             {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
-            className="flex items-center gap-2 rounded-btn border border-border px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
+            className="flex min-h-11 items-center gap-2 rounded-btn border border-border px-3 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent md:min-h-0"
             aria-label={label}
           >
             {Icon && <Icon className="h-5 w-5" />}

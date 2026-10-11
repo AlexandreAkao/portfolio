@@ -34,13 +34,13 @@ function CreativeCarousel({ experiences }: Props) {
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
     >
-      <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
+      <div className="mb-8 flex flex-wrap gap-2">
         {flatExps.map((exp, i) => (
           <button
             key={i}
             onClick={() => setActive(i)}
             aria-pressed={active === i}
-            className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+            className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-all md:min-h-0 ${
               active === i
                 ? 'bg-accent text-white shadow-lg'
                 : 'border border-border text-text-secondary hover:border-accent'

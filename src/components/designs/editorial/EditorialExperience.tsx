@@ -33,7 +33,7 @@ function Story({ entry, locale, lede }: { entry: Experience; locale: Locale; led
           onClick={() => setExpanded(!expanded)}
           aria-expanded={expanded}
           aria-controls={detailsId}
-          className="mt-3 text-sm font-medium capitalize text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent"
+          className="-mx-2 mt-1 inline-flex min-h-11 items-center px-2 text-sm font-medium capitalize text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent md:mt-3 md:min-h-0"
         >
           {t(expanded ? 'experience.collapse' : 'experience.details', locale)}
         </button>

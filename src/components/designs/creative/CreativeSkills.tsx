@@ -13,7 +13,8 @@ function CreativeSkills({ skillGroups }: Props) {
   const locale = useLocale();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const [activeGroup, setActiveGroup] = useState<number | null>(null);
+  // Opens on the first category: the full cloud (46 skills) is one tap away under "All".
+  const [activeGroup, setActiveGroup] = useState<number | null>(0);
 
   const allSkills = skillGroups.flatMap((g, gi) =>
     g.skills.map((s) => ({ skill: s, group: g.category[locale], gi }))
@@ -30,7 +31,7 @@ function CreativeSkills({ skillGroups }: Props) {
         <button
           onClick={() => setActiveGroup(null)}
           aria-pressed={activeGroup === null}
-          className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+          className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-all md:min-h-0 ${
             activeGroup === null
               ? 'bg-accent text-white'
               : 'border border-border text-text-secondary hover:border-accent'
@@ -43,7 +44,7 @@ function CreativeSkills({ skillGroups }: Props) {
             key={i}
             onClick={() => setActiveGroup(i)}
             aria-pressed={activeGroup === i}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+            className={`min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-all md:min-h-0 ${
               activeGroup === i
                 ? 'bg-accent text-white'
                 : 'border border-border text-text-secondary hover:border-accent'

@@ -37,7 +37,7 @@ function CategoryBlock({
       <button
         onClick={() => onSelect(activeCategory === index ? -1 : index)}
         aria-pressed={activeCategory === index}
-        className="group mb-3 flex items-center gap-3 text-left"
+        className="group mb-1 flex min-h-11 items-center gap-3 text-left md:mb-3 md:min-h-0"
       >
         <span className="font-mono text-xs text-accent">{num}</span>
         <span className="text-sm font-semibold uppercase tracking-wider text-text-secondary transition-colors group-hover:text-accent">

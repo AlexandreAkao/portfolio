@@ -18,12 +18,12 @@ const { locale } = Astro.props;
 <footer>
   <div class="border-t border-border py-8" data-design-hide="editorial">
     <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6">
-      <div class="flex items-center gap-6">
+      <div class="flex items-center gap-1 md:gap-6">
         {socialLinks.map((link) => (
           <a
             href={link.url}
             {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
-            class="text-text-secondary transition-colors hover:text-accent"
+            class="inline-flex h-11 w-11 items-center justify-center text-text-secondary transition-colors hover:text-accent md:h-auto md:w-auto"
             aria-label={link.name}
           >
             {link.name === 'Dev.to' ? (
@@ -56,12 +56,12 @@ const { locale } = Astro.props;
         <p><T k="footer.built" /></p>
       </div>
       <div class="flex flex-col gap-4 md:items-end">
-        <div class="flex items-center gap-5">
+        <div class="flex items-center gap-1 md:gap-5">
           {socialLinks.map((link) => (
             <a
               href={link.url}
               {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
-              class="text-text-secondary transition-colors hover:text-accent"
+              class="inline-flex h-11 w-11 items-center justify-center text-text-secondary transition-colors hover:text-accent md:h-auto md:w-auto"
               aria-label={link.name}
             >
               {link.name === 'Dev.to' ? (
