@@ -1322,7 +1322,7 @@
       },
       {
         "name": "curtains-new-worlds",
-        "value": "Engineer reveal 1.25s / total 1.3s (pages back from (END) every 85ms from 0.7s; quick 0.55s: every 50ms from 0.2s); Terminal reveal 1.3s, lifts on site-hero:ready, cap 2.2s (quick: lifts at 0.45s or on site-hero:ready, cap 1.2s); Tape 1.1s / 1.7s (quick 0.7s: sheet pulled left 0.45s)",
+        "value": "Engineer reveal 1.25s / total 1.3s (pages back from (END) every 85ms from 0.7s; quick 0.55s: every 50ms from 0.2s); Terminal reveal 1.3s, lifts on site-hero:ready, cap 2.2s (quick: lifts at 0.45s or on site-hero:ready, cap 1.2s); Tape reveal 0.4s (hero hydrates underneath, already in place), fades 0.35s when the reader is done (~1.35s after the font wait), cap 2.6s (quick: role burst, fade 0.28s, cap 1.4s)",
         "purpose": "Arrival and quick-change timing for Engineer, Terminal, and Tape in SiteIntro.astro."
       }
     ],

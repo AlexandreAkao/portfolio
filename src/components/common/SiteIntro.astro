@@ -24,6 +24,13 @@ const draftPages = [
 ];
 const draftDate = { en: rfcDate('en'), pt: rfcDate('pt') };
 const login = { en: loginDate('en'), pt: loginDate('pt') };
+
+// Tape: the hero's own tape (name, then role, in real ASCII), and its window's
+// lines cut into one span per character so the reader can print them one by one.
+// Hyphenated words stay unbroken, as KeepWords keeps them in the hero.
+const punched = `${t('hero.name', 'en').toUpperCase()} . ${t('hero.title', 'en').toUpperCase()} . `;
+const printable = (text: string) =>
+  text.split(/(\S+-\S+)/).filter(Boolean).map((part) => ({ keep: part.includes('-'), chars: [...part] }));
 ---
 
 <div id="site-intro" aria-hidden="true">
@@ -125,10 +132,32 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
     </div>
   </div>
 
-  <!-- Tape: the punched tape feeds in across the dark, then the whole sheet is pulled off to the left -->
-  <div class="intro intro-tape" data-design-show="tape">
-    <div class="intro-tape__sheet">
-      <div class="intro-tape__band"><div class="intro-tape__feed"><TapeStrip text="ALEXANDRE AKIRA . " columns={240} /></div></div>
+  <!-- Tape: the reader. The hero's own tape steps through one column at a time,
+       blank leader first, and each column read prints its character in the hero's
+       own window; the " . " between name and role is the line feed. Window and tape
+       sit exactly on the hero's (the script places them), so when the page comes up
+       around them (data-intro-hold="fade") nothing moves, and the hero's flag drops. -->
+  <div class="intro intro-tape" data-design-show="tape" data-intro-hold="fade">
+    <div class="tape tape-win intro-tape__win">
+      <p class="m-0 font-heading text-[clamp(3rem,8vw,6rem)] font-black uppercase leading-[0.88]" data-tape-name>
+        {[...t('hero.name', 'en')].map((c) => <span data-ch>{c}</span>)}
+      </p>
+      <p class="tape-caps mb-0 mt-3 text-[clamp(1.05rem,2.2vw,1.45rem)]">
+        {(['en', 'pt'] as const).map((l) => (
+          <span data-lang-show={l} data-tape-role={l}>
+            {printable(t('hero.title', l)).map((part) =>
+              part.keep ? (
+                <span class="whitespace-nowrap">{part.chars.map((c) => <span data-ch>{c}</span>)}</span>
+              ) : (
+                part.chars.map((c) => <span data-ch>{c}</span>)
+              ),
+            )}
+          </span>
+        ))}
+      </p>
+    </div>
+    <div class="tape-band intro-tape__band">
+      <div class="intro-tape__feed"><TapeStrip columns={44} /><TapeStrip text={punched} columns={240} /></div>
     </div>
   </div>
 
@@ -180,10 +209,64 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
       box.style.top = Math.max(0, r.top - mine.offsetTop) + 'px';
     }
 
+    // Where an element sits on screen without its own transform: the hero's
+    // window is still at its entrance offset when it is measured under the curtain.
+    function untransformed(el) {
+      var r = el.getBoundingClientRect();
+      var t = getComputedStyle(el).transform;
+      var m = t && t !== 'none' ? new DOMMatrixReadOnly(t) : null;
+      return { left: r.left - (m ? m.m41 : 0), top: r.top - (m ? m.m42 : 0), width: r.width };
+    }
+
+    // Tape: set the window and the tape on the hero's own.
+    function tapePlace(block) {
+      var hero = document.querySelector('#hero [data-design-show="tape"]');
+      var win = block.querySelector('.intro-tape__win');
+      var band = block.querySelector('.intro-tape__band');
+      var heroWin = hero && hero.querySelector('.tape-win');
+      var heroBand = hero && hero.querySelector('.tape-band');
+      if (win && heroWin) {
+        var w = untransformed(heroWin);
+        win.style.left = w.left + 'px';
+        win.style.top = w.top + 'px';
+        win.style.width = w.width + 'px';
+      }
+      // On a short phone the hero's tape sits below the fold: read it on screen instead
+      if (band && heroBand) band.style.top = Math.min(untransformed(heroBand).top, window.innerHeight - heroBand.offsetHeight - 24) + 'px';
+      block.dataset.ready = '';
+    }
+
+    // The reader: 44 columns pass (the name, the " . " line feed, the role). The
+    // tape moves in whole columns, as far as the screen shows well (all 44 on a
+    // wide one), and ends where the hero's tape stands.
+    var TAPE_NAME = 15, TAPE_FEED = 3, TAPE_COLS = 44;
+    function tapeTravel() {
+      return Math.max(8, Math.min(TAPE_COLS, Math.floor((window.innerWidth * 0.55) / 14)));
+    }
+    function tapeAt(block, col, travel) {
+      var feed = block.querySelector('.intro-tape__feed');
+      if (feed) feed.style.setProperty('--tape-at', String(TAPE_COLS - travel + Math.round((col * travel) / TAPE_COLS)));
+    }
+    function tapeRead(block, col, travel) {
+      tapeAt(block, col + 1, travel);
+      if (col < TAPE_NAME) {
+        var ch = block.querySelectorAll('[data-tape-name] [data-ch]')[col];
+        if (ch) ch.dataset.on = '';
+      } else if (col >= TAPE_NAME + TAPE_FEED) {
+        // The tape carries the English role; a role of another length prints in step with it
+        var r = col - TAPE_NAME - TAPE_FEED + 1, of = TAPE_COLS - TAPE_NAME - TAPE_FEED;
+        block.querySelectorAll('[data-tape-role]').forEach(function (role) {
+          var chs = role.querySelectorAll('[data-ch]');
+          for (var i = 0; i < Math.ceil((r * chs.length) / of); i++) chs[i].dataset.on = '';
+        });
+      }
+    }
+
     // Curtains staged by script as well as CSS. prepare() runs before the curtain
     // shows; start() when it begins to move: after the font wait on arrival, and
     // once the theme has swapped underneath on a quick change, so the incoming
-    // hero is laid out and can be measured.
+    // hero is laid out and can be measured. A paced stage calls done() when its
+    // sequence is over; otherwise a holding curtain is due at its reveal.
     var stages = {
       engineer: {
         prepare: function (block) { draftPage(block, 8); },
@@ -195,6 +278,27 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
       },
       terminal: {
         start: function (block) { sshPlace(block); }
+      },
+      tape: {
+        paced: true,
+        prepare: function (block, mode) {
+          delete block.dataset.ready;
+          block.querySelectorAll('[data-ch]').forEach(function (ch) { delete ch.dataset.on; });
+          // A quick change keeps the name printed and reads only the role
+          if (mode === 'quick') block.querySelectorAll('[data-tape-name] [data-ch]').forEach(function (ch) { ch.dataset.on = ''; });
+          tapeAt(block, mode === 'quick' ? TAPE_NAME + TAPE_FEED : 0, tapeTravel());
+        },
+        start: function (block, mode, later, done) {
+          var travel = tapeTravel();
+          tapeAt(block, mode === 'quick' ? TAPE_NAME + TAPE_FEED : 0, travel);
+          tapePlace(block);
+          var at = mode === 'arrival' ? 150 : 30;
+          for (var col = mode === 'quick' ? TAPE_NAME + TAPE_FEED : 0; col < TAPE_COLS; col++) {
+            later(tapeRead.bind(null, block, col, travel), at);
+            at += mode === 'quick' ? 11 : col < TAPE_NAME ? 36 : col < TAPE_NAME + TAPE_FEED ? 40 : 16;
+          }
+          later(done, at + (mode === 'quick' ? 60 : 130));
+        }
       }
     };
 
@@ -208,9 +312,12 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
       var world = mode === 'arrival' ? html.dataset.design : opts.design;
       var block = el.querySelector('.intro[data-design-show="' + world + '"]');
       var stage = (block && stages[world]) || {};
-      // A curtain that holds (Terminal) ends on the frame its hero starts from, so
-      // it lifts only once that hero has reset underneath; --intro-total is the cap.
-      var holds = !!block && block.hasAttribute('data-intro-hold');
+      // A curtain that holds ends on the frame its hero starts from, so it lifts only
+      // once that hero is in place underneath; --intro-total is the cap. It lifts
+      // with a cut (Terminal), or with data-intro-hold="fade" by fading away while
+      // the page comes up around what the two share (Tape).
+      var hold = block ? block.getAttribute('data-intro-hold') : null;
+      var holds = hold !== null;
       var s = { revealed: false, finished: false, applied: false, started: false, due: false, heroReady: false, timers: [] };
       active = s;
 
@@ -220,14 +327,21 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
       function begin() {
         if (s.started || s.finished) return;
         s.started = true;
-        if (stage.start) stage.start(block, mode, later);
+        if (stage.start) stage.start(block, mode, later, due);
+      }
+      function due() {
+        s.due = true;
+        lift();
       }
       // A hero hydrated earlier (a later switch back to its world) will not reset again
       function heroLive() {
         return !!document.querySelector('#hero [data-design-show="' + world + '"] astro-island:not([ssr])');
       }
       function lift() {
-        if (s.due && (s.heroReady || heroLive())) finish();
+        if (!s.due || s.lifting || !(s.heroReady || heroLive())) return;
+        if (hold !== 'fade' || !el.animate) { finish(); return; }
+        s.lifting = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: mode === 'quick' ? 280 : 350, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
+        s.lifting.onfinish = finish;
       }
       function onHeroReady(e) {
         if (e.detail !== world) return;
@@ -262,6 +376,7 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
         clearTimeout(s.timer);
         clearTimeout(s.applyTimer);
         s.timers.forEach(clearTimeout);
+        if (s.lifting) s.lifting.cancel();
         active = null;
         document.dispatchEvent(new CustomEvent('site-intro:done'));
       }
@@ -270,7 +385,7 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
         if (e.animationName === 'intro-reveal') {
           if (mode !== 'arrival') return;
           reveal();
-          if (holds) { s.due = true; lift(); }
+          if (holds && !stage.paced) due();
         }
         else if (e.animationName === 'intro-root') finish();
       }
@@ -283,7 +398,7 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
         html.dataset.intro = 'play';
       }
 
-      if (stage.prepare) stage.prepare(block);
+      if (stage.prepare) stage.prepare(block, mode);
       if (holds) document.addEventListener('site-hero:ready', onHeroReady);
       el.addEventListener('animationend', onEnd);
       el.addEventListener('click', finish);
@@ -307,7 +422,7 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
         el.dataset.design = opts.design;
         html.dataset.intro = 'quick';
         s.applyTimer = setTimeout(applyTheme, 170);
-        if (holds) later(function () { s.due = true; lift(); }, 450);
+        if (holds && !stage.paced) later(due, 450);
       }
       return s;
     }
@@ -369,7 +484,8 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
   [data-design='arcade']     #site-intro { --intro-reveal: 1.25s; --intro-total: 1.9s; }
   /* Terminal lifts as soon as its hero has reset under it (see data-intro-hold); 2.2s is the cap */
   [data-design='terminal']   #site-intro { --intro-reveal: 1.3s; --intro-total: 2.2s; }
-  [data-design='tape']       #site-intro { --intro-reveal: 1.1s; --intro-total: 1.7s; }
+  /* Tape hydrates its hero early (underneath, already in place) and fades when the reader is done; 2.6s cap */
+  [data-design='tape']       #site-intro { --intro-reveal: 0.4s; --intro-total: 2.6s; }
 
   /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
   /* The curtain carries the incoming design on its own data-design so it can
@@ -399,7 +515,7 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
   html[data-intro='quick'] #site-intro[data-design='editorial']  { --intro-total: 0.75s; }
   html[data-intro='quick'] #site-intro[data-design='arcade']     { --intro-total: 0.8s; }
   html[data-intro='quick'] #site-intro[data-design='terminal']   { --intro-total: 1.2s; }
-  html[data-intro='quick'] #site-intro[data-design='tape']       { --intro-total: 0.7s; }
+  html[data-intro='quick'] #site-intro[data-design='tape']       { --intro-total: 1.4s; }
 
   /* Avant-garde: no title card, the stage just splits */
   html[data-intro='quick'] .intro-ag__stage { display: none; }
@@ -416,10 +532,7 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
   html[data-intro='quick'] .intro-ssh__login { animation-delay: 0.32s; }
   html[data-intro='quick'] .intro-ssh__prompt { animation-delay: 0.38s; }
 
-  /* Tape: the tape is already fed, the sheet is pulled off */
-  html[data-intro='quick'] .intro-tape__band,
-  html[data-intro='quick'] .intro-tape__feed { transform: none; animation: none; }
-  html[data-intro='quick'] .intro-tape__sheet { animation: tape-pull 0.45s cubic-bezier(0.7, 0, 0.3, 1) 0.2s forwards; }
+  /* Tape: the name is already printed; the script reads the role in a burst, then the curtain fades */
 
   /* Creative: the halo is already whole, it glides to the portrait and dissolves */
   html[data-intro='quick'] .intro-cr__name,
@@ -609,36 +722,46 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
     100% { width: 28ch; }
   }
 
-  /* ---------- Tape: the tape feeds in, the sheet is pulled off ---------- */
-  .intro-tape__sheet {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
+  /* ---------- Tape: the reader prints the name off the tape ---------- */
+  .intro-tape {
     background: var(--bg);
-    animation: tape-pull 0.55s cubic-bezier(0.7, 0, 0.3, 1) 1.1s forwards;
   }
-  .intro-tape__band {
-    width: 100%;
-    height: 5.25rem;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    background: var(--accent);
-    color: var(--bg);
-    transform: scaleX(0);
-    transform-origin: right center;
-    animation: tape-band 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  /* Window and tape show once the script has set them on the hero's */
+  .intro-tape .intro-tape__win,
+  .intro-tape .intro-tape__band {
+    position: absolute;
+    visibility: hidden;
   }
+  .intro-tape .intro-tape__win {
+    top: 6rem;
+    left: 1rem;
+    width: min(40rem, calc(100vw - 2rem));
+  }
+  .intro-tape .intro-tape__band {
+    left: 0;
+    right: 0;
+    top: 60%;
+  }
+  .intro-tape[data-ready] .intro-tape__win,
+  .intro-tape[data-ready] .intro-tape__band {
+    visibility: visible;
+  }
+  /* Blank leader, then the hero's punched tape, moved in whole columns (14px) */
   .intro-tape__feed {
+    display: flex;
     flex: none;
-    transform: translateX(60vw);
-    animation: tape-feed 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+    transform: translateX(calc(var(--tape-at, 0) * -14px));
   }
-  @keyframes tape-band { to { transform: scaleX(1); } }
-  @keyframes tape-feed { to { transform: translateX(0); } }
-  /* The tape is pulled off the reader: the whole sheet leaves to the left */
-  @keyframes tape-pull { to { transform: translateX(-101%); } }
+  .intro-tape__feed svg + svg {
+    margin-left: 0;
+  }
+  /* A character prints when its column has been read */
+  .intro-tape [data-ch] {
+    visibility: hidden;
+  }
+  .intro-tape[data-ready] [data-ch][data-on] {
+    visibility: visible;
+  }
 
   /* ---------- Creative: the halo finds its portrait ---------- */
   /* Final ring geometry mirrors CreativeHero's portrait composition (320px box:
