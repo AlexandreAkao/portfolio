@@ -36,16 +36,6 @@ function EditorialHeroInner() {
       </span>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 md:px-12">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-3 text-sm uppercase tracking-[0.3em] text-text-secondary sm:mb-6"
-          style={{ fontFamily: 'var(--font-body)' }}
-        >
-          {t('hero.greeting', locale)}
-        </motion.p>
-
         <motion.h1
           style={{ y: nameY, fontFamily: 'var(--font-heading)' }}
           className="mb-6 text-[clamp(2.5rem,14vw,9rem)] md:text-[clamp(2.5rem,10vw,9rem)] font-bold leading-[0.9] tracking-tight"

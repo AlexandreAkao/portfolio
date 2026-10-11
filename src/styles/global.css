@@ -225,6 +225,27 @@ h1, h2, h3, h4, h5, h6 {
   display: none !important;
 }
 
+/* A world that stages its own version of a shared section hides the shared one:
+   <div data-design-hide="editorial"> beside <div data-design-show="editorial"> */
+[data-design='engineer'] [data-design-hide~='engineer'],
+[data-design='creative'] [data-design-hide~='creative'],
+[data-design='avantgarde'] [data-design-hide~='avantgarde'],
+[data-design='editorial'] [data-design-hide~='editorial'],
+[data-design='arcade'] [data-design-hide~='arcade'] {
+  display: none !important;
+}
+
+/* Editorial: the about lede opens on a drop cap in the display face */
+[data-design='editorial'] .editorial-lede::first-letter {
+  float: left;
+  margin: 0.06em 0.12em 0 0;
+  font-family: var(--font-heading);
+  font-size: 3.6em;
+  font-weight: 700;
+  line-height: 0.82;
+  color: var(--accent);
+}
+
 /* Language-conditional visibility */
 [data-lang='en'] [data-lang-show='pt'] {
   display: none !important;

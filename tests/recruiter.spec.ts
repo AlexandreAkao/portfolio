@@ -43,7 +43,7 @@ test('contact names the action, shows the address and copies it', async ({ page,
 
   await expect(contact.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', /^mailto:/);
   await expect(contact.getByRole('link', { name: 'Download CV' })).toHaveAttribute('href', /\.pdf$/);
-  await expect(contact.getByText(/@gmail\.com$/)).toBeVisible();
+  await expect(contact.getByText(/@gmail\.com$/).filter({ visible: true }).first()).toBeVisible();
 
   await contact.getByRole('button', { name: 'Copy email address' }).click();
   await expect(contact.getByRole('button', { name: 'Copy email address' })).toHaveText('Copied');

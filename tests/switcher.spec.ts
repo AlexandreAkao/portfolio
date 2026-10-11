@@ -35,3 +35,29 @@ test('the switcher says what it holds, marks the current design and closes on Es
   await expect(options).toBeHidden();
   await expect(trigger).toBeFocused();
 });
+
+test('Editorial stages its own about, contact and footer; other worlds keep the shared ones', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#about [data-design-show="editorial"] .editorial-lede').first()).toBeVisible();
+  await expect(page.locator('#about [data-design-hide="editorial"]')).toBeHidden();
+  await expect(page.getByRole('heading', { name: 'By the numbers' })).toBeVisible();
+  await expect(page.locator('footer [data-design-show="editorial"]')).toContainText('Edition');
+
+  await page.getByRole('button', { name: /switch design/i }).click();
+  await page.getByRole('list', { name: 'Design options' }).getByRole('button', { name: 'Arcade' }).click();
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.design)).toBe('arcade');
+  await expect(page.locator('#about [data-design-hide="editorial"]')).toBeVisible();
+  await expect(page.locator('#about [data-design-show="editorial"]')).toBeHidden();
+});
+
+test("Editorial's experience leads with the result and keeps the bullets behind details", async ({ page }) => {
+  await page.goto('/');
+  const exp = page.locator('#experience [data-design-show="editorial"]');
+  await exp.scrollIntoViewIfNeeded();
+  await expect(exp.getByText('19 microservices on Clean Architecture and CQRS')).toBeVisible();
+  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toHaveCount(0);
+  await exp.getByRole('button', { name: /details/i }).first().click();
+  await expect(exp.getByRole('button', { name: /collapse/i }).first()).toHaveAttribute('aria-expanded', 'true');
+  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toBeVisible();
+});
+

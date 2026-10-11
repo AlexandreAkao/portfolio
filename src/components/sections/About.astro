@@ -21,39 +21,89 @@ const stats = [
       </h2>
     </ScrollReveal>
 
-    <ScrollReveal client:visible delay={0.1}>
-      <div class="mb-8 flex justify-center">
-        <Image
-          src={avatarImg}
-          alt="Alexandre Akira"
-          width={128}
-          height={128}
-          class="avatar-img h-32 w-32 rounded-full border-2 border-accent object-cover shadow-lg"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-      <div class="mb-12 space-y-4 text-text-secondary">
-        <p>
-          <span data-lang-show="en">{t('about.p1', 'en')}</span>
-          <span data-lang-show="pt">{t('about.p1', 'pt')}</span>
-        </p>
-        <p>
-          <span data-lang-show="en">{t('about.p2', 'en')}</span>
-          <span data-lang-show="pt">{t('about.p2', 'pt')}</span>
-        </p>
-      </div>
-    </ScrollReveal>
+    <div data-design-hide="editorial">
+      <ScrollReveal client:visible delay={0.1}>
+        <div class="mb-8 flex justify-center">
+          <Image
+            src={avatarImg}
+            alt="Alexandre Akira"
+            width={128}
+            height={128}
+            class="avatar-img h-32 w-32 rounded-full border-2 border-accent object-cover shadow-lg"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="mb-12 space-y-4 text-text-secondary">
+          <p>
+            <span data-lang-show="en">{t('about.p1', 'en')}</span>
+            <span data-lang-show="pt">{t('about.p1', 'pt')}</span>
+          </p>
+          <p>
+            <span data-lang-show="en">{t('about.p2', 'en')}</span>
+            <span data-lang-show="pt">{t('about.p2', 'pt')}</span>
+          </p>
+        </div>
+      </ScrollReveal>
 
-    <ScrollReveal client:visible delay={0.2}>
-      <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
-        {stats.map((stat) => (
-          <div class="rounded-card border border-border bg-card p-4 text-center">
-            <p class="font-heading text-2xl font-bold text-accent"><T k={stat.valueKey} /></p>
-            <p class="text-sm text-text-secondary"><T k={stat.labelKey} /></p>
-          </div>
-        ))}
+      <ScrollReveal client:visible delay={0.2}>
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {stats.map((stat) => (
+            <div class="rounded-card border border-border bg-card p-4 text-center">
+              <p class="font-heading text-2xl font-bold text-accent"><T k={stat.valueKey} /></p>
+              <p class="text-sm text-text-secondary"><T k={stat.labelKey} /></p>
+            </div>
+          ))}
+        </div>
+      </ScrollReveal>
+    </div>
+
+    {/* Editorial: the front-page lede. A byline, the first paragraph as standfirst
+        under a drop cap, and the confirmed figures as a ruled "by the numbers" column. */}
+    <div data-design-show="editorial">
+      <div class="grid gap-12 md:grid-cols-[2fr_1fr] md:gap-16">
+        <ScrollReveal client:visible delay={0.1}>
+          <article>
+            <div class="mb-8 flex items-center gap-4 border-b border-border pb-5">
+              <Image
+                src={avatarImg}
+                alt="Alexandre Akira"
+                width={56}
+                height={56}
+                class="h-14 w-14 object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <p class="text-sm leading-snug">
+                <span class="block font-semibold text-text">Alexandre Akira</span>
+                <span class="block text-text-secondary"><T k="hero.title" /></span>
+              </p>
+            </div>
+            <p data-lang-show="en" class="editorial-lede text-xl leading-relaxed text-text md:text-2xl md:leading-relaxed">{t('about.p1', 'en')}</p>
+            <p data-lang-show="pt" class="editorial-lede text-xl leading-relaxed text-text md:text-2xl md:leading-relaxed">{t('about.p1', 'pt')}</p>
+            <p class="mt-6 max-w-[40rem] text-base leading-relaxed text-text-secondary">
+              <span data-lang-show="en">{t('about.p2', 'en')}</span>
+              <span data-lang-show="pt">{t('about.p2', 'pt')}</span>
+            </p>
+          </article>
+        </ScrollReveal>
+
+        <ScrollReveal client:visible delay={0.2}>
+          <aside aria-labelledby="about-numbers" class="border-t-[3px] border-accent pt-4">
+            <h3 id="about-numbers" class="text-xs font-semibold uppercase tracking-[0.2em] text-text-secondary">
+              <T k="about.numbers" />
+            </h3>
+            <dl class="grid grid-cols-2 gap-x-6 md:grid-cols-1">
+              {stats.map((stat) => (
+                <div class="flex flex-col-reverse border-b border-border py-4">
+                  <dt class="text-sm text-text-secondary"><T k={stat.labelKey} /></dt>
+                  <dd class="font-heading text-4xl font-bold leading-none text-text md:text-5xl"><T k={stat.valueKey} /></dd>
+                </div>
+              ))}
+            </dl>
+          </aside>
+        </ScrollReveal>
       </div>
-    </ScrollReveal>
+    </div>
   </div>
 </section>

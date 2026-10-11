@@ -85,7 +85,7 @@ test('quick-change: switching worlds hydrates the incoming hero and warms code o
   expect(errors).toEqual([]);
 });
 
-test('editorial keeps its greeting above the name after a switch and a scroll', async ({ page }) => {
+test('editorial keeps its hero intact after a switch and a scroll', async ({ page }) => {
   const errors = watchErrors(page);
   await arrive(page, 'creative');
   await page.waitForTimeout(5_000); // let idle work settle
@@ -105,7 +105,7 @@ test('portuguese visit: no hydration mismatch and the hero speaks pt', async ({ 
   const errors = watchErrors(page);
   await arrive(page, 'editorial', 'pt');
   await expectHeroVisible(page, 'editorial');
-  await expect(heroOf(page, 'editorial')).toContainText('Olá, meu nome é');
+  await expect(heroOf(page, 'editorial')).toContainText('Desenvolvedor Full-Stack Sênior');
   expect(errors).toEqual([]);
 });
 

@@ -7,7 +7,7 @@ import ErrorBoundary from '@components/ui/ErrorBoundary';
 type Status = 'idle' | 'copied' | 'selected';
 
 /** The address in plain sight, for pasting into an ATS or a mail client, with a copy button. */
-function EmailCopyInner() {
+function EmailCopyInner({ showAddress = true, className = '' }: { showAddress?: boolean; className?: string }) {
   const locale = useLocale();
   const [status, setStatus] = useState<Status>('idle');
   const addressRef = useRef<HTMLSpanElement>(null);
@@ -39,14 +39,14 @@ function EmailCopyInner() {
 
   return (
     <span className="inline-flex flex-wrap items-center justify-center gap-3">
-      <span ref={addressRef} className="select-all text-text">
+      <span ref={addressRef} className={showAddress ? 'select-all text-text' : 'sr-only'}>
         {email}
       </span>
       <button
         type="button"
         onClick={copy}
         aria-label={t('contact.copyLabel', locale)}
-        className="rounded-btn border border-border px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent"
+        className={className || 'rounded-btn border border-border px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-accent'}
       >
         {label}
       </button>
@@ -57,10 +57,10 @@ function EmailCopyInner() {
   );
 }
 
-export default function EmailCopy() {
+export default function EmailCopy(props: { showAddress?: boolean; className?: string }) {
   return (
     <ErrorBoundary fallback={<span className="select-all text-text">{email}</span>}>
-      <EmailCopyInner />
+      <EmailCopyInner {...props} />
     </ErrorBoundary>
   );
 }
