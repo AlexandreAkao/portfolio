@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-11T21:00:00.000Z",
+  "generatedAt": "2026-10-11T23:30:00.000Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
@@ -1083,6 +1083,156 @@
           "#c9c9c9",
           "#eeeeee"
         ]
+      },
+      "cartoon-ink": {
+        "role": "neutral",
+        "displayName": "Leader Ink",
+        "canonical": "oklch(18.2% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "cartoon-ink-raised": {
+        "role": "neutral",
+        "displayName": "Leader Raised",
+        "canonical": "oklch(22.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "cartoon-ink-hover": {
+        "role": "neutral",
+        "displayName": "Leader Hover",
+        "canonical": "oklch(26.9% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "cartoon-line": {
+        "role": "neutral",
+        "displayName": "Cartoon Line",
+        "canonical": "oklch(34.8% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "cartoon-paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "oklch(98.8% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "cartoon-grey": {
+        "role": "neutral",
+        "displayName": "Cartoon Grey",
+        "canonical": "oklch(82.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "cartoon-marigold": {
+        "role": "primary",
+        "displayName": "Marigold",
+        "canonical": "oklch(84.2% 0.165 91.3)",
+        "tonalRamp": [
+          "#100a00",
+          "#2e2300",
+          "#4e3e00",
+          "#725b02",
+          "#9b7d05",
+          "#c6a00a",
+          "#f2c521",
+          "#ffeebd"
+        ]
+      },
+      "cartoon-marigold-light": {
+        "role": "primary",
+        "displayName": "Marigold Light",
+        "canonical": "oklch(89.1% 0.159 93.2)",
+        "tonalRamp": [
+          "#100b00",
+          "#2d2300",
+          "#4d3e02",
+          "#705c04",
+          "#997d00",
+          "#c4a104",
+          "#eec733",
+          "#ffeeb7"
+        ]
+      },
+      "cartoon-vermilion": {
+        "role": "secondary",
+        "displayName": "Vermilion",
+        "canonical": "oklch(65.1% 0.200 34.6)",
+        "tonalRamp": [
+          "#1d0200",
+          "#460b00",
+          "#751901",
+          "#a82700",
+          "#dd4118",
+          "#ff7554",
+          "#feb6a4",
+          "#fee9e4"
+        ]
+      },
+      "cartoon-ultramarine": {
+        "role": "secondary",
+        "displayName": "Ultramarine",
+        "canonical": "oklch(44.6% 0.179 266.0)",
+        "tonalRamp": [
+          "#010035",
+          "#060077",
+          "#142f9c",
+          "#2d52c0",
+          "#4d77e9",
+          "#7aa1ff",
+          "#b3caff",
+          "#e7effe"
+        ]
       }
     },
     "typographyMeta": {
@@ -1185,6 +1335,30 @@
       "mono": {
         "displayName": "Mono",
         "purpose": "The design switcher label and blog code (inline in the accent-text token, blocks in Shiki's github-dark-default on the --code-bg panel) in every world."
+      },
+      "cartoon-display": {
+        "displayName": "Cartoon Display",
+        "purpose": "The hero name in Cartoon: Londrina Solid 900, lettered to fill its column (container units), one word per line, each letter at its own tilt and rise."
+      },
+      "cartoon-headline": {
+        "displayName": "Cartoon Headline",
+        "purpose": "Section titles in Cartoon: Londrina Solid 900 caps, flush left, hand-lettered per letter, dropping in on a view timeline."
+      },
+      "cartoon-credit": {
+        "displayName": "Cartoon Credit",
+        "purpose": "Credit names in Cartoon (companies, figures): the lettering over the function in small caps."
+      },
+      "cartoon-ticket": {
+        "displayName": "Cartoon Ticket",
+        "purpose": "Ticket labels in Cartoon: Londrina Solid 900 caps at 1.2rem (1rem small, clamp(1.5rem, 6vw, 4rem) on the Contact ticket)."
+      },
+      "cartoon-body": {
+        "displayName": "Cartoon Body",
+        "purpose": "Running copy in Cartoon: Jost Variable at 1.0625rem, line-height 1.55, capped at 60ch."
+      },
+      "cartoon-caps": {
+        "displayName": "Cartoon Caps",
+        "purpose": "The credit's function line, figure labels, institutions: Jost 600 caps at 0.8125rem, 0.14em tracking, under the name it bills."
       }
     },
     "shadows": [
@@ -1324,6 +1498,31 @@
         "name": "curtains-new-worlds",
         "value": "Engineer reveal 1.25s / total 1.3s (pages back from (END) every 85ms from 0.7s; quick 0.55s: every 50ms from 0.2s); Terminal reveal 1.3s, lifts on site-hero:ready, cap 2.2s (quick: lifts at 0.45s or on site-hero:ready, cap 1.2s); Tape reveal 0.4s (hero hydrates underneath, already in place), fades 0.35s when the reader is done (~1.35s after the font wait), cap 2.6s (quick: role burst, fade 0.28s, cap 1.4s)",
         "purpose": "Arrival and quick-change timing for Engineer, Terminal, and Tape in SiteIntro.astro."
+      },
+      {
+        "name": "cartoon-on-twos",
+        "value": "steps(1, end) keyframes held per pose; cartoon-drop 0.36s (letters, 45ms apart from 0.1s), cartoon-pop 0.44s at 0.15s (painter), cartoon-disc 0.3s at 0.08s, cartoon-roll steps(6) 0.5s at 0.45s (band), rest steps(2) 0.24s from 0.3s; ticket hover steps(2) 0.16s rotate(-2deg)",
+        "purpose": "Cartoon hero entrance and hovers: limited animation, never tweened."
+      },
+      {
+        "name": "cartoon-view-titles",
+        "value": "animation-timeline: view(); letters entry 10% + i*3% to 45% + i*3%; the peek pops entry 45% to 85%",
+        "purpose": "Cartoon section titles drop in letter by letter as each card scrolls in, then the caricature pops up."
+      },
+      {
+        "name": "cartoon-boil",
+        "value": "three SVG ink filters cycled 0.42s steps(1); eyes blink 5.2s from 2.4s; wave 3.6s on held poses",
+        "purpose": "The caricature's line boil, blink, and wave (off under reduced motion)."
+      },
+      {
+        "name": "cartoon-iris",
+        "value": "@property --cartoon-iris 75vmax to min(42vw, 15rem), view() entry 0% to cover 55%",
+        "purpose": "The footer's iris closes on THE END as the page runs out."
+      },
+      {
+        "name": "cartoon-curtain",
+        "value": "leader card lettered in, cut at 0.95s; iris opens 1.0s to 1.6s cubic-bezier(0.55, 0, 0.8, 0.35) centred on the painter's face (cartPlace); reveal 1s, total 1.65s (quick: no card, iris 0.2s to 0.7s, total 0.75s)",
+        "purpose": "Cartoon's intro curtain and quick-change in SiteIntro.astro."
       }
     ],
     "breakpoints": [
@@ -1493,30 +1692,55 @@
       "description": "Tape's Email key (orange, Tape Black caps, feed holes down both edges) beside the outline \"View my work\" and CV keys that fill on hover.",
       "html": "<p class=\"ds-tkeys\"><a class=\"ds-tkey\" href=\"#\">Email</a><a class=\"ds-tkey ds-tkey--out\" href=\"#experience\">View my work</a><a class=\"ds-tkey ds-tkey--out\" href=\"#\">Download CV</a></p>",
       "css": ".ds-tkeys{display:flex;gap:.75rem;background:#0b0b0b;padding:1rem;margin:0;font:800 1.1875rem/1.45 'Big Shoulders Text',sans-serif;text-transform:uppercase;letter-spacing:.08em}.ds-tkey{display:inline-block;background-color:#ff5a1f;background-image:radial-gradient(circle,#0b0b0b 0 2px,transparent 2.5px),radial-gradient(circle,#0b0b0b 0 2px,transparent 2.5px);background-size:10px 10px;background-repeat:no-repeat space;background-position:3px 0,right 3px top 0;color:#0b0b0b;border:2px solid #ff5a1f;padding:.6rem 1.6rem;text-decoration:none}.ds-tkey:hover{background-color:#ff7a47;border-color:#ff7a47}.ds-tkey--out{background:transparent;color:#ff5a1f}.ds-tkey--out:hover{background:#ff5a1f;color:#0b0b0b}.ds-tkey:focus-visible{outline:2px solid #ff5a1f;outline-offset:2px}"
+    },
+    {
+      "name": "Cartoon Tickets",
+      "kind": "button",
+      "refersTo": "cartoon-ticket-fill",
+      "description": "Paper tickets on the hero's Vermilion card: the printed Email ticket beside outline tickets that print their fill on hover, every ticket giving a little shake on twos.",
+      "html": "<p class=\"ds-ctix\"><a class=\"ds-ctk ds-ctk--fill\" href=\"#\">Email</a><a class=\"ds-ctk\" href=\"#experience\">View my work</a><a class=\"ds-ctk\" href=\"#\">Download CV</a></p>",
+      "css": ".ds-ctix{display:flex;flex-wrap:wrap;gap:.75rem;margin:0;padding:1.25rem;background:#f0532d}.ds-ctk{display:inline-flex;align-items:center;justify-content:center;min-height:2.75rem;padding:.38em 1.05em .42em;font:900 1.2rem/1 'Londrina Solid',sans-serif;letter-spacing:.03em;text-transform:uppercase;text-decoration:none;color:#121212;background:transparent;border:3px solid currentColor;border-radius:6px 14px 8px 16px/14px 6px 16px 8px;transition:background-color .16s steps(2,end),color .16s steps(2,end),transform .16s steps(2,end)}.ds-ctk:hover{background:#121212;color:#f0532d;transform:rotate(-2deg)}.ds-ctk--fill{background:#121212;border-color:#121212;color:#f0532d}.ds-ctk--fill:hover{transform:rotate(-2deg) scale(1.04)}.ds-ctk:focus-visible{outline:2px solid #121212;outline-offset:2px}"
+    },
+    {
+      "name": "Cartoon Credit Card",
+      "kind": "card",
+      "refersTo": "cartoon-title-card",
+      "description": "A Cartoon title card: one flat field, its top edge cut by hand over the card above, a credit inside (the company lettered, the role in small caps, the period with a Now showing badge, the result, a small Details ticket).",
+      "html": "<section class=\"ds-ccard\"><article><h3 class=\"ds-ccard__name\">Seva / Appointally</h3><p class=\"ds-ccard__role\">Senior Full-Stack Engineer</p><p class=\"ds-ccard__when\">Apr 2025 - Present <span class=\"ds-ccard__showing\">Now showing</span></p><p class=\"ds-ccard__res\">19 microservices on Clean Architecture and CQRS</p><button class=\"ds-ccard__tk\" aria-expanded=\"false\">+ Details</button></article></section>",
+      "css": ".ds-ccard{position:relative;margin-top:24px;background:#f3c623;color:#121212;padding:3rem 1.5rem;font:400 1.0625rem/1.55 'Jost Variable',Jost,sans-serif}.ds-ccard::before{content:'';position:absolute;left:0;right:0;top:-23px;height:24px;background:#f3c623;-webkit-mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24V12C46 5 92 16 140 10S236 3 290 8S380 17 432 11S532 4 640 12V24Z'/%3E%3C/svg%3E\") repeat-x 0 0/640px 24px;mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24V12C46 5 92 16 140 10S236 3 290 8S380 17 432 11S532 4 640 12V24Z'/%3E%3C/svg%3E\") repeat-x 0 0/640px 24px}.ds-ccard__name{margin:0;font:900 clamp(2.1rem,4.4vw,3.1rem)/.95 'Londrina Solid',sans-serif;letter-spacing:.01em}.ds-ccard__role{margin:.55rem 0 0;font-weight:600;font-size:.8125rem;letter-spacing:.14em;text-transform:uppercase}.ds-ccard__when{margin:.3rem 0 0;font-weight:500;display:flex;gap:.75rem;align-items:center}.ds-ccard__showing{padding:.12rem .55rem .16rem;background:#121212;color:#f3c623;border-radius:3px 8px 4px 9px/8px 3px 9px 4px;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.ds-ccard__res{margin:.9rem 0 0;font-size:1.1875rem;font-weight:600;line-height:1.4}.ds-ccard__tk{margin-top:1rem;min-height:2.25rem;padding:.3em .85em .34em;font:900 1rem/1 'Londrina Solid',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#121212;background:transparent;border:2.5px solid currentColor;border-radius:6px 14px 8px 16px/14px 6px 16px 8px;cursor:pointer;transition:background-color .16s steps(2,end),color .16s steps(2,end),transform .16s steps(2,end)}.ds-ccard__tk:hover{background:#121212;color:#f3c623;transform:rotate(-2deg)}.ds-ccard__tk:focus-visible{outline:2px solid #2547b5;outline-offset:2px}"
+    },
+    {
+      "name": "Cartoon Shorts",
+      "kind": "card",
+      "refersTo": "cartoon-short",
+      "description": "Personal repositories as shorts: small title cards in their own fields, hand-cut corners, pasted at a slight tilt that straightens on hover or focus.",
+      "html": "<ul class=\"ds-cshorts\"><li class=\"ds-cshort ds-cshort--u\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, eight worlds over one script.</p><ul class=\"ds-ctags\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-cshort ds-cshort--m\"><h4><a href=\"#\">Dotfiles</a></h4><p>A shell set up the same way everywhere.</p><ul class=\"ds-ctags\"><li>Zsh</li></ul></li></ul>",
+      "css": ".ds-cshorts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.75rem;margin:0;padding:2rem 1.5rem;list-style:none;background:#f0532d;font:400 1rem/1.55 'Jost Variable',Jost,sans-serif}.ds-cshort{padding:1.5rem 1.4rem 1.4rem;border-radius:5px 12px 6px 14px/12px 5px 14px 6px;transition:transform .2s steps(2,end)}.ds-cshort--u{background:#2547b5;color:#fbfbfb;transform:rotate(-1.4deg)}.ds-cshort--m{background:#f3c623;color:#121212;transform:rotate(1deg)}.ds-cshort:hover,.ds-cshort:focus-within{transform:rotate(0)}.ds-cshort h4{margin:0;font:900 clamp(1.7rem,2.6vw,2.1rem)/.95 'Londrina Solid',sans-serif;text-transform:uppercase}.ds-cshort h4 a{color:inherit;text-decoration:none}.ds-cshort h4 a:hover{text-decoration:underline wavy 2px;text-underline-offset:6px}.ds-cshort h4 a:focus-visible{outline:2px solid currentColor;outline-offset:2px}.ds-cshort p{margin:.75rem 0 0}.ds-ctags{display:flex;flex-wrap:wrap;gap:.4rem .5rem;margin:.9rem 0 0;padding:0;list-style:none}.ds-ctags li{border:2px solid currentColor;border-radius:3px 8px 4px 9px/8px 3px 9px 4px;padding:.05rem .55rem .1rem;font-size:.8125rem;font-weight:600;letter-spacing:.02em}"
     }
   ],
   "narrative": {
     "northStar": "The Repertoire",
-    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, seven staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of seven complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, Arcade, Terminal, and Tape. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the studio, the arcade cabinet, the shell session, and the punched teletype tape). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all seven: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, and Tape also stage their own About and footer, and the last three their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain.",
+    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, eight staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of eight complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, and Cartoon. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the studio, the arcade cabinet, the shell session, the punched teletype tape, and the opening titles of a 1960s cartoon). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all eight: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows, Cartoon's five paper fields); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, Tape, and Cartoon also stage their own About and footer, and the last four their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Cartoon turns the strategy over: colour is the field, not the accent; every section is a title card drenched in one of five flat paper colours, and on each card the accent is the one colour that card names safe for small text. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain.",
     "keyCharacteristics": [
-      "Seven complete worlds, one content source, switched at runtime and persisted per visitor.",
+      "Eight complete worlds, one content source, switched at runtime and persisted per visitor.",
       "One accent per world, spent on interactive and labeling elements only; Terminal's prompt green is its one sanctioned second voice.",
-      "Display typography carries identity: monospace, typewriter, geometric sans, heavy grotesk, display grotesk, slab poster, or condensed caps.",
-      "Flat, border-defined surfaces in six worlds; Creative alone lifts with shadow.",
+      "Display typography carries identity: monospace, typewriter, geometric sans, heavy grotesk, display grotesk, slab poster, condensed caps, or hand-lettered cartoon titling.",
+      "Flat surfaces in seven worlds: border-defined in six, drenched cut-paper fields in Cartoon, where depth is only paper lying on paper. Creative alone lifts with shadow.",
       "Shared reveal motion (fade, 30px rise, 0.5s, once) with a signature per world, staged in the hero.",
       "WebGL in one world only (Avant-garde's particle field), mounted only while that world is active and backed by a CSS fallback.",
-      "Candy stays on the cards: Arcade's candy colors are surfaces, never UI chrome.",
+      "Candy stays on the cards: Arcade's candy colors are surfaces, never UI chrome. Cartoon's fields are surfaces too, one per section.",
+      "Limited animation in Cartoon: poses held on twos (`steps()`), never tweened.",
       "Bilingual by construction: every text node renders both locales and CSS shows one."
     ],
     "rules": [
       {
         "name": "The One Accent Rule",
-        "body": "Each world has exactly one accent and spends it on buttons, labels, rules, hover and selection states. Body copy, headings, and card surfaces never take the accent. Arcade's candy colors are surfaces with Cabinet Black text on them, never accents. Terminal's prompt green is the shell's own prompt colour, held to the prompt user, active periods, JSON values, and the email key; it never becomes a second link or hover colour.",
+        "body": "Each world has exactly one accent and spends it on buttons, labels, rules, hover and selection states. Body copy, headings, and card surfaces never take the accent. Arcade's candy colors are surfaces with Cabinet Black text on them, never accents. Terminal's prompt green is the shell's own prompt colour, held to the prompt user, active periods, JSON values, and the email key; it never becomes a second link or hover colour. Cartoon's fields are surfaces, like the candy; on each card the accent is the one safe colour that card names.",
         "section": "colors"
       },
       {
         "name": "The Own Palette Rule",
-        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Creative shadow in Editorial, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal.",
+        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Creative shadow in Editorial, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal, no Cartoon field outside Cartoon.",
         "section": "colors"
       },
       {
@@ -1535,13 +1759,18 @@
         "section": "colors"
       },
       {
+        "name": "The Field Rule (Cartoon)",
+        "body": "Every card names four colours: its field (`--field`), its text (`--on-field`), a safe colour for small text, focus rings, and hovers (`--safe`, 4.5:1 or more on the field), and a display colour for large type only (`--hi`). The card re-points `--text`, `--text-secondary`, `--accent`, `--accent-text`, `--on-accent`, `--border`, and Tailwind's `--color-*` utilities to them, so shared islands re-skin per card. Paper on Vermilion (3.4:1) is display only, never running text. A new card takes only one of the measured pairs.",
+        "section": "colors"
+      },
+      {
         "name": "The Heading Slot Rule",
         "body": "Headings in shared components never hardcode a family. They use the heading slot (`--font-heading`) so a world can swap the voice in one token. A world's own stylesheet (`src/styles/worlds/<world>.css`) may name its faces directly, because those classes never render outside it.",
         "section": "typography"
       },
       {
         "name": "The Loud Display, Quiet Body Rule",
-        "body": "Identity lives in the display size and face. Body and label sizes stay between 0.75rem and 1.125rem in every world, except Tape's condensed body at 1.1875rem and its 1.25rem skill rows, which set the same measure a regular face sets at 1rem.",
+        "body": "Identity lives in the display size and face. Body and label sizes stay between 0.75rem and 1.125rem in every world, except Tape's condensed body at 1.1875rem and its 1.25rem skill rows, which set the same measure a regular face sets at 1rem, and Cartoon's credit results at 1.1875rem.",
         "section": "typography"
       },
       {
@@ -1550,14 +1779,29 @@
         "section": "typography"
       },
       {
+        "name": "The Credits Rule (Cartoon)",
+        "body": "A credit sets the name in the lettering over its function in small caps. A sub-credit adds its employer as a second small-caps line; a figure is billed the same way, the number as the name and what it counts beneath. Nothing labels a title from above.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lettered Rule (Cartoon)",
+        "body": "Display text is hand-lettered per letter (fixed tilt and rise patterns, offset by a seed per title so neighbours differ) and words never break inside. The letters are drawn for the eye and hidden from assistive tech; the whole text is read once from an `sr-only` span.",
+        "section": "typography"
+      },
+      {
         "name": "The Same Bones Rule",
-        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills; Editorial also stages its own About and footer (its own Contact was retired on 2026-10-11 at the user's request, so it uses the shared one); Engineer, Terminal, and Tape stage their own About, Education, Projects, Contact, and footer, plus their own section headings in Experience and Skills (since 2026-10-11, when the user decided to keep the worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world> <world>\"` (space-separated) and the world's version `data-design-show=\"<world>\"`. A world's own extras (Engineer's seams and pager) sit in `HomePage.astro` behind `data-design-show`.",
+        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills; Editorial also stages its own About and footer (its own Contact was retired on 2026-10-11 at the user's request, so it uses the shared one); Engineer, Terminal, Tape, and Cartoon stage their own About, Education, Projects, Contact, and footer, plus their own section headings in Experience and Skills (since 2026-10-11, when the user decided to keep the worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world> <world>\"` (space-separated) and the world's version `data-design-show=\"<world>\"`. A world's own extras (Engineer's seams and pager) sit in `HomePage.astro` behind `data-design-show`.",
         "section": "layout"
       },
       {
         "name": "The 896 Rule",
-        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px. Engineer narrows the whole page, hero included, to a 72ch column, the width of a plain-text draft.",
+        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px. Engineer narrows the whole page, hero included, to a 72ch column, the width of a plain-text draft. Cartoon's fields run full bleed, but their content keeps the column; only the shorts widen to 1024px for three tilted cards.",
         "section": "layout"
+      },
+      {
+        "name": "The Paper on Paper Rule (Cartoon)",
+        "body": "Depth in Cartoon comes only from one cut shape lying over another. A card, ticket, short, or figure never casts a shadow, takes a gradient, or blurs what is behind it; a new layer earns its place by overlapping.",
+        "section": "elevation"
       },
       {
         "name": "The Two-Radius Rule",
@@ -1567,6 +1811,11 @@
       {
         "name": "The Holes Are Data Rule (Tape)",
         "body": "Every punched strip encodes real text, one column per character in its ASCII bits (channel 1 at the bottom, the feed hole between channels 3 and 4), via `TapeStrip`. A blank leader carries feed holes only. Never draw random holes.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Hand-Cut Rule (Cartoon)",
+        "body": "Inside the cards nothing is machine-true: edges, rules, tickets, tags, and bullets are cut or drawn, with unequal corners and wandering lines. The iris is the only true circle, because it is the camera's, not the paper's.",
         "section": "shapes"
       }
     ],
@@ -1580,13 +1829,17 @@
       "Do respect `prefers-reduced-motion`, and make new motion join the reveal grammar (fade, 30px rise, 0.5s, once) or the world's own signature.",
       "Do fork a shared section only when a world's identity needs it, inside the shared section with `data-design-hide` / `data-design-show` (The Same Bones Rule).",
       "Do carry state as a mark or a word as well as a colour (Tape's band and cross, Terminal's \"●\" and \"Present\", `aria-pressed`, `aria-expanded`).",
+      "Do give a new Cartoon card a field, a text colour, a safe colour, and a display colour from the measured pairs (The Field Rule), and keep Paper on Vermilion to display type (3.4:1).",
+      "Do animate Cartoon on held poses (`steps()`), never tweened, and keep its depth to overlap (The Paper on Paper Rule).",
       "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a CSS fallback, as Avant-garde does."
     ],
     "donts": [
-      "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no prompt green outside Terminal, no Tape Orange outside Tape (The Own Palette Rule).",
+      "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no prompt green outside Terminal, no Tape Orange outside Tape, no Cartoon field outside Cartoon (The Own Palette Rule).",
       "Don't fork content per world. Copy, data, order, and links come from `src/data` and `src/i18n` only; a world may restage them, never rewrite or reorder them.",
       "Don't add a fill to Engineer beyond the Email key and reverse video, or a size beyond the text size and the hero title (The Reverse Video Rule, The One Size Rule).",
-      "Don't punch decorative noise into Tape: every strip encodes its text (The Holes Are Data Rule)."
+      "Don't punch decorative noise into Tape: every strip encodes its text (The Holes Are Data Rule).",
+      "Don't give a Cartoon card a shadow, a gradient, a blur, a frame, halftone dots, or comic-book lettering effects: it is cut paper, not a comic page or a neo-brutalist card. Strokes stay drawn lines on tickets and tags in the card's own colour.",
+      "Don't label a Cartoon title from above; a credit is the name over its function in small caps (The Credits Rule)."
     ]
   }
 }

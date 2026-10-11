@@ -1,0 +1,92 @@
+{
+  "title": "O mundo dos desenhos dos anos 60",
+  "question": "A rolagem sorteou A Perseguição. Fique com ela, escolha uma alternativa ou sorteie de novo. (Três desafiantes esperam no sorteio: xilogravura Dong Hồ, BBS ANSI, ponte de VU.)",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "A Perseguição",
+      "kicker": "THE ROLL",
+      "lineage": "Hanna-Barbera, 1960–69: a perseguição em animação limitada, com o mesmo cenário passando de novo atrás",
+      "thesis": "Rolar a página é a câmera panorâmica: sua caricatura corre pela carreira enquanto o mesmo corredor pintado se repete atrás.",
+      "palette": ["#3a9a93", "#e3a72f", "#cc5a6c", "#2a2140", "#161414"],
+      "materials": ["guache chapado com pincel seco", "contorno preto fora de registro", "célula de animação"],
+      "viewport": "Corredor pintado em tela cheia; você correndo com pernas em roda, poeira e linhas de velocidade; o nome numa cartela de título; Email e CV como placas na parede.",
+      "risk": "Caricatura em SVG à mão pode sair tosca; o pan lateral não pode custar a leitura no celular.",
+      "raised": [
+        {
+          "from": "challenger-papercut",
+          "raise": "Profundidade só por sobreposição de formas chapadas: sem degradê, sem sombra, sem blur."
+        },
+        {
+          "from": "challenger-ukiyoe",
+          "raise": "Controles inativos são só contorno; o ativo imprime sua chapa de cor, levemente fora de registro."
+        }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "Os Créditos de Abertura",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "Aberturas de desenho dos anos 60 (DePatie-Freleng, UPA): cartelas de título em papel recortado",
+      "thesis": "O portfólio inteiro como a abertura de um desenho: cada seção é uma cartela de título e sua caricatura contracena com as letras.",
+      "palette": ["#f0532d", "#2547b5", "#f3c623", "#121212", "#fbfbfb"],
+      "materials": ["papel recortado", "letreiro desenhado à mão", "campos de cor chapados"],
+      "viewport": "Uma cartela de cor chapada: o nome desenhado gigante e você puxando a linha do cargo por uma corda.",
+      "risk": "Familiar: é onde a maioria dos temas 'retrô anos 60' aterrissa; cartelas de tela cheia deixam a leitura no celular mais lenta."
+    },
+    {
+      "id": "challenger-multiplane",
+      "label": "Multiplano",
+      "verdict": "competitive",
+      "lineage": "Câmera multiplano com linha de xerox, como em 101 Dálmatas (1961)",
+      "thesis": "Rolar é a câmera descendo pelos planos de um cenário em camadas; o texto mora sempre na célula da frente.",
+      "palette": ["#46605a", "#9bb0a5", "#c8a14a", "#b5523b", "#1a1a1a"],
+      "materials": ["células sobrepostas", "linha de xerox", "fundos chapados"],
+      "viewport": "Uma cidade em quatro planos; seu nome na célula da frente, você num plano do meio.",
+      "case": "Segura a clareza (texto sempre no plano da frente), mas perde identificação: lê como cinema da Disney, não como a TV dos anos 60.",
+      "risk": "Parallax pesado no celular; pode sair elegante e pouco 'desenho animado'.",
+      "hero": "https://impeccable.style/worlds/cards/cinema-cinematography-editing-multiplane-cel-dawn-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/cinema-cinematography-editing-multiplane-cel-dawn.webp"
+    },
+    {
+      "id": "challenger-papercut",
+      "label": "Recorte em camadas",
+      "verdict": "declined",
+      "lineage": "Recorte de papel de Łowicz, cores coladas camada sobre camada",
+      "thesis": "Cada seção cola uma camada de papel colorido sobre a anterior.",
+      "palette": ["#1e3a6e", "#e04b3a", "#f2b53a", "#2f8a55"],
+      "materials": ["papel colado em camadas"],
+      "viewport": "Uma roseta simétrica recortada com o nome ao centro.",
+      "case": "Perde nos dois eixos: a roseta simétrica não carrega texto longo e não lê como desenho animado.",
+      "kept": "Profundidade só por sobreposição, nunca por tom.",
+      "risk": "Folclore no lugar de desenho animado.",
+      "hero": "https://impeccable.style/worlds/cards/craft-making-lowicz-layered-papercut-hero.webp"
+    },
+    {
+      "id": "challenger-ukiyoe",
+      "label": "Registro de xilogravura",
+      "verdict": "declined",
+      "lineage": "Ukiyo-e: cada cor uma matriz, registrada contra o contorno",
+      "thesis": "A página se imprime cor por cor sobre um contorno que nunca se move.",
+      "palette": ["#24365e", "#c8442f", "#7a5236", "#161616"],
+      "materials": ["matrizes de cor", "contorno preto"],
+      "viewport": "O contorno do nome primeiro, as cores caindo uma a uma.",
+      "case": "Perde nos dois eixos: lê como gravura japonesa, não como desenho dos anos 60, e a impressão por camadas atrasa a leitura.",
+      "kept": "Contorno no inativo, chapa de cor no ativo.",
+      "risk": "Erudito demais para um tema de desenho.",
+      "hero": "https://impeccable.style/worlds/cards/graphic-worlds-publishing-ukiyoe-block-registration-hero.webp"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "buildPath": { "value": "code", "toggle": false },
+  "canon": true,
+  "canonCard": {
+    "label": "O padrão da categoria",
+    "thesis": "O tema 'cartoon' que todo mundo faz, executado sem erro.",
+    "palette": ["#ffd23f", "#ff4f4f", "#3b82f6", "#111111", "#ffffff"],
+    "materials": ["contorno preto grosso", "sombra dura deslocada", "fonte gordinha"],
+    "viewport": "Nome em fonte bolha gigante, cards com borda preta e sombra deslocada, estrelas de 'POW'.",
+    "risk": "Indistinguível de qualquer site neo-brutalista 'cartoon'; lê como gibi, não como animação dos anos 60."
+  },
+  "steer": true
+}

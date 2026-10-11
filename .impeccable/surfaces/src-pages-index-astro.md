@@ -7,7 +7,7 @@ related_targets: ["src/components/sections/Hero.astro","src/components/sections/
 
 # Home surface
 
-Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: seven worlds (Editorial, Avant-garde, Engineer, Creative, Arcade, Terminal, Tape), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
+Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: eight worlds (Editorial, Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
 
 ## Direction contract: Engineer, "draft-akira" (2026-10-11)
 
@@ -34,6 +34,15 @@ OWN-WORLD: true black ground, tape orange carrying a third of the first screen, 
 STORY: the visitor reads the name in a punched window, sees the career as two tape tracks over the years (concurrent roles honest), opens each role's details hung on pins, and ends at the trailer: blank tape, END OF TAPE.
 FIRST VIEWPORT: white name window left; employers, Email key and CV right; tagline; the full-bleed tape punching the name and role; the flag; the invitation.
 FORM: fused challenger operate-a-cutting-bench-select-rail, bolder re-roll 1 of seed 9f180fc9.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Direction contract: Cartoon, the opening titles (2026-10-11)
+
+THESIS: the portfolio as a 1960s cartoon's opening titles: every section a cut-paper title card and Akira's caricature playing with the type. It refuses comic-book pop art (halftone, POW) and the neo-brutalist cartoon (thick borders, hard offset shadows).
+OWN-WORLD: drenched flat fields (vermilion, ultramarine, marigold, ink, paper), cut-paper shapes, depth only by overlap; hand-lettered display, credits grammar (function in small caps over the name); controls are paper tickets in outline that print their fill on hover.
+STORY: the visitor watches the credits: Starring, the roles as credits (both current jobs share one card), the cast of skills, personal repos as shorts, and THE END inside an iris that closes as the page ends.
+FIRST VIEWPORT: vermilion card; "Starring" over ALEXANDRE AKIRA hand-lettered across the width; the caricature paints the role's stripe with a roller; employers, Email, View my work, CV, socials.
+FORM: opening title sequence, candidate 1 of 7 (Impeccable's pick); seed key aae49696.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Retired worlds (2026-10-10)

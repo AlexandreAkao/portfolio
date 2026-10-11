@@ -12,3 +12,13 @@ own output reproduced with `--from <key> --candidate-count 7` against the same c
 Both rounds were presented on the serve-question decision page (key `6affb0f2`, the second round
 delivered with `--update`) and both telemetry pings were sent with `--kind assigned`. The payloads
 that rendered the cards are archived beside this file as `direction-a.json` and `direction-b.json`.
+
+## Cartoon (2026-10-11)
+
+Rolled with `impeccable concept-seed --scope direction --mode experience` for a new eighth world, the brief pinned to
+1960s cartoons (key `aae49696`, assigned index 3: the Hanna-Barbera chase). The user chose Impeccable's pick, the
+opening title sequence (candidate 1 of 7), through the structured question after the decision page closed unanswered;
+the telemetry ping went with `--kind pick`. Challengers dealt: Dong Hồ shell-ground print, ukiyo-e block registration,
+ANSI BBS, VU-meter bridge, multiplane cel dawn, Łowicz papercut (multiplane competitive; papercut and ukiyo-e declined;
+the other three left in the re-roll pool). The payload is archived as `direction-cartoon.json`. Code-led: no image
+generation was available.
