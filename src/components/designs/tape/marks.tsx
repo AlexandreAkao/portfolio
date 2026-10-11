@@ -18,7 +18,7 @@ export function Cross({ className = '' }: MarkProps) {
 export function Band({ className = '' }: MarkProps) {
   return (
     <svg className={className} width="22" height="12" viewBox="0 0 22 12" aria-hidden="true" focusable="false">
-      <rect x="1" y="1" width="20" height="10" fill="#0b0b0b" stroke="currentColor" strokeWidth="2" />
+      <rect x="1" y="1" width="20" height="10" style={{ fill: 'var(--window-ink)' }} stroke="currentColor" strokeWidth="2" />
       <rect x="1" y="7" width="20" height="4" fill="currentColor" />
     </svg>
   );
