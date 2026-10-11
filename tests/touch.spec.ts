@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-// Engineer is left out while its rework happens on another branch.
-const worlds = ['editorial', 'avantgarde', 'creative', 'arcade'];
+const worlds = ['editorial', 'avantgarde', 'engineer', 'creative', 'arcade', 'terminal', 'tape'];
 
 /** Every link and button a visitor can reach on the home, smaller than a thumb (44px) in either direction. */
 function smallTargets() {

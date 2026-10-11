@@ -1,0 +1,277 @@
+/* Engineer: the portfolio as an Internet-Draft read in `less`.
+   One face at one size; hierarchy is numbering, position, a 3-character indent
+   and bold. The only fills are reverse video (figures, the pager line) and the
+   blue Email key. Every class here is used only inside the Engineer world. */
+
+[data-design='engineer'] #main-content > section:not(#hero) {
+  padding-block: 2.5rem;
+}
+
+.rfc-col {
+  max-width: 72ch;
+  margin-inline: auto;
+  font-family: 'Courier Prime', monospace;
+  font-size: clamp(0.9375rem, 0.86rem + 0.3vw, 1.0625rem);
+  line-height: 1.55;
+  color: var(--text);
+}
+.rfc-col a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+.rfc-col a:hover {
+  color: var(--accent-hover);
+}
+
+/* Headings: the size of the text, bold, flush left, numbered */
+.rfc-h {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 1ch;
+  margin: 1.75em 0 0.4em;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.55;
+}
+.rfc-h.rfc-sec {
+  margin-top: 0;
+}
+.rfc-n {
+  display: inline-block;
+  min-width: 5ch;
+}
+.rfc-st {
+  margin-left: auto;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+.rfc-st[data-active] {
+  color: var(--text);
+}
+
+.rfc-ind {
+  margin: 0 0 0.75em 3ch;
+  max-width: 69ch;
+}
+.rfc-by {
+  margin: 0 0 0.5em 3ch;
+  color: var(--text-secondary);
+}
+.rfc-sub {
+  margin-left: 3ch;
+}
+.rfc-muted {
+  color: var(--text-secondary);
+}
+
+/* Figures read as `less` search matches: reverse video */
+.rfc-mark {
+  background: var(--text);
+  color: var(--bg);
+  padding: 0 0.2ch;
+}
+
+/* The one filled control: the Email key */
+.rfc-col a.rfc-key {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--on-accent);
+  text-decoration: none;
+  padding: 0.1em 1ch;
+}
+.rfc-col a.rfc-key:hover {
+  background: var(--accent-hover);
+  color: var(--on-accent);
+}
+.rfc-col a.rfc-key.rfc-key--big {
+  padding: 0.6em 3ch;
+  font-weight: 700;
+}
+
+.rfc-tog {
+  font: inherit;
+  color: var(--accent);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.rfc-tog:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* Lists in the RFC way: "o" bullets with a hanging indent */
+.rfc-bl {
+  list-style: none;
+  padding: 0;
+}
+.rfc-bl li {
+  padding-left: 3ch;
+  text-indent: -3ch;
+  margin-bottom: 0.3em;
+}
+.rfc-bl li::before {
+  content: 'o  ';
+  white-space: pre;
+}
+
+/* Table of contents and project lines: dot leaders */
+.rfc-ldr {
+  display: flex;
+  align-items: baseline;
+  gap: 1ch;
+}
+.rfc-col a.rfc-ldr {
+  color: var(--text);
+  text-decoration: none;
+}
+.rfc-ldr i {
+  flex: 1;
+  min-width: 2ch;
+  border-bottom: 2px dotted var(--border);
+}
+.rfc-col a.rfc-ldr:hover span:first-child {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.rfc-table {
+  margin: 0.5em 0 0.25em 3ch;
+  border-collapse: collapse;
+}
+.rfc-table th,
+.rfc-table td {
+  border: 1px solid var(--text);
+  padding: 0.1em 2ch 0.1em 1ch;
+  text-align: left;
+}
+.rfc-cap {
+  margin: 0.4em 0 1.25em;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.rfc-figure {
+  margin: 0.75em 0 0 3ch;
+}
+.rfc-figure pre {
+  margin: 0;
+  padding: 1em 2ch;
+  border: 1px solid var(--text);
+  background: var(--card);
+  font: inherit;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+/* Each JSON line wraps under itself, two characters in */
+.rfc-json__ln {
+  display: block;
+}
+.rfc-json__ln--item {
+  padding-left: 6ch;
+  text-indent: -4ch;
+}
+
+.rfc-refs {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4em 3ch;
+  margin: 0 0 0.75em 3ch;
+}
+.rfc-refs dt {
+  font-weight: 700;
+}
+.rfc-refs dd {
+  margin: 0;
+}
+
+/* Page break: the footer of one page, the form feed, the header of the next */
+.rfc-seam {
+  color: var(--text-secondary);
+}
+.rfc-seam__ln {
+  display: flex;
+  justify-content: space-between;
+  gap: 2ch;
+  font-size: 0.94em;
+}
+.rfc-seam__ff {
+  margin: 0.6em 0;
+  border-top: 1px dashed var(--border);
+}
+
+/* The pager's status line, pinned to the foot of the screen */
+.rfc-pager {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 40;
+  display: flex;
+  justify-content: space-between;
+  gap: 3ch;
+  padding: 0.35rem 1.5rem calc(0.35rem + env(safe-area-inset-bottom));
+  background: var(--text);
+  color: var(--bg);
+  font: 0.875rem/1.4 'Courier Prime', monospace;
+}
+.rfc-pager .rfc-n {
+  min-width: 0;
+  margin-right: 1ch;
+}
+.rfc-pager__file,
+.rfc-pager__sec {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.rfc-pager__file {
+  flex: 0 1 auto;
+  min-width: 6ch;
+}
+.rfc-pager__pct {
+  flex: none;
+}
+.rfc-pager__pct[data-end] {
+  background: var(--bg);
+  color: var(--text);
+  padding: 0 0.6ch;
+}
+.rfc-pager-space {
+  height: 2.25rem;
+}
+
+@media (max-width: 639px) {
+  .rfc-ind,
+  .rfc-by,
+  .rfc-refs,
+  .rfc-table,
+  .rfc-figure {
+    margin-left: 2ch;
+  }
+  .rfc-sub {
+    margin-left: 1ch;
+  }
+  .rfc-st {
+    margin-left: 0;
+    width: 100%;
+  }
+  .rfc-n {
+    min-width: 4ch;
+  }
+  .rfc-refs {
+    grid-template-columns: 1fr;
+    gap: 0.1em;
+  }
+  .rfc-refs dd {
+    margin-bottom: 0.5em;
+  }
+  .rfc-seam__ln > :nth-child(2) {
+    display: none;
+  }
+  .rfc-pager {
+    padding-inline: 1rem;
+    font-size: 0.8125rem;
+  }
+}

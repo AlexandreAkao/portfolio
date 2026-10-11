@@ -1,0 +1,31 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import EmailCopy from '@components/islands/EmailCopy.tsx';
+import { cvUrl, email } from '@data/social';
+import RfcHeading from './RfcHeading.astro';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+---
+<div class="rfc-col">
+  <RfcHeading n="6." k="rfc.address" />
+  <p class="rfc-ind">
+    <span data-lang-show="en">{t('contact.description', 'en')}</span>
+    <span data-lang-show="pt">{t('contact.description', 'pt')}</span>
+  </p>
+  <address class="rfc-ind not-italic">
+    Alexandre Akira<br /><T k="hero.title" /><br /><br />
+    <span class="inline-flex flex-wrap items-baseline gap-x-[1ch]">
+      <span>Email:</span>
+      <EmailCopy client:visible locale={locale} className="rfc-tog" />
+    </span><br />
+    CV:&nbsp;&nbsp;&nbsp;&nbsp;<a href={cvUrl} download><T k="hero.cta.cv" /></a> (PDF)
+  </address>
+  <p class="rfc-ind mt-6">
+    <a href={`mailto:${email}`} class="rfc-key rfc-key--big"><T k="contact.emailMe" /></a>
+  </p>
+</div>

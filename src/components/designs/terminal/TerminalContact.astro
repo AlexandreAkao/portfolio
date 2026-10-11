@@ -1,0 +1,32 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import EmailCopy from '@components/islands/EmailCopy.tsx';
+import { cvUrl, email } from '@data/social';
+import Prompt from './Prompt.astro';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+---
+<div class="term term-block">
+  <Prompt cmd={`mail ${email}`} k="contact.title" />
+  <p class="term-out">
+    <span data-lang-show="en">{t('contact.description', 'en')}</span>
+    <span data-lang-show="pt">{t('contact.description', 'pt')}</span>
+  </p>
+  {/* The mail composer, waiting on its subject line; the address is plain output, copyable */}
+  <div class="term-panel max-w-xl">
+    <p class="flex flex-wrap items-baseline gap-x-[1ch]">
+      <span class="term-muted">To:</span>
+      <EmailCopy client:visible locale={locale} className="term-tog" />
+    </p>
+    <p><span class="term-muted">Subject:</span> <span class="term-cursor" aria-hidden="true"></span></p>
+  </div>
+  <p class="mt-5 flex flex-wrap items-center gap-4">
+    <a href={`mailto:${email}`} class="term-btn term-btn--go term-btn--big"><T k="contact.emailMe" /></a>
+    <a href={cvUrl} download class="term-btn term-btn--big"><T k="hero.cta.cv" /></a>
+  </p>
+</div>

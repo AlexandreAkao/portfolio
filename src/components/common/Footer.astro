@@ -4,6 +4,9 @@ import T from '@components/ui/T.astro';
 import { socialLinks } from '@data/social';
 import { Icon } from 'astro-icon/components';
 import DesignInvite from '@components/ui/DesignInvite.tsx';
+import EngineerFooter from '@components/designs/engineer/EngineerFooter.astro';
+import TerminalFooter from '@components/designs/terminal/TerminalFooter.astro';
+import TapeFooter from '@components/designs/tape/TapeFooter.astro';
 
 const year = new Date().getFullYear();
 
@@ -16,7 +19,7 @@ const { locale } = Astro.props;
 ---
 
 <footer>
-  <div class="border-t border-border py-8" data-design-hide="editorial">
+  <div class="border-t border-border py-8" data-design-hide="editorial engineer terminal tape">
     <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6">
       <div class="flex items-center gap-1 md:gap-6">
         {socialLinks.map((link) => (
@@ -42,6 +45,21 @@ const { locale } = Astro.props;
         &copy; {year} Alexandre Akira
       </p>
     </div>
+  </div>
+
+  {/* Tape: the trailer runs out, END OF TAPE */}
+  <div data-design-show="tape">
+    <TapeFooter locale={locale} />
+  </div>
+
+  {/* Terminal: `exit`, logout, and the session closes */}
+  <div data-design-show="terminal">
+    <TerminalFooter locale={locale} />
+  </div>
+
+  {/* Engineer: the draft's References and Acknowledgements, then its last page footer */}
+  <div data-design-show="engineer">
+    <EngineerFooter locale={locale} />
   </div>
 
   {/* Editorial: the masthead's other end. Who, which edition, and the way into the other four designs. */}

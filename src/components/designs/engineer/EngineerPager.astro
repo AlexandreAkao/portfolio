@@ -1,0 +1,61 @@
+---
+import T from '@components/ui/T.astro';
+import { RFC_FILE } from './rfc';
+---
+{/* The pager's status line: file, the section on screen, how far through, (END) at the end.
+    It repeats what the page already says, so it is hidden from assistive tech. */}
+<div class="rfc-pager-space"></div>
+<div class="rfc-pager" aria-hidden="true" data-rfc-pager>
+  <span class="rfc-pager__file">{RFC_FILE}</span>
+  <span class="rfc-pager__sec" data-rfc-pager-sec><T k="rfc.abstract" /></span>
+  <span class="rfc-pager__pct" data-rfc-pager-pct>0%</span>
+</div>
+<div hidden data-rfc-end>
+  <T k="rfc.end" />
+</div>
+
+<script>
+  let stop: AbortController | undefined;
+
+  function initPager() {
+    stop?.abort();
+    const bar = document.querySelector<HTMLElement>('[data-rfc-pager]');
+    if (!bar) return;
+    stop = new AbortController();
+    const { signal } = stop;
+    const sec = bar.querySelector<HTMLElement>('[data-rfc-pager-sec]')!;
+    const pct = bar.querySelector<HTMLElement>('[data-rfc-pager-pct]')!;
+    const abstract = sec.innerHTML;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      // Hidden outside the Engineer world: nothing to keep up to date
+      if (!bar.getClientRects().length) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const done = max <= 0 ? 100 : Math.round((window.scrollY / max) * 100);
+      // The section whose heading has passed the upper third of the screen
+      const headings = Array.from(document.querySelectorAll<HTMLElement>('.rfc-sec')).filter((h) => h.offsetParent !== null);
+      let current: HTMLElement | null = null;
+      for (const h of headings) if (h.getBoundingClientRect().top < window.innerHeight * 0.35) current = h;
+      if (done >= 99 && headings.length) current = headings[headings.length - 1];
+      sec.innerHTML = current ? current.innerHTML : abstract;
+      if (done >= 99) {
+        pct.dataset.end = '';
+        const lang = document.documentElement.dataset.lang === 'pt' ? 'pt' : 'en';
+        pct.textContent = document.querySelector(`[data-rfc-end] [data-lang-show="${lang}"]`)?.textContent ?? '(END)';
+      } else {
+        delete pct.dataset.end;
+        pct.textContent = `${done}%`;
+      }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', schedule, { passive: true, signal });
+    window.addEventListener('resize', schedule, { signal });
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-design', 'data-lang'] });
+    signal.addEventListener('abort', () => observer.disconnect());
+    update();
+  }
+  document.addEventListener('astro:page-load', initPager);
+</script>

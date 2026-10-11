@@ -1,0 +1,19 @@
+---
+import { education } from '@data/education';
+import Prompt from './Prompt.astro';
+---
+<div class="term term-block">
+  <Prompt cmd="cat education.txt" k="education.title" />
+  {education.map((edu) => (
+    <article class="term-job">
+      <h3 class="term-jh">
+        <span class="term-muted">{edu.period}</span>
+        <b><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></b>
+        <span class="font-normal">{edu.institution}</span>
+      </h3>
+      {edu.description && (
+        <p class="term-sum"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>
+      )}
+    </article>
+  ))}
+</div>

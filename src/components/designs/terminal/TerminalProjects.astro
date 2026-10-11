@@ -1,0 +1,37 @@
+---
+import { projects } from '@data/projects';
+import T from '@components/ui/T.astro';
+import Prompt from './Prompt.astro';
+
+const professional = projects.filter((p) => p.type === 'professional');
+const personal = projects.filter((p) => p.type === 'personal');
+const slug = (s: string) => s.toLowerCase().replace(/ - /g, '-').replace(/ /g, '-');
+---
+<div class="term term-block">
+  <Prompt cmd="ls -l ~/projects" k="projects.title" />
+  {/* Professional work is told in experience.log: directories that point back there. Personal repos are files linking to GitHub. */}
+  <table class="term-ls">
+    <caption class="sr-only"><T k="projects.professional" /></caption>
+    <tbody>
+      {professional.map((p) => (
+        <tr>
+          <td class="term-perm" aria-hidden="true">drwxr-xr-x</td>
+          <td><a href="#experience" class="term-dir">{slug(p.title)}/<span class="sr-only"><T k="projects.seeExperience" /></span></a></td>
+          <td class="term-desc term-muted">{p.metrics && <><span data-lang-show="en">{p.metrics.en}</span><span data-lang-show="pt">{p.metrics.pt}</span></>}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <table class="term-ls mt-1">
+    <caption class="sr-only"><T k="projects.personal" /></caption>
+    <tbody>
+      {personal.map((p) => (
+        <tr>
+          <td class="term-perm" aria-hidden="true">-rw-r--r--</td>
+          <td><a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer">{p.title}</a></td>
+          <td class="term-desc term-muted"><span data-lang-show="en">{p.description.en}</span><span data-lang-show="pt">{p.description.pt}</span></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

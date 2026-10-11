@@ -5,11 +5,20 @@ import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
 import AvantgardeHero from '@components/designs/avantgarde/AvantgardeHero.tsx';
 import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
 import ArcadeHero from '@components/designs/arcade/ArcadeHero.tsx';
+import TerminalHero from '@components/designs/terminal/TerminalHero.tsx';
+import TapeHero from '@components/designs/tape/TapeHero.tsx';
+import { rfcDate } from '@components/designs/engineer/rfc';
 import avatarImg from '@/assets/images/avatar.jpeg';
 
 const avatar1x = await getImage({ src: avatarImg, width: 224, height: 224 });
 const avatar2x = await getImage({ src: avatarImg, width: 448, height: 448 });
 const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
+
+// Dates some worlds print, formatted here so the islands hydrate with the same text
+const draftDate = { en: rfcDate('en'), pt: rfcDate('pt') };
+const loginDate = (l: 'en' | 'pt') =>
+  new Intl.DateTimeFormat(l === 'pt' ? 'pt-BR' : 'en', { weekday: 'short', month: 'short', day: 'numeric' }).format(new Date());
+const login = { en: loginDate('en'), pt: loginDate('pt') };
 
 interface Props {
   /** The page's language, so the islands render in it on the server. */
@@ -21,7 +30,7 @@ const { locale } = Astro.props;
 
 <section id="hero">
   <div data-design-show="engineer">
-    <EngineerHero locale={locale} client:intro />
+    <EngineerHero date={draftDate} locale={locale} client:intro />
   </div>
   <div data-design-show="creative">
     <CreativeHero avatarSrc={avatar1x.src} avatarSrcSet={avatarSrcSet} locale={locale} client:intro />
@@ -34,5 +43,11 @@ const { locale } = Astro.props;
   </div>
   <div data-design-show="arcade">
     <ArcadeHero locale={locale} client:intro />
+  </div>
+  <div data-design-show="terminal">
+    <TerminalHero login={login} locale={locale} client:intro />
+  </div>
+  <div data-design-show="tape">
+    <TapeHero locale={locale} client:intro />
   </div>
 </section>

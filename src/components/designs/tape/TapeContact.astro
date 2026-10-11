@@ -1,0 +1,34 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import EmailCopy from '@components/islands/EmailCopy.tsx';
+import { cvUrl, email } from '@data/social';
+import TapeHeading from './TapeHeading.astro';
+import { Arrow } from './marks';
+import KeepWords from '@components/ui/KeepWords';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+const [user, domain] = email.split('@');
+---
+<div class="tape">
+  <TapeHeading k="contact.title" />
+  <div class="grid gap-4 md:grid-cols-[1.4fr_1fr]">
+    <div class="tape-win">
+      <p class="mt-0 text-[1.2rem] font-semibold">
+        <span data-lang-show="en">{t('contact.description', 'en')}</span><span data-lang-show="pt">{t('contact.description', 'pt')}</span>
+      </p>
+      <a href={`mailto:${email}`} class="tape-addr block no-underline">{user}<wbr />@{domain}</a>
+      <p class="tape-caps mb-0 flex flex-wrap items-baseline gap-x-5 gap-y-2">
+        <EmailCopy client:visible locale={locale} showAddress={false} className="tape-tog" />
+        <a href={cvUrl} download><T k="hero.cta.cv" /></a>
+      </p>
+    </div>
+    <a href={`mailto:${email}`} class="tape-key tape-key--frame min-h-40 font-heading text-[clamp(1.9rem,3.8vw,3rem)] font-black uppercase leading-none">
+      <span class="inline-flex items-center gap-4"><span><span data-lang-show="en"><KeepWords text={t('contact.emailMe', 'en')} /></span><span data-lang-show="pt"><KeepWords text={t('contact.emailMe', 'pt')} /></span></span><Arrow className="h-[0.55em] w-auto flex-none" /></span>
+    </a>
+  </div>
+</div>

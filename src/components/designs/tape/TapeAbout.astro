@@ -1,0 +1,38 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import TapeHeading from './TapeHeading.astro';
+
+const stats = [
+  { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label' },
+  { valueKey: 'about.stat.centers', labelKey: 'about.stat.centers.label' },
+  { valueKey: 'about.stat.components', labelKey: 'about.stat.components.label' },
+  { valueKey: 'about.stat.microservices', labelKey: 'about.stat.microservices.label' },
+];
+---
+<div class="tape">
+  <TapeHeading k="about.title" />
+  <div class="grid gap-4 md:grid-cols-[1.6fr_1fr]">
+    <div class="tape-win">
+      <p class="mb-4 mt-0 text-[1.35rem] font-semibold leading-snug">
+        <span data-lang-show="en">{t('about.p1', 'en')}</span><span data-lang-show="pt">{t('about.p1', 'pt')}</span>
+      </p>
+      <p class="mb-0">
+        <span data-lang-show="en">{t('about.p2', 'en')}</span><span data-lang-show="pt">{t('about.p2', 'pt')}</span>
+      </p>
+    </div>
+    {/* The teletype's other output: the figures printed on its paper roll, read along the leaders */}
+    <div class="tape-win tape-readout">
+      <h3 class="tape-readout__title tape-caps"><T k="about.numbers" /></h3>
+      <dl class="m-0">
+        {stats.map((s) => (
+          <div class="tape-readout__row tape-caps">
+            <dt><T k={s.labelKey} /></dt>
+            <i aria-hidden="true"></i>
+            <dd><T k={s.valueKey} /></dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</div>

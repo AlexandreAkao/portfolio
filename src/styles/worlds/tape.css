@@ -1,0 +1,450 @@
+/* Tape: the career punched into teletype paper tape. True black, tape orange,
+   punched white windows that carry running copy in ink. Condensed caps rank by
+   the size of their window, not their type. Classes here are used only inside
+   the Tape world. */
+
+[data-design='tape'] #main-content > section:not(#hero) {
+  padding-block: 3.5rem;
+}
+
+.tape {
+  font-family: 'Big Shoulders Text', sans-serif;
+  font-weight: 500;
+  font-size: 1.1875rem;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--text);
+}
+.tape-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+}
+
+/* The orange tape band; its SVG holes show the black ground through */
+.tape-band {
+  position: relative;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  height: 5.25rem;
+}
+.tape-band svg {
+  flex: none;
+  margin-left: 0.5rem;
+}
+.tape-band--leader {
+  height: 4.5rem;
+}
+
+/* Punched white windows */
+.tape-win {
+  background-color: var(--window);
+  background-image: radial-gradient(circle, var(--bg) 0 2.5px, transparent 3px);
+  background-size: 14px 14px;
+  background-repeat: space no-repeat;
+  background-position: 0 5px;
+  color: var(--window-ink);
+  padding: calc(1.5rem + 10px) 1.75rem 1.5rem;
+}
+.tape-win a {
+  color: var(--window-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+.tape-win__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 2px solid var(--window-ink);
+  font-size: 0.875rem;
+}
+.tape-win h3,
+.tape-win h4 {
+  margin: 0;
+  font: 900 clamp(1.6rem, 3vw, 2.2rem) / 1 'Big Shoulders Display', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+}
+.tape-role {
+  margin: 0.4rem 0 0.6rem;
+  font-size: 1rem;
+}
+.tape-sum {
+  margin: 0 0 0.5rem;
+  max-width: 62ch;
+}
+.tape-res {
+  margin: 0.5rem 0;
+  font-weight: 800;
+  font-size: 1.15em;
+}
+.tape-muted {
+  color: var(--window-muted);
+}
+
+/* State is a mark, not a colour: a band for active, a cross for done */
+.tape-mark {
+  border: 2px solid currentColor;
+  padding: 0 0.5rem;
+  white-space: nowrap;
+}
+.tape-mark[data-active] {
+  background: var(--window-ink);
+  color: var(--accent);
+  border-color: var(--window-ink);
+}
+
+.tape-tog {
+  font: 800 0.9375rem/1 'Big Shoulders Text', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: none;
+  border: 0;
+  padding: 0.5rem 0;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+}
+.tape-pins {
+  list-style: none;
+  margin: 0.75rem 0;
+  padding: 0;
+  border-top: 2px dashed var(--window-rule);
+}
+.tape-pins li {
+  position: relative;
+  padding: 0.5rem 0 0.5rem 1.4rem;
+  border-bottom: 1px solid var(--window-line);
+}
+.tape-pins li::before {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.95rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--window-ink);
+}
+.tape-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.tape-tags li {
+  border: 2px solid currentColor;
+  padding: 0 0.4rem;
+  font-size: 0.875rem;
+}
+
+/* Keys: the orange one carries the email */
+.tape a.tape-key {
+  display: inline-block;
+  background-color: var(--accent);
+  background-image:
+    radial-gradient(circle, var(--bg) 0 2px, transparent 2.5px),
+    radial-gradient(circle, var(--bg) 0 2px, transparent 2.5px);
+  background-size: 10px 10px;
+  background-repeat: no-repeat space;
+  background-position: 3px 0, right 3px top 0;
+  color: var(--on-accent);
+  border: 2px solid var(--accent);
+  padding: 0.6rem 1.6rem;
+  text-decoration: none;
+}
+.tape a.tape-key:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.tape a.tape-key.tape-key--frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+/* Buttons keep the caps of the line they sit in */
+.tape-caps button {
+  text-transform: inherit;
+  letter-spacing: inherit;
+}
+.tape a.tape-key--out {
+  background: transparent;
+  color: var(--accent);
+}
+.tape a.tape-key--out:hover {
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Section headings: the frame number on tape, the title in display caps */
+.tape-h2 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2rem;
+  font: 900 clamp(2rem, 4vw, 3rem) / 1 'Big Shoulders Display', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.tape-fr {
+  flex: none;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 0 0.35rem;
+}
+.tape-fr svg {
+  display: block;
+  width: auto;
+  height: 2.6rem;
+}
+.tape-label {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  font-size: 0.9375rem;
+}
+
+/* The career on tape: two tracks of role frames over the years */
+.tape-career {
+  position: relative;
+  height: 9.5rem;
+}
+.tape-career__band {
+  position: absolute;
+  inset: 0 0 2.25rem 0;
+  background: var(--accent);
+}
+.tape-career__bar {
+  position: absolute;
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.6rem;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.875rem;
+  background: var(--window);
+  color: var(--window-ink);
+  border: 2px solid var(--window-ink);
+}
+.tape-career__bar[data-track='0'] {
+  top: 0.75rem;
+}
+.tape-career__bar[data-track='1'] {
+  top: 3.85rem;
+}
+.tape-career__bar[data-active] {
+  background: var(--window-ink);
+  color: var(--accent);
+  box-shadow: inset 0 -6px 0 var(--window);
+}
+.tape-career__x {
+  flex: none;
+  margin-left: auto;
+}
+@media (min-width: 768px) {
+  .tape-career__bar[data-narrow] {
+    justify-content: center;
+    padding: 0;
+  }
+  .tape-career__bar[data-narrow] .tape-career__name {
+    display: none;
+  }
+  .tape-career__bar[data-narrow] .tape-career__x {
+    margin: 0;
+  }
+}
+.tape-career__years {
+  position: absolute;
+  inset: auto 0 0;
+  height: 1.75rem;
+  border-top: 1px solid var(--border);
+}
+.tape-career__years span {
+  position: absolute;
+  top: 0.35rem;
+  transform: translateX(-50%);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+.tape-career__flag {
+  position: absolute;
+  top: -0.6rem;
+  right: -2px;
+  color: var(--window);
+}
+.tape-career__callout {
+  position: absolute;
+  top: 6.3rem;
+  padding: 0 0.15rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.875rem;
+  line-height: 1;
+}
+.tape-career__years span::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -0.35rem;
+  width: 1px;
+  height: 0.3rem;
+  background: var(--text-secondary);
+}
+.tape-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.tape-legend {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0.75rem 0 2rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.tape-readout {
+  display: flex;
+  flex-direction: column;
+}
+.tape-win h3.tape-readout__title {
+  margin: 0 0 0.75rem;
+  font: 800 0.9375rem/1.2 'Big Shoulders Text', sans-serif;
+  letter-spacing: 0.1em;
+}
+/* A label that wraps keeps its leader and value on its last line */
+.tape-readout__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--window-line);
+}
+.tape-readout__row dt {
+  max-width: 10rem;
+  font-size: 0.9375rem;
+}
+.tape-readout__row i {
+  flex: 1;
+  min-width: 1.5rem;
+  margin-bottom: 0.3em;
+  border-bottom: 2px dotted var(--window-rule);
+}
+.tape-readout__row dd {
+  margin: 0;
+  font: 900 1.75rem/1 'Big Shoulders Display', sans-serif;
+  white-space: nowrap;
+}
+
+.tape-rows {
+  border-top: 2px solid var(--accent);
+}
+.tape-row {
+  display: grid;
+  grid-template-columns: 12rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.tape-row__k {
+  color: var(--accent);
+  font-size: 0.9375rem;
+}
+.tape-row__v {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.tape-lines {
+  border-top: 2px solid var(--accent);
+  margin-bottom: 2rem;
+}
+.tape a.tape-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+}
+.tape-line b {
+  font: 900 1.6rem/1 'Big Shoulders Display', sans-serif;
+  text-transform: uppercase;
+}
+.tape-line span {
+  color: var(--accent);
+}
+.tape a.tape-line:hover b {
+  color: var(--accent);
+}
+
+.tape-addr {
+  margin: 1.25rem 0 0.75rem;
+  font: 900 clamp(1.4rem, 3.4vw, 2.4rem) / 1.1 'Big Shoulders Display', sans-serif;
+  overflow-wrap: anywhere;
+}
+
+/* The hero tape's folded flag, hanging off the tape's lower edge */
+.tape-hero__flag {
+  position: absolute;
+  left: 58%;
+  bottom: -2.2rem;
+  color: var(--window);
+}
+
+@media (max-width: 767px) {
+  .tape-career {
+    height: auto;
+  }
+  .tape-career__band,
+  .tape-career__years,
+  .tape-career__flag,
+  .tape-career__callout {
+    display: none;
+  }
+  .tape-hero__flag {
+    left: auto;
+    right: 1.5rem;
+  }
+  .tape-career__bar {
+    position: relative;
+    top: auto !important;
+    left: auto !important;
+    width: auto !important;
+    margin-bottom: 0.4rem;
+  }
+  .tape-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+  .tape a.tape-line {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .tape-win {
+    padding: 1.25rem;
+  }
+}
+

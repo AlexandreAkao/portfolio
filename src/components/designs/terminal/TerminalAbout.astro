@@ -1,0 +1,29 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import Prompt from './Prompt.astro';
+
+const stats = [
+  { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label' },
+  { valueKey: 'about.stat.centers', labelKey: 'about.stat.centers.label' },
+  { valueKey: 'about.stat.components', labelKey: 'about.stat.components.label' },
+  { valueKey: 'about.stat.microservices', labelKey: 'about.stat.microservices.label' },
+];
+---
+<div class="term term-block">
+  <Prompt cmd="cat about.md" k="about.title" />
+  {(['about.p1', 'about.p2'] as const).map((k) => (
+    <p class="term-out">
+      <span data-lang-show="en">{t(k, 'en')}</span>
+      <span data-lang-show="pt">{t(k, 'pt')}</span>
+    </p>
+  ))}
+  <Prompt cmd="akira --stats" k="about.numbers" as="h3" />
+  <table class="term-ls">
+    <tbody>
+      {stats.map((s) => (
+        <tr><td class="term-muted"><T k={s.labelKey} /></td><td class="term-bright font-bold"><T k={s.valueKey} /></td></tr>
+      ))}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,29 @@
+---
+import T from '@components/ui/T.astro';
+import { socialLinks } from '@data/social';
+import DesignInvite from '@components/ui/DesignInvite.tsx';
+import Prompt from './Prompt.astro';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+<div class="mx-auto max-w-4xl px-6 pb-16 pt-4">
+  <div class="term term-block">
+    <Prompt cmd="exit" />
+    <p class="term-out term-muted">logout</p>
+    <p class="term-out"><T k="footer.built" /> · &copy; {year} Alexandre Akira</p>
+    <p class="term-out flex flex-wrap gap-x-[3ch]">
+      {socialLinks.map((link) => (
+        <a href={link.url} {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}>
+          {link.name.toLowerCase()}
+        </a>
+      ))}
+    </p>
+    <DesignInvite client:visible world="terminal" locale={locale} className="term-muted text-[1em]!" />
+    <p class="term-out term-muted mt-3"><T k="term.done" /></p>
+  </div>
+</div>

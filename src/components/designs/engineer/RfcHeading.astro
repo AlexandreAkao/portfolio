@@ -1,0 +1,13 @@
+---
+import T from '@components/ui/T.astro';
+
+interface Props {
+  /** Section number, "1." to "7." */
+  n: string;
+  /** i18n key of the section title */
+  k: string;
+}
+
+const { n, k } = Astro.props;
+---
+<h2 class="rfc-h rfc-sec"><span class="rfc-n">{n}</span><T k={k} /></h2>

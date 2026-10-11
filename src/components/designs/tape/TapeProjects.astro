@@ -1,0 +1,31 @@
+---
+import { projects } from '@data/projects';
+import T from '@components/ui/T.astro';
+import TapeHeading from './TapeHeading.astro';
+
+const professional = projects.filter((p) => p.type === 'professional');
+const personal = projects.filter((p) => p.type === 'personal');
+---
+<div class="tape">
+  <TapeHeading k="projects.title" />
+  <h3 class="tape-label tape-caps"><T k="projects.professional" /></h3>
+  <div class="tape-lines tape-caps">
+    {professional.map((p) => (
+      <a href="#experience" class="tape-line">
+        <b>{p.title}</b>
+        {p.metrics && <span><span data-lang-show="en">{p.metrics.en}</span><span data-lang-show="pt">{p.metrics.pt}</span></span>}
+        <span class="sr-only"><T k="projects.seeExperience" /></span>
+      </a>
+    ))}
+  </div>
+  <h3 class="tape-label tape-caps"><T k="projects.personal" /></h3>
+  <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {personal.map((p) => (
+      <article class="tape-win">
+        <h4><a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer">{p.title}</a></h4>
+        <p class="tape-sum mt-2"><span data-lang-show="en">{p.description.en}</span><span data-lang-show="pt">{p.description.pt}</span></p>
+        <ul class="tape-tags tape-caps">{p.tech.map((t) => <li>{t}</li>)}</ul>
+      </article>
+    ))}
+  </div>
+</div>

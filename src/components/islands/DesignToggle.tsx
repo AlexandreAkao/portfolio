@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { designs, designIds, defaultDesign } from '@data/designs';
+import { designs, designIds, defaultDesign, designLabel } from '@data/designs';
 import { safeGetItem, safeSetItem } from '@/lib/storage';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
@@ -91,6 +91,7 @@ function DesignToggleInner() {
   }, []);
 
   const config = designMap[design];
+  const label = (id: string) => designLabel(id, (k) => t(k, locale));
 
   return (
     <div ref={ref} className="relative">
@@ -103,7 +104,7 @@ function DesignToggleInner() {
         onPointerEnter={announceIntent}
         onFocus={announceIntent}
         className="flex h-11 items-center gap-2 rounded-full border border-border bg-bg-secondary px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors hover:text-accent md:h-auto"
-        aria-label={`${t('design.switch', locale)} (${t('design.current', locale)}: ${config?.label})`}
+        aria-label={`${t('design.switch', locale)} (${t('design.current', locale)}: ${label(design)})`}
         aria-expanded={open}
         aria-controls="design-options"
       >
@@ -111,7 +112,7 @@ function DesignToggleInner() {
         <span className="font-mono text-xs uppercase tracking-wider">
           <span className="lg:hidden">{t('design.label', locale)}</span>
           <span className="hidden lg:inline">
-            {config?.icon} {config?.label}
+            {config?.icon} {label(design)}
           </span>
         </span>
         <svg
@@ -150,7 +151,7 @@ function DesignToggleInner() {
                     }`}
                   >
                     <span className="w-6 font-mono text-xs" aria-hidden="true">{d.icon}</span>
-                    <span className="tracking-wide">{d.label}</span>
+                    <span className="tracking-wide">{label(d.id)}</span>
                     {d.id === design && (
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="ml-auto" aria-hidden="true">
                         <path d="M2 6L5 9L10 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />

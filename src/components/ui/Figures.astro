@@ -1,0 +1,12 @@
+---
+import { splitFigures } from '@/lib/figures';
+
+interface Props {
+  text: string;
+  /** Class for each figure's <mark>; the world decides how a figure reads. */
+  markClass: string;
+}
+
+const { text, markClass } = Astro.props;
+---
+{splitFigures(text).map((s) => (s.figure ? <mark class={markClass}>{s.text}</mark> : s.text))}

@@ -1,0 +1,29 @@
+---
+import T from '@components/ui/T.astro';
+import { t } from '@i18n/utils';
+
+interface Props {
+  /** The page this seam closes */
+  page: number;
+  /** The draft's last page: a footer line and no next header */
+  last?: boolean;
+}
+
+const { page, last = false } = Astro.props;
+const date = (locale: 'en' | 'pt') =>
+  new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'en', { month: 'long', year: 'numeric' }).format(new Date());
+---
+{/* A page break: the footer of one page, the form feed, the header of the next. Decoration only. */}
+<div class="rfc-col rfc-seam" aria-hidden="true">
+  <div class="rfc-seam__ln">
+    <span>Akira</span><span><T k="rfc.informational" /></span><span>[<T k="rfc.page" /> {page}]</span>
+  </div>
+  {!last && (
+    <>
+      <div class="rfc-seam__ff"></div>
+      <div class="rfc-seam__ln">
+        <span><T k="rfc.draft" /></span><span><T k="hero.title" /></span><span><span data-lang-show="en">{date('en')}</span><span data-lang-show="pt">{date('pt')}</span></span>
+      </div>
+    </>
+  )}
+</div>

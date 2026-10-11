@@ -1,0 +1,18 @@
+---
+import T from '@components/ui/T.astro';
+
+interface Props {
+  /** The command, as typed. Code, so it is not translated. */
+  cmd: string;
+  /** i18n key of the section's title, read by assistive tech in place of the prompt */
+  k?: string;
+  /** Heading level; a plain line when the prompt titles nothing */
+  as?: 'h2' | 'h3' | 'p';
+}
+
+const { cmd, k, as: Tag = k ? 'h2' : 'p' } = Astro.props;
+---
+<Tag class="term-pl">
+  <span aria-hidden={k ? 'true' : undefined}><span class="term-u">akira@portfolio</span>:<span class="term-w">~</span>$ <span class="term-cmd">{cmd}</span></span>
+  {k && <span class="sr-only"><T k={k} /></span>}
+</Tag>

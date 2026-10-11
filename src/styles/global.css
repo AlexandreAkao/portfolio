@@ -17,6 +17,16 @@
 @import '@fontsource/outfit/400.css';
 @import '@fontsource/outfit/500.css';
 @import '@fontsource/outfit/700.css';
+@import '@fontsource/courier-prime/400';
+@import '@fontsource/courier-prime/700';
+@import '@fontsource/big-shoulders-display/800';
+@import '@fontsource/big-shoulders-display/900';
+@import '@fontsource/big-shoulders-text/500';
+@import '@fontsource/big-shoulders-text/700';
+@import '@fontsource/big-shoulders-text/800';
+@import './worlds/engineer.css';
+@import './worlds/terminal.css';
+@import './worlds/tape.css';
 
 @theme {
   --color-bg: var(--bg);
@@ -45,21 +55,26 @@
   --code-bg: var(--bg-secondary);
 }
 
-/* Engineer Design Tokens */
+/* Engineer Design Tokens: an Internet-Draft read in a pager. Cool paper, ink,
+   one link blue; reverse video (ink fill, paper text) is the world's other fill. */
 [data-design='engineer'] {
-  --bg: #0a192f;
-  --bg-secondary: #112240;
-  --text: #ccd6f6;
-  --text-secondary: #8892b0;
-  --accent: #64ffda;
-  --accent-hover: #4cd9b0;
-  --border: #233554;
-  --card: #112240;
-  --card-hover: #1d3461;
-  --font-heading: 'JetBrains Mono', monospace;
-  --font-body: 'Inter', sans-serif;
-  --radius-card: 2px;
-  --radius-btn: 2px;
+  --bg: #f6f7f8;
+  --bg-secondary: #eceef1;
+  --text: #15171a;
+  --text-secondary: #4b5058;
+  --accent: #1d4ed8;
+  --accent-hover: #1e40af;
+  /* White on the blue key reads 6.7:1 */
+  --on-accent: #ffffff;
+  /* Code is set on the world's ink, like a figure printed in reverse */
+  --code-bg: var(--text);
+  --border: #c9ced6;
+  --card: #ffffff;
+  --card-hover: #f9fafb;
+  --font-heading: 'Courier Prime', monospace;
+  --font-body: 'Courier Prime', monospace;
+  --radius-card: 0px;
+  --radius-btn: 0px;
 }
 
 /* Creative Design Tokens */
@@ -116,6 +131,50 @@
   --card-hover: #f9f8f5;
   --font-heading: 'Clash Display', sans-serif;
   --font-body: 'DM Sans Variable', sans-serif;
+  --radius-card: 0px;
+  --radius-btn: 0px;
+}
+
+/* Terminal Design Tokens: a dark shell session played straight. The prompt is
+   green, paths and links are blue; one green key carries the email. */
+[data-design='terminal'] {
+  --bg: #0d1117;
+  --bg-secondary: #161b22;
+  --text: #c9d1d9;
+  --text-secondary: #8b949e;
+  --accent: #58a6ff;
+  --accent-hover: #79b8ff;
+  --prompt: #3fb950;
+  --prompt-hover: #56d364;
+  --bright: #f0f6fc;
+  --border: #30363d;
+  --card: #161b22;
+  --card-hover: #1c2128;
+  --font-heading: 'JetBrains Mono', monospace;
+  --font-body: 'JetBrains Mono', monospace;
+  --radius-card: 6px;
+  --radius-btn: 6px;
+}
+
+/* Tape Design Tokens: punched teletype tape. True black, tape orange, and
+   punched white windows (--window) that carry running copy in ink. */
+[data-design='tape'] {
+  --bg: #0b0b0b;
+  --bg-secondary: #151515;
+  --text: #f2f2f2;
+  --text-secondary: #a8a8a8;
+  --accent: #ff5a1f;
+  --accent-hover: #ff7a47;
+  --window: #f2f2f2;
+  --window-ink: #0b0b0b;
+  --window-muted: #4d4d4d;
+  --window-line: #d6d6d6;
+  --window-rule: #b9b9b9;
+  --border: #2e2e2e;
+  --card: #151515;
+  --card-hover: #1d1d1d;
+  --font-heading: 'Big Shoulders Display', sans-serif;
+  --font-body: 'Big Shoulders Text', sans-serif;
   --radius-card: 0px;
   --radius-btn: 0px;
 }
@@ -208,20 +267,14 @@ h1, h2, h3, h4, h5, h6 {
   animation-duration: 0.3s;
 }
 
-/* Engineer grid background */
-[data-design='engineer'] .grid-bg {
-  background-image:
-    linear-gradient(rgba(100, 255, 218, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(100, 255, 218, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
 /* Design-conditional visibility (N-way: each design hides all others) */
 [data-design='engineer'] [data-design-show]:not([data-design-show='engineer']),
 [data-design='creative'] [data-design-show]:not([data-design-show='creative']),
 [data-design='avantgarde'] [data-design-show]:not([data-design-show='avantgarde']),
 [data-design='editorial'] [data-design-show]:not([data-design-show='editorial']),
-[data-design='arcade'] [data-design-show]:not([data-design-show='arcade']) {
+[data-design='arcade'] [data-design-show]:not([data-design-show='arcade']),
+[data-design='terminal'] [data-design-show]:not([data-design-show='terminal']),
+[data-design='tape'] [data-design-show]:not([data-design-show='tape']) {
   display: none !important;
 }
 
@@ -231,7 +284,9 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='creative'] [data-design-hide~='creative'],
 [data-design='avantgarde'] [data-design-hide~='avantgarde'],
 [data-design='editorial'] [data-design-hide~='editorial'],
-[data-design='arcade'] [data-design-hide~='arcade'] {
+[data-design='arcade'] [data-design-hide~='arcade'],
+[data-design='terminal'] [data-design-hide~='terminal'],
+[data-design='tape'] [data-design-hide~='tape'] {
   display: none !important;
 }
 
@@ -252,16 +307,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 [data-lang='pt'] [data-lang-show='en'] {
   display: none !important;
-}
-
-/* Engineer section tags */
-[data-design='engineer'] .section-tag::before {
-  content: '<';
-  color: var(--accent);
-}
-[data-design='engineer'] .section-tag::after {
-  content: ' />';
-  color: var(--accent);
 }
 
 /* Avant-garde: noise texture overlay */

@@ -1,0 +1,37 @@
+---
+import T from '@components/ui/T.astro';
+import { socialLinks } from '@data/social';
+import DesignInvite from '@components/ui/DesignInvite.tsx';
+import RfcHeading from './RfcHeading.astro';
+import EngineerSeam from './EngineerSeam.astro';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+<div id="references" class="px-6 pb-10 pt-10">
+  <div class="rfc-col">
+    <RfcHeading n="7." k="rfc.references" />
+    <dl class="rfc-refs">
+      {socialLinks.map((link) => (
+        <>
+          <dt>[{link.name.toUpperCase().replace('.', '')}]</dt>
+          <dd>
+            <a href={link.url} {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}>
+              {link.url.replace('mailto:', '')}
+            </a>
+          </dd>
+        </>
+      ))}
+    </dl>
+    <h3 class="rfc-h"><T k="rfc.ack" /></h3>
+    <p class="rfc-ind"><T k="footer.built" />. &copy; {year} Alexandre Akira.</p>
+    <DesignInvite client:visible world="engineer" locale={locale} className="rfc-ind text-[1em]!" />
+  </div>
+  <div class="mt-10">
+    <EngineerSeam page={8} last />
+  </div>
+</div>

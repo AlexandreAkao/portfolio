@@ -1,0 +1,7 @@
+---
+import { skillGroups } from '@data/skills';
+---
+{/* `cat skills.json | jq`: keys in blue, strings in green, the way jq colours them */}
+<div class="term-panel">
+  <pre class="term-json"><span class="term-json__ln">{'{'}</span>{skillGroups.map((g, i) => (<span class="term-json__ln term-json__ln--item"><span class="term-json__k">"<span data-lang-show="en">{g.category.en}</span><span data-lang-show="pt">{g.category.pt}</span>"</span>: [{g.skills.map((s, j) => (<><span class="term-json__v">"{s}"</span>{j < g.skills.length - 1 && ', '}</>))}]{i < skillGroups.length - 1 && ','}</span>))}<span class="term-json__ln">{'}'}</span></pre>
+</div>

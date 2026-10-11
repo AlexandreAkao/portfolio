@@ -4,6 +4,9 @@ import { t } from '@i18n/utils';
 import T from '@components/ui/T.astro';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 import avatarImg from '@/assets/images/avatar.jpeg';
+import EngineerAbout from '@components/designs/engineer/EngineerAbout.astro';
+import TerminalAbout from '@components/designs/terminal/TerminalAbout.astro';
+import TapeAbout from '@components/designs/tape/TapeAbout.astro';
 
 const stats = [
   { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label' },
@@ -15,13 +18,15 @@ const stats = [
 
 <section id="about" class="py-12 md:py-20">
   <div class="mx-auto max-w-4xl px-6">
-    <ScrollReveal client:visible>
-      <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
-        <span class="section-tag"><T k="about.title" /></span>
-      </h2>
-    </ScrollReveal>
+    <div data-design-hide="engineer terminal tape">
+      <ScrollReveal client:visible>
+        <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
+          <span class="section-tag"><T k="about.title" /></span>
+        </h2>
+      </ScrollReveal>
+    </div>
 
-    <div data-design-hide="editorial">
+    <div data-design-hide="editorial engineer terminal tape">
       <ScrollReveal client:visible delay={0.1}>
         <div class="mb-8 flex justify-center">
           <Image
@@ -56,6 +61,21 @@ const stats = [
           ))}
         </div>
       </ScrollReveal>
+    </div>
+
+    {/* Engineer: section 1 of the draft, with the figures as Table 1 */}
+    <div data-design-show="engineer">
+      <EngineerAbout />
+    </div>
+
+    {/* Terminal: `cat about.md`, then the figures from `akira --stats` */}
+    <div data-design-show="terminal">
+      <TerminalAbout />
+    </div>
+
+    {/* Tape: a punched window, the figures as frames on a strip */}
+    <div data-design-show="tape">
+      <TapeAbout />
     </div>
 
     {/* Editorial: the front-page lede. A byline, the first paragraph as standfirst

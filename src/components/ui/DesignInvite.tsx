@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { designIds, designs, nextDesign } from '@data/designs';
+import { designIds, designLabel, nextDesign } from '@data/designs';
 import { t, type Locale } from '@i18n/utils';
 import { useLocale } from '@i18n/useLocale';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -21,7 +21,7 @@ function DesignInvite({ world, locale: localeProp, delay = 0, className = '' }: 
   const liveLocale = useLocale();
   const locale = localeProp ?? liveLocale;
   const next = nextDesign(world);
-  const nextLabel = designs.find((d) => d.id === next)?.label ?? next;
+  const nextLabel = designLabel(next, (k) => t(k, locale));
 
   return (
     <motion.p

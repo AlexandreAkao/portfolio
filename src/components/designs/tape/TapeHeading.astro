@@ -1,0 +1,14 @@
+---
+import T from '@components/ui/T.astro';
+import { t } from '@i18n/utils';
+import TapeStrip from './TapeStrip';
+
+interface Props {
+  k: string;
+}
+
+const { k } = Astro.props;
+const punched = t(k, 'en').toUpperCase();
+---
+{/* A stub of tape punching the section's title, then the title in display caps */}
+<h2 class="tape-h2"><span class="tape-fr" aria-hidden="true"><TapeStrip text={punched} columns={punched.length} /></span><T k={k} /></h2>

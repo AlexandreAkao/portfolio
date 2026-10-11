@@ -1,0 +1,22 @@
+---
+import { education } from '@data/education';
+import RfcHeading from './RfcHeading.astro';
+---
+<div class="rfc-col">
+  <RfcHeading n="3." k="education.title" />
+  {education.map((edu, i) => (
+    <article>
+      <h3 class="rfc-h">
+        <span class="rfc-n">3.{i + 1}.</span>
+        <span><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></span>
+      </h3>
+      <p class="rfc-by">{edu.institution}, {edu.period}</p>
+      {edu.description && (
+        <p class="rfc-ind">
+          <span data-lang-show="en">{edu.description.en}</span>
+          <span data-lang-show="pt">{edu.description.pt}</span>
+        </p>
+      )}
+    </article>
+  ))}
+</div>

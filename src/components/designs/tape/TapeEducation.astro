@@ -1,0 +1,17 @@
+---
+import { education } from '@data/education';
+import TapeHeading from './TapeHeading.astro';
+---
+<div class="tape">
+  <TapeHeading k="education.title" />
+  <div class="grid gap-4 md:grid-cols-2">
+    {education.map((edu) => (
+      <article class="tape-win">
+        <div class="tape-win__head tape-caps"><span>{edu.period}</span></div>
+        <h3><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></h3>
+        <p class="tape-role tape-caps">{edu.institution}</p>
+        {edu.description && <p class="tape-sum mb-0"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}
+      </article>
+    ))}
+  </div>
+</div>

@@ -70,8 +70,7 @@ test('a scroll gesture ends the curtain instead of being swallowed', async ({ pa
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro ?? 'none'), { timeout: 1_000 }).toBe('done');
 });
 
-// Engineer is left out while its rework happens on another branch.
-for (const world of ['editorial', 'avantgarde', 'creative', 'arcade']) {
+for (const world of ['editorial', 'avantgarde', 'engineer', 'creative', 'arcade', 'terminal', 'tape']) {
   test(`${world}: "View my work" leads to Experience, and Projects keeps only the personal repositories`, async ({ page }) => {
     await page.addInitScript((w) => { localStorage.setItem('design', w); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1'); }, world);
     await page.goto('/');

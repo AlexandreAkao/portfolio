@@ -1,0 +1,29 @@
+---
+import T from '@components/ui/T.astro';
+import { socialLinks } from '@data/social';
+import DesignInvite from '@components/ui/DesignInvite.tsx';
+import TapeStrip from './TapeStrip';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+{/* The tape runs out: trailer, feed holes only */}
+<div class="tape mt-12">
+  <div class="tape-band tape-band--leader" aria-hidden="true"><TapeStrip columns={240} /></div>
+  <div class="tape-caps mx-auto flex max-w-6xl flex-wrap items-baseline justify-between gap-x-8 gap-y-3 px-4 pb-12 pt-6 text-[0.9375rem] sm:px-6">
+    <p class="m-0 text-[1.1rem] tracking-[0.12em] text-accent"><T k="tape.end" /></p>
+    <p class="m-0 text-[var(--text-secondary)]"><T k="footer.built" /> · &copy; {year} Alexandre Akira</p>
+    <p class="m-0 flex flex-wrap gap-x-5">
+      {socialLinks.map((link) => (
+        <a href={link.url} {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })} class="text-text underline decoration-accent decoration-2 underline-offset-4 hover:text-accent">
+          {link.name}
+        </a>
+      ))}
+    </p>
+    <DesignInvite client:visible world="tape" locale={locale} className="tape-caps w-full text-[0.9375rem]!" />
+  </div>
+</div>

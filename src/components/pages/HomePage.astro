@@ -13,6 +13,8 @@ import Skills from '@components/sections/Skills.astro';
 import Projects from '@components/sections/Projects.astro';
 import Contact from '@components/sections/Contact.astro';
 import AvantgardeMarquee from '@components/designs/avantgarde/AvantgardeMarquee.tsx';
+import EngineerSeam from '@components/designs/engineer/EngineerSeam.astro';
+import EngineerPager from '@components/designs/engineer/EngineerPager.astro';
 import { t, type Locale } from '@i18n/utils';
 
 interface Props {
@@ -34,15 +36,23 @@ const { locale } = Astro.props;
     <div data-design-show="avantgarde">
       <AvantgardeMarquee client:visible />
     </div>
+    <div class="px-6" data-design-show="engineer"><EngineerSeam page={1} /></div>
     <About />
+    <div class="px-6" data-design-show="engineer"><EngineerSeam page={2} /></div>
     <Experience locale={locale} />
+    <div class="px-6" data-design-show="engineer"><EngineerSeam page={3} /></div>
     <Education />
+    <div class="px-6" data-design-show="engineer"><EngineerSeam page={4} /></div>
     <Skills locale={locale} />
+    <div class="px-6" data-design-show="engineer"><EngineerSeam page={5} /></div>
     <Projects />
+    <div class="px-6" data-design-show="engineer"><EngineerSeam page={6} /></div>
     <div data-design-show="avantgarde">
       <AvantgardeMarquee direction="right" client:visible />
     </div>
     <Contact locale={locale} />
+    <div class="px-6" data-design-show="engineer"><EngineerSeam page={7} /></div>
   </main>
   <Footer locale={locale} />
+  <div data-design-show="engineer"><EngineerPager /></div>
 </BaseLayout>
