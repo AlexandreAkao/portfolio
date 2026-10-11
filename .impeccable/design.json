@@ -1,127 +1,142 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-11T00:00:00.000Z",
+  "generatedAt": "2026-10-11T18:16:23.000Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
-      "engineer-navy-depth": {
+      "engineer-cool-paper": {
         "role": "neutral",
-        "displayName": "Navy Depth",
-        "canonical": "oklch(21.4% 0.048 258.0)",
+        "displayName": "Cool Paper",
+        "canonical": "oklch(97.6% 0.002 247.8)",
         "tonalRamp": [
-          "#010a1f",
-          "#16253c",
-          "#32435c",
-          "#50627d",
-          "#7184a0",
-          "#93a6c4",
-          "#b6cbe9",
-          "#e5efff"
+          "#0b0b0c",
+          "#242526",
+          "#414243",
+          "#606162",
+          "#818283",
+          "#a4a5a6",
+          "#c8c9ca",
+          "#edeeef"
         ]
       },
-      "engineer-navy-raised": {
+      "engineer-cool-paper-raised": {
         "role": "neutral",
-        "displayName": "Navy Raised",
-        "canonical": "oklch(25.5% 0.061 260.9)",
+        "displayName": "Paper Raised",
+        "canonical": "oklch(94.8% 0.005 258.3)",
         "tonalRamp": [
-          "#000924",
-          "#132442",
-          "#2f4263",
-          "#4d6284",
-          "#6e83a8",
-          "#90a6cc",
-          "#b3caf2",
-          "#e7effd"
+          "#0a0b0d",
+          "#242527",
+          "#404244",
+          "#606164",
+          "#818285",
+          "#a3a5a8",
+          "#c7c9cc",
+          "#edeff2"
         ]
       },
-      "engineer-navy-lifted": {
+      "engineer-white-sheet": {
         "role": "neutral",
-        "displayName": "Navy Lifted",
-        "canonical": "oklch(33.2% 0.085 262.4)",
+        "displayName": "White Sheet",
+        "canonical": "oklch(100.0% 0.000 89.9)",
         "tonalRamp": [
-          "#00052e",
-          "#0d224d",
-          "#29416f",
-          "#476191",
-          "#6782b6",
-          "#88a5db",
-          "#adcafe",
-          "#e7effc"
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
         ]
       },
-      "engineer-navy-line": {
+      "engineer-sheet-hover": {
         "role": "neutral",
-        "displayName": "Navy Line",
-        "canonical": "oklch(32.9% 0.060 260.8)",
+        "displayName": "Sheet Hover",
+        "canonical": "oklch(98.5% 0.002 247.8)",
         "tonalRamp": [
-          "#000924",
-          "#132442",
-          "#2f4262",
-          "#4e6284",
-          "#6e83a7",
-          "#90a6cb",
-          "#b3caf1",
-          "#e7effc"
+          "#0b0b0c",
+          "#242526",
+          "#414243",
+          "#606162",
+          "#818283",
+          "#a4a5a6",
+          "#c8c9ca",
+          "#edeeef"
         ]
       },
-      "engineer-frost": {
+      "engineer-rule-grey": {
         "role": "neutral",
-        "displayName": "Frost",
-        "canonical": "oklch(87.9% 0.046 271.7)",
+        "displayName": "Rule Grey",
+        "canonical": "oklch(85.0% 0.012 259.8)",
         "tonalRamp": [
-          "#05091e",
-          "#1d233b",
-          "#39415b",
-          "#58607c",
-          "#78819e",
-          "#9ba4c2",
-          "#bec8e8",
-          "#e9eefd"
+          "#080b10",
+          "#22252b",
+          "#3e4249",
+          "#5d6168",
+          "#7e838a",
+          "#a1a5ad",
+          "#c4c9d1",
+          "#eaeff7"
         ]
       },
-      "engineer-slate": {
+      "engineer-ink": {
         "role": "neutral",
-        "displayName": "Slate",
-        "canonical": "oklch(66.2% 0.046 270.6)",
+        "displayName": "Ink (Engineer)",
+        "canonical": "oklch(20.4% 0.007 258.4)",
         "tonalRamp": [
-          "#05091e",
-          "#1d243c",
-          "#39415b",
-          "#57607c",
-          "#78819f",
-          "#9aa4c3",
-          "#bec8e8",
-          "#e9eefd"
+          "#090b0e",
+          "#232528",
+          "#404246",
+          "#5f6165",
+          "#808286",
+          "#a2a5a9",
+          "#c6c9ce",
+          "#eceff3"
         ]
       },
-      "engineer-terminal-teal": {
+      "engineer-ink-secondary": {
+        "role": "neutral",
+        "displayName": "Ink Secondary",
+        "canonical": "oklch(43.0% 0.015 259.8)",
+        "tonalRamp": [
+          "#080b11",
+          "#21252c",
+          "#3d424a",
+          "#5c626a",
+          "#7d838b",
+          "#a0a5af",
+          "#c4cad3",
+          "#e9eff9"
+        ]
+      },
+      "engineer-link-blue": {
         "role": "primary",
-        "displayName": "Terminal Teal",
-        "canonical": "oklch(90.8% 0.141 174.3)",
+        "displayName": "Link Blue",
+        "canonical": "oklch(48.8% 0.217 264.4)",
         "tonalRamp": [
-          "#000f0a",
-          "#002d23",
-          "#014e3f",
-          "#08725e",
-          "#14987e",
-          "#03c09f",
-          "#45e7c3",
-          "#bdffeb"
+          "#000134",
+          "#010479",
+          "#0326b2",
+          "#1e50da",
+          "#4177fc",
+          "#79a2fb",
+          "#b0c9fd",
+          "#e7effe"
         ]
       },
-      "engineer-terminal-teal-deep": {
+      "engineer-link-blue-deep": {
         "role": "primary",
-        "displayName": "Terminal Teal Deep",
-        "canonical": "oklch(79.9% 0.135 170.0)",
+        "displayName": "Link Blue Deep",
+        "canonical": "oklch(42.4% 0.181 265.6)",
         "tonalRamp": [
-          "#000f09",
-          "#032d21",
-          "#014e3c",
-          "#0b7259",
-          "#039977",
-          "#27c098",
-          "#5be5bc",
-          "#c0fee7"
+          "#010035",
+          "#040676",
+          "#1431a0",
+          "#2f56c6",
+          "#4e7aed",
+          "#7ba2fd",
+          "#b1c9fe",
+          "#e7efff"
         ]
       },
       "creative-warm-paper": {
@@ -738,12 +753,342 @@
           "#ffb1b5",
           "#ffe8e9"
         ]
+      },
+      "terminal-ground": {
+        "role": "neutral",
+        "displayName": "Terminal Ground",
+        "canonical": "oklch(17.6% 0.014 258.4)",
+        "tonalRamp": [
+          "#080b11",
+          "#21252c",
+          "#3d424a",
+          "#5c6269",
+          "#7d838b",
+          "#a0a5ae",
+          "#c4cad2",
+          "#e9eff8"
+        ]
+      },
+      "terminal-raised": {
+        "role": "neutral",
+        "displayName": "Terminal Raised",
+        "canonical": "oklch(22.0% 0.016 256.8)",
+        "tonalRamp": [
+          "#070b12",
+          "#20252d",
+          "#3d424a",
+          "#5c626a",
+          "#7c838c",
+          "#9fa6af",
+          "#c3cad4",
+          "#e8eff9"
+        ]
+      },
+      "terminal-raised-hover": {
+        "role": "neutral",
+        "displayName": "Raised Hover",
+        "canonical": "oklch(24.6% 0.015 256.8)",
+        "tonalRamp": [
+          "#070b12",
+          "#20252d",
+          "#3d424a",
+          "#5c626a",
+          "#7d838c",
+          "#9fa6af",
+          "#c3cad3",
+          "#e8eff9"
+        ]
+      },
+      "terminal-line": {
+        "role": "neutral",
+        "displayName": "Terminal Line",
+        "canonical": "oklch(33.0% 0.015 252.3)",
+        "tonalRamp": [
+          "#070c11",
+          "#20262c",
+          "#3c434a",
+          "#5b626a",
+          "#7c838b",
+          "#9fa6ae",
+          "#c2cad3",
+          "#e8eff9"
+        ]
+      },
+      "terminal-text-grey": {
+        "role": "neutral",
+        "displayName": "Text Grey",
+        "canonical": "oklch(85.7% 0.014 248.0)",
+        "tonalRamp": [
+          "#070c11",
+          "#20262c",
+          "#3c4349",
+          "#5b6269",
+          "#7c838b",
+          "#9ea6ae",
+          "#c2cad2",
+          "#e7f0f8"
+        ]
+      },
+      "terminal-dim-grey": {
+        "role": "neutral",
+        "displayName": "Dim Grey",
+        "canonical": "oklch(66.2% 0.018 250.9)",
+        "tonalRamp": [
+          "#060c13",
+          "#1f262e",
+          "#3b434c",
+          "#5a626b",
+          "#7b838d",
+          "#9da6b0",
+          "#c1cad5",
+          "#e6f0fb"
+        ]
+      },
+      "terminal-bright": {
+        "role": "neutral",
+        "displayName": "Bright",
+        "canonical": "oklch(97.0% 0.010 247.9)",
+        "tonalRamp": [
+          "#080c0f",
+          "#21262a",
+          "#3e4347",
+          "#5d6267",
+          "#7e8388",
+          "#a0a6ab",
+          "#c4cad0",
+          "#e9eff5"
+        ]
+      },
+      "terminal-path-blue": {
+        "role": "primary",
+        "displayName": "Path Blue",
+        "canonical": "oklch(71.5% 0.152 253.3)",
+        "tonalRamp": [
+          "#000b1e",
+          "#00254b",
+          "#00427e",
+          "#0361b4",
+          "#3584da",
+          "#5fa8fd",
+          "#a4cdfe",
+          "#e4f0ff"
+        ]
+      },
+      "terminal-path-blue-light": {
+        "role": "primary",
+        "displayName": "Path Blue Light",
+        "canonical": "oklch(76.9% 0.121 252.3)",
+        "tonalRamp": [
+          "#000b1e",
+          "#022549",
+          "#06427a",
+          "#2463a4",
+          "#4885c9",
+          "#6aa9ef",
+          "#a4cdfd",
+          "#e4f0fe"
+        ]
+      },
+      "terminal-prompt-green": {
+        "role": "secondary",
+        "displayName": "Prompt Green",
+        "canonical": "oklch(69.5% 0.181 145.6)",
+        "tonalRamp": [
+          "#001001",
+          "#012e09",
+          "#045115",
+          "#0c7624",
+          "#159d33",
+          "#49c258",
+          "#71e77c",
+          "#cbfecd"
+        ]
+      },
+      "terminal-prompt-green-light": {
+        "role": "secondary",
+        "displayName": "Prompt Green Light",
+        "canonical": "oklch(77.2% 0.188 145.5)",
+        "tonalRamp": [
+          "#001001",
+          "#022e09",
+          "#075116",
+          "#107525",
+          "#019e2e",
+          "#43c254",
+          "#6de878",
+          "#caffcb"
+        ]
+      },
+      "tape-black": {
+        "role": "neutral",
+        "displayName": "Tape Black",
+        "canonical": "oklch(15.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-black-raised": {
+        "role": "neutral",
+        "displayName": "Tape Raised",
+        "canonical": "oklch(19.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-black-hover": {
+        "role": "neutral",
+        "displayName": "Black Hover",
+        "canonical": "oklch(23.1% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-line": {
+        "role": "neutral",
+        "displayName": "Tape Line",
+        "canonical": "oklch(30.1% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-white": {
+        "role": "neutral",
+        "displayName": "Tape White",
+        "canonical": "oklch(96.1% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-grey": {
+        "role": "neutral",
+        "displayName": "Tape Grey",
+        "canonical": "oklch(73.2% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-orange": {
+        "role": "primary",
+        "displayName": "Tape Orange",
+        "canonical": "oklch(68.2% 0.211 37.7)",
+        "tonalRamp": [
+          "#1c0300",
+          "#451102",
+          "#742205",
+          "#a6360c",
+          "#dc4b15",
+          "#fd784f",
+          "#ffb49e",
+          "#ffe9e2"
+        ]
+      },
+      "tape-orange-light": {
+        "role": "primary",
+        "displayName": "Tape Orange Light",
+        "canonical": "oklch(72.7% 0.175 40.7)",
+        "tonalRamp": [
+          "#1a0400",
+          "#441300",
+          "#722501",
+          "#a43a04",
+          "#d5531b",
+          "#fd7845",
+          "#ffb59a",
+          "#fee9e2"
+        ]
+      },
+      "tape-window-muted": {
+        "role": "neutral",
+        "displayName": "Window Muted",
+        "canonical": "oklch(42.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-window-line": {
+        "role": "neutral",
+        "displayName": "Window Line",
+        "canonical": "oklch(87.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tape-window-rule": {
+        "role": "neutral",
+        "displayName": "Window Rule",
+        "canonical": "oklch(78.6% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
       }
     },
     "typographyMeta": {
       "engineer-display": {
         "displayName": "Engineer Display",
-        "purpose": "Hero name in JetBrains Mono; 3rem below 768px."
+        "purpose": "Hero name in Courier Prime, centered under the draft's header block; the only size exception in the world besides the role line."
       },
       "creative-display": {
         "displayName": "Creative Display",
@@ -761,9 +1106,21 @@
         "displayName": "Arcade Display",
         "purpose": "Hero name in Bungee, uppercase; 3rem below 768px."
       },
+      "terminal-display": {
+        "displayName": "Terminal Display",
+        "purpose": "Hero name in JetBrains Mono, in Bright, printed as the output of whoami."
+      },
+      "tape-display": {
+        "displayName": "Tape Display",
+        "purpose": "Hero name in Big Shoulders Display 900 caps, Tape Black inside a punched White window."
+      },
+      "tape-headline": {
+        "displayName": "Tape Headline",
+        "purpose": "Section titles in display caps, opened by an orange frame stub punching the title; window titles at clamp(1.6rem, 3vw, 2.2rem)."
+      },
       "engineer-body": {
         "displayName": "Engineer Body",
-        "purpose": "Inter body copy for the Engineer world."
+        "purpose": "Courier Prime at one size for everything in Engineer (headings bold, numbered, flush left; paragraphs indented 3ch in a 72ch column)."
       },
       "creative-body": {
         "displayName": "Creative Body",
@@ -781,6 +1138,18 @@
         "displayName": "Arcade Body",
         "purpose": "Outfit body copy for the Arcade world."
       },
+      "terminal-body": {
+        "displayName": "Terminal Body",
+        "purpose": "JetBrains Mono output text; 0.875rem below 640px; output capped at 78ch."
+      },
+      "tape-body": {
+        "displayName": "Tape Body",
+        "purpose": "Big Shoulders Text running copy; the condensed face runs at 1.1875rem; window copy capped at 62ch."
+      },
+      "tape-caps": {
+        "displayName": "Tape Caps",
+        "purpose": "Labels, keys, toggles, period marks, and links in Tape: 800 uppercase with 0.08em tracking."
+      },
       "headline": {
         "displayName": "Headline",
         "purpose": "Section h2, centered, resolved through the heading slot."
@@ -795,7 +1164,7 @@
       },
       "body-small": {
         "displayName": "Body Small",
-        "purpose": "Copy inside cards and experience entries; experience copy capped at 65ch (max-w-prose) in Engineer, Creative, Arcade, and Avant-garde, sub-roles included."
+        "purpose": "Copy inside cards and experience entries; experience copy capped at 65ch (max-w-prose) in Creative, Arcade, and Avant-garde, sub-roles included."
       },
       "prose": {
         "displayName": "Prose",
@@ -803,7 +1172,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Eyebrows, periods, chips, and tags; uppercase outside Engineer. Editorial datelines are 0.75rem semibold caps at 0.15em tracking."
+        "purpose": "Eyebrows, periods, chips, and tags; uppercase in Creative, Avant-garde, Editorial, and Arcade. Editorial datelines are 0.75rem semibold caps at 0.15em tracking. Engineer, Terminal, and Tape have no eyebrows."
       },
       "button": {
         "displayName": "Button",
@@ -815,7 +1184,7 @@
       },
       "mono": {
         "displayName": "Mono",
-        "purpose": "Engineer buttons, the JSON skills block, blog code (inline in the accent-text token, blocks in Shiki's github-dark-default on the --code-bg panel), and the switcher label."
+        "purpose": "The design switcher label and blog code (inline in the accent-text token, blocks in Shiki's github-dark-default on the --code-bg panel) in every world."
       }
     },
     "shadows": [
@@ -868,7 +1237,7 @@
       },
       {
         "name": "world-switch",
-        "value": "quick-change curtain 650ms to 800ms in the incoming world's exit gesture; 300ms View Transition crossfade under reduced motion or as fallback",
+        "value": "quick-change curtain 600ms to 800ms in the incoming world's exit gesture; 300ms View Transition crossfade under reduced motion or as fallback",
         "purpose": "Switching designs."
       },
       {
@@ -892,9 +1261,19 @@
         "purpose": "Mobile navigation."
       },
       {
-        "name": "typewriter",
-        "value": "30ms per character",
-        "purpose": "Engineer hero tagline."
+        "name": "pager-print",
+        "value": "each first-page block appears outright (10ms opacity) 45ms after the last, from 50ms",
+        "purpose": "Engineer hero: the pager draws the screen top to bottom; no fade, no rise."
+      },
+      {
+        "name": "session-replay",
+        "value": "26ms per character, 70ms after a command, 55ms after output, from 120ms; block cursor blinks at 1.1s steps(2)",
+        "purpose": "Terminal hero: the server renders the finished session, hydration replays it; reduced motion keeps it finished and the cursor steady."
+      },
+      {
+        "name": "tape-feed",
+        "value": "band x 35% to 0 over 900ms cubic-bezier(0.16, 1, 0.3, 1); window rises 24px over 500ms; flag drops 12px at 800ms",
+        "purpose": "Tape hero."
       },
       {
         "name": "char-stagger",
@@ -928,7 +1307,7 @@
       },
       {
         "name": "intro-curtain",
-        "value": "1.65s to 1.9s per world, fonts awaited up to 700ms except Editorial (data-intro-no-font-wait; its rule is a stub on frame one); heroes hydrate as the exit begins (0.95s to 1.35s)",
+        "value": "1.5s to 1.9s per world, fonts awaited up to 700ms except Editorial (data-intro-no-font-wait; its rule is a stub on frame one); heroes hydrate as the exit begins (0.95s to 1.35s)",
         "purpose": "Arrival on the home's first hard load of the session (sessionStorage key intro-seen, set in BaseLayout's inline script); deep links, later loads, in-site navigation, and reduced motion skip it; click, Escape, a wheel, or a swipe over it ends it."
       },
       {
@@ -940,6 +1319,11 @@
         "name": "no-js",
         "value": "<noscript> style: elements whose inline style starts at opacity 0 or scaleX(0) forced to opacity 1, transform none; a hero island that throws renders HeroFallback (name, role, CV, email)",
         "purpose": "Keeps Motion's server-rendered start states (Editorial's rule included) and failed hero islands from hiding the page."
+      },
+      {
+        "name": "curtains-new-worlds",
+        "value": "Engineer reveal 1.3s / total 1.85s (quick 0.65s: sheet pages up 0.42s); Terminal 1s / 1.5s (quick 0.6s: screen scrolls 0.36s in 9 line steps); Tape 1.1s / 1.7s (quick 0.7s: sheet pulled left 0.45s)",
+        "purpose": "Arrival and quick-change timing for Engineer, Terminal, and Tape in SiteIntro.astro."
       }
     ],
     "breakpoints": [
@@ -1002,7 +1386,7 @@
       "name": "Code Block",
       "kind": "custom",
       "refersTo": "mono",
-      "description": "Blog code block: Shiki's github-dark-default palette in every world on the --code-bg panel (the raised surface in dark worlds, the world's ink in Editorial and Creative) with color-scheme: dark, so every syntax token reads at 5.1:1 or more. Inline code sits in a 6px box on the raised surface in the accent-text token.",
+      "description": "Blog code block: Shiki's github-dark-default palette in every world on the --code-bg panel (the raised surface in dark worlds, the world's ink in Editorial, Creative, and Engineer) with color-scheme: dark, so every syntax token reads at 5.1:1 or more. Inline code sits in a 6px box on the raised surface in the accent-text token.",
       "html": "<pre class=\"ds-code\"><code><span style=\"color:#ff7b72\">const</span> <span style=\"color:#e6edf3\">port</span> <span style=\"color:#ff7b72\">=</span> <span style=\"color:#79c0ff\">4321</span>;</code></pre><p class=\"ds-code-p\">Run <code>npm run dev</code> to start.</p>",
       "css": ".ds-code{background:var(--code-bg,#1c1a18);color-scheme:dark;color:#e6edf3;border:1px solid var(--border,#2a2725);border-radius:8px;padding:1.25rem 1.5rem;overflow-x:auto;margin:1.5em 0;font-family:\"JetBrains Mono\",monospace;font-size:.875rem;line-height:1.7}.ds-code-p{font-family:var(--font-body, Inter, sans-serif);color:var(--text-secondary,#9a948b)}.ds-code-p code{background:var(--bg-secondary,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:6px;padding:.15em .4em;font-family:\"JetBrains Mono\",monospace;font-size:.85em;color:var(--accent-text,#c5ff41)}"
     },
@@ -1061,16 +1445,72 @@
       "description": "Arcade experience card on a candy surface: emoji, Bungee title, the role's result on the face, bullets and stack behind a details toggle, solid Cabinet Black text (never faded by opacity), copy capped at 65ch.",
       "html": "<div class=\"ds-candy\"><div class=\"ds-candy__emoji\">🚀</div><p class=\"ds-candy__period\">Apr 2025 - Present</p><h3 class=\"ds-candy__title\">Seva / Appointally</h3><p class=\"ds-candy__role\">Senior Full-Stack Engineer</p><p class=\"ds-candy__summary\">Leading development of a SaaS scheduling platform with 19 microservices architecture.</p><p class=\"ds-candy__impact\">19 microservices on Clean Architecture and CQRS</p><button class=\"ds-candy__toggle\">▼ details</button><div class=\"ds-candy__chips\"><span>Node.js</span><span>TypeScript</span><span>AWS</span></div></div>",
       "css": ".ds-candy{background:#0ba95b;color:#0f0d0e;border-radius:12px;padding:24px;max-width:480px;font-family:Outfit,sans-serif}.ds-candy__emoji{font-size:1.5rem}.ds-candy__period{margin:8px 0 0;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}.ds-candy__title{margin:4px 0 0;font-family:Bungee,sans-serif;font-size:1.125rem;font-weight:400;text-transform:uppercase}.ds-candy__role{margin:0;font-size:.875rem;font-weight:500}.ds-candy__summary{margin:8px 0 0;max-width:65ch;font-size:.875rem}.ds-candy__toggle{margin-top:12px;background:none;border:0;padding:0;font:700 .75rem Outfit,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:underline;color:#0f0d0e;cursor:pointer}.ds-candy__chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}.ds-candy__chips span{background:rgba(15,13,14,.15);border-radius:9999px;padding:2px 8px;font-size:.75rem;font-weight:500}.ds-candy__toggle:focus-visible{outline:2px solid #0f0d0e;outline-offset:2px}.ds-candy__impact{margin:12px 0 0;font-size:.875rem;font-weight:600}"
+    },
+    {
+      "name": "Engineer Email Key",
+      "kind": "button",
+      "refersTo": "engineer-email-key",
+      "description": "Engineer's one filled control: Link Blue with white text at text size, square; everything else is an underlined blue link.",
+      "html": "<p class=\"ds-rfc\">Currently at <b>Seva / Appointally</b> and <b>AmbevTech</b>.</p><p class=\"ds-rfc\"><a class=\"ds-rfc-key\" href=\"#\">Email</a> <a class=\"ds-rfc-a\" href=\"#\">Download CV</a> <a class=\"ds-rfc-a\" href=\"#\">GitHub</a></p>",
+      "css": ".ds-rfc{font:1rem/1.55 'Courier Prime',monospace;color:#15171a;background:#f6f7f8;margin:0;padding:.4em 3ch;display:flex;gap:2.4ch;flex-wrap:wrap;align-items:baseline}.ds-rfc-key{background:#1d4ed8;color:#fff;padding:.1em 1ch;text-decoration:none}.ds-rfc-key:hover{background:#1e40af}.ds-rfc-a{color:#1d4ed8;text-decoration:underline;text-underline-offset:.18em}.ds-rfc-a:hover{color:#1e40af}.ds-rfc a:focus-visible{outline:2px solid #1d4ed8;outline-offset:2px}"
+    },
+    {
+      "name": "Engineer Numbered Entry",
+      "kind": "custom",
+      "refersTo": "engineer-reverse-video",
+      "description": "An Experience entry in the draft: numbered bold heading at text size, byline, indented summary with figures in reverse video, a => result, and a [+] details toggle.",
+      "html": "<article class=\"ds-rfe\"><h3 class=\"ds-rfe__h\"><span class=\"ds-rfe__n\">2.1.</span>Seva / Appointally<span class=\"ds-rfe__st\">Active</span></h3><p class=\"ds-rfe__by\">Senior Full-Stack Engineer, Apr 2025 - Present</p><p class=\"ds-rfe__p\">Leading development of a SaaS scheduling platform with <mark class=\"ds-rfe__m\">19</mark> microservices.</p><p class=\"ds-rfe__p\"><b>=&gt; </b><mark class=\"ds-rfe__m\">19</mark> microservices on Clean Architecture and CQRS</p><p class=\"ds-rfe__p\"><button class=\"ds-rfe__t\" aria-expanded=\"false\">[+] details</button></p></article>",
+      "css": ".ds-rfe{font:1rem/1.55 'Courier Prime',monospace;color:#15171a;background:#f6f7f8;padding:1rem 2ch;max-width:72ch}.ds-rfe__h{display:flex;gap:0 1ch;font-size:1em;font-weight:700;margin:0 0 .4em}.ds-rfe__n{min-width:5ch}.ds-rfe__st{margin-left:auto;font-weight:400;color:#15171a}.ds-rfe__by{margin:0 0 .5em 3ch;color:#4b5058}.ds-rfe__p{margin:0 0 .75em 3ch}.ds-rfe__m{background:#15171a;color:#f6f7f8;padding:0 .2ch}.ds-rfe__t{font:inherit;color:#1d4ed8;background:none;border:0;padding:0;cursor:pointer}.ds-rfe__t:hover{color:#1e40af;text-decoration:underline}.ds-rfe__t:focus-visible{outline:2px solid #1d4ed8;outline-offset:2px}"
+    },
+    {
+      "name": "Engineer Pager Line",
+      "kind": "nav",
+      "refersTo": "engineer-reverse-video",
+      "description": "The less status line pinned to the foot of the screen in reverse video: file, current section, percentage, (END) at the bottom. Hidden from assistive tech.",
+      "html": "<div class=\"ds-pager\"><span>draft-akira-full-stack-engineer.txt</span><span>2.  Experience</span><span>34%</span></div>",
+      "css": ".ds-pager{display:flex;justify-content:space-between;gap:3ch;padding:.35rem 1.5rem;background:#15171a;color:#f6f7f8;font:.875rem/1.4 'Courier Prime',monospace}.ds-pager span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}"
+    },
+    {
+      "name": "Terminal Prompt and Keys",
+      "kind": "button",
+      "refersTo": "terminal-email-key",
+      "description": "A section heading as a prompt, its output, and the keys: the green email key and a bordered file key, 6px radius.",
+      "html": "<div class=\"ds-term\"><p class=\"ds-term__pl\"><span class=\"ds-term__u\">akira@portfolio</span>:<span class=\"ds-term__w\">~</span>$ <span class=\"ds-term__c\">ls ~/links</span></p><p class=\"ds-term__out\"><a class=\"ds-term__btn\" href=\"#\">cv.pdf</a><a class=\"ds-term__btn ds-term__btn--go\" href=\"#\">email</a><a class=\"ds-term__a\" href=\"#\">github</a></p></div>",
+      "css": ".ds-term{font:.9375rem/1.65 'JetBrains Mono',monospace;color:#c9d1d9;background:#0d1117;padding:1rem 1.5rem}.ds-term__pl{margin:0 0 .35em}.ds-term__u{color:#3fb950;font-weight:700}.ds-term__w{color:#58a6ff;font-weight:700}.ds-term__c{color:#f0f6fc}.ds-term__out{display:flex;gap:3ch;align-items:center;flex-wrap:wrap;margin:0}.ds-term__btn{border:1px solid #30363d;border-radius:6px;padding:.35em 1em;color:#c9d1d9;text-decoration:none}.ds-term__btn:hover{border-color:#58a6ff;color:#f0f6fc}.ds-term__btn--go{background:#3fb950;border-color:#3fb950;color:#0d1117;font-weight:700}.ds-term__btn--go:hover{background:#56d364;border-color:#56d364;color:#0d1117}.ds-term__a{color:#58a6ff;text-decoration:underline;text-underline-offset:.2em}.ds-term__a:hover{color:#79b8ff}.ds-term a:focus-visible{outline:2px solid #58a6ff;outline-offset:2px}"
+    },
+    {
+      "name": "Terminal Output Panel",
+      "kind": "card",
+      "refersTo": "terminal-panel",
+      "description": "Output a terminal would box (jq JSON, the mail composer) on the raised panel: keys blue bold, values green.",
+      "html": "<div class=\"ds-tpanel\"><pre class=\"ds-tpanel__j\">{\n  <span class=\"ds-tpanel__k\">\"backend\"</span>: [<span class=\"ds-tpanel__v\">\"Node.js\"</span>, <span class=\"ds-tpanel__v\">\"NestJS\"</span>]\n}</pre></div>",
+      "css": ".ds-tpanel{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:1rem 1.25rem;color:#c9d1d9;font:.9375rem/1.65 'JetBrains Mono',monospace}.ds-tpanel__j{margin:0;font:inherit;white-space:pre-wrap}.ds-tpanel__k{color:#58a6ff;font-weight:700}.ds-tpanel__v{color:#3fb950}"
+    },
+    {
+      "name": "Tape Window",
+      "kind": "card",
+      "refersTo": "tape-window",
+      "description": "A punched White window carrying running copy in Tape Black ink: a row of holes along its head, a caps head over a 2px ink rule, the period as a mark (inverted when active), orange only as underline.",
+      "html": "<article class=\"ds-twin\"><div class=\"ds-twin__head\"><span class=\"ds-twin__mark ds-twin__mark--on\">Apr 2025 - Present</span></div><h3 class=\"ds-twin__t\">Seva / Appointally</h3><p class=\"ds-twin__role\">Senior Full-Stack Engineer</p><p class=\"ds-twin__res\">=&gt; 19 microservices on Clean Architecture and CQRS</p><button class=\"ds-twin__tog\" aria-expanded=\"false\">Details</button></article>",
+      "css": ".ds-twin{background-color:#f2f2f2;background-image:radial-gradient(circle,#0b0b0b 0 2.5px,transparent 3px);background-size:14px 14px;background-repeat:space no-repeat;background-position:0 5px;color:#0b0b0b;padding:calc(1.5rem + 10px) 1.75rem 1.5rem;font:500 1.1875rem/1.45 'Big Shoulders Text',sans-serif}.ds-twin__head{display:flex;padding-bottom:.5rem;margin-bottom:.75rem;border-bottom:2px solid #0b0b0b;font-size:.875rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.ds-twin__mark{border:2px solid currentColor;padding:0 .5rem}.ds-twin__mark--on{background:#0b0b0b;color:#ff5a1f;border-color:#0b0b0b}.ds-twin__t{margin:0;font:900 2rem/1 'Big Shoulders Display',sans-serif;text-transform:uppercase}.ds-twin__role{margin:.4rem 0 .6rem;font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.ds-twin__res{font-weight:800;font-size:1.15em;margin:.5rem 0}.ds-twin__tog{font:800 .9375rem/1 'Big Shoulders Text',sans-serif;letter-spacing:.1em;text-transform:uppercase;background:none;border:0;padding:.5rem 0;color:inherit;cursor:pointer;text-decoration:underline;text-decoration-color:#ff5a1f;text-decoration-thickness:3px;text-underline-offset:5px}.ds-twin__tog:focus-visible{outline:2px solid #ff5a1f;outline-offset:2px}"
+    },
+    {
+      "name": "Tape Keys",
+      "kind": "button",
+      "refersTo": "tape-email-key",
+      "description": "Tape's Email key (orange, Tape Black caps, feed holes down both edges) beside the outline CV key that fills on hover.",
+      "html": "<p class=\"ds-tkeys\"><a class=\"ds-tkey\" href=\"#\">Email</a><a class=\"ds-tkey ds-tkey--out\" href=\"#\">Download CV</a></p>",
+      "css": ".ds-tkeys{display:flex;gap:.75rem;background:#0b0b0b;padding:1rem;margin:0;font:800 1.1875rem/1.45 'Big Shoulders Text',sans-serif;text-transform:uppercase;letter-spacing:.08em}.ds-tkey{display:inline-block;background-color:#ff5a1f;background-image:radial-gradient(circle,#0b0b0b 0 2px,transparent 2.5px),radial-gradient(circle,#0b0b0b 0 2px,transparent 2.5px);background-size:10px 10px;background-repeat:no-repeat space;background-position:3px 0,right 3px top 0;color:#0b0b0b;border:2px solid #ff5a1f;padding:.6rem 1.6rem;text-decoration:none}.ds-tkey:hover{background-color:#ff7a47;border-color:#ff7a47}.ds-tkey--out{background:transparent;color:#ff5a1f}.ds-tkey--out:hover{background:#ff5a1f;color:#0b0b0b}.ds-tkey:focus-visible{outline:2px solid #ff5a1f;outline-offset:2px}"
     }
   ],
   "narrative": {
     "northStar": "The Repertoire",
-    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, five staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of five complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, and Arcade. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the terminal, the studio, and the arcade cabinet). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all five: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial does. Only Hero, Experience, and Skills get a bespoke component per world.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world has exactly one accent and spends it on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world. Every signature lives in the hero.",
+    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, seven staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of seven complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, Arcade, Terminal, and Tape. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the studio, the arcade cabinet, the shell session, and the punched teletype tape). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all seven: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, and Tape also stage their own About, Contact, and footer, and the last three their own Education and Projects.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain.",
     "keyCharacteristics": [
-      "Five complete worlds, one content source, switched at runtime and persisted per visitor.",
-      "One accent per world, spent on interactive and labeling elements only.",
-      "Display typography carries identity: monospace, geometric sans, heavy grotesk, display grotesk, or slab poster.",
-      "Flat, border-defined surfaces in four worlds; Creative alone lifts with shadow.",
+      "Seven complete worlds, one content source, switched at runtime and persisted per visitor.",
+      "One accent per world, spent on interactive and labeling elements only; Terminal's prompt green is its one sanctioned second voice.",
+      "Display typography carries identity: monospace, typewriter, geometric sans, heavy grotesk, display grotesk, slab poster, or condensed caps.",
+      "Flat, border-defined surfaces in six worlds; Creative alone lifts with shadow.",
       "Shared reveal motion (fade, 30px rise, 0.5s, once) with a signature per world, staged in the hero.",
       "WebGL in one world only (Avant-garde's particle field), mounted only while that world is active and backed by a CSS fallback.",
       "Candy stays on the cards: Arcade's candy colors are surfaces, never UI chrome.",
@@ -1079,58 +1519,82 @@
     "rules": [
       {
         "name": "The One Accent Rule",
-        "body": "Each world has exactly one accent and spends it on buttons, labels, rules, hover and selection states. Body copy, headings, and card surfaces never take the accent. Arcade's candy colors are surfaces with Cabinet Black text on them, never accents.",
+        "body": "Each world has exactly one accent and spends it on buttons, labels, rules, hover and selection states. Body copy, headings, and card surfaces never take the accent. Arcade's candy colors are surfaces with Cabinet Black text on them, never accents. Terminal's prompt green is the shell's own prompt colour, held to the prompt user, active periods, JSON values, and the email key; it never becomes a second link or hover colour.",
         "section": "colors"
       },
       {
         "name": "The Own Palette Rule",
-        "body": "A world uses only its own token set. No Candy Green in Engineer, no Creative shadow in Editorial, no Terminal Teal outside the terminal.",
+        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Creative shadow in Editorial, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal.",
         "section": "colors"
       },
       {
         "name": "The Dark Text on Bright Accent Rule",
-        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Teal, Lime, and Gold are light accents, so their fills take the page color, the default (11:1 to 16:1). Violet's own hero and filter fills take white (6.7:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`.",
+        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Lime, Gold, and Tape Orange are light accents, so their fills take the page color, the default (6.3:1 to 16:1); Terminal's green key takes Terminal Ground (7.45:1). Violet's own hero and filter fills take white (6.7:1), and Engineer sets `--on-accent` to white on Link Blue (6.70:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`.",
+        "section": "colors"
+      },
+      {
+        "name": "The Reverse Video Rule (Engineer)",
+        "body": "Engineer has two fills and no others: the blue Email key and reverse video (Ink fill, Cool Paper text). Reverse video marks what a pager would highlight: standalone figures in the copy (`.rfc-mark`, split out by `src/lib/figures.ts`, like `less` search matches), the pinned status line, and its \"(END)\".",
+        "section": "colors"
+      },
+      {
+        "name": "The Window Ink Rule (Tape)",
+        "body": "Running copy sits in punched White windows in Tape Black ink. Orange never sets text inside a window (2.79:1); there it only underlines and rules. Orange text lives on the black ground.",
         "section": "colors"
       },
       {
         "name": "The Heading Slot Rule",
-        "body": "Headings never hardcode a family. They use the heading slot (`--font-heading`) so a world can swap the voice in one token.",
+        "body": "Headings in shared components never hardcode a family. They use the heading slot (`--font-heading`) so a world can swap the voice in one token. A world's own stylesheet (`src/styles/worlds/<world>.css`) may name its faces directly, because those classes never render outside it.",
         "section": "typography"
       },
       {
         "name": "The Loud Display, Quiet Body Rule",
-        "body": "Identity lives in the display size and face. Body and label sizes stay between 0.75rem and 1.125rem in every world.",
+        "body": "Identity lives in the display size and face. Body and label sizes stay between 0.75rem and 1.125rem in every world, except Tape's condensed body at 1.1875rem and its 1.25rem skill rows, which set the same measure a regular face sets at 1rem.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Size Rule (Engineer)",
+        "body": "Engineer sets everything in Courier Prime at the text size except the hero's name and role. Hierarchy is numbering, position, a 3ch indent, and bold, never size.",
         "section": "typography"
       },
       {
         "name": "The Same Bones Rule",
-        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills, and since 2026-10-11 Editorial also stages its own About, Contact, and footer (the user decided to keep all five worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world>\"` and the world's version `data-design-show=\"<world>\"`.",
+        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills; Editorial also stages its own About, Contact, and footer; Engineer, Terminal, and Tape stage their own About, Education, Projects, Contact, and footer, plus their own section headings in Experience and Skills (since 2026-10-11, when the user decided to keep the worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world> <world>\"` (space-separated) and the world's version `data-design-show=\"<world>\"`. A world's own extras (Engineer's seams and pager) sit in `HomePage.astro` behind `data-design-show`.",
         "section": "layout"
       },
       {
         "name": "The 896 Rule",
-        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px.",
+        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px. Engineer narrows the whole page, hero included, to a 72ch column, the width of a plain-text draft.",
         "section": "layout"
       },
       {
         "name": "The Two-Radius Rule",
         "body": "A world declares exactly two radii, `--radius-card` and `--radius-btn`. Chips, tags, and filters borrow the button radius; containers borrow the card radius.",
         "section": "shapes"
+      },
+      {
+        "name": "The Holes Are Data Rule (Tape)",
+        "body": "Every punched strip encodes real text, one column per character in its ASCII bits (channel 1 at the bottom, the feed hole between channels 3 and 4), via `TapeStrip`. A blank leader carries feed holes only. Never draw random holes.",
+        "section": "shapes"
       }
     ],
     "dos": [
-      "Do declare a new world with the nine color tokens, two font slots, and two radii on its `[data-design]` selector (overriding `--on-accent` or `--accent-text` only if its accent misses 4.5:1), register it in `src/data/designs.ts`, and add it to the anti-FOUC allowlist.",
+      "Do declare a new world with the nine color tokens, two font slots, and two radii on its `[data-design]` selector (overriding `--on-accent` or `--accent-text` only if its accent misses 4.5:1, and adding world-only tokens only for its own material), register it in `src/data/designs.ts`, add its `design.<id>` name in both locales, and add it to the anti-FOUC allowlist and both visibility selector lists in `global.css`.",
       "Do keep the accent on buttons, labels, rules, and states (The One Accent Rule), and set text on an accent fill with `text-on-accent`, never a hardcoded white or page color.",
       "Do treat Signal Orange as a display color: rules, outlines, fills with Ink text, and text at 24px and up through `.text-accent-display`. Small orange text goes through `--accent-text` (Signal Orange Ink, #bf3900); raw Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text.",
-      "Do resolve headings through the heading slot and body through the body slot; only Engineer's labels and the shared code face name JetBrains Mono directly.",
+      "Do keep Tape Orange off text inside a White window (2.79:1); set window copy in Tape Black ink and let orange underline or rule there (The Window Ink Rule).",
+      "Do resolve headings through the heading slot and body through the body slot in shared components; a world's own classes live in `src/styles/worlds/<world>.css` and may name its faces there.",
       "Do render both locales in every text node behind `data-lang-show` so the language toggle never re-renders.",
-      "Do respect `prefers-reduced-motion`, and make new motion join the reveal grammar (fade, 30px rise, 0.5s, once).",
+      "Do respect `prefers-reduced-motion`, and make new motion join the reveal grammar (fade, 30px rise, 0.5s, once) or the world's own signature.",
       "Do fork a shared section only when a world's identity needs it, inside the shared section with `data-design-hide` / `data-design-show` (The Same Bones Rule).",
+      "Do carry state as a mark or a word as well as a colour (Tape's band and cross, Terminal's \"●\" and \"Present\", `aria-pressed`, `aria-expanded`).",
       "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a CSS fallback, as Avant-garde does."
     ],
     "donts": [
-      "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no Terminal Teal outside Engineer (The Own Palette Rule).",
-      "Don't fork content per world. Copy, data, order, and links come from `src/data` and `src/i18n` only; a world may restage them, never rewrite or reorder them."
+      "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no prompt green outside Terminal, no Tape Orange outside Tape (The Own Palette Rule).",
+      "Don't fork content per world. Copy, data, order, and links come from `src/data` and `src/i18n` only; a world may restage them, never rewrite or reorder them.",
+      "Don't add a fill to Engineer beyond the Email key and reverse video, or a size beyond the text size and the hero title (The Reverse Video Rule, The One Size Rule).",
+      "Don't punch decorative noise into Tape: every strip encodes its text (The Holes Are Data Rule)."
     ]
   }
 }
