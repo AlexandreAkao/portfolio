@@ -12,7 +12,6 @@ interface Props {
 }
 
 const { locale } = Astro.props;
-const [user, domain] = email.split('@');
 ---
 <div class="tape">
   <TapeHeading k="contact.title" />
@@ -21,9 +20,11 @@ const [user, domain] = email.split('@');
       <p class="mt-0 text-[1.2rem] font-semibold">
         <span data-lang-show="en">{t('contact.description', 'en')}</span><span data-lang-show="pt">{t('contact.description', 'pt')}</span>
       </p>
-      <a href={`mailto:${email}`} class="tape-addr block no-underline">{user}<wbr />@{domain}</a>
-      <p class="tape-caps mb-0 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-        <EmailCopy client:visible locale={locale} showAddress={false} className="tape-tog" />
+      {/* The address set large, selectable in one click, with its Copy chip */}
+      <div class="tape-copy">
+        <EmailCopy client:visible locale={locale} />
+      </div>
+      <p class="tape-caps mb-0 mt-3">
         <a href={cvUrl} download><T k="hero.cta.cv" /></a>
       </p>
     </div>

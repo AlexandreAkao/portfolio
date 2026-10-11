@@ -274,4 +274,21 @@
     padding-inline: 1rem;
     font-size: 0.8125rem;
   }
+  /* Every link and button is at least a thumb (44px) both ways */
+  [data-design='engineer'] :is(#main-content, footer) :is(a[href], button):not(.rfc-ldr) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+  [data-design='engineer'] .rfc-col a.rfc-ldr {
+    min-height: 44px;
+    align-items: center;
+  }
+}
+
+/* Long reference URLs break anywhere rather than push the page sideways */
+.rfc-refs a {
+  overflow-wrap: anywhere;
+  min-width: 0;
 }

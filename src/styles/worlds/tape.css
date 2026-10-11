@@ -375,43 +375,27 @@
   font-weight: 700;
 }
 
-.tape-lines {
-  border-top: 2px solid var(--accent);
-  margin-bottom: 2rem;
+.tape-copy > span {
+  justify-content: flex-start;
 }
-.tape a.tape-line {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 0.9rem 0;
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  text-decoration: none;
-}
-.tape-line b {
-  font: 900 1.6rem/1 'Big Shoulders Display', sans-serif;
-  text-transform: uppercase;
-}
-.tape-line span {
-  color: var(--accent);
-}
-.tape a.tape-line:hover b {
-  color: var(--accent);
-}
-
-.tape-addr {
-  margin: 1.25rem 0 0.75rem;
+.tape-copy .select-all {
+  margin: 0.75rem 0 0.25rem;
   font: 900 clamp(1.4rem, 3.4vw, 2.4rem) / 1.1 'Big Shoulders Display', sans-serif;
+  color: var(--window-ink);
   overflow-wrap: anywhere;
 }
-
-/* The hero tape's folded flag, hanging off the tape's lower edge */
-.tape-hero__flag {
-  position: absolute;
-  left: 58%;
-  bottom: -2.2rem;
-  color: var(--window);
+.tape-copy button {
+  border: 2px solid var(--window-ink);
+  color: var(--window-ink);
+  font-family: 'Big Shoulders Text', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tape-copy button:hover {
+  border-color: var(--window-ink);
+  background: var(--accent);
+  color: var(--window-ink);
 }
 
 @media (max-width: 767px) {
@@ -439,12 +423,17 @@
     grid-template-columns: 1fr;
     gap: 0.35rem;
   }
-  .tape a.tape-line {
-    flex-direction: column;
-    gap: 0.35rem;
-  }
   .tape-win {
     padding: 1.25rem;
   }
 }
 
+/* Phones: every link and button is at least a thumb (44px) both ways */
+@media (max-width: 767px) {
+  [data-design='tape'] :is(#main-content, footer) :is(a[href], button):not(.tape-key--frame) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

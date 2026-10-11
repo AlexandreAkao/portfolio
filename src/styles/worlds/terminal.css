@@ -259,3 +259,13 @@
 [data-design='terminal'] #main-content > section:not(#hero) {
   padding-block: 1.5rem;
 }
+
+/* Phones: every link and button is at least a thumb (44px) both ways */
+@media (max-width: 767px) {
+  [data-design='terminal'] :is(#main-content, footer) :is(a[href], button) {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

@@ -49,6 +49,9 @@ function TapeHeroInner() {
             <a className="tape-key" href={`mailto:${email}`}>
               {t('social.email', locale)}
             </a>
+            <a className="tape-key tape-key--out" href="#experience">
+              {t('hero.cta.work', locale)}
+            </a>
             <a className="tape-key tape-key--out" href={cvUrl} download>
               {t('hero.cta.cv', locale)}
             </a>

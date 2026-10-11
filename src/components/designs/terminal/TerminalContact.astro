@@ -21,7 +21,7 @@ const { locale } = Astro.props;
   <div class="term-panel max-w-xl">
     <p class="flex flex-wrap items-baseline gap-x-[1ch]">
       <span class="term-muted">To:</span>
-      <EmailCopy client:visible locale={locale} className="term-tog" />
+      <EmailCopy client:visible locale={locale} />
     </p>
     <p><span class="term-muted">Subject:</span> <span class="term-cursor" aria-hidden="true"></span></p>
   </div>

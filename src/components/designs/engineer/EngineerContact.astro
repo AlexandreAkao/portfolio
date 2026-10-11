@@ -21,7 +21,7 @@ const { locale } = Astro.props;
     Alexandre Akira<br /><T k="hero.title" /><br /><br />
     <span class="inline-flex flex-wrap items-baseline gap-x-[1ch]">
       <span>Email:</span>
-      <EmailCopy client:visible locale={locale} className="rfc-tog" />
+      <EmailCopy client:visible locale={locale} />
     </span><br />
     CV:&nbsp;&nbsp;&nbsp;&nbsp;<a href={cvUrl} download><T k="hero.cta.cv" /></a> (PDF)
   </address>

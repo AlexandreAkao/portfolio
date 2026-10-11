@@ -3,28 +3,16 @@ import { projects } from '@data/projects';
 import T from '@components/ui/T.astro';
 import RfcHeading from './RfcHeading.astro';
 
-const professional = projects.filter((p) => p.type === 'professional');
+// Professional work is told in section 2 (the hero's "View my work" leads there); this section keeps the personal repositories.
 const personal = projects.filter((p) => p.type === 'personal');
 ---
 <div class="rfc-col">
   <RfcHeading n="5." k="projects.title" />
-  <h3 class="rfc-h"><span class="rfc-n">5.1.</span><T k="projects.professional" /></h3>
-  {/* Professional work is told in section 2; each line leads back there */}
-  <div class="rfc-ind">
-    {professional.map((p) => (
-      <a href="#experience" class="rfc-ldr">
-        <span>{p.title}</span>
-        <i aria-hidden="true"></i>
-        {p.metrics && <span><span data-lang-show="en">{p.metrics.en}</span><span data-lang-show="pt">{p.metrics.pt}</span></span>}
-        <span class="sr-only"><T k="projects.seeExperience" /></span>
-      </a>
-    ))}
-  </div>
-  <h3 class="rfc-h"><span class="rfc-n">5.2.</span><T k="projects.personal" /></h3>
+  <h3 class="rfc-h"><span class="rfc-n">5.1.</span><T k="projects.personal" /></h3>
   <dl class="rfc-refs">
     {personal.map((p) => (
       <>
-        <dt><a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer">{p.title}</a></dt>
+        <dt><a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} on GitHub`}>{p.title}</a></dt>
         <dd>
           <span data-lang-show="en">{p.description.en}</span><span data-lang-show="pt">{p.description.pt}</span>
           <br /><span class="rfc-muted">{p.tech.join(', ')}</span>

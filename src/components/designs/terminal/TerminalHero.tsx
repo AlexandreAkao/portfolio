@@ -105,6 +105,9 @@ function TerminalHeroInner({ login }: Props) {
         <a className="term-btn term-btn--go" href={`mailto:${email}`}>
           email
         </a>
+        <a className="term-btn" href="#experience" aria-label={t('hero.cta.work', locale)}>
+          work/
+        </a>
         {socials.map((s) => (
           <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer">
             {s.name.toLowerCase()}

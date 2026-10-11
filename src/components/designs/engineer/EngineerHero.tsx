@@ -94,6 +94,7 @@ function EngineerHeroInner({ date }: Props) {
             <a className="rfc-key" href={`mailto:${email}`}>
               {t('social.email', locale)}
             </a>
+            <a href="#experience">{t('hero.cta.work', locale)}</a>
             <a href={cvUrl} download>
               {t('hero.cta.cv', locale)}
             </a>
