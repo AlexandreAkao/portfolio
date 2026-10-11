@@ -79,7 +79,7 @@ function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: 
             className="flex flex-wrap gap-4"
           >
             <a
-              href="#projects"
+              href="#experience"
               className="rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition-transform hover:scale-105 sm:px-8"
             >
               {t('hero.cta.work', locale)}

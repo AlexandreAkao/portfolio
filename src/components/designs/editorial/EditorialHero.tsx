@@ -101,7 +101,7 @@ function EditorialHeroInner() {
           className="mt-8 flex flex-wrap gap-4 sm:mt-10"
         >
           <a
-            href="#projects"
+            href="#experience"
             className="border-2 border-text px-5 py-3 text-sm font-semibold uppercase tracking-wider text-text transition-colors hover:border-accent hover:bg-accent hover:text-on-accent sm:px-8"
             style={{ fontFamily: 'var(--font-body)' }}
           >

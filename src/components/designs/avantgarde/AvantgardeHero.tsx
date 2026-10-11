@@ -311,7 +311,7 @@ function AvantgardeHeroInner() {
           className="flex flex-wrap gap-4"
         >
           <a
-            href="#projects"
+            href="#experience"
             className="rounded-btn bg-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-[#131211] transition-colors hover:bg-accent-hover sm:px-8"
           >
             {t('hero.cta.work', locale)}

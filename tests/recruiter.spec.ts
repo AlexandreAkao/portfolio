@@ -70,10 +70,13 @@ test('a scroll gesture ends the curtain instead of being swallowed', async ({ pa
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro ?? 'none'), { timeout: 1_000 }).toBe('done');
 });
 
-test('professional projects are one line each, pointing to Experience', async ({ page }) => {
-  await page.goto('/');
-  const rows = page.locator('#projects a[href="#experience"]');
-  await expect(rows).toHaveCount(4);
-  await expect(rows.first()).toContainText('Appointally');
-  await expect(rows.first()).toContainText('19 microservices');
-});
+// Engineer is left out while its rework happens on another branch.
+for (const world of ['editorial', 'avantgarde', 'creative', 'arcade']) {
+  test(`${world}: "View my work" leads to Experience, and Projects keeps only the personal repositories`, async ({ page }) => {
+    await page.addInitScript((w) => { localStorage.setItem('design', w); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1'); }, world);
+    await page.goto('/');
+    await expect(page.locator(`#hero [data-design-show="${world}"]`).getByRole('link', { name: 'View my work' })).toHaveAttribute('href', '#experience');
+    await expect(page.locator('#projects a[href="#experience"]')).toHaveCount(0);
+    await expect(page.locator('#projects').getByRole('link', { name: /on GitHub$/ })).toHaveCount(5);
+  });
+}

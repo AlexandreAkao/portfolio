@@ -4,7 +4,7 @@ import { projects } from '@data/projects';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 import { Icon } from 'astro-icon/components';
 
-const professional = projects.filter((p) => p.type === 'professional');
+// Professional work is told in Experience (the hero's main action leads there); this section keeps the personal repositories.
 const personal = projects.filter((p) => p.type === 'personal');
 ---
 
@@ -14,34 +14,6 @@ const personal = projects.filter((p) => p.type === 'personal');
       <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
         <span class="section-tag"><T k="projects.title" /></span>
       </h2>
-    </ScrollReveal>
-
-    <ScrollReveal client:visible delay={0.1}>
-      <h3 class="mb-6 font-heading text-xl font-semibold text-accent">
-        <T k="projects.professional" />
-      </h3>
-      {/* Professional work is told in Experience; here it is one ruled line each, pointing back there */}
-      <ul class="mb-12 border-t border-border">
-        {professional.map((project) => (
-          <li class="border-b border-border">
-            <a
-              href="#experience"
-              class="group flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
-            >
-              <span class="font-heading text-lg font-bold text-text transition-colors group-hover:text-accent">
-                {project.title}
-              </span>
-              {project.metrics && (
-                <span class="text-sm font-medium text-accent">
-                  <span data-lang-show="en">{project.metrics.en}</span>
-                  <span data-lang-show="pt">{project.metrics.pt}</span>
-                </span>
-              )}
-              <span class="sr-only"><T k="projects.seeExperience" /></span>
-            </a>
-          </li>
-        ))}
-      </ul>
     </ScrollReveal>
 
     <ScrollReveal client:visible delay={0.1}>

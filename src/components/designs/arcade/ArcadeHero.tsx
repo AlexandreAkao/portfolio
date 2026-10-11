@@ -67,7 +67,7 @@ function ArcadeHeroInner() {
         className="flex flex-wrap gap-4"
       >
         <a
-          href="#projects"
+          href="#experience"
           className="rounded-btn border-2 border-accent bg-accent px-6 py-3 text-sm font-bold uppercase tracking-wide text-[#0f0d0e] transition-colors hover:bg-accent-hover"
         >
           {t('hero.cta.work', locale)}
