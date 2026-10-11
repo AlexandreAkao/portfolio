@@ -2,8 +2,9 @@ import { test, expect, type Page } from '@playwright/test';
 
 /**
  * Engineer reads as an Internet-Draft in a pager; Terminal is a shell session;
- * Tape is the career punched into paper tape. Each stages its own hero, about,
- * experience, contact and footer from the shared content.
+ * Tape is the career punched into paper tape; Cartoon is a 1960s cartoon's
+ * opening titles. Each stages its own hero, about, experience, contact and
+ * footer from the shared content.
  */
 
 async function arrive(page: Page, world: string, path = '/') {
@@ -108,8 +109,44 @@ test('the switcher names Tape "Fita" in Portuguese', async ({ page }) => {
   await expect(page.getByRole('list', { name: 'Opções de design' }).getByRole('button', { name: 'Fita' })).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('the three worlds keep text contrast at 4.5:1 or more', async ({ page }) => {
-  for (const world of ['engineer', 'terminal', 'tape']) {
+test('Cartoon runs the opening titles: the name lettered, the roles billed as credits, THE END in an iris', async ({ page }) => {
+  await arrive(page, 'cartoon');
+  const hero = page.locator('#hero [data-design-show="cartoon"]');
+  // The name is lettered one letter at a time for the eye, and read once
+  await expect(hero.getByRole('heading', { level: 1 })).toHaveAccessibleName('Alexandre Akira');
+  await expect(hero.locator('.cartoon-stripe')).toHaveText('Senior Full-Stack Engineer');
+  await expect(hero.locator('svg.cartoon-char')).toBeVisible();
+  const exp = page.locator('#experience [data-design-show="cartoon"]');
+  await exp.scrollIntoViewIfNeeded();
+  await expect(exp.getByRole('heading', { name: 'Experience' })).toHaveCount(1);
+  // Both roles running now share one card, each marked in words
+  await expect(exp.locator('.cartoon-pair .cartoon-showing')).toHaveCount(2);
+  await expect(exp.locator('.cartoon-pair .cartoon-showing').first()).toHaveText('Now showing');
+  const toggle = exp.getByRole('button', { name: /details/ }).first();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await toggle.click();
+  await expect(exp.getByRole('button', { name: /collapse/ }).first()).toHaveAttribute('aria-expanded', 'true');
+  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toBeVisible();
+  const contact = page.locator('#contact [data-design-show="cartoon"]');
+  await expect(contact.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', /^mailto:/);
+  await expect(contact.getByRole('button', { name: 'Copy email address' })).toBeVisible();
+  const end = page.locator('footer [data-design-show="cartoon"]');
+  await expect(end).toContainText('An Alexandre Akira production');
+  await expect(end.locator('.cartoon-end__stage')).toHaveAttribute('aria-hidden', 'true');
+});
+
+test('Cartoon speaks Portuguese on /pt/, and the switcher calls it "Desenho"', async ({ page }) => {
+  await arrive(page, 'cartoon', '/pt/');
+  const hero = page.locator('#hero [data-design-show="cartoon"]');
+  await expect(hero.locator('.cartoon-stripe')).toHaveText('Desenvolvedor Full-Stack Sênior');
+  await expect(page.locator('#experience .cartoon-showing').first()).toHaveText('Em cartaz');
+  await expect(page.locator('footer [data-design-show="cartoon"]')).toContainText('Uma produção de Alexandre Akira');
+  await page.getByRole('button', { name: /trocar design/i }).click();
+  await expect(page.getByRole('list', { name: 'Opções de design' }).getByRole('button', { name: 'Desenho' })).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('the four worlds keep text contrast at 4.5:1 or more', async ({ page }) => {
+  for (const world of ['engineer', 'terminal', 'tape', 'cartoon']) {
     await arrive(page, world);
     const worst = await page.evaluate(() => {
       const rgb = (s: string) => (s.match(/[\d.]+/g) ?? []).slice(0, 4).map(Number);

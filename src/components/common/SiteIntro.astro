@@ -5,6 +5,7 @@
 // Reduced-motion visitors never see it, and the page stays fully usable
 // without JS because the curtain is display:none until the flag is set.
 import TapeStrip from '@components/designs/tape/TapeStrip';
+import Lettering from '@components/designs/cartoon/Lettering';
 import T from '@components/ui/T.astro';
 import { t } from '@i18n/utils';
 import { RFC_FILE, rfcDate } from '@components/designs/engineer/rfc';
@@ -161,6 +162,16 @@ const printable = (text: string) =>
     </div>
   </div>
 
+  <!-- Cartoon: the titles open. "Alexandre Akira presents" is lettered on the black
+       leader, cut, then an iris opens on Akira's face (the script finds it in the
+       hero) onto the hero's own title card, whose entrance plays as it opens. -->
+  <div class="intro intro-cart" data-design-show="cartoon">
+    <div class="intro-cart__leader"></div>
+    <p class="intro-cart__card">
+      <span data-lang-show="en"><Lettering text={t('cartoon.presents', 'en')} /></span><span data-lang-show="pt"><Lettering text={t('cartoon.presents', 'pt')} /></span>
+    </p>
+  </div>
+
   <!-- Arcade: READY? pops and blinks, then five candy bars sweep the screen clean -->
   <div class="intro intro-arc" data-design-show="arcade">
     <div class="intro-arc__cabinet">
@@ -262,6 +273,20 @@ const printable = (text: string) =>
       }
     }
 
+    // Cartoon: centre the iris on the face of the hero's painter. The drawing may
+    // be mid-entrance (scaled), so it is read off its untransformed box: the face
+    // sits 0.327 of the drawing's height right of its cell and 0.6455 above its foot.
+    function cartPlace(block) {
+      var cell = document.querySelector('#hero [data-design-show="cartoon"] [data-cartoon-painter]');
+      var art = cell && cell.querySelector('.cartoon-painter__art');
+      if (!art) return;
+      var c = cell.getBoundingClientRect();
+      var h = parseFloat(getComputedStyle(art).height);
+      if (!c.width || !h) return;
+      block.style.setProperty('--ix', Math.round(c.left + 0.327 * h) + 'px');
+      block.style.setProperty('--iy', Math.round(c.bottom - 0.6455 * h) + 'px');
+    }
+
     // Curtains staged by script as well as CSS. prepare() runs before the curtain
     // shows; start() when it begins to move: after the font wait on arrival, and
     // once the theme has swapped underneath on a quick change, so the incoming
@@ -278,6 +303,9 @@ const printable = (text: string) =>
       },
       terminal: {
         start: function (block) { sshPlace(block); }
+      },
+      cartoon: {
+        start: function (block) { cartPlace(block); }
       },
       tape: {
         paced: true,
@@ -486,6 +514,7 @@ const printable = (text: string) =>
   [data-design='terminal']   #site-intro { --intro-reveal: 1.3s; --intro-total: 2.2s; }
   /* Tape hydrates its hero early (underneath, already in place) and fades when the reader is done; 2.6s cap */
   [data-design='tape']       #site-intro { --intro-reveal: 0.4s; --intro-total: 2.6s; }
+  [data-design='cartoon']    #site-intro { --intro-reveal: 1s; --intro-total: 1.65s; }
 
   /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
   /* The curtain carries the incoming design on its own data-design so it can
@@ -498,7 +527,8 @@ const printable = (text: string) =>
   #site-intro[data-design='editorial'] [data-design-show='editorial'],
   #site-intro[data-design='arcade'] [data-design-show='arcade'],
   #site-intro[data-design='terminal'] [data-design-show='terminal'],
-  #site-intro[data-design='tape'] [data-design-show='tape'] { display: block !important; }
+  #site-intro[data-design='tape'] [data-design-show='tape'],
+  #site-intro[data-design='cartoon'] [data-design-show='cartoon'] { display: block !important; }
 
   html[data-intro='quick'] #site-intro {
     display: block;
@@ -516,6 +546,7 @@ const printable = (text: string) =>
   html[data-intro='quick'] #site-intro[data-design='arcade']     { --intro-total: 0.8s; }
   html[data-intro='quick'] #site-intro[data-design='terminal']   { --intro-total: 1.2s; }
   html[data-intro='quick'] #site-intro[data-design='tape']       { --intro-total: 1.4s; }
+  html[data-intro='quick'] #site-intro[data-design='cartoon']    { --intro-total: 0.75s; }
 
   /* Avant-garde: no title card, the stage just splits */
   html[data-intro='quick'] .intro-ag__stage { display: none; }
@@ -533,6 +564,10 @@ const printable = (text: string) =>
   html[data-intro='quick'] .intro-ssh__prompt { animation-delay: 0.38s; }
 
   /* Tape: the name is already printed; the script reads the role in a burst, then the curtain fades */
+
+  /* Cartoon: no title card; the iris opens on the incoming painter at once */
+  html[data-intro='quick'] .intro-cart__card { display: none; }
+  html[data-intro='quick'] .intro-cart__leader { animation-delay: 0.2s; animation-duration: 0.5s; }
 
   /* Creative: the halo is already whole, it glides to the portrait and dissolves */
   html[data-intro='quick'] .intro-cr__name,
@@ -916,6 +951,43 @@ const printable = (text: string) =>
   @keyframes ed-issue { to { opacity: 1; transform: translateY(-50%); } }
   @keyframes ed-rule { to { transform: scaleX(1); } }
   @keyframes ed-turn { to { transform: translateY(-101%); } }
+
+  /* ---------- Cartoon: the credit on the leader, then the iris opens ---------- */
+  @property --intro-iris {
+    syntax: '<length>';
+    inherits: false;
+    initial-value: 0px;
+  }
+  .intro-cart__leader {
+    position: absolute;
+    inset: 0;
+    background: #121212;
+    -webkit-mask: radial-gradient(circle at var(--ix, 50%) var(--iy, 42%), transparent var(--intro-iris), #000 calc(var(--intro-iris) + 0.5px));
+    mask: radial-gradient(circle at var(--ix, 50%) var(--iy, 42%), transparent var(--intro-iris), #000 calc(var(--intro-iris) + 0.5px));
+    animation: cart-iris 0.6s cubic-bezier(0.55, 0, 0.8, 0.35) 1s forwards;
+  }
+  .intro-cart__card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0 1.5rem;
+    text-align: center;
+    font: 900 clamp(2.4rem, 7vw, 5rem) / 0.95 'Londrina Solid', sans-serif;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: #fbfbfb;
+    animation: cart-cut 1ms linear 0.95s forwards;
+  }
+  /* The credit's letters drop in on twos, as the hero's name will */
+  .intro-cart__card .cl {
+    animation: cartoon-drop 0.36s steps(1, end) both;
+    animation-delay: calc(0.05s + var(--i) * 0.016s);
+  }
+  @keyframes cart-iris { to { --intro-iris: 150vmax; } }
+  @keyframes cart-cut { to { visibility: hidden; } }
 
   /* ---------- Arcade: READY? then candy sweep ---------- */
   .intro-arc__cabinet {

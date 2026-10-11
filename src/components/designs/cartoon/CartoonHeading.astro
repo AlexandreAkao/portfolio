@@ -1,0 +1,22 @@
+---
+import { t } from '@i18n/utils';
+import Lettering from './Lettering';
+import Caricature from './Caricature';
+
+interface Props {
+  k: string;
+  /** Offsets the tilt pattern so neighbouring titles are not lettered alike. */
+  seed?: number;
+  /** Akira hangs on to the title's last letters and peeks over it. */
+  peek?: 'peek' | 'graduate';
+}
+
+const { k, seed = 0, peek } = Astro.props;
+---
+{/* The card's title, hand-lettered; its letters pop in as the card comes on screen */}
+<h2 class="cartoon-h2">
+  <span class="cartoon-h2__text">
+    <span data-lang-show="en"><Lettering text={t(k, 'en')} seed={seed} /></span><span data-lang-show="pt"><Lettering text={t(k, 'pt')} seed={seed} /></span>
+    {peek && <span class={`cartoon-peek cartoon-peek--${peek}`}><Caricature pose={peek} /></span>}
+  </span>
+</h2>

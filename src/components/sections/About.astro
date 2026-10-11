@@ -7,6 +7,7 @@ import avatarImg from '@/assets/images/avatar.jpeg';
 import EngineerAbout from '@components/designs/engineer/EngineerAbout.astro';
 import TerminalAbout from '@components/designs/terminal/TerminalAbout.astro';
 import TapeAbout from '@components/designs/tape/TapeAbout.astro';
+import CartoonAbout from '@components/designs/cartoon/CartoonAbout.astro';
 
 const stats = [
   { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label' },
@@ -18,7 +19,7 @@ const stats = [
 
 <section id="about" class="py-12 md:py-20">
   <div class="mx-auto max-w-4xl px-6">
-    <div data-design-hide="engineer terminal tape">
+    <div data-design-hide="engineer terminal tape cartoon">
       <ScrollReveal client:visible>
         <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
           <span class="section-tag"><T k="about.title" /></span>
@@ -26,7 +27,7 @@ const stats = [
       </ScrollReveal>
     </div>
 
-    <div data-design-hide="editorial engineer terminal tape">
+    <div data-design-hide="editorial engineer terminal tape cartoon">
       <ScrollReveal client:visible delay={0.1}>
         <div class="mb-8 flex justify-center">
           <Image
@@ -71,6 +72,11 @@ const stats = [
     {/* Terminal: `cat about.md`, then the figures from `akira --stats` */}
     <div data-design-show="terminal">
       <TerminalAbout />
+    </div>
+
+    {/* Cartoon: the star of the picture in a paper disc, the figures as credits */}
+    <div data-design-show="cartoon">
+      <CartoonAbout />
     </div>
 
     {/* Tape: a punched window, the figures as the teletype's printout */}

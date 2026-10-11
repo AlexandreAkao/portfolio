@@ -1,0 +1,32 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import EmailCopy from '@components/islands/EmailCopy.tsx';
+import { cvUrl, email } from '@data/social';
+import CartoonHeading from './CartoonHeading.astro';
+import Caricature from './Caricature';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+---
+<div class="cartoon">
+  <CartoonHeading k="contact.title" seed={4} />
+  <div class="cartoon-contact">
+    <p class="cartoon-contact__line">
+      <span data-lang-show="en">{t('contact.description', 'en')}</span><span data-lang-show="pt">{t('contact.description', 'pt')}</span>
+    </p>
+    <div class="cartoon-contact__more">
+      <EmailCopy client:visible locale={locale} />
+      <a href={cvUrl} download class="cartoon-link"><T k="hero.cta.cv" /></a>
+    </div>
+    {/* Akira points at the ticket that writes to him; he stands at the foot of the
+        card, his hips behind the cut edge of the closing card below */}
+    <div class="cartoon-contact__send">
+      <span class="cartoon-pointer"><Caricature pose="point" /></span>
+      <span class="cartoon-contact__ticket"><a href={`mailto:${email}`} class="cartoon-ticket cartoon-ticket--fill cartoon-mail"><T k="contact.emailMe" /></a></span>
+    </div>
+  </div>
+</div>

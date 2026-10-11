@@ -29,7 +29,7 @@ test('Editorial keeps its orange readable: ink on fills, Signal Orange Ink for s
 });
 
 test('blog code reads in every world: every syntax token at 4.5:1 or more on its panel', async ({ page }) => {
-  for (const world of ['editorial', 'creative', 'avantgarde', 'engineer', 'arcade', 'terminal', 'tape']) {
+  for (const world of ['editorial', 'creative', 'avantgarde', 'engineer', 'arcade', 'terminal', 'tape', 'cartoon']) {
     await page.addInitScript((w) => localStorage.setItem('design', w), world);
     await page.goto('/blog/es6-es7-es8-what-feature-is-that/');
     await expect(page.locator('html')).toHaveAttribute('data-design', world);

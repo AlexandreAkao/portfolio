@@ -106,5 +106,10 @@
   "tape.now": "Now",
   "tape.end": "End of tape",
   "tape.career": "Career on tape, 2019 to now",
-  "term.on": "on"
+  "term.on": "on",
+  "design.cartoon": "Cartoon",
+  "cartoon.presents": "Alexandre Akira presents",
+  "cartoon.end": "The End",
+  "cartoon.production": "An Alexandre Akira production",
+  "cartoon.showing": "Now showing"
 }

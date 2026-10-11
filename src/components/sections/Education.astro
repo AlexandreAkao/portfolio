@@ -5,11 +5,12 @@ import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 import EngineerEducation from '@components/designs/engineer/EngineerEducation.astro';
 import TerminalEducation from '@components/designs/terminal/TerminalEducation.astro';
 import TapeEducation from '@components/designs/tape/TapeEducation.astro';
+import CartoonEducation from '@components/designs/cartoon/CartoonEducation.astro';
 
 ---
 
 <section id="education" class="py-12 md:py-20">
-  <div class="mx-auto max-w-4xl px-6" data-design-hide="engineer terminal tape">
+  <div class="mx-auto max-w-4xl px-6" data-design-hide="engineer terminal tape cartoon">
     <ScrollReveal client:visible>
       <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
         <span class="section-tag"><T k="education.title" /></span>
@@ -36,6 +37,10 @@ import TapeEducation from '@components/designs/tape/TapeEducation.astro';
         </ScrollReveal>
       ))}
     </div>
+  </div>
+
+  <div class="mx-auto max-w-4xl px-6" data-design-show="cartoon">
+    <CartoonEducation />
   </div>
 
   <div class="mx-auto max-w-4xl px-6" data-design-show="tape">

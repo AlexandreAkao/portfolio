@@ -1,0 +1,16 @@
+---
+import { skillGroups } from '@data/skills';
+import CartoonHeading from './CartoonHeading.astro';
+---
+{/* The cast, as an end-credits roll: the part on the left, who plays it on the right */}
+<div class="cartoon">
+  <CartoonHeading k="skills.title" seed={7} />
+  <dl class="cartoon-cast">
+    {skillGroups.map((g) => (
+      <div class="cartoon-cast__row">
+        <dt><span data-lang-show="en">{g.category.en}</span><span data-lang-show="pt">{g.category.pt}</span></dt>
+        <dd>{g.skills.map((s, i) => <>{i > 0 && ' '}<span>{s}</span></>)}</dd>
+      </div>
+    ))}
+  </dl>
+</div>

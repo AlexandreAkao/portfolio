@@ -7,6 +7,7 @@ import DesignInvite from '@components/ui/DesignInvite.tsx';
 import EngineerFooter from '@components/designs/engineer/EngineerFooter.astro';
 import TerminalFooter from '@components/designs/terminal/TerminalFooter.astro';
 import TapeFooter from '@components/designs/tape/TapeFooter.astro';
+import CartoonFooter from '@components/designs/cartoon/CartoonFooter.astro';
 
 const year = new Date().getFullYear();
 
@@ -19,7 +20,7 @@ const { locale } = Astro.props;
 ---
 
 <footer>
-  <div class="border-t border-border py-8" data-design-hide="editorial engineer terminal tape">
+  <div class="border-t border-border py-8" data-design-hide="editorial engineer terminal tape cartoon">
     <div class="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6">
       <div class="flex items-center gap-1 md:gap-6">
         {socialLinks.map((link) => (
@@ -45,6 +46,11 @@ const { locale } = Astro.props;
         &copy; {year} Alexandre Akira
       </p>
     </div>
+  </div>
+
+  {/* Cartoon: THE END inside a closing iris */}
+  <div data-design-show="cartoon">
+    <CartoonFooter locale={locale} />
   </div>
 
   {/* Tape: the trailer runs out, END OF TAPE */}

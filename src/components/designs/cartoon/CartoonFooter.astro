@@ -1,0 +1,39 @@
+---
+import T from '@components/ui/T.astro';
+import { t } from '@i18n/utils';
+import { socialLinks } from '@data/social';
+import DesignInvite from '@components/ui/DesignInvite.tsx';
+import Caricature, { CartoonInks } from './Caricature';
+import Lettering from './Lettering';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+{/* THE END: the iris closes on Akira waving as the page runs out, then the last credits */}
+<div class="cartoon cartoon-end">
+  <CartoonInks />
+  <div class="cartoon-end__stage" aria-hidden="true">
+    <div class="cartoon-end__inner">
+      <p class="cartoon-end__word">
+        <span data-lang-show="en"><Lettering text={t('cartoon.end', 'en')} seed={1} /></span><span data-lang-show="pt"><Lettering text={t('cartoon.end', 'pt')} seed={1} /></span>
+      </p>
+      <Caricature pose="wave" />
+    </div>
+  </div>
+  <div class="cartoon-end__credits mx-auto max-w-6xl px-6">
+    <p class="cartoon-end__production"><T k="cartoon.production" /></p>
+    <p><T k="footer.built" /> · &copy; {year} Alexandre Akira</p>
+    <p class="cartoon-socials justify-center">
+      {socialLinks.map((link) => (
+        <a href={link.url} {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}>
+          {link.name}
+        </a>
+      ))}
+    </p>
+    <DesignInvite client:visible world="cartoon" locale={locale} />
+  </div>
+</div>

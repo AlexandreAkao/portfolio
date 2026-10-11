@@ -1,0 +1,20 @@
+---
+import { projects } from '@data/projects';
+import CartoonHeading from './CartoonHeading.astro';
+
+// Professional work is told in Experience (the hero's "View my work" leads there); this section keeps the personal repositories.
+const personal = projects.filter((p) => p.type === 'personal');
+---
+{/* Each repository is a short with its own title card */}
+<div class="cartoon">
+  <CartoonHeading k="projects.title" seed={2} />
+  <ul class="cartoon-shorts">
+    {personal.map((p) => (
+      <li class="cartoon-short">
+        <h4><a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} on GitHub`}>{p.title}</a></h4>
+        <p><span data-lang-show="en">{p.description.en}</span><span data-lang-show="pt">{p.description.pt}</span></p>
+        <ul class="cartoon-tags">{p.tech.map((t) => <li>{t}</li>)}</ul>
+      </li>
+    ))}
+  </ul>
+</div>

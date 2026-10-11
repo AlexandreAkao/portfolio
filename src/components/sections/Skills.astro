@@ -11,6 +11,7 @@ import RfcHeading from '@components/designs/engineer/RfcHeading.astro';
 import TerminalSkills from '@components/designs/terminal/TerminalSkills.astro';
 import Prompt from '@components/designs/terminal/Prompt.astro';
 import TapeSkills from '@components/designs/tape/TapeSkills.astro';
+import CartoonSkills from '@components/designs/cartoon/CartoonSkills.astro';
 
 interface Props {
   /** The page's language, so the islands render in it on the server. */
@@ -22,7 +23,7 @@ const { locale } = Astro.props;
 
 <section id="skills" class="py-12 md:py-20">
   <div class="mx-auto max-w-4xl px-6">
-    <div data-design-hide="engineer terminal tape">
+    <div data-design-hide="engineer terminal tape cartoon">
       <ScrollReveal client:visible>
         <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
           <span class="section-tag"><T k="skills.title" /></span>
@@ -40,6 +41,9 @@ const { locale } = Astro.props;
     </div>
     <div data-design-show="tape">
       <TapeSkills />
+    </div>
+    <div data-design-show="cartoon">
+      <CartoonSkills />
     </div>
     <div data-design-show="creative">
       <CreativeSkills skillGroups={skillGroups} locale={locale} client:visible />

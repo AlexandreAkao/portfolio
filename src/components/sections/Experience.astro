@@ -13,6 +13,8 @@ import Prompt from '@components/designs/terminal/Prompt.astro';
 import TapeExperience from '@components/designs/tape/TapeExperience.tsx';
 import TapeCareer from '@components/designs/tape/TapeCareer.astro';
 import TapeHeading from '@components/designs/tape/TapeHeading.astro';
+import CartoonExperience from '@components/designs/cartoon/CartoonExperience.tsx';
+import CartoonHeading from '@components/designs/cartoon/CartoonHeading.astro';
 
 interface Props {
   /** The page's language, so the islands render in it on the server. */
@@ -24,7 +26,7 @@ const { locale } = Astro.props;
 
 <section id="experience" class="py-12 md:py-20">
   <div class="mx-auto max-w-4xl px-6">
-    <div data-design-hide="engineer terminal tape">
+    <div data-design-hide="engineer terminal tape cartoon">
       <ScrollReveal client:visible>
         <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
           <span class="section-tag"><T k="experience.title" /></span>
@@ -44,6 +46,10 @@ const { locale } = Astro.props;
       <TapeHeading k="experience.title" />
       <TapeCareer />
       <TapeExperience experiences={experiences} locale={locale} client:visible />
+    </div>
+    <div data-design-show="cartoon" class="cartoon">
+      <CartoonHeading k="experience.title" seed={1} />
+      <CartoonExperience experiences={experiences} locale={locale} client:visible />
     </div>
     <div data-design-show="creative">
       <CreativeCarousel experiences={experiences} locale={locale} client:visible />

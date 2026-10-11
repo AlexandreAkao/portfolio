@@ -7,6 +7,7 @@ import { cvUrl, email } from '@data/social';
 import EngineerContact from '@components/designs/engineer/EngineerContact.astro';
 import TerminalContact from '@components/designs/terminal/TerminalContact.astro';
 import TapeContact from '@components/designs/tape/TapeContact.astro';
+import CartoonContact from '@components/designs/cartoon/CartoonContact.astro';
 
 interface Props {
   /** The page's language, so the islands render in it on the server. */
@@ -17,7 +18,7 @@ const { locale } = Astro.props;
 ---
 
 <section id="contact" class="py-12 md:py-20">
-  <div class="mx-auto max-w-2xl px-6 text-center" data-design-hide="engineer terminal tape">
+  <div class="mx-auto max-w-2xl px-6 text-center" data-design-hide="engineer terminal tape cartoon">
     <ScrollReveal client:visible>
       <h2 class="mb-4 font-heading text-3xl font-bold text-text">
         <span class="section-tag"><T k="contact.title" /></span>
@@ -47,6 +48,11 @@ const { locale } = Astro.props;
         </a>
       </div>
     </ScrollReveal>
+  </div>
+
+  {/* Cartoon: the closing card, the Email ticket at display size */}
+  <div class="mx-auto max-w-4xl px-6" data-design-show="cartoon">
+    <CartoonContact locale={locale} />
   </div>
 
   {/* Tape: the address in a punched window, the Email key as a whole orange frame */}

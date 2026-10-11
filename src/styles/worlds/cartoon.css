@@ -1,0 +1,975 @@
+/* Cartoon: a 1960s cartoon's opening titles. Every section is a title card cut
+   from one flat field of paper (vermilion, ultramarine, marigold, paper, ink),
+   its top edge cut by hand over the card before it. Depth comes only from paper
+   lying on paper: no gradient, no shadow, no blur. Display type is hand-lettered
+   (Londrina Solid); running copy is Jost. Motion is limited animation: poses
+   held on twos (steps), never tweened. Classes here are used only in this world. */
+
+/* ---------- The cards and their fields ---------- */
+/* Each field names its text colour (--on-field), a colour safe for small text,
+   focus rings and hovers on it (--safe, 4.5:1 or more), and a display colour
+   for large type only (--hi). Shared islands read --text, --accent and --border,
+   so they re-skin themselves per card. */
+/* Outside the cards (the blog, the 404) the page is the black leader */
+[data-design='cartoon'] {
+  --field: var(--ink);
+  --on-field: var(--paper);
+  --safe: var(--marigold);
+  --hi: var(--marigold);
+}
+[data-design='cartoon'] #main-content > section,
+[data-design='cartoon'] body > footer {
+  position: relative;
+  background: var(--field);
+  color: var(--on-field);
+  --text: var(--on-field);
+  --text-secondary: var(--on-field);
+  --accent: var(--safe);
+  --accent-hover: var(--safe);
+  --accent-text: var(--safe);
+  --on-accent: var(--field);
+  --border: var(--on-field);
+  /* Tailwind's colour utilities resolve these at the root; re-point them per card */
+  --color-text: var(--on-field);
+  --color-text-secondary: var(--on-field);
+  --color-accent: var(--safe);
+  --color-accent-hover: var(--safe);
+  --color-on-accent: var(--field);
+  --color-border: var(--on-field);
+}
+[data-design='cartoon'] #main-content > section ::selection,
+[data-design='cartoon'] body > footer ::selection {
+  background: var(--on-field);
+  color: var(--field);
+}
+/* 7.7:1 white on ultramarine, 11.5:1 ink on marigold, 5.3:1 ink on vermilion, 4.9:1 marigold on ultramarine and ultramarine on marigold */
+[data-design='cartoon'] #hero       { --field: var(--vermilion);   --on-field: var(--ink);   --safe: var(--ink);         --hi: var(--paper); }
+[data-design='cartoon'] #about      { --field: var(--ultramarine); --on-field: var(--paper); --safe: var(--marigold);    --hi: var(--marigold); }
+[data-design='cartoon'] #experience { --field: var(--marigold);    --on-field: var(--ink);   --safe: var(--ultramarine); --hi: var(--ultramarine); }
+[data-design='cartoon'] #education  { --field: var(--paper);       --on-field: var(--ink);   --safe: var(--ultramarine); --hi: var(--vermilion); }
+[data-design='cartoon'] #skills     { --field: var(--ink);         --on-field: var(--paper); --safe: var(--marigold);    --hi: var(--marigold); }
+[data-design='cartoon'] #projects   { --field: var(--vermilion);   --on-field: var(--ink);   --safe: var(--ink);         --hi: var(--paper); }
+[data-design='cartoon'] #contact    { --field: var(--marigold);    --on-field: var(--ink);   --safe: var(--ultramarine); --hi: var(--ultramarine); }
+[data-design='cartoon'] body > footer { --field: var(--ink);       --on-field: var(--paper); --safe: var(--marigold);    --hi: var(--marigold); }
+
+[data-design='cartoon'] #main-content > section:not(#hero) {
+  padding-block: clamp(4.5rem, 9vw, 7.5rem);
+}
+
+/* The hand-cut top edge: each card overlaps the one before it by its own cut */
+[data-design='cartoon'] #main-content > section:not(#hero)::before,
+[data-design='cartoon'] body > footer::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -23px;
+  height: 24px;
+  background: var(--field);
+  pointer-events: none;
+  -webkit-mask: var(--cut) repeat-x 0 0 / 640px 24px;
+  mask: var(--cut) repeat-x 0 0 / 640px 24px;
+  --cut: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24V12C46 5 92 16 140 10S236 3 290 8S380 17 432 11S532 4 640 12V24Z'/%3E%3C/svg%3E");
+}
+[data-design='cartoon'] #main-content > section:nth-of-type(even)::before {
+  --cut: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 24' preserveAspectRatio='none'%3E%3Cpath d='M0 24V9C38 13 70 4 118 7S200 17 262 13S348 3 410 6S520 16 572 12S616 7 640 9V24Z'/%3E%3C/svg%3E");
+  -webkit-mask-position: 210px 0;
+  mask-position: 210px 0;
+}
+[data-design='cartoon'] body > footer::before {
+  -webkit-mask-position: 420px 0;
+  mask-position: 420px 0;
+}
+
+/* The header is the black leader between titles: solid, no frosted glass */
+[data-design='cartoon'] body > header {
+  background: var(--ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+/* The mark is set in the condensed hand lettering: keep it a thumb wide */
+[data-design='cartoon'] body > header > div > a:first-child {
+  min-width: 2.75rem;
+}
+
+/* A rule drawn with a pen, in the card's own ink */
+.cartoon-rule {
+  height: 8px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5C60 3 120 6 200 4S330 6 398 3' stroke='black' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x 0 0 / 400px 8px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5C60 3 120 6 200 4S330 6 398 3' stroke='black' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x 0 0 / 400px 8px;
+}
+
+/* ---------- Type ---------- */
+.cartoon {
+  font-family: 'Jost Variable', sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--on-field);
+}
+.cartoon-display {
+  font-family: 'Londrina Solid', sans-serif;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+.cartoon-caps {
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Hand lettering: each letter off the baseline at its own tilt */
+.cartoon-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.cartoon-letters--lines .cartoon-word {
+  display: block;
+}
+.cartoon-letters .cl {
+  display: inline-block;
+  transform: translateY(var(--y)) rotate(var(--r));
+}
+
+.cartoon-h2__text {
+  position: relative;
+  display: inline-block;
+}
+/* Akira hangs on to the title's last letters: his fingers sit on their top edge
+   (the drawing's ledge is 0.907 of its height down), his head rises above */
+.cartoon-peek {
+  position: absolute;
+  right: 0.02em;
+  top: -1.02em;
+  height: 1.25em;
+  aspect-ratio: 164 / 214;
+  pointer-events: none;
+}
+.cartoon-peek--graduate {
+  top: -1.07em;
+  height: 1.3em;
+  aspect-ratio: 166 / 226;
+}
+.cartoon-h2:has(.cartoon-peek) {
+  padding-top: 0.95em;
+}
+.cartoon-peek .cartoon-char {
+  width: 100%;
+  height: 100%;
+}
+.cartoon-h2 {
+  margin: 0 0 clamp(2rem, 4vw, 3.25rem);
+  font: 900 clamp(2.9rem, 8.5vw, 6rem) / 0.9 'Londrina Solid', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  color: var(--on-field);
+}
+
+/* ---------- Tickets: buttons cut from paper ---------- */
+.cartoon-ticket {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 2.75rem;
+  padding: 0.38em 1.05em 0.42em;
+  font: 900 1.2rem / 1 'Londrina Solid', sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--on-field);
+  background: transparent;
+  border: 3px solid currentColor;
+  border-radius: 6px 14px 8px 16px / 14px 6px 16px 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.16s steps(2, end),
+    color 0.16s steps(2, end),
+    transform 0.16s steps(2, end);
+}
+/* An outline ticket prints its fill on hover; every ticket gives a little shake */
+.cartoon-ticket:hover {
+  background: var(--on-field);
+  color: var(--field);
+  transform: rotate(-2deg);
+}
+.cartoon-ticket--fill {
+  background: var(--on-field);
+  border-color: var(--on-field);
+  color: var(--field);
+}
+.cartoon-ticket--fill:hover {
+  transform: rotate(-2deg) scale(1.04);
+}
+.cartoon-ticket--sm {
+  min-height: 2.75rem;
+  font-size: 1rem;
+  padding: 0.3em 0.85em 0.34em;
+  border-width: 2.5px;
+}
+@media (min-width: 768px) {
+  .cartoon-ticket--sm {
+    min-height: 2.25rem;
+  }
+}
+
+/* Plain links: an underline that turns into a squiggle on hover */
+.cartoon a:not(.cartoon-ticket),
+.cartoon-socials a,
+.cartoon-link {
+  color: var(--on-field);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+.cartoon a:not(.cartoon-ticket):hover,
+.cartoon-socials a:hover,
+.cartoon-link:hover {
+  text-decoration-style: wavy;
+  text-decoration-thickness: 1.5px;
+}
+
+/* Tags: small paper tickets */
+.cartoon-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cartoon-tags li {
+  border: 2px solid currentColor;
+  border-radius: 3px 8px 4px 9px / 8px 3px 9px 4px;
+  padding: 0.05rem 0.55rem 0.1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Hero: the title card ---------- */
+.cartoon-hero {
+  --role: clamp(1.15rem, 3.2vw, 2.5rem);
+  --art-h: calc(var(--role) * 8.8);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 0 4.5rem;
+  font-family: 'Jost Variable', sans-serif;
+  color: var(--ink);
+  overflow: hidden;
+}
+/* Name and band on the left, the painter in his own column beside both, so he
+   never stands on a letter; the roller overlaps the band's end */
+.cartoon-title {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) calc(var(--art-h) * 0.536);
+  grid-template-rows: auto auto;
+}
+.cartoon-title__name {
+  grid-column: 1;
+  container-type: inline-size;
+}
+/* Lettered to fill its column: "ALEXANDRE" measures 4.35em in Londrina */
+.cartoon-name {
+  margin: 0;
+  font: 900 clamp(2.75rem, 22.6cqi, 14rem) / 0.84 'Londrina Solid', sans-serif;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+/* The painted band runs from the card's edge to the roller */
+.cartoon-role {
+  grid-column: 1;
+  margin: clamp(0.9rem, 2vw, 1.4rem) 0 0;
+  font: 900 var(--role) / 1.15 'Londrina Solid', sans-serif;
+  letter-spacing: 0.01em;
+}
+.cartoon-stripe {
+  display: block;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 0.14em 0.55em 0.16em 0.6em;
+  /* Rolled paint: a ragged start, edges that wander, a clean stop at the roller */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M16 7C120 3 262 10 420 5S780 9 1000 4V96C800 99 622 91 440 96S118 92 14 97C5 84 11 70 3 56C10 42 1 26 9 17C10 12 12 9 16 7Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 100' preserveAspectRatio='none'%3E%3Cpath d='M16 7C120 3 262 10 420 5S780 9 1000 4V96C800 99 622 91 440 96S118 92 14 97C5 84 11 70 3 56C10 42 1 26 9 17C10 12 12 9 16 7Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+}
+.cartoon-painter {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  position: relative;
+  align-self: stretch;
+}
+.cartoon-painter__art {
+  position: absolute;
+  bottom: -0.02em;
+  left: calc(var(--art-h) * -0.1);
+  height: var(--art-h);
+  width: auto;
+  aspect-ratio: 280 / 440;
+  overflow: visible;
+  transform-origin: 16% 98%;
+}
+/* A paper disc behind him: the iris the titles open on */
+.cartoon-disc {
+  position: absolute;
+  bottom: calc(var(--art-h) * 0.36);
+  left: calc(var(--art-h) * 0.02);
+  width: calc(var(--art-h) * 0.6);
+  aspect-ratio: 1;
+  background: var(--ultramarine);
+  border-radius: 48% 52% 50% 50% / 52% 48% 51% 49%;
+}
+
+.cartoon-hero__rest {
+  max-width: 44rem;
+  margin-top: clamp(1.4rem, 3vw, 2.2rem);
+}
+.cartoon-now {
+  margin: 0;
+  font-size: clamp(1rem, 1.4vw, 1.1875rem);
+  font-weight: 500;
+}
+.cartoon-tagline {
+  margin: 0.6rem 0 0;
+  max-width: 40ch;
+  font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+  line-height: 1.45;
+}
+.cartoon-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.6rem 0 0;
+}
+.cartoon-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.4rem;
+  margin: 1.1rem 0 0;
+  font-weight: 600;
+}
+.cartoon-invite {
+  margin-top: 0.9rem;
+}
+
+@media (max-width: 639px) {
+  /* Phones: the card ends with its content, so the next card shows below */
+  .cartoon-hero {
+    --role: 1.2rem;
+    --art-h: 8.75rem;
+    min-height: 0;
+    padding: 5.75rem 0 4rem;
+  }
+  /* The name takes the whole width, kept just short of the painter's head;
+     he stands at the band's end and rises beside the name's right edge */
+  .cartoon-title__name {
+    grid-column: 1 / -1;
+  }
+  .cartoon-name {
+    font-size: 19.6cqi;
+  }
+  .cartoon-painter {
+    grid-row: 2;
+  }
+  /* a smaller disc, so it stays clear of the name's last letter */
+  .cartoon-disc {
+    width: calc(var(--art-h) * 0.5);
+    left: calc(var(--art-h) * 0.077);
+    bottom: calc(var(--art-h) * 0.395);
+  }
+  .cartoon-socials a,
+  .cartoon a:not(.cartoon-ticket) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+}
+
+/* ---------- Characters ---------- */
+.cartoon-char {
+  display: block;
+  overflow: visible;
+}
+/* The line boils: three inkings of the same drawing, cycled on threes */
+.cartoon-ink {
+  filter: url(#cartoon-ink-0);
+}
+.cartoon-eyes-shut {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cartoon-ink {
+    animation: cartoon-boil 0.42s steps(1, end) infinite;
+  }
+  .cartoon-eyes {
+    animation: cartoon-eyes 5.2s steps(1, end) 2.4s infinite;
+  }
+  .cartoon-eyes-shut {
+    animation: cartoon-eyes-shut 5.2s steps(1, end) 2.4s infinite;
+  }
+  .cartoon-wave {
+    transform-origin: 262px 262px;
+    transform-box: view-box;
+    animation: cartoon-wave 3.6s steps(1, end) infinite;
+  }
+}
+@keyframes cartoon-boil {
+  0% { filter: url(#cartoon-ink-0); }
+  33% { filter: url(#cartoon-ink-1); }
+  66% { filter: url(#cartoon-ink-2); }
+}
+@keyframes cartoon-eyes {
+  0%, 95% { opacity: 1; }
+  96%, 98% { opacity: 0; }
+  99%, 100% { opacity: 1; }
+}
+@keyframes cartoon-eyes-shut {
+  0%, 95% { opacity: 0; }
+  96%, 98% { opacity: 1; }
+  99%, 100% { opacity: 0; }
+}
+@keyframes cartoon-wave {
+  0%, 52%, 100% { transform: rotate(0deg); }
+  56%, 68% { transform: rotate(-10deg); }
+  60%, 72% { transform: rotate(8deg); }
+  64%, 76% { transform: rotate(-6deg); }
+}
+
+/* ---------- The hero's entrance: limited animation on twos ---------- */
+/* Three drawings per pop (small, overshoot, settle), each held; waits while the
+   intro curtain is up, replays when the world is switched on (display returns). */
+@media (prefers-reduced-motion: no-preference) {
+  .cartoon-hero .cl {
+    animation: cartoon-drop 0.36s steps(1, end) both;
+    animation-delay: calc(0.1s + var(--i) * 0.045s);
+  }
+  .cartoon-hero .cartoon-disc {
+    animation: cartoon-disc 0.3s steps(1, end) 0.08s both;
+  }
+  .cartoon-hero .cartoon-painter__art {
+    animation: cartoon-pop 0.44s steps(1, end) 0.15s both;
+  }
+  .cartoon-hero .cartoon-stripe {
+    animation: cartoon-roll 0.5s steps(6, end) 0.45s both;
+  }
+  .cartoon-hero__rest > * {
+    animation: cartoon-rest 0.24s steps(2, end) both;
+  }
+  .cartoon-hero__rest > :nth-child(1) { animation-delay: 0.3s; }
+  .cartoon-hero__rest > :nth-child(2) { animation-delay: 0.36s; }
+  .cartoon-hero__rest > :nth-child(3) { animation-delay: 0.42s; }
+  .cartoon-hero__rest > :nth-child(4) { animation-delay: 0.48s; }
+  /* Under the curtain the painter is already on his mark (the iris opens on his
+     face); the lettering, the paint and the rest wait for the iris to open. */
+  html[data-intro='wait'] .cartoon-hero :is(.cl, .cartoon-stripe, .cartoon-hero__rest > *),
+  html[data-intro='play'] .cartoon-hero :is(.cl, .cartoon-stripe, .cartoon-hero__rest > *) {
+    animation-play-state: paused !important;
+  }
+  /* On a switch the world comes on under the curtain: the painter and his disc
+     are drawn at once (a negative delay ends their pop), so the iris opens on him */
+  html[data-intro='quick'] .cartoon-hero :is(.cartoon-painter__art, .cartoon-disc) {
+    animation-delay: -1s !important;
+  }
+}
+@keyframes cartoon-drop {
+  0% { opacity: 0; transform: translateY(-0.45em) rotate(calc(var(--r) * -3)) scale(0.7); }
+  33% { opacity: 1; transform: translateY(0.05em) rotate(var(--r)) scale(1.12, 0.9); }
+  66% { opacity: 1; transform: translateY(var(--y)) rotate(calc(var(--r) * 1.6)) scale(0.96, 1.05); }
+  100% { opacity: 1; transform: translateY(var(--y)) rotate(var(--r)); }
+}
+@keyframes cartoon-pop {
+  0% { opacity: 0; transform: scale(0.3); }
+  25% { opacity: 1; transform: scale(1.08, 0.88); }
+  50% { opacity: 1; transform: scale(0.95, 1.06); }
+  75% { opacity: 1; transform: scale(1.02, 0.98); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes cartoon-disc {
+  0% { transform: scale(0); }
+  33% { transform: scale(1.12); }
+  66% { transform: scale(0.97); }
+  100% { transform: none; }
+}
+@keyframes cartoon-roll {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes cartoon-rest {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Section titles pop in, letter by letter, as the card comes on screen */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .cartoon-h2 .cl,
+    .cartoon-end__word .cl {
+      animation: cartoon-drop linear both;
+      animation-timing-function: steps(1, end);
+      animation-timeline: view();
+      animation-range: entry calc(10% + var(--i) * 3%) entry calc(45% + var(--i) * 3%);
+    }
+    /* then Akira pops up over the title */
+    .cartoon-peek {
+      transform-origin: 50% 90%;
+      animation: cartoon-pop linear both;
+      animation-timing-function: steps(1, end);
+      animation-timeline: view();
+      animation-range: entry 45% entry 85%;
+    }
+  }
+}
+
+/* ---------- About: the lede, and the figures billed as credits ---------- */
+.cartoon-about {
+  display: grid;
+  gap: 2.5rem;
+}
+.cartoon-about__lede {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.45;
+  max-width: 38ch;
+}
+.cartoon-about__more {
+  margin: 1.2rem 0 0;
+  max-width: 60ch;
+}
+/* Each figure is a credit: the number set as the name, what it counts in small caps beneath */
+.cartoon-figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 1.5rem;
+  margin: 0;
+}
+.cartoon-figures div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.3rem;
+}
+.cartoon-figures dd {
+  margin: 0;
+  white-space: nowrap;
+  font: 900 clamp(2rem, 3.4vw, 2.6rem) / 0.95 'Londrina Solid', sans-serif;
+}
+@media (min-width: 768px) {
+  .cartoon-about {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+    column-gap: 4rem;
+    align-items: start;
+  }
+  .cartoon-figures {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .cartoon-figures div {
+    padding: 0.9rem 0;
+    border-top: 2px solid var(--on-field);
+  }
+  .cartoon-figures div:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+/* ---------- Experience: the credits ---------- */
+.cartoon-credits {
+  display: grid;
+  gap: clamp(3rem, 6vw, 4.5rem);
+}
+.cartoon-pair {
+  display: grid;
+  gap: 2.5rem;
+}
+.cartoon-and {
+  font: 900 clamp(3.5rem, 7vw, 5.5rem) / 0.8 'Londrina Solid', sans-serif;
+  color: var(--hi);
+  align-self: start;
+}
+@media (min-width: 768px) {
+  .cartoon-pair {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: 1.75rem;
+  }
+  .cartoon-and {
+    padding-top: 0.15em;
+  }
+}
+@media (max-width: 767px) {
+  .cartoon-and {
+    margin: -1rem 0;
+  }
+}
+.cartoon-credit {
+  max-width: 34rem;
+}
+.cartoon-credit__name {
+  margin: 0;
+  font: 900 clamp(2.1rem, 4.4vw, 3.1rem) / 0.95 'Londrina Solid', sans-serif;
+  letter-spacing: 0.01em;
+}
+.cartoon-credit--sub .cartoon-credit__name {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+}
+.cartoon-credit__role {
+  margin: 0.55rem 0 0;
+}
+.cartoon-credit__when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.75rem;
+  margin: 0.3rem 0 0;
+  font-weight: 500;
+}
+/* "Now showing": the current roles carry a word, not just a colour */
+.cartoon-showing {
+  display: inline-block;
+  padding: 0.12rem 0.55rem 0.16rem;
+  background: var(--on-field);
+  color: var(--field);
+  border-radius: 3px 8px 4px 9px / 8px 3px 9px 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.cartoon-credit__impact {
+  margin: 0.9rem 0 0;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.cartoon-credit__sum {
+  margin: 0.5rem 0 0;
+  max-width: 60ch;
+}
+.cartoon-credit .cartoon-ticket {
+  margin-top: 1rem;
+}
+.cartoon-credit__bullets {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 60ch;
+}
+.cartoon-credit__bullets li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-top: 0.45rem;
+}
+.cartoon-credit__bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0.15rem;
+  top: 0.55em;
+  width: 0.6rem;
+  height: 0.6rem;
+  background: var(--hi);
+  border-radius: 48% 52% 45% 55% / 55% 45% 52% 48%;
+}
+.cartoon-group {
+  display: grid;
+  gap: 1.5rem;
+}
+.cartoon-group__grid {
+  display: grid;
+  gap: 2.5rem 2rem;
+}
+@media (min-width: 768px) {
+  .cartoon-group__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .cartoon-group__grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Education ---------- */
+.cartoon-school {
+  display: grid;
+  gap: 2.5rem 2.5rem;
+}
+@media (min-width: 768px) {
+  .cartoon-school {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.cartoon-school h3 {
+  margin: 0;
+  font: 900 clamp(1.75rem, 3.4vw, 2.5rem) / 1 'Londrina Solid', sans-serif;
+}
+.cartoon-school .cartoon-rule {
+  margin-bottom: 1.1rem;
+  color: var(--hi);
+}
+
+/* ---------- Skills: the cast ---------- */
+.cartoon-cast {
+  margin: 0;
+  display: grid;
+  gap: 1.6rem;
+}
+.cartoon-cast__row {
+  display: grid;
+  gap: 0.35rem;
+}
+.cartoon-cast dt {
+  font: 900 clamp(1.5rem, 2.6vw, 2rem) / 1 'Londrina Solid', sans-serif;
+  color: var(--hi);
+}
+.cartoon-cast dd {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.cartoon-cast dd span:not(:last-child)::after {
+  content: '·';
+  margin: 0 0.55em;
+  color: var(--hi);
+  font-weight: 700;
+}
+@media (min-width: 768px) {
+  .cartoon-cast__row {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    column-gap: 2.5rem;
+    align-items: baseline;
+  }
+  .cartoon-cast dt {
+    text-align: right;
+  }
+}
+
+/* ---------- Projects: the shorts ---------- */
+.cartoon-shorts {
+  display: grid;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 640px) {
+  .cartoon-shorts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .cartoon-shorts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+/* Each short is its own little title card, pasted on a tilt */
+.cartoon-short {
+  --on-field: var(--short-on);
+  --field: var(--short-field);
+  display: flex;
+  flex-direction: column;
+  background: var(--short-field);
+  color: var(--short-on);
+  padding: 1.5rem 1.4rem 1.4rem;
+  border-radius: 5px 12px 6px 14px / 12px 5px 14px 6px;
+  transform: rotate(var(--tilt));
+  transition: transform 0.2s steps(2, end);
+}
+.cartoon-short:hover,
+.cartoon-short:focus-within {
+  transform: rotate(0deg);
+}
+.cartoon-short h4 {
+  margin: 0;
+  font: 900 clamp(1.7rem, 2.6vw, 2.1rem) / 0.95 'Londrina Solid', sans-serif;
+  text-transform: uppercase;
+}
+.cartoon-short h4 a {
+  color: inherit;
+  text-decoration: none;
+}
+.cartoon-short h4 a:hover {
+  text-decoration: underline wavy 2px;
+  text-underline-offset: 6px;
+}
+.cartoon-short p {
+  margin: 0.75rem 0 0;
+  flex: 1;
+  font-size: 1rem;
+}
+.cartoon-short:nth-child(5n + 1) { --short-field: var(--ultramarine); --short-on: var(--paper); --tilt: -1.4deg; }
+.cartoon-short:nth-child(5n + 2) { --short-field: var(--marigold);    --short-on: var(--ink);   --tilt: 1deg; }
+.cartoon-short:nth-child(5n + 3) { --short-field: var(--paper);       --short-on: var(--ink);   --tilt: -0.6deg; }
+.cartoon-short:nth-child(5n + 4) { --short-field: var(--ink);         --short-on: var(--paper); --tilt: 1.3deg; }
+.cartoon-short:nth-child(5n + 5) { --short-field: var(--marigold);    --short-on: var(--ink);   --tilt: -1deg; }
+
+
+/* ---------- Contact ---------- */
+.cartoon-contact {
+  display: grid;
+  gap: 1.75rem;
+  justify-items: start;
+}
+.cartoon-contact__line {
+  margin: 0;
+  max-width: 40ch;
+  font-size: clamp(1.2rem, 2vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.45;
+}
+/* He stands at the foot of the card, which ends just above his hem: the closing
+   card's hand-cut edge (6 to 21px tall) crosses his jacket, so he stands behind
+   the seam. The ticket's middle sits on his fingertip, 0.634 of the drawing
+   down, and its foot stays clear of the seam (the drawing is tall enough for it). */
+.cartoon-contact__send {
+  --ph: clamp(9.25rem, 20vw, 14rem);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+  height: calc(var(--ph) * 0.98 - 4px);
+  margin-top: 0.5rem;
+}
+[data-design='cartoon'] #main-content > section#contact:not(#hero) {
+  padding-bottom: 0;
+}
+.cartoon-pointer {
+  flex: none;
+  height: var(--ph);
+  aspect-ratio: 272 / 350;
+}
+.cartoon-pointer .cartoon-char {
+  width: 100%;
+  height: 100%;
+}
+.cartoon-contact__ticket {
+  padding-top: calc(var(--ph) * 0.634);
+}
+.cartoon-contact__ticket > a {
+  translate: 0 -50%;
+}
+.cartoon-mail {
+  white-space: nowrap;
+  font-size: clamp(1.5rem, 6vw, 4rem);
+  padding: 0.22em 0.7em 0.26em;
+  border-width: 4px;
+}
+.cartoon-contact__more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 2rem;
+  font-size: 1.0625rem;
+}
+.cartoon-contact__more .justify-center {
+  justify-content: flex-start;
+}
+.cartoon-contact__more .select-all {
+  font-weight: 600;
+}
+.cartoon-contact__more button {
+  border-width: 2px;
+  border-radius: 3px 8px 4px 9px / 8px 3px 9px 4px;
+  font-weight: 600;
+  color: var(--on-field);
+}
+
+/* ---------- Footer: THE END, inside an iris that closes as the page ends ---------- */
+@property --cartoon-iris {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+.cartoon-end {
+  padding: clamp(3rem, 7vw, 5rem) 0 3rem;
+  font-family: 'Jost Variable', sans-serif;
+}
+.cartoon-end__stage {
+  position: relative;
+  height: clamp(22rem, 62vh, 34rem);
+  --cartoon-iris: min(42vw, 15rem);
+  background: var(--vermilion);
+  -webkit-mask: radial-gradient(circle at 50% 50%, #000 var(--cartoon-iris), transparent calc(var(--cartoon-iris) + 1px));
+  mask: radial-gradient(circle at 50% 50%, #000 var(--cartoon-iris), transparent calc(var(--cartoon-iris) + 1px));
+}
+.cartoon-end__inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+}
+.cartoon-end__word {
+  margin: 0;
+  font: 900 clamp(3rem, 9vw, 5.25rem) / 0.85 'Londrina Solid', sans-serif;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+.cartoon-end__inner .cartoon-char {
+  height: min(32vw, 11.5rem);
+  width: auto;
+  margin-top: -0.25rem;
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .cartoon-end__stage {
+      animation: cartoon-iris linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 55%;
+    }
+  }
+}
+@keyframes cartoon-iris {
+  from { --cartoon-iris: 75vmax; }
+  to { --cartoon-iris: min(42vw, 15rem); }
+}
+.cartoon-end__credits {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+  text-align: center;
+  margin-top: 2.25rem;
+}
+.cartoon-end__credits p {
+  margin: 0;
+}
+.cartoon-end__production {
+  font: 900 clamp(1.4rem, 3vw, 1.9rem) / 1.05 'Londrina Solid', sans-serif;
+  color: var(--marigold);
+}
+
+/* 404: the iris has closed on an empty frame, the number lettered inside it */
+.cartoon-404 {
+  display: grid;
+  place-items: center;
+  width: clamp(14rem, 50vw, 20rem);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--vermilion);
+  color: var(--ink);
+  font: 900 clamp(5rem, 16vw, 8rem) / 1 'Londrina Solid', sans-serif;
+}
+
+/* Phones: every link and button on the home is a 44px target */
+@media (max-width: 767px) {
+  [data-design='cartoon'] :is(#main-content, footer) .cartoon :is(a[href], button) {
+    min-height: 2.75rem;
+  }
+}
+
+/* Reduced motion: the entrance and the titles are simply there */
+@media (prefers-reduced-motion: reduce) {
+  [data-design='cartoon'] .cartoon-hero *,
+  [data-design='cartoon'] .cartoon-h2 .cl {
+    animation: none !important;
+  }
+}

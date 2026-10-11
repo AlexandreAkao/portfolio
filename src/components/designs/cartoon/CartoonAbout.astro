@@ -1,0 +1,34 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import CartoonHeading from './CartoonHeading.astro';
+
+const stats = [
+  { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label' },
+  { valueKey: 'about.stat.centers', labelKey: 'about.stat.centers.label' },
+  { valueKey: 'about.stat.components', labelKey: 'about.stat.components.label' },
+  { valueKey: 'about.stat.microservices', labelKey: 'about.stat.microservices.label' },
+];
+---
+<div class="cartoon">
+  <CartoonHeading k="about.title" seed={3} peek="peek" />
+  <div class="cartoon-about">
+    <div>
+      <p class="cartoon-about__lede">
+        <span data-lang-show="en">{t('about.p1', 'en')}</span><span data-lang-show="pt">{t('about.p1', 'pt')}</span>
+      </p>
+      <p class="cartoon-about__more">
+        <span data-lang-show="en">{t('about.p2', 'en')}</span><span data-lang-show="pt">{t('about.p2', 'pt')}</span>
+      </p>
+    </div>
+    {/* The figures billed as credits: the number is the name, what it counts its part */}
+    <dl class="cartoon-figures">
+      {stats.map((s) => (
+        <div>
+          <dt class="cartoon-caps"><T k={s.labelKey} /></dt>
+          <dd><T k={s.valueKey} /></dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</div>
