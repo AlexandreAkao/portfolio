@@ -77,5 +77,6 @@ for (const world of ['editorial', 'avantgarde', 'engineer', 'creative', 'arcade'
     await expect(page.locator(`#hero [data-design-show="${world}"]`).getByRole('link', { name: 'View my work' })).toHaveAttribute('href', '#experience');
     await expect(page.locator('#projects a[href="#experience"]')).toHaveCount(0);
     await expect(page.locator('#projects').getByRole('link', { name: /on GitHub$/ })).toHaveCount(5);
+    await expect(page.locator('#projects').getByRole('link', { name: 'DevTray, live site' })).toHaveAttribute('href', 'https://devtray.app');
   });
 }

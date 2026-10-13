@@ -50,6 +50,16 @@ export const projects: Project[] = [
     metrics: { en: '52 components, 10+ apps', pt: '52 componentes, 10+ apps' },
   },
   {
+    title: 'DevTray',
+    description: {
+      en: 'Native macOS menu-bar app with 13 developer tools behind a Spotlight-style shortcut that reads your clipboard and opens the right tool.',
+      pt: 'App nativo de barra de menu para macOS com 13 ferramentas para devs, acessadas por um atalho estilo Spotlight que lê o clipboard e abre a ferramenta certa.',
+    },
+    type: 'personal',
+    tech: ['Swift', 'SwiftUI', 'macOS', 'Cloudflare Workers'],
+    live: 'https://devtray.app',
+  },
+  {
     title: 'Ordenados',
     description: {
       en: 'A task management and organization application with intuitive drag-and-drop interface.',

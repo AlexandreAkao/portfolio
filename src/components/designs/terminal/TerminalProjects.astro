@@ -14,7 +14,7 @@ const personal = projects.filter((p) => p.type === 'personal');
       {personal.map((p) => (
         <tr>
           <td class="term-perm" aria-hidden="true">-rw-r--r--</td>
-          <td><a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer" aria-label={`${p.title} on GitHub`}>{p.title}</a></td>
+          <td><a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer" aria-label={p.github ? `${p.title} on GitHub` : `${p.title}, live site`}>{p.title}</a></td>
           <td class="term-desc term-muted"><span data-lang-show="en">{p.description.en}</span><span data-lang-show="pt">{p.description.pt}</span></td>
         </tr>
       ))}
