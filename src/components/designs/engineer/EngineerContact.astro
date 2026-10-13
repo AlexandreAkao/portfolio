@@ -2,7 +2,8 @@
 import { t } from '@i18n/utils';
 import T from '@components/ui/T.astro';
 import EmailCopy from '@components/islands/EmailCopy.tsx';
-import { cvUrl, email } from '@data/social';
+import { email } from '@data/social';
+import CvLink from '@components/ui/CvLink.astro';
 import RfcHeading from './RfcHeading.astro';
 
 interface Props {
@@ -23,7 +24,7 @@ const { locale } = Astro.props;
       <span>Email:</span>
       <EmailCopy client:visible locale={locale} />
     </span><br />
-    CV:&nbsp;&nbsp;&nbsp;&nbsp;<a href={cvUrl} download><T k="hero.cta.cv" /></a> (PDF)
+    CV:&nbsp;&nbsp;&nbsp;&nbsp;<CvLink /> (PDF)
   </address>
   <p class="rfc-ind mt-6">
     <a href={`mailto:${email}`} class="rfc-key rfc-key--big"><T k="contact.emailMe" /></a>

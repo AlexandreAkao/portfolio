@@ -5,7 +5,7 @@ import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
 import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
-import { cvUrl } from '@data/social';
+import { cvUrls } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -73,7 +73,7 @@ function ArcadeHeroInner() {
           {t('hero.cta.work', locale)}
         </a>
         <a
-          href={cvUrl}
+          href={cvUrls[locale]}
           download
           className="rounded-btn border-2 border-accent px-6 py-3 text-sm font-bold uppercase tracking-wide text-accent transition-colors hover:bg-accent/10"
         >

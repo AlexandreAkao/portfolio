@@ -2,7 +2,8 @@
 import { t } from '@i18n/utils';
 import T from '@components/ui/T.astro';
 import EmailCopy from '@components/islands/EmailCopy.tsx';
-import { cvUrl, email } from '@data/social';
+import { email } from '@data/social';
+import CvLink from '@components/ui/CvLink.astro';
 import Prompt from './Prompt.astro';
 
 interface Props {
@@ -27,6 +28,6 @@ const { locale } = Astro.props;
   </div>
   <p class="mt-5 flex flex-wrap items-center gap-4">
     <a href={`mailto:${email}`} class="term-btn term-btn--go term-btn--big"><T k="contact.emailMe" /></a>
-    <a href={cvUrl} download class="term-btn term-btn--big"><T k="hero.cta.cv" /></a>
+    <CvLink class="term-btn term-btn--big" />
   </p>
 </div>

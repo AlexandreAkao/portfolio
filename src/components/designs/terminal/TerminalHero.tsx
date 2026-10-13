@@ -4,7 +4,7 @@ import { t, type Locale } from '@i18n/utils';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
 import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
-import { cvUrl, email, socialLinks } from '@data/social';
+import { cvUrls, email, socialLinks } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -118,7 +118,7 @@ function TerminalHeroInner({ login }: Props) {
 
       <Prompt style={shown('ls ~/links')} cursor={typing('ls ~/links')}>{typed('ls ~/links')}</Prompt>
       <p style={shown('links')} className="term-out mt-1 flex flex-wrap items-center gap-x-[3ch] gap-y-3">
-        <a className="term-btn" href={cvUrl} download aria-label={`cv.pdf, ${t('hero.cta.cv', locale)}`}>
+        <a className="term-btn" href={cvUrls[locale]} download aria-label={`cv.pdf, ${t('hero.cta.cv', locale)}`}>
           cv.pdf
         </a>
         <a className="term-btn term-btn--go" href={`mailto:${email}`}>

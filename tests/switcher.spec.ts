@@ -60,11 +60,11 @@ test("Editorial's experience leads with the result and keeps the bullets behind 
   await page.goto('/');
   const exp = page.locator('#experience [data-design-show="editorial"]');
   await exp.scrollIntoViewIfNeeded();
-  await expect(exp.getByText('19 microservices on Clean Architecture and CQRS')).toBeVisible();
-  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toHaveCount(0);
+  await expect(exp.getByText('26 independent services built with Clean Architecture')).toBeVisible();
+  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toHaveCount(0);
   await exp.getByRole('button', { name: /details/i }).first().click();
   await expect(exp.getByRole('button', { name: /collapse/i }).first()).toHaveAttribute('aria-expanded', 'true');
-  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toBeVisible();
+  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toBeVisible();
 });
 
 test("Avant-garde's experience keeps each result on the card and the bullets behind details", async ({ page }) => {
@@ -72,9 +72,9 @@ test("Avant-garde's experience keeps each result on the card and the bullets beh
   await page.goto('/');
   const exp = page.locator('#experience [data-design-show="avantgarde"]');
   await exp.scrollIntoViewIfNeeded();
-  await expect(exp.getByText('19 microservices on Clean Architecture and CQRS')).toBeVisible();
-  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toHaveCount(0);
+  await expect(exp.getByText('26 independent services built with Clean Architecture')).toBeVisible();
+  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toHaveCount(0);
   await exp.getByRole('button', { name: /details/i }).first().click();
   await expect(exp.getByRole('button', { name: /collapse/i }).first()).toHaveAttribute('aria-expanded', 'true');
-  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toBeVisible();
+  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toBeVisible();
 });

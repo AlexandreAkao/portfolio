@@ -6,7 +6,7 @@ import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
 import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
-import { cvUrl } from '@data/social';
+import { cvUrls } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -108,7 +108,7 @@ function EditorialHeroInner() {
             {t('hero.cta.work', locale)}
           </a>
           <a
-            href={cvUrl}
+            href={cvUrls[locale]}
             download
             className="border-2 border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent hover:text-on-accent sm:px-8"
             style={{ fontFamily: 'var(--font-body)' }}

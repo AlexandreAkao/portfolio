@@ -3,7 +3,7 @@ import { t } from '@i18n/utils';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
 import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
-import { cvUrl, email, socialLinks } from '@data/social';
+import { cvUrls, email, socialLinks } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -54,7 +54,7 @@ function CartoonHeroInner() {
             <a className="cartoon-ticket" href="#experience">
               {t('hero.cta.work', locale)}
             </a>
-            <a className="cartoon-ticket" href={cvUrl} download>
+            <a className="cartoon-ticket" href={cvUrls[locale]} download>
               {t('hero.cta.cv', locale)}
             </a>
           </p>

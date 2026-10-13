@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
-import type { SkillGroup } from '@data/skills';
+import { getSkillLabel, type SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
 import { withServerLocale } from '@i18n/withServerLocale';
 
@@ -67,7 +67,7 @@ function SkillCategory({
               (e.target as HTMLElement).style.borderBottomColor = 'transparent';
             }}
           >
-            {skill}
+            {getSkillLabel(skill, locale)}
           </motion.span>
         ))}
       </div>

@@ -2,7 +2,8 @@
 import { t } from '@i18n/utils';
 import T from '@components/ui/T.astro';
 import EmailCopy from '@components/islands/EmailCopy.tsx';
-import { cvUrl, email } from '@data/social';
+import { email } from '@data/social';
+import CvLink from '@components/ui/CvLink.astro';
 import TapeHeading from './TapeHeading.astro';
 import { Arrow } from './marks';
 import KeepWords from '@components/ui/KeepWords';
@@ -25,7 +26,7 @@ const { locale } = Astro.props;
         <EmailCopy client:visible locale={locale} />
       </div>
       <p class="tape-caps mb-0 mt-3">
-        <a href={cvUrl} download><T k="hero.cta.cv" /></a>
+        <CvLink />
       </p>
     </div>
     <a href={`mailto:${email}`} class="tape-key tape-key--frame min-h-40 font-heading text-[clamp(1.9rem,3.8vw,3rem)] font-black uppercase leading-none">

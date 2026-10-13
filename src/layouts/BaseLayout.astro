@@ -5,6 +5,7 @@ import AvantgardeCursor from '@components/designs/avantgarde/AvantgardeCursor.ts
 import SiteIntro from '@components/common/SiteIntro.astro';
 import T from '@components/ui/T.astro';
 import { designIds, defaultDesign } from '@data/designs';
+import { t } from '@i18n/utils';
 
 interface Props {
   title: string;
@@ -22,7 +23,7 @@ interface Props {
 
 const {
   title,
-  description = 'Alexandre Akira - Senior Full-Stack Engineer',
+  description = t('home.title', Astro.props.locale || 'en'),
   image,
   type = 'website',
   publishedTime,
@@ -65,7 +66,7 @@ const jsonLd = type === 'article'
       '@type': 'Person',
       name: 'Alexandre Akira',
       url: siteUrl,
-      jobTitle: 'Senior Full-Stack Engineer',
+      jobTitle: t('hero.title', locale || 'en'),
       image: `${siteUrl}/images/avatar.jpeg`,
       sameAs: [
         'https://github.com/alexandreakao',

@@ -1,6 +1,6 @@
 import { motion, useInView } from 'motion/react';
 import { useRef, useState } from 'react';
-import type { SkillGroup } from '@data/skills';
+import { getSkillLabel, type SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -13,7 +13,7 @@ function CreativeSkills({ skillGroups }: Props) {
   const locale = useLocale();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
-  // Opens on the first category: the full cloud (46 skills) is one tap away under "All".
+  // Opens on the first category: the full cloud is one tap away under "All".
   const [activeGroup, setActiveGroup] = useState<number | null>(0);
 
   const allSkills = skillGroups.flatMap((g, gi) =>
@@ -60,14 +60,14 @@ function CreativeSkills({ skillGroups }: Props) {
           .filter((s) => activeGroup === null || s.gi === activeGroup)
           .map((s, i) => (
             <motion.span
-              key={s.skill}
+              key={getSkillLabel(s.skill, locale)}
               initial={{ opacity: 0, scale: 0 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.3, delay: i * 0.03, type: 'spring', stiffness: 200 }}
               whileHover={{ scale: 1.1, y: -4 }}
               className="cursor-default rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-text shadow-sm transition-shadow hover:border-accent hover:shadow-md"
             >
-              {s.skill}
+              {getSkillLabel(s.skill, locale)}
             </motion.span>
           ))}
       </div>

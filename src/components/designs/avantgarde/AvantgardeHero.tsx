@@ -8,7 +8,7 @@ import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
 import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
-import { cvUrl } from '@data/social';
+import { cvUrls } from '@data/social';
 
 const PARTICLE_COUNT_DESKTOP = 200;
 const PARTICLE_COUNT_MOBILE = 80;
@@ -317,7 +317,7 @@ function AvantgardeHeroInner() {
             {t('hero.cta.work', locale)}
           </a>
           <a
-            href={cvUrl}
+            href={cvUrls[locale]}
             download
             className="rounded-btn border border-accent px-5 py-3 text-sm font-semibold uppercase tracking-wider text-accent transition-colors hover:bg-accent/10 sm:px-8"
           >

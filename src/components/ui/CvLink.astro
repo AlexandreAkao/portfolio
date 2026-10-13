@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cvUrls } from '@data/social';
+import { t } from '@i18n/utils';
+
+type Props = Omit<HTMLAttributes<'a'>, 'href' | 'download'>;
+
+const attributes = Astro.props;
+---
+{(['en', 'pt'] as const).map((locale) => (
+  <a {...attributes} href={cvUrls[locale]} download data-lang-show={locale}>
+    {t('hero.cta.cv', locale)}
+  </a>
+))}

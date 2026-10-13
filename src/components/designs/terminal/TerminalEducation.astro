@@ -7,7 +7,7 @@ import Prompt from './Prompt.astro';
   {education.map((edu) => (
     <article class="term-job">
       <h3 class="term-jh">
-        <span class="term-muted">{edu.period}</span>
+        <span class="term-muted"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></span>
         <b><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></b>
         <span class="font-normal">{edu.institution}</span>
       </h3>

@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
-import { cvUrl, email } from '@data/social';
+import { cvUrls, email } from '@data/social';
 import { withServerLocale } from '@i18n/withServerLocale';
 
 interface Props {
@@ -166,7 +166,7 @@ function MobileMenu({ isBlog = false }: Props) {
                 {/* The two ways to act on what the page showed: the CV and a direct email */}
                 <div className="mt-auto flex flex-col gap-2 border-t border-border px-6 py-6">
                   <a
-                    href={cvUrl}
+                    href={cvUrls[locale]}
                     download
                     className="rounded-btn border border-accent px-4 py-3 text-center text-sm font-semibold text-text transition-colors hover:bg-accent/10"
                   >

@@ -5,7 +5,7 @@ import SocialLinks from '@components/ui/SocialLinks';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
 import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
-import { cvUrl } from '@data/social';
+import { cvUrls } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -85,7 +85,7 @@ function CreativeHeroInner({ avatarSrc = '/images/avatar.jpeg', avatarSrcSet }: 
               {t('hero.cta.work', locale)}
             </a>
             <a
-              href={cvUrl}
+              href={cvUrls[locale]}
               download
               className="rounded-full border-2 border-accent px-5 py-3 text-sm font-medium text-accent transition-transform hover:scale-105 sm:px-8"
             >

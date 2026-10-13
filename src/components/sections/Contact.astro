@@ -3,7 +3,8 @@ import { t } from '@i18n/utils';
 import T from '@components/ui/T.astro';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 import EmailCopy from '@components/islands/EmailCopy.tsx';
-import { cvUrl, email } from '@data/social';
+import { email } from '@data/social';
+import CvLink from '@components/ui/CvLink.astro';
 import EngineerContact from '@components/designs/engineer/EngineerContact.astro';
 import TerminalContact from '@components/designs/terminal/TerminalContact.astro';
 import TapeContact from '@components/designs/tape/TapeContact.astro';
@@ -39,13 +40,9 @@ const { locale } = Astro.props;
 
       <div class="mt-6 flex flex-col items-center gap-2 text-sm sm:flex-row sm:justify-center sm:gap-8">
         <EmailCopy client:visible locale={locale} />
-        <a
-          href={cvUrl}
-          download
+        <CvLink
           class="inline-flex min-h-11 items-center font-medium text-text underline decoration-accent decoration-2 underline-offset-4 transition-colors hover:text-accent md:min-h-0"
-        >
-          <T k="hero.cta.cv" />
-        </a>
+        />
       </div>
     </ScrollReveal>
   </div>

@@ -10,7 +10,7 @@ import RfcHeading from './RfcHeading.astro';
         <span class="rfc-n">3.{i + 1}.</span>
         <span><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></span>
       </h3>
-      <p class="rfc-by">{edu.institution}, {edu.period}</p>
+      <p class="rfc-by">{edu.institution}, <span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
       {edu.description && (
         <p class="rfc-ind">
           <span data-lang-show="en">{edu.description.en}</span>

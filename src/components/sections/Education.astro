@@ -21,7 +21,7 @@ import CartoonEducation from '@components/designs/cartoon/CartoonEducation.astro
       {education.map((edu, i) => (
         <ScrollReveal client:visible delay={i * 0.1}>
           <div class="rounded-card border border-border bg-card p-6">
-            <p class="mb-1 text-sm text-accent">{edu.period}</p>
+            <p class="mb-1 text-sm text-accent"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
             <h3 class="font-heading text-lg font-bold text-text">{edu.institution}</h3>
             <p class="text-text-secondary">
               <span data-lang-show="en">{edu.degree.en}</span>

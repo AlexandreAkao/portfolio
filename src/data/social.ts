@@ -6,8 +6,11 @@ export interface SocialLink {
 
 export const email = 'alexandreakiraakao@gmail.com';
 
-/** The CV is English only; the Portuguese button label says so. */
-export const cvUrl = '/resume/Alexandre_Akira_en_CV.pdf';
+/** Downloads follow the page language, including before client-side hydration. */
+export const cvUrls = {
+  en: '/resume/Alexandre_Akira_en_CV.pdf',
+  pt: '/resume/Alexandre_Akira_ptbr_CV.pdf',
+};
 
 export const socialLinks: SocialLink[] = [
   {

@@ -10,7 +10,7 @@ import CartoonHeading from './CartoonHeading.astro';
         <div class="cartoon-rule" aria-hidden="true"></div>
         <h3><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></h3>
         <p class="cartoon-caps mb-0 mt-2">{edu.institution}</p>
-        <p class="mb-0 mt-1 font-medium">{edu.period}</p>
+        <p class="mb-0 mt-1 font-medium"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
         {edu.description && <p class="mb-0 mt-3 max-w-[60ch]"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}
       </article>
     ))}

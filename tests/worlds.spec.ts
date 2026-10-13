@@ -105,7 +105,7 @@ test('portuguese visit: no hydration mismatch and the hero speaks pt', async ({ 
   const errors = watchErrors(page);
   await arrive(page, 'editorial', 'pt');
   await expectHeroVisible(page, 'editorial');
-  await expect(heroOf(page, 'editorial')).toContainText('Desenvolvedor Full-Stack Sênior');
+  await expect(heroOf(page, 'editorial')).toContainText('Desenvolvedor de Software Sênior');
   expect(errors).toEqual([]);
 });
 

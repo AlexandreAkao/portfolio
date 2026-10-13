@@ -2,13 +2,22 @@ export interface Education {
   institution: string;
   degree: { en: string; pt: string };
   field: { en: string; pt: string };
-  period: string;
+  period: { en: string; pt: string };
   description?: { en: string; pt: string };
 }
 
 export const education: Education[] = [
   {
-    institution: 'Rocketseat / Sirius',
+    institution: 'UNIPDS',
+    degree: {
+      en: 'Postgraduate Degree in Applied AI Engineering',
+      pt: 'Pós-graduação em Engenharia de IA Aplicada',
+    },
+    field: { en: 'Applied AI Engineering', pt: 'Engenharia de IA Aplicada' },
+    period: { en: 'May 2024 - May 2025', pt: 'mai 2024 - mai 2025' },
+  },
+  {
+    institution: 'Sirius',
     degree: {
       en: 'MBA in Full-Stack Development',
       pt: 'MBA em Desenvolvimento Full-Stack',
@@ -17,11 +26,7 @@ export const education: Education[] = [
       en: 'Full-Stack Development',
       pt: 'Desenvolvimento Full-Stack',
     },
-    period: '2024 - 2025',
-    description: {
-      en: 'Advanced specialization in modern full-stack development, covering advanced React patterns, Node.js architecture, DevOps, and cloud infrastructure.',
-      pt: 'Especialização avançada em desenvolvimento full-stack moderno, cobrindo padrões avançados de React, arquitetura Node.js, DevOps e infraestrutura cloud.',
-    },
+    period: { en: 'May 2024 - May 2025', pt: 'mai 2024 - mai 2025' },
   },
   {
     institution: 'UNIFOR - Universidade de Fortaleza',
@@ -33,10 +38,6 @@ export const education: Education[] = [
       en: 'Computer Science',
       pt: 'Ciência da Computação',
     },
-    period: '2018 - 2022',
-    description: {
-      en: 'Comprehensive foundation in algorithms, data structures, software engineering, databases, and distributed systems.',
-      pt: 'Base abrangente em algoritmos, estruturas de dados, engenharia de software, bancos de dados e sistemas distribuídos.',
-    },
+    period: { en: 'Jan 2018 - Jan 2022', pt: 'jan 2018 - jan 2022' },
   },
 ];

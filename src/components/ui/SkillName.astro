@@ -1,0 +1,10 @@
+---
+import { getSkillLabel } from '@data/skills';
+
+interface Props {
+  skill: string;
+}
+
+const { skill } = Astro.props;
+---
+<span data-lang-show="en">{skill}</span><span data-lang-show="pt">{getSkillLabel(skill, 'pt')}</span>

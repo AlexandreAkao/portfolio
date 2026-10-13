@@ -1,5 +1,6 @@
 ---
 import { skillGroups } from '@data/skills';
+import SkillName from '@components/ui/SkillName.astro';
 import TapeHeading from './TapeHeading.astro';
 ---
 <div class="tape">
@@ -8,7 +9,7 @@ import TapeHeading from './TapeHeading.astro';
     {skillGroups.map((g) => (
       <div class="tape-row">
         <dt class="tape-row__k tape-caps"><span data-lang-show="en">{g.category.en}</span><span data-lang-show="pt">{g.category.pt}</span></dt>
-        <dd class="tape-row__v m-0">{g.skills.map((s) => <span>{s}</span>)}</dd>
+        <dd class="tape-row__v m-0">{g.skills.map((s) => <span><SkillName skill={s} /></span>)}</dd>
       </div>
     ))}
   </dl>

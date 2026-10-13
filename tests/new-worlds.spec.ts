@@ -34,7 +34,7 @@ test('Engineer numbers its sections, marks figures and keeps details behind togg
   await expect(page.locator('#about').getByRole('table')).toContainText('Distribution Centers');
   const exp = page.locator('#experience [data-design-show="engineer"]');
   await exp.scrollIntoViewIfNeeded();
-  await expect(exp.locator('mark.rfc-mark', { hasText: '19' }).first()).toBeVisible();
+  await expect(exp.locator('mark.rfc-mark', { hasText: '26' }).first()).toBeVisible();
   // The 2 in "B2B" is not a figure
   await expect(exp.locator('mark.rfc-mark', { hasText: /^2$/ })).toHaveCount(0);
   await expect(exp.getByText('Status: Historic').first()).toBeVisible();
@@ -42,7 +42,7 @@ test('Engineer numbers its sections, marks figures and keeps details behind togg
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await toggle.click();
   await expect(exp.getByRole('button', { name: /collapse/ }).first()).toHaveAttribute('aria-expanded', 'true');
-  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toBeVisible();
+  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toBeVisible();
 });
 
 test("Engineer's pager line follows the reading and ends on (END)", async ({ page }) => {
@@ -114,7 +114,7 @@ test('Cartoon runs the opening titles: the name lettered, the roles billed as cr
   const hero = page.locator('#hero [data-design-show="cartoon"]');
   // The name is lettered one letter at a time for the eye, and read once
   await expect(hero.getByRole('heading', { level: 1 })).toHaveAccessibleName('Alexandre Akira');
-  await expect(hero.locator('.cartoon-stripe')).toHaveText('Senior Full-Stack Engineer');
+  await expect(hero.locator('.cartoon-stripe')).toHaveText('Senior Software Engineer');
   await expect(hero.locator('svg.cartoon-char')).toBeVisible();
   const exp = page.locator('#experience [data-design-show="cartoon"]');
   await exp.scrollIntoViewIfNeeded();
@@ -126,7 +126,7 @@ test('Cartoon runs the opening titles: the name lettered, the roles billed as cr
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await toggle.click();
   await expect(exp.getByRole('button', { name: /collapse/ }).first()).toHaveAttribute('aria-expanded', 'true');
-  await expect(exp.getByText('Implemented event-driven communication with RabbitMQ and Redis')).toBeVisible();
+  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toBeVisible();
   const contact = page.locator('#contact [data-design-show="cartoon"]');
   await expect(contact.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', /^mailto:/);
   await expect(contact.getByRole('button', { name: 'Copy email address' })).toBeVisible();
@@ -138,7 +138,7 @@ test('Cartoon runs the opening titles: the name lettered, the roles billed as cr
 test('Cartoon speaks Portuguese on /pt/, and the switcher calls it "Desenho"', async ({ page }) => {
   await arrive(page, 'cartoon', '/pt/');
   const hero = page.locator('#hero [data-design-show="cartoon"]');
-  await expect(hero.locator('.cartoon-stripe')).toHaveText('Desenvolvedor Full-Stack Sênior');
+  await expect(hero.locator('.cartoon-stripe')).toHaveText('Desenvolvedor de Software Sênior');
   await expect(page.locator('#experience .cartoon-showing').first()).toHaveText('Em cartaz');
   await expect(page.locator('footer [data-design-show="cartoon"]')).toContainText('Uma produção de Alexandre Akira');
   await page.getByRole('button', { name: /trocar design/i }).click();

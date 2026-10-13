@@ -1,4 +1,4 @@
-import type { SkillGroup } from '@data/skills';
+import { getSkillLabel, type SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
 import { t } from '@i18n/utils';
 import { withServerLocale } from '@i18n/withServerLocale';
@@ -20,7 +20,7 @@ function EngineerSkills({ skillGroups }: Props) {
             <span className="text-text-secondary">: [</span>
             {group.skills.map((skill, j) => (
               <span key={skill}>
-                "{skill}"{j < group.skills.length - 1 && <span className="text-text-secondary">, </span>}
+                "{getSkillLabel(skill, locale)}"{j < group.skills.length - 1 && <span className="text-text-secondary">, </span>}
               </span>
             ))}
             <span className="text-text-secondary">]{i < skillGroups.length - 1 ? ',' : ''}</span>

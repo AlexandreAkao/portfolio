@@ -1,6 +1,6 @@
 import { motion, useInView } from 'motion/react';
 import { useRef } from 'react';
-import type { SkillGroup } from '@data/skills';
+import { getSkillLabel, type SkillGroup } from '@data/skills';
 import { useLocale } from '@i18n/useLocale';
 import { withServerLocale } from '@i18n/withServerLocale';
 
@@ -42,7 +42,7 @@ function ArcadeSkills({ skillGroups }: Props) {
                   className="rounded-full bg-[#0f0d0e]/15 px-2.5 py-1 text-xs font-medium"
                   style={{ color: '#0f0d0e' }}
                 >
-                  {skill}
+                  {getSkillLabel(skill, locale)}
                 </span>
               ))}
             </div>
