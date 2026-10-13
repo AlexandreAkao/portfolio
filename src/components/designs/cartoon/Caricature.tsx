@@ -6,7 +6,7 @@
  * Decorative: the name is always on the page as text.
  */
 
-type Pose = 'roller' | 'wave' | 'peek' | 'graduate' | 'point';
+type Pose = 'roller' | 'wave' | 'peek' | 'point' | 'teacher';
 
 const INK = '#121212';
 const SKIN = '#f4c9a0';
@@ -129,7 +129,7 @@ function Peek() {
   );
 }
 
-/** The mortarboard, for the graduate peeking over Education. */
+/** The mortarboard, for the teacher at Education's blackboard. */
 function Mortarboard() {
   return (
     <>
@@ -160,8 +160,8 @@ const views: Record<Pose, string> = {
   roller: '0 0 280 440',
   wave: '100 20 222 300',
   peek: '106 20 164 214',
-  graduate: '106 8 166 226',
   point: '96 20 272 350',
+  teacher: '96 8 272 362',
 };
 
 interface Props {
@@ -175,9 +175,9 @@ export default function Caricature({ pose, className = '' }: Props) {
       <g className="cartoon-ink">
         {pose === 'roller' && <Roller />}
         {pose === 'wave' && <Wave />}
-        {(pose === 'peek' || pose === 'graduate') && <Peek />}
-        {pose === 'graduate' && <Mortarboard />}
-        {pose === 'point' && <Point />}
+        {pose === 'peek' && <Peek />}
+        {(pose === 'point' || pose === 'teacher') && <Point />}
+        {pose === 'teacher' && <Mortarboard />}
       </g>
     </svg>
   );

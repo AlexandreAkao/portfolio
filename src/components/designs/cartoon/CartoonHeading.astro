@@ -8,7 +8,7 @@ interface Props {
   /** Offsets the tilt pattern so neighbouring titles are not lettered alike. */
   seed?: number;
   /** Akira hangs on to the title's last letters and peeks over it. */
-  peek?: 'peek' | 'graduate';
+  peek?: 'peek';
 }
 
 const { k, seed = 0, peek } = Astro.props;

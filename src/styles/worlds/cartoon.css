@@ -147,11 +147,6 @@
   aspect-ratio: 164 / 214;
   pointer-events: none;
 }
-.cartoon-peek--graduate {
-  top: -1.07em;
-  height: 1.3em;
-  aspect-ratio: 166 / 226;
-}
 .cartoon-h2:has(.cartoon-peek) {
   padding-top: 0.95em;
 }
@@ -695,22 +690,138 @@
 }
 
 /* ---------- Education ---------- */
-.cartoon-school {
+/* The blackboard: a sheet of ink lying on the paper card, the degrees chalked
+   up by year (white chalk for the degree, yellow for the school and the year),
+   a chalk brace round a year with more than one. Akira points at it from the
+   left, his hips behind the cut edge of the card below. */
+.cartoon-class {
   display: grid;
-  gap: 2.5rem 2.5rem;
+  gap: 0.5rem;
+  align-items: end;
 }
-@media (min-width: 768px) {
-  .cartoon-school {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+.cartoon-teacher {
+  width: 9.5rem;
+  aspect-ratio: 272 / 362;
+}
+.cartoon-teacher .cartoon-char {
+  width: 100%;
+  height: 100%;
+}
+.cartoon-board {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 4vw, 2.75rem) clamp(2rem, 4vw, 3rem);
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 6px 14px 8px 16px / 14px 6px 16px 8px;
+}
+.cartoon-board ol {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cartoon-board ::selection {
+  background: var(--paper);
+  color: var(--ink);
+}
+.cartoon-board__year {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 0.75rem;
+}
+.cartoon-board__when {
+  margin: 0;
+  align-self: center;
+  font: 900 clamp(2.4rem, 6vw, 4rem) / 0.9 'Londrina Solid', sans-serif;
+  color: var(--marigold);
+}
+.cartoon-board__brace {
+  width: 1.1rem;
+  height: 100%;
+}
+.cartoon-board__lines {
+  display: grid;
+  gap: 1.1rem;
+  align-content: center;
+}
+.cartoon-board__lines h3 {
+  margin: 0;
+  font: 900 clamp(1.35rem, 2.6vw, 1.85rem) / 1 'Londrina Solid', sans-serif;
+  text-transform: uppercase;
+}
+.cartoon-board__school {
+  margin: 0.3rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--marigold);
+}
+.cartoon-board__period {
+  margin: 0.1rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+/* On a narrow board the year goes up first, the brace and the lines beneath it */
+@media (max-width: 479px) {
+  .cartoon-board__year {
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem 0.6rem;
+  }
+  .cartoon-board__when {
+    grid-column: 1 / -1;
   }
 }
-.cartoon-school h3 {
-  margin: 0;
-  font: 900 clamp(1.75rem, 3.4vw, 2.5rem) / 1 'Londrina Solid', sans-serif;
+/* The chalk tray, with a white and a yellow stick */
+.cartoon-board__tray {
+  position: absolute;
+  left: -0.6rem;
+  right: -0.6rem;
+  bottom: -0.55rem;
+  height: 0.85rem;
+  background: var(--ink);
+  border-top: 3px solid var(--border);
+  border-radius: 3px 6px 4px 7px;
 }
-.cartoon-school .cartoon-rule {
-  margin-bottom: 1.1rem;
-  color: var(--hi);
+.cartoon-board__tray span {
+  position: absolute;
+  bottom: 0.4rem;
+  height: 0.45rem;
+  border-radius: 3px;
+}
+.cartoon-board__tray span:first-child {
+  right: 18%;
+  width: 2.2rem;
+  background: var(--paper);
+}
+.cartoon-board__tray span:last-child {
+  right: calc(18% + 3rem);
+  width: 1.4rem;
+  background: var(--marigold);
+  rotate: -6deg;
+}
+@media (min-width: 768px) {
+  .cartoon-class {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    gap: 0;
+  }
+  .cartoon-teacher {
+    position: relative;
+    z-index: 1;
+    width: 15rem;
+    margin-right: -3rem;
+    margin-bottom: calc(clamp(4.5rem, 9vw, 7.5rem) * -1 - 1rem);
+  }
+}
+/* Each year is chalked up in turn as the board comes on screen, on twos */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .cartoon-board__year {
+      animation: cartoon-roll linear both;
+      animation-timing-function: steps(5, end);
+      animation-timeline: view();
+      animation-range: entry calc(20% + var(--i) * 8%) entry calc(55% + var(--i) * 8%);
+    }
+  }
 }
 
 /* ---------- Skills: the cast ---------- */

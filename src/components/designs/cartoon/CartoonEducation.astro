@@ -1,18 +1,46 @@
 ---
 import { education } from '@data/education';
+import KeepWords from '@components/ui/KeepWords.tsx';
 import CartoonHeading from './CartoonHeading.astro';
+import Caricature from './Caricature';
+
+// Degrees grouped by the year they were finished, newest first; a year with
+// more than one is bracketed in chalk.
+const groups = new Map<string, typeof education>();
+for (const edu of education) {
+  const year = edu.end.slice(0, 4);
+  groups.set(year, [...(groups.get(year) ?? []), edu]);
+}
 ---
+{/* The lesson: Akira, in his mortarboard, points at the degrees chalked up on a blackboard */}
 <div class="cartoon">
-  <CartoonHeading k="education.title" seed={5} peek="graduate" />
-  <div class="cartoon-school">
-    {education.map((edu) => (
-      <article>
-        <div class="cartoon-rule" aria-hidden="true"></div>
-        <h3><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></h3>
-        <p class="cartoon-caps mb-0 mt-2">{edu.institution}</p>
-        <p class="mb-0 mt-1 font-medium"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
-        {edu.description && <p class="mb-0 mt-3 max-w-[60ch]"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}
-      </article>
-    ))}
+  <CartoonHeading k="education.title" seed={5} />
+  <div class="cartoon-class">
+    <span class="cartoon-teacher"><Caricature pose="teacher" /></span>
+    <div class="cartoon-board">
+      <ol>
+        {[...groups].map(([year, list], i) => (
+          <li class="cartoon-board__year" style={`--i:${i}`}>
+            <p class="cartoon-board__when">{year}</p>
+            {list.length > 1 ? (
+              <svg class="cartoon-board__brace" viewBox="0 0 20 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <g class="cartoon-ink"><path d="M17 2 C8 2 10 12 10 24 C10 38 9 46 3 50 C9 54 10 62 10 76 C10 88 8 98 17 98" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke" /></g>
+              </svg>
+            ) : <span class="cartoon-board__brace" aria-hidden="true"></span>}
+            <div class="cartoon-board__lines">
+              {list.map((edu) => (
+                <article>
+                  <h3><span data-lang-show="en"><KeepWords text={edu.degree.en} /></span><span data-lang-show="pt"><KeepWords text={edu.degree.pt} /></span></h3>
+                  <p class="cartoon-board__school">{edu.institution}</p>
+                  <p class="cartoon-board__period"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
+                  {edu.description && <p class="cartoon-board__period max-w-[60ch]"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}
+                </article>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ol>
+      <span class="cartoon-board__tray" aria-hidden="true"><span></span><span></span></span>
+    </div>
   </div>
 </div>
