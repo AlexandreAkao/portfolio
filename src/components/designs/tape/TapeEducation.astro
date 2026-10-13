@@ -1,5 +1,6 @@
 ---
-import { education } from '@data/education';
+import { education, inProgress } from '@data/education';
+import T from '@components/ui/T.astro';
 import TapeHeading from './TapeHeading.astro';
 ---
 <div class="tape">
@@ -7,7 +8,10 @@ import TapeHeading from './TapeHeading.astro';
   <div class="grid gap-4 md:grid-cols-2">
     {education.map((edu) => (
       <article class="tape-win">
-        <div class="tape-win__head tape-caps"><span><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></span></div>
+        <div class="tape-win__head tape-caps flex-wrap">
+          <span class="whitespace-nowrap"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></span>
+          {inProgress(edu) && <span class="tape-mark" data-active><T k="education.inProgress" /></span>}
+        </div>
         <h3><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></h3>
         <p class="tape-role tape-caps">{edu.institution}</p>
         {edu.description && <p class="tape-sum mb-0"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}

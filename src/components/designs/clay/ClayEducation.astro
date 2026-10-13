@@ -1,5 +1,6 @@
 ---
-import { education } from '@data/education';
+import { education, inProgress } from '@data/education';
+import T from '@components/ui/T.astro';
 import KeepWords from '@components/ui/KeepWords.tsx';
 import ClayHeading from './ClayHeading.astro';
 
@@ -50,6 +51,7 @@ education.forEach((edu, i) => {
               <h3><span data-lang-show="en"><KeepWords text={edu.degree.en} /></span><span data-lang-show="pt"><KeepWords text={edu.degree.pt} /></span></h3>
               <p class="clay-degree__school">{edu.institution}</p>
               <p class="clay-degree__period"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
+              {inProgress(edu) && <p class="mt-2"><span class="clay-active"><T k="education.inProgress" /></span></p>}
               {edu.description && <p class="clay-degree__desc"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}
             </article>
           ))}

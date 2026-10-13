@@ -1,5 +1,6 @@
 ---
-import { education } from '@data/education';
+import { education, inProgress } from '@data/education';
+import T from '@components/ui/T.astro';
 import Prompt from './Prompt.astro';
 ---
 <div class="term term-block">
@@ -7,7 +8,10 @@ import Prompt from './Prompt.astro';
   {education.map((edu) => (
     <article class="term-job">
       <h3 class="term-jh">
-        <span class="term-muted"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></span>
+        <span class="term-per term-muted" data-active={inProgress(edu) || undefined}>
+          <span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span>
+          {inProgress(edu) && <> <span class="whitespace-nowrap">· <T k="education.inProgress" /></span></>}
+        </span>
         <b><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></b>
         <span class="font-normal">{edu.institution}</span>
       </h3>

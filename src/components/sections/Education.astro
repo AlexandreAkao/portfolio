@@ -1,6 +1,6 @@
 ---
 import T from '@components/ui/T.astro';
-import { education } from '@data/education';
+import { education, inProgress } from '@data/education';
 import ScrollReveal from '@components/islands/ScrollReveal.tsx';
 import KeepWords from '@components/ui/KeepWords.tsx';
 import EngineerEducation from '@components/designs/engineer/EngineerEducation.astro';
@@ -10,7 +10,8 @@ import CartoonEducation from '@components/designs/cartoon/CartoonEducation.astro
 import ClayEducation from '@components/designs/clay/ClayEducation.astro';
 
 // Degrees grouped by the year they were finished, in data order; a group whose
-// degrees share one period prints it once, beside the year.
+// degrees share one period prints it once, beside the year, with whether it is
+// still in progress.
 const groups = new Map<string, { edu: (typeof education)[number]; i: number }[]>();
 education.forEach((edu, i) => {
   const year = edu.end.slice(0, 4);
@@ -46,8 +47,8 @@ const bars = education
     </ScrollReveal>
 
     <div class="edu">
-      {/* The ruler shows the shape at a glance (the bachelor, then two degrees in
-          parallel); the list below carries every fact as text. */}
+      {/* The ruler shows the shape at a glance (the bachelor, then the two
+          postgraduate degrees); the list below carries every fact as text. */}
       <ScrollReveal client:visible>
         <div class="edu-ruler mb-10 md:mb-14" style={`--years:${years.length};--tracks:${trackEnds.length}`} aria-hidden="true">
           <div class="edu-ruler__tracks">
@@ -73,9 +74,12 @@ const bars = education
                   <div class="flex flex-wrap items-baseline gap-x-4 gap-y-2 md:block">
                     <p class="font-heading text-[clamp(3rem,7vw,5.5rem)] font-bold leading-[0.85] tracking-[-0.02em] text-text">{year}</p>
                     {shared && (
-                      <p class="whitespace-nowrap text-xs font-semibold uppercase tracking-[0.15em] text-text-secondary md:mt-3">
-                        <span data-lang-show="en">{list[0].edu.period.en}</span><span data-lang-show="pt">{list[0].edu.period.pt}</span>
-                      </p>
+                      <div class="text-xs font-semibold uppercase tracking-[0.15em] md:mt-3">
+                        <p class="whitespace-nowrap text-text-secondary">
+                          <span data-lang-show="en">{list[0].edu.period.en}</span><span data-lang-show="pt">{list[0].edu.period.pt}</span>
+                        </p>
+                        {inProgress(list[0].edu) && <p class="mt-1 text-accent"><T k="education.inProgress" /></p>}
+                      </div>
                     )}
                   </div>
                   <div>
@@ -88,6 +92,7 @@ const bars = education
                         {!shared && (
                           <p class="mt-1 text-xs font-semibold uppercase tracking-[0.15em] text-text-secondary">
                             <span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span>
+                            {inProgress(edu) && <span class="text-accent"> · <T k="education.inProgress" /></span>}
                           </p>
                         )}
                         {edu.description && (

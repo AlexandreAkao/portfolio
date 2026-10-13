@@ -761,6 +761,11 @@
   font-size: 0.95rem;
   font-weight: 500;
 }
+/* The board is ink on a paper field, so its chips are cut from the chalk */
+.cartoon-board .cartoon-showing {
+  background: var(--paper);
+  color: var(--ink);
+}
 /* On a narrow board the year goes up first, the brace and the lines beneath it */
 @media (max-width: 479px) {
   .cartoon-board__year {

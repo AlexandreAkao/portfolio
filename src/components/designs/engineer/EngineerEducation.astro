@@ -1,5 +1,6 @@
 ---
-import { education } from '@data/education';
+import { education, inProgress } from '@data/education';
+import T from '@components/ui/T.astro';
 import RfcHeading from './RfcHeading.astro';
 ---
 <div class="rfc-col">
@@ -9,6 +10,7 @@ import RfcHeading from './RfcHeading.astro';
       <h3 class="rfc-h">
         <span class="rfc-n">3.{i + 1}.</span>
         <span><span data-lang-show="en">{edu.degree.en}</span><span data-lang-show="pt">{edu.degree.pt}</span></span>
+        {inProgress(edu) && <span class="rfc-st" data-active><T k="rfc.status" />: <T k="education.inProgress" /></span>}
       </h3>
       <p class="rfc-by">{edu.institution}, <span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
       {edu.description && (

@@ -1,5 +1,6 @@
 ---
-import { education } from '@data/education';
+import { education, inProgress } from '@data/education';
+import T from '@components/ui/T.astro';
 import KeepWords from '@components/ui/KeepWords.tsx';
 import CartoonHeading from './CartoonHeading.astro';
 import Caricature from './Caricature';
@@ -33,6 +34,7 @@ for (const edu of education) {
                   <h3><span data-lang-show="en"><KeepWords text={edu.degree.en} /></span><span data-lang-show="pt"><KeepWords text={edu.degree.pt} /></span></h3>
                   <p class="cartoon-board__school">{edu.institution}</p>
                   <p class="cartoon-board__period"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
+                  {inProgress(edu) && <p class="mt-2"><span class="cartoon-showing"><T k="education.inProgress" /></span></p>}
                   {edu.description && <p class="cartoon-board__period max-w-[60ch]"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}
                 </article>
               ))}

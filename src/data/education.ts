@@ -9,6 +9,9 @@ export interface Education {
   description?: { en: string; pt: string };
 }
 
+/** Still under way when the page was built: its last month hasn't passed yet. */
+export const inProgress = (edu: Education) => edu.end >= new Date().toISOString().slice(0, 7);
+
 export const education: Education[] = [
   {
     institution: 'UNIPDS',
@@ -17,9 +20,9 @@ export const education: Education[] = [
       pt: 'Pós-graduação em Engenharia de IA Aplicada',
     },
     field: { en: 'Applied AI Engineering', pt: 'Engenharia de IA Aplicada' },
-    period: { en: 'May 2024 - May 2025', pt: 'mai 2024 - mai 2025' },
-    start: '2024-05',
-    end: '2025-05',
+    period: { en: 'Sep 2026 - Sep 2027', pt: 'set 2026 - set 2027' },
+    start: '2026-09',
+    end: '2027-09',
   },
   {
     institution: 'Sirius',
