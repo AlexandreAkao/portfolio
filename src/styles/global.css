@@ -397,3 +397,52 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='editorial'] {
   scroll-behavior: smooth;
 }
+/* Education's year ruler: a column per year, each degree a bar on the first
+   track free at its start, so degrees taken in parallel stack. Hovering a
+   degree in the list below singles out its bar. */
+.edu-ruler {
+  --bar: 8px;
+  --bar-gap: 6px;
+}
+.edu-ruler__tracks {
+  position: relative;
+  height: calc(var(--tracks) * var(--bar) + (var(--tracks) - 1) * var(--bar-gap) + 1.5rem);
+  border-bottom: 1px solid var(--border);
+  background-image: linear-gradient(to right, color-mix(in srgb, var(--border) 70%, transparent) 1px, transparent 1px);
+  background-size: calc(100% / var(--years)) 100%;
+}
+.edu-ruler__bar {
+  position: absolute;
+  top: calc(0.75rem + var(--track) * (var(--bar) + var(--bar-gap)));
+  height: var(--bar);
+  border-radius: min(var(--radius-btn), calc(var(--bar) / 2));
+  background: var(--accent);
+  transition: opacity 150ms ease-out;
+}
+.edu-ruler__years {
+  display: grid;
+  grid-template-columns: repeat(var(--years), 1fr);
+  padding-top: 0.5rem;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+}
+.edu-ruler__years > span {
+  padding-left: 0.375rem;
+}
+@media (min-width: 768px) {
+  .edu-ruler__years {
+    font-size: 0.75rem;
+  }
+}
+.edu:has([data-edu]:hover) .edu-ruler__bar {
+  opacity: 0.25;
+}
+.edu:has([data-edu='0']:hover) [data-bar='0'],
+.edu:has([data-edu='1']:hover) [data-bar='1'],
+.edu:has([data-edu='2']:hover) [data-bar='2'],
+.edu:has([data-edu='3']:hover) [data-bar='3'],
+.edu:has([data-edu='4']:hover) [data-bar='4'],
+.edu:has([data-edu='5']:hover) [data-bar='5'] {
+  opacity: 1;
+}

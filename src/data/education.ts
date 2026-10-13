@@ -3,6 +3,9 @@ export interface Education {
   degree: { en: string; pt: string };
   field: { en: string; pt: string };
   period: { en: string; pt: string };
+  /** Start and end as 'YYYY-MM', for placing the degree on a year scale. */
+  start: string;
+  end: string;
   description?: { en: string; pt: string };
 }
 
@@ -15,6 +18,8 @@ export const education: Education[] = [
     },
     field: { en: 'Applied AI Engineering', pt: 'Engenharia de IA Aplicada' },
     period: { en: 'May 2024 - May 2025', pt: 'mai 2024 - mai 2025' },
+    start: '2024-05',
+    end: '2025-05',
   },
   {
     institution: 'Sirius',
@@ -27,6 +32,8 @@ export const education: Education[] = [
       pt: 'Desenvolvimento Full-Stack',
     },
     period: { en: 'May 2024 - May 2025', pt: 'mai 2024 - mai 2025' },
+    start: '2024-05',
+    end: '2025-05',
   },
   {
     institution: 'UNIFOR - Universidade de Fortaleza',
@@ -39,5 +46,7 @@ export const education: Education[] = [
       pt: 'Ciência da Computação',
     },
     period: { en: 'Jan 2018 - Jan 2022', pt: 'jan 2018 - jan 2022' },
+    start: '2018-01',
+    end: '2022-01',
   },
 ];
