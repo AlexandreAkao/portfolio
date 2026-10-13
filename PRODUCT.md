@@ -20,13 +20,15 @@ Personal portfolio and blog for Alexandre Akira, Senior Software Engineer ("Dese
 
 ## Positioning
 
-One body of content rendered through eight complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon). The site demonstrates frontend range alongside backend depth: a SaaS with 26 independent services, a warehouse system for 200+ distribution centers, and applied AI work with RAG and LLM integration.
+One body of content rendered through nine complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon, Clay). The site demonstrates frontend range alongside backend depth: a SaaS with 26 independent services, a warehouse system for 200+ distribution centers, and applied AI work with RAG and LLM integration.
 
 **Confirmed decision (2026-10-10):** keep all five designs and differentiate them, rather than consolidate. The 2026-10-10 re-critique found them sharing one template (identical hero stacks; About, Education, Projects and Contact shared across worlds at 41–61% of page height; Engineer recognisable as a widely cloned template). Future work deepens each world's own staging instead of removing worlds; no design is removed without an explicit decision.
 
 **Confirmed decision (2026-10-11):** Engineer was restaged as an Internet-Draft read in a pager (it had been recognisable as Brittany Chiang's v4 template), and two worlds from the same direction round were added rather than discarded: Terminal (a dark shell session, the category standard played straight) and Tape (punched teletype paper tape; "Fita" in Portuguese). The site now has seven worlds.
 
 **Confirmed decision (2026-10-11):** an eighth world, Cartoon ("Desenho" in Portuguese), was added at the user's request: a 1960s cartoon's opening titles, chosen by the user from a direction round (seed aae49696). It carries a caricature of Alexandre drawn in SVG from the avatar, which the user asked for. It is a homage to the era's style, never to its characters.
+
+**Confirmed decision (2026-10-13):** a ninth world, Clay ("Massinha" in Portuguese), was added at the user's request for a Three.js world following Cartoon's example: a stop-motion plasticine set with a live Three.js puppet of Alexandre, modelled after the Cartoon caricature without the coat (direction round seed 08c073e6). The user chose it over the architectural-model direction after seeing both as a lab prototype, steered it toward "more developer" (clay desk, laptop showing code, rubber duck, `</>`), and set the puppet's shirt to #0B3D2E. After the first build the user found it read as cinema rather than developer ("muita vibe de cinema e não de desenvolvedor"), so the film-set staging (clapperboards, takes, a wrap) was replaced by developer objects pressed in clay: keycaps for controls, editor windows on a git branch, a clay keyboard for skills, sticky notes, repository folders, a closing tag.
 
 ## Operating Context
 
@@ -38,7 +40,7 @@ One body of content rendered through eight complete, switchable visual identitie
 
 ## Capabilities and Constraints
 
-- Static Astro 5 site with React 19 islands, Tailwind CSS v4, Motion, and Three.js for the Avant-garde design. No server, no form handler, no analytics configured.
+- Static Astro 5 site with React 19 islands, Tailwind CSS v4, Motion, and Three.js for the Avant-garde and Clay designs. No server, no form handler, no analytics configured.
 - Locales: English is the default at `/`, Portuguese at `/pt/`. **Confirmed decision:** keep English as the default locale. Portuguese is a full peer with content parity, not a fallback.
 - Design registry lives in `src/data/designs.ts`. All designs render at once and CSS visibility toggles the active one via `data-design`. Adding a design means registry entry, per-section components, and tokens (see CLAUDE.md).
 - Shared content lives in `src/data/*.ts` (experience, education, skills, projects, social) and `src/i18n/*.json`. Designs consume it; they never fork it.

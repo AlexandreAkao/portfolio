@@ -1,0 +1,17 @@
+---
+// Akira as stop-motion stills: frames rendered from the hero's own Three.js
+// puppet (ClayAkira) on a transparent canvas, laid side by side in one sheet
+// and played on twos with CSS steps(). Under reduced motion the first frame holds.
+interface Props {
+  pose: 'point' | 'wave';
+  class?: string;
+}
+
+const FRAMES = { point: 3, wave: 8 } as const;
+const { pose, class: className = '' } = Astro.props;
+---
+<span
+  class={`clay-still clay-still--${pose} ${className}`}
+  style={`--frames:${FRAMES[pose]};background-image:url(/images/clay/akira-${pose}.webp)`}
+  aria-hidden="true"
+></span>

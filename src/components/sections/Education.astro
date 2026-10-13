@@ -7,6 +7,7 @@ import EngineerEducation from '@components/designs/engineer/EngineerEducation.as
 import TerminalEducation from '@components/designs/terminal/TerminalEducation.astro';
 import TapeEducation from '@components/designs/tape/TapeEducation.astro';
 import CartoonEducation from '@components/designs/cartoon/CartoonEducation.astro';
+import ClayEducation from '@components/designs/clay/ClayEducation.astro';
 
 // Degrees grouped by the year they were finished, in data order; a group whose
 // degrees share one period prints it once, beside the year.
@@ -37,7 +38,7 @@ const bars = education
 ---
 
 <section id="education" class="py-12 md:py-20">
-  <div class="mx-auto max-w-4xl px-6" data-design-hide="engineer terminal tape cartoon">
+  <div class="mx-auto max-w-4xl px-6" data-design-hide="engineer terminal tape cartoon clay">
     <ScrollReveal client:visible>
       <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
         <span class="section-tag"><T k="education.title" /></span>
@@ -105,6 +106,10 @@ const bars = education
         })}
       </ol>
     </div>
+  </div>
+
+  <div class="mx-auto max-w-4xl px-6" data-design-show="clay">
+    <ClayEducation />
   </div>
 
   <div class="mx-auto max-w-4xl px-6" data-design-show="cartoon">

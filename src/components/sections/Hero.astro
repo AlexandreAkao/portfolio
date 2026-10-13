@@ -8,6 +8,7 @@ import ArcadeHero from '@components/designs/arcade/ArcadeHero.tsx';
 import TerminalHero from '@components/designs/terminal/TerminalHero.tsx';
 import TapeHero from '@components/designs/tape/TapeHero.tsx';
 import CartoonHero from '@components/designs/cartoon/CartoonHero.tsx';
+import ClayHero from '@components/designs/clay/ClayHero.tsx';
 import { rfcDate } from '@components/designs/engineer/rfc';
 import { loginDate } from '@components/designs/terminal/session';
 import avatarImg from '@/assets/images/avatar.jpeg';
@@ -52,5 +53,8 @@ const { locale } = Astro.props;
   </div>
   <div data-design-show="cartoon">
     <CartoonHero locale={locale} client:intro />
+  </div>
+  <div data-design-show="clay">
+    <ClayHero locale={locale} client:intro />
   </div>
 </section>

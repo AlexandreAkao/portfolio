@@ -1,0 +1,60 @@
+---
+import { education } from '@data/education';
+import KeepWords from '@components/ui/KeepWords.tsx';
+import ClayHeading from './ClayHeading.astro';
+
+// Each degree is a coil of clay rolled out along a ruler, from its first month to
+// its last; degrees taken in parallel lie on separate tracks. Below, the degrees
+// grouped by the year they were finished, each tagged with its coil's colour.
+const CLAYS = ['pink', 'lilac', 'orange', 'mint', 'purple'];
+const month = (ym: string) => Number(ym.slice(0, 4)) + (Number(ym.slice(5, 7)) - 1) / 12;
+const from = Math.min(...education.map((e) => Math.floor(month(e.start))));
+const to = Math.max(...education.map((e) => Math.floor(month(e.end)))) + 1;
+const years = Array.from({ length: to - from }, (_, k) => from + k);
+const trackEnds: number[] = [];
+const coils = education
+  .map((edu, i) => ({ i, start: month(edu.start), end: month(edu.end) }))
+  .sort((a, b) => a.start - b.start)
+  .map((c) => {
+    let track = trackEnds.findIndex((end) => end <= c.start);
+    if (track === -1) track = trackEnds.push(0) - 1;
+    trackEnds[track] = c.end;
+    const left = ((c.start - from) / (to - from)) * 100;
+    const width = ((c.end - c.start) / (to - from)) * 100;
+    return { i: c.i, track, style: `left:${left}%;width:${width}%;--track:${track}` };
+  });
+const groups = new Map<string, { edu: (typeof education)[number]; i: number }[]>();
+education.forEach((edu, i) => {
+  const year = edu.end.slice(0, 4);
+  groups.set(year, [...(groups.get(year) ?? []), { edu, i }]);
+});
+---
+<div class="clay">
+  <ClayHeading k="education.title" coil="lilac" />
+  <div class="clay-ruler" style={`--years:${years.length};--tracks:${trackEnds.length}`} aria-hidden="true">
+    <div class="clay-ruler__coils">
+      {coils.map((c) => <span class={`clay-ruler__coil clay-ruler__coil--${CLAYS[c.i % CLAYS.length]}`} style={c.style}></span>)}
+    </div>
+    <div class="clay-ruler__stick">
+      {years.map((y) => <span><span class="md:hidden">’{String(y).slice(2)}</span><span class="hidden md:inline">{y}</span></span>)}
+    </div>
+  </div>
+  <ol class="clay-degrees">
+    {[...groups].map(([year, list]) => (
+      <li class="clay-degrees__year">
+        <p class="clay-degrees__when">{year}</p>
+        <div class="clay-degrees__list">
+          {list.map(({ edu, i }) => (
+            <article class="clay-slab clay-slab--white clay-degree" style={`--tx:${(i * 151 + 40) % 320}px;--ty:${(i * 97 + 210) % 320}px`}>
+              <span class={`clay-degree__tag clay-degree__tag--${CLAYS[i % CLAYS.length]}`} aria-hidden="true"></span>
+              <h3><span data-lang-show="en"><KeepWords text={edu.degree.en} /></span><span data-lang-show="pt"><KeepWords text={edu.degree.pt} /></span></h3>
+              <p class="clay-degree__school">{edu.institution}</p>
+              <p class="clay-degree__period"><span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span></p>
+              {edu.description && <p class="clay-degree__desc"><span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span></p>}
+            </article>
+          ))}
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

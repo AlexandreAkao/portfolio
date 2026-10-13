@@ -1,0 +1,27 @@
+---
+import { skillGroups } from '@data/skills';
+import SkillName from '@components/ui/SkillName.astro';
+import ClayHeading from './ClayHeading.astro';
+
+// The modifier key that starts each row takes the next clay in turn
+const MODS = ['pink', 'orange', 'mint', 'lilac'];
+---
+{/* A keyboard pressed in clay: one row per kind, its modifier key naming the
+    kind, then one keycap per tool. Hovering a key presses it. */}
+<div class="clay">
+  <ClayHeading k="skills.title" coil="mint" />
+  <div class="clay-keyboard">
+    {skillGroups.map((g, row) => (
+      <section class="clay-keyboard__row" aria-labelledby={`clay-kb-${row}`}>
+        <h3 class={`clay-cap clay-cap--mod clay-cap--${MODS[row % MODS.length]}`} id={`clay-kb-${row}`}>
+          <span data-lang-show="en">{g.category.en}</span><span data-lang-show="pt">{g.category.pt}</span>
+        </h3>
+        <ul class="clay-keyboard__keys">
+          {g.skills.map((s) => (
+            <li class="clay-cap"><SkillName skill={s} /></li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</div>

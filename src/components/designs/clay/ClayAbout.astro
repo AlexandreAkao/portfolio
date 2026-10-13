@@ -1,0 +1,38 @@
+---
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import ClayHeading from './ClayHeading.astro';
+
+const stats = [
+  { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label', clay: 'orange' },
+  { valueKey: 'about.stat.centers', labelKey: 'about.stat.centers.label', clay: 'pink' },
+  { valueKey: 'about.stat.components', labelKey: 'about.stat.components.label', clay: 'lilac' },
+  { valueKey: 'about.stat.microservices', labelKey: 'about.stat.microservices.label', clay: 'mint' },
+];
+---
+<div class="clay">
+  <ClayHeading k="about.title" coil="orange" />
+  <div class="clay-about">
+    {/* What he would tell the rubber duck, pressed into one slab of white clay */}
+    <div class="clay-slab clay-slab--white clay-about__text" style="--tx:190px;--ty:70px">
+      <p class="clay-about__lede">
+        <span data-lang-show="en">{t('about.p1', 'en')}</span><span data-lang-show="pt">{t('about.p1', 'pt')}</span>
+      </p>
+      <p>
+        <span data-lang-show="en">{t('about.p2', 'en')}</span><span data-lang-show="pt">{t('about.p2', 'pt')}</span>
+      </p>
+    </div>
+    {/* The figures as sticky notes, the kind stuck round a monitor, pressed in clay */}
+    <div class="clay-notes">
+      <h3 class="sr-only"><T k="about.numbers" /></h3>
+      <dl class="clay-notes__wall">
+        {stats.map((s, i) => (
+          <div class={`clay-note clay-note--${s.clay}`} style={`--i:${i};--tx:${(i * 167 + 30) % 320}px;--ty:${(i * 113 + 250) % 320}px`}>
+            <dt class="clay-note__label"><T k={s.labelKey} /></dt>
+            <dd class="clay-note__value"><T k={s.valueKey} /></dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</div>

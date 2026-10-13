@@ -112,5 +112,8 @@
   "cartoon.presents": "Alexandre Akira presents",
   "cartoon.end": "The End",
   "cartoon.production": "An Alexandre Akira production",
-  "cartoon.showing": "Now showing"
+  "cartoon.showing": "Now showing",
+  "design.clay": "Clay",
+  "clay.credit": "Hand-built with Astro, Tailwind, Three.js, plasticine and a rubber duck",
+  "clay.active": "Active"
 }

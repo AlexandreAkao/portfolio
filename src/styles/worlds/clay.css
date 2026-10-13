@@ -1,0 +1,1221 @@
+/* Clay ("Massinha"): a developer's world moulded in plasticine. The whole page is
+   one painted teal sweep; everything on it is a dev object pressed in clay:
+   keycaps for every control, editor windows on a git branch coil, a keyboard,
+   sticky notes, repository folders, a closing tag. Clay is a solid colour with
+   the surface tile (fingerprints, thumb presses) pressed in under hard-light,
+   a lit top edge, a shaded underside and a soft teal cast on the sweep.
+   Display type is Bagel Fat One (letters like rolled clay), running copy Gabarito.
+   Motion is stop-motion: poses held on twos (steps), never tweened.
+   The hero's set is live Three.js (ClaySet). Classes here are used only in this world. */
+
+[data-design='clay'] {
+  /* Thumb presses, fingerprints and tool marks, painted once (public/images/clay/clay-surface.webp,
+     a mid-grey tile) and pressed into every clay colour with hard-light */
+  --clay-surface: url('/images/clay/clay-surface.webp');
+  --clay-lift: inset 0 3px 0 rgb(255 255 255 / 0.38), inset 0 -6px 0 rgb(0 0 0 / 0.1);
+  --clay-cast: 0 14px 22px -8px rgb(6 60 56 / 0.5);
+  /* The side wall of each keycap colour: the same clay in shade */
+  --side-pink: #c94d6b;
+  --side-orange: #c98800;
+  --side-lilac: #8c74d4;
+  --side-mint: #4db6aa;
+  --side-white: #cbc2b4;
+}
+
+/* ---------- The sweep, the chrome on it ---------- */
+/* Painted paper: a slow mottle under everything */
+[data-design='clay'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* One sheet of paint stretched over the viewport: no tile, so no seams */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' preserveAspectRatio='none'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0045' numOctaves='3' seed='4'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0.1 0 0 0 0 0.1 0.34 0 0 0 -0.08'/%3E%3C/filter%3E%3Crect width='800' height='800' filter='url(%23m)'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+}
+[data-design='clay'] body > header {
+  background: var(--bg);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+/* Nothing pink reads as text on the sweep: accent text is ink */
+[data-design='clay'] :is(.text-accent, .hover\:text-accent:hover, .group:hover .group-hover\:text-accent) {
+  color: var(--accent-text);
+}
+[data-design='clay'] .text-accent-display {
+  color: var(--clay-ink);
+}
+/* The ring is ink on the sweep and clay white on the dark clay */
+[data-design='clay'] :focus-visible {
+  outline: 3px solid var(--clay-ink);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+[data-design='clay'] :is(.clay-keyboard, .clay-end) :focus-visible {
+  outline-color: var(--clay-white);
+}
+[data-design='clay'] ::selection {
+  background: var(--clay-ink);
+  color: var(--clay-white);
+}
+[data-design='clay'] #main-content > section:not(#hero) {
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+/* ---------- Type ---------- */
+.clay {
+  font-family: 'Gabarito Variable', sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--clay-ink);
+}
+/* Section titles are written as component tags, like the site's <A4 /> mark */
+.clay-h2 {
+  margin: 0 0 clamp(2.25rem, 4vw, 3.25rem);
+  font-family: 'Bagel Fat One', sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.25rem, 5.6vw, 4rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  color: var(--clay-ink);
+}
+.clay-h2__tag {
+  color: var(--clay-purple);
+}
+/* A coil rolled out under the title: the clay, its lit top, its shadow on the sweep */
+.clay-coil {
+  display: block;
+  width: min(15rem, 70%);
+  height: 22px;
+  margin-top: 0.5rem;
+  overflow: visible;
+  filter: drop-shadow(0 5px 3px rgb(6 60 56 / 0.4));
+}
+.clay-coil__body {
+  fill: none;
+  stroke: var(--coil);
+  stroke-width: 11;
+  stroke-linecap: round;
+}
+.clay-coil__lit {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.45);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.clay-coil--pink { --coil: var(--clay-pink); }
+.clay-coil--orange { --coil: var(--clay-orange); }
+.clay-coil--purple { --coil: var(--clay-purple); }
+.clay-coil--lilac { --coil: var(--clay-lilac); }
+.clay-coil--mint { --coil: var(--clay-mint); }
+
+/* ---------- Clay surfaces ---------- */
+.clay-slab {
+  position: relative;
+  isolation: isolate;
+  rotate: var(--tilt, -0.4deg);
+  background-color: var(--slab, var(--clay-white));
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  color: var(--on-slab, var(--clay-ink));
+  border-radius: var(--press, 40px 18px 46px 22px / 26px 42px 18px 48px);
+  box-shadow: var(--clay-lift), var(--clay-cast);
+}
+/* Each slab was pressed out by hand: no two share a silhouette */
+.clay-slab:nth-child(3n + 2) {
+  --press: 22px 46px 20px 40px / 44px 22px 48px 20px;
+  --tilt: 0.5deg;
+}
+.clay-slab:nth-child(3n) {
+  --press: 48px 26px 34px 16px / 20px 50px 24px 38px;
+  --tilt: -0.2deg;
+}
+.clay-slab--white { --slab: var(--clay-white); }
+.clay-slab--pink { --slab: var(--clay-pink); }
+.clay-slab--orange { --slab: var(--clay-orange); }
+.clay-slab--lilac { --slab: var(--clay-lilac); }
+.clay-slab--mint { --slab: var(--clay-mint); }
+
+/* ---------- Keycaps: every control in this world ---------- */
+/* A clay keycap: the top face in its clay; under it, the side wall, the same clay
+   in shade, a layer set --depth lower. Pressing sinks the face into its wall on
+   twos; only translate moves, so a press never reflows the page. */
+.clay-key {
+  --key: var(--clay-pink);
+  --key-side: var(--side-pink);
+  --depth: 6px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-bottom: var(--depth);
+  padding: 0.62rem 1.15rem 0.56rem;
+  border: 0;
+  border-radius: 13px 11px 14px 10px;
+  background-color: var(--key);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.4);
+  color: var(--clay-ink);
+  font-family: 'Gabarito Variable', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1.1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: translate 0.2s steps(2, end);
+}
+.clay-key::before,
+.clay-cap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--key-side);
+  translate: 0 var(--depth);
+  box-shadow: 0 10px 14px -6px rgb(6 60 56 / 0.55);
+  transition: translate 0.2s steps(2, end);
+}
+.clay-key:hover {
+  translate: 0 calc(var(--depth) / 3);
+}
+.clay-key:hover::before {
+  translate: 0 calc(var(--depth) * 2 / 3);
+}
+.clay-key:active {
+  translate: 0 calc(var(--depth) * 2 / 3);
+}
+.clay-key:active::before {
+  translate: 0 calc(var(--depth) / 3);
+}
+.clay-key--pink { --key: var(--clay-pink); --key-side: var(--side-pink); }
+.clay-key--orange { --key: var(--clay-orange); --key-side: var(--side-orange); }
+.clay-key--lilac { --key: var(--clay-lilac); --key-side: var(--side-lilac); }
+.clay-key--mint { --key: var(--clay-mint); --key-side: var(--side-mint); }
+.clay-key--white { --key: var(--clay-white); --key-side: var(--side-white); }
+.clay-key__glyph {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+.clay-key__glyph--sm {
+  width: 0.95em;
+  height: 0.95em;
+  margin-left: -0.15rem;
+}
+.clay-key--sm {
+  --depth: 5px;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.9rem 0.45rem;
+  font-size: 0.9375rem;
+}
+.clay-key--xl {
+  --depth: 9px;
+  gap: 0.75rem;
+  padding: 1rem 1.9rem 0.9rem;
+  border-radius: 18px 15px 20px 14px;
+  font-family: 'Bagel Fat One', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 3.2vw, 2rem);
+}
+
+/* Beads of clay: the tech a role or a repository was made with */
+.clay-beads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.clay-beads li {
+  padding: 0.28rem 0.7rem 0.32rem;
+  border-radius: 999px;
+  background: var(--clay-pink);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.4), inset 0 -3px 0 rgb(0 0 0 / 0.12);
+  color: var(--clay-ink);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.clay-beads li:nth-child(4n + 2) { background: var(--clay-orange); }
+.clay-beads li:nth-child(4n + 3) { background: var(--clay-mint); }
+.clay-beads li:nth-child(4n + 4) { background: var(--clay-lilac); }
+.clay-beads--on-clay li,
+.clay-beads--on-clay li:nth-child(n) {
+  background: var(--clay-white);
+}
+
+/* ---------- The first screen ---------- */
+.clay-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - 4rem);
+}
+.clay-hero__stage {
+  position: absolute;
+  inset: -4rem 0 0;
+  /* The set's floor runs out into the page's own sweep */
+  -webkit-mask: linear-gradient(to bottom, #000 80%, transparent);
+  mask: linear-gradient(to bottom, #000 80%, transparent);
+}
+.clay-hero__stage canvas {
+  animation: clay-lights 0.25s steps(2, end) both;
+}
+.clay-hero__copy {
+  position: relative;
+  z-index: 1;
+  padding-block: 4rem 5rem;
+  pointer-events: none;
+}
+.clay-hero__col {
+  max-width: 31rem;
+  pointer-events: auto;
+}
+.clay-name {
+  margin: 0;
+  font-family: 'Bagel Fat One', sans-serif;
+  font-weight: 400;
+  font-size: clamp(3rem, 6.6vw, 6rem);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--clay-ink);
+}
+.clay-role {
+  margin: 1.1rem 0 0;
+  font-weight: 800;
+  font-size: clamp(1.25rem, 1.9vw, 1.6rem);
+  line-height: 1.2;
+}
+.clay-now {
+  margin: 0.9rem 0 0;
+  font-weight: 500;
+}
+.clay-tagline {
+  margin: 0.35rem 0 0;
+  max-width: 34ch;
+  font-weight: 500;
+}
+.clay-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 0.75rem;
+  margin: 2rem 0 0;
+}
+.clay-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 1.1rem 0 0;
+  font-weight: 700;
+}
+.clay-socials a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--clay-pink);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+}
+.clay-socials a:hover {
+  text-decoration-color: currentColor;
+}
+.clay-socials--center {
+  justify-content: center;
+}
+.clay-invite {
+  margin-top: 0.5rem;
+  color: var(--text-secondary);
+}
+/* An FPS meter in the corner, as a dev overlay reads, pressed in ink clay */
+.clay-fps {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.4rem 0.7rem 0.45rem;
+  border-radius: 9px 8px 10px 7px;
+  background-color: var(--clay-ink);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.18), 0 8px 12px -6px rgb(6 60 56 / 0.5);
+  color: var(--clay-mint);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.clay-fps__value {
+  color: var(--clay-white);
+}
+@media (max-width: 1023px) {
+  .clay-hero {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+  }
+  .clay-hero__copy {
+    order: 1;
+    padding-block: 2.5rem 0;
+  }
+  .clay-hero__stage {
+    position: relative;
+    order: 2;
+    inset: auto;
+    height: clamp(19rem, 46svh, 25rem);
+    margin-top: -0.5rem;
+  }
+  .clay-fps {
+    bottom: 0.75rem;
+  }
+}
+@media (max-width: 639px) {
+  .clay-name {
+    font-size: clamp(2.9rem, 14vw, 3.6rem);
+  }
+  .clay-actions .clay-key {
+    padding-inline: 0.95rem;
+  }
+}
+
+/* ---------- About: the slab and the sticky notes ---------- */
+.clay-about {
+  display: grid;
+  gap: 3rem;
+}
+.clay-about__text {
+  padding: 1.75rem 1.9rem 1.9rem;
+}
+.clay-about__text p {
+  margin: 0;
+  max-width: 62ch;
+}
+.clay-about__text p + p {
+  margin-top: 1rem;
+}
+.clay-about__lede {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.clay-notes__wall {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.1rem;
+  margin: 0;
+}
+/* A sticky note pressed flat in clay; its bottom corner curls off the wall */
+.clay-note {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  min-height: 8.5rem;
+  padding: 1.1rem 1rem 1rem;
+  border-radius: 5px 6px 30px 5px / 5px 6px 22px 5px;
+  background-color: var(--slab);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 16px 0 rgb(0 0 0 / 0.05), inset 0 -5px 0 rgb(0 0 0 / 0.08), 0 16px 18px -12px rgb(6 60 56 / 0.6);
+  transform: rotate(calc((var(--i) - 1.5) * 2.2deg));
+}
+.clay-note--orange { --slab: var(--clay-orange); }
+.clay-note--pink { --slab: var(--clay-pink); }
+.clay-note--lilac { --slab: var(--clay-lilac); }
+.clay-note--mint { --slab: var(--clay-mint); }
+.clay-note__value {
+  margin: 0;
+  font-family: 'Bagel Fat One', sans-serif;
+  font-size: clamp(2.1rem, 4vw, 2.6rem);
+  line-height: 1;
+}
+.clay-note__label {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+@media (min-width: 768px) {
+  .clay-about {
+    grid-template-columns: 1.35fr 1fr;
+    align-items: center;
+    gap: 2.5rem;
+  }
+}
+
+/* ---------- Experience: editor windows on a git branch ---------- */
+/* The branch is a coil of purple clay down the left; each role is a commit on it */
+.clay-log {
+  --rail: 2.75rem;
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+  padding-left: var(--rail);
+}
+.clay-log::before {
+  content: '';
+  position: absolute;
+  left: 0.55rem;
+  top: 0.75rem;
+  bottom: 0.75rem;
+  width: 12px;
+  border-radius: 999px;
+  background-color: var(--clay-purple);
+  background-image: var(--clay-surface);
+  background-size: 160px;
+  background-blend-mode: hard-light;
+  /* Lit from the top left like every coil: a highlight down its left, shade down its right */
+  box-shadow: inset 4px 0 0 rgb(255 255 255 / 0.32), inset -4px 0 0 rgb(0 0 0 / 0.24), 6px 10px 12px -4px rgb(6 60 56 / 0.55);
+}
+.clay-window {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--press, 28px 14px 32px 12px / 14px 28px 12px 34px);
+  background-color: var(--clay-white);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: var(--clay-lift), var(--clay-cast);
+}
+/* The commit: a ball of clay pressed onto the branch, level with the title bar */
+.clay-window__commit {
+  position: absolute;
+  top: 0.9rem;
+  left: calc(0.55rem + 6px - var(--rail) - 14px);
+  width: 28px;
+  height: 28px;
+  border-radius: 52% 48% 50% 46% / 50% 46% 54% 48%;
+  background-color: var(--clay-lilac);
+  background-image: var(--clay-surface);
+  background-size: 120px;
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 4px 0 rgb(255 255 255 / 0.45), inset 0 -5px 0 rgb(0 0 0 / 0.2), 0 7px 8px -3px rgb(6 60 56 / 0.55);
+}
+.clay-window--active .clay-window__commit {
+  background-color: var(--clay-mint);
+}
+.clay-window__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.65rem 0.95rem;
+  border-bottom: 2px solid rgb(28 23 32 / 0.1);
+}
+.clay-window__lights {
+  display: inline-flex;
+  gap: 0.4rem;
+}
+.clay-window__lights i {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--clay-pink);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.45), inset 0 -2px 0 rgb(0 0 0 / 0.15);
+}
+.clay-window__lights i:nth-child(2) { background: var(--clay-orange); }
+.clay-window__lights i:nth-child(3) { background: var(--clay-mint); }
+/* The role's file, in its tab */
+.clay-window__tab {
+  overflow: hidden;
+  padding: 0.22rem 0.65rem 0.26rem;
+  border-radius: 8px 9px 7px 8px;
+  background: rgb(28 23 32 / 0.07);
+  color: #4a4250;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.clay-window__body {
+  padding: 1rem 1.3rem 1.35rem;
+}
+.clay-window__name {
+  margin: 0;
+  font-family: 'Bagel Fat One', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.55rem, 2.8vw, 1.9rem);
+  line-height: 1.02;
+}
+.clay-window--sub .clay-window__name {
+  font-size: 1.4rem;
+}
+.clay-window__employer {
+  margin: 0.2rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #4a4250;
+}
+.clay-window__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.85rem;
+  margin: 0.6rem 0 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.clay-window__period {
+  font-weight: 600;
+  color: #4a4250;
+}
+/* A role still running: a status pill, as a running service shows */
+.clay-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem 0.24rem;
+  border-radius: 999px;
+  background: var(--clay-mint);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.4);
+  color: var(--clay-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.clay-active::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--clay-ink);
+}
+.clay-window__impact {
+  margin: 0.85rem 0 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.clay-window__sum {
+  margin: 0.4rem 0 0;
+  max-width: 62ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: #3d3540;
+}
+.clay-window__body > .clay-key {
+  margin-top: 1.1rem;
+}
+.clay-window__bullets {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 64ch;
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  list-style: disc;
+}
+.clay-window__bullets li::marker {
+  color: var(--side-pink);
+}
+/* A role with sub-entries branches them off its own window: an orange coil hooks
+   off the main branch and runs down beside them, each one a commit on it */
+.clay-log__branch {
+  --sub: 1.6rem;
+  position: relative;
+  display: grid;
+  gap: 1.5rem 1.25rem;
+  margin-top: 1.75rem;
+  padding-left: var(--sub);
+  align-items: start;
+}
+.clay-log__branch::before {
+  content: '';
+  position: absolute;
+  top: -1.75rem;
+  left: calc(0.55rem + 6px - var(--rail));
+  width: calc(var(--rail) - 0.55rem - 6px + 5px);
+  height: 3.1rem;
+  border: 0 solid var(--clay-orange);
+  border-width: 0 0 10px 10px;
+  border-bottom-left-radius: 22px;
+  translate: -5px 0;
+  filter: drop-shadow(0 6px 5px rgb(6 60 56 / 0.4));
+}
+/* the branch itself, a coil down the left of the sub-entries */
+.clay-log__stem {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1.1rem;
+  bottom: 1.25rem;
+  width: 10px;
+  border-radius: 999px;
+  background-color: var(--clay-orange);
+  background-image: var(--clay-surface);
+  background-size: 160px;
+  background-blend-mode: hard-light;
+  box-shadow: inset 3px 0 0 rgb(255 255 255 / 0.32), inset -3px 0 0 rgb(0 0 0 / 0.22), 5px 8px 10px -4px rgb(6 60 56 / 0.5);
+}
+.clay-window--sub .clay-window__commit {
+  top: 0.95rem;
+  left: calc(5px - var(--sub) - 11px);
+  width: 22px;
+  height: 22px;
+}
+@media (min-width: 900px) {
+  .clay-log__branch {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  /* side by side, only the first sub-entry stands on the branch */
+  .clay-log__branch .clay-window--sub:not(:nth-child(2)) .clay-window__commit {
+    display: none;
+  }
+  .clay-log__stem {
+    bottom: auto;
+    height: 1.2rem;
+  }
+}
+@media (max-width: 639px) {
+  .clay-log {
+    --rail: 2rem;
+  }
+  .clay-log::before {
+    left: 0.35rem;
+    width: 10px;
+  }
+  .clay-window__commit {
+    left: calc(0.35rem + 5px - var(--rail) - 12px);
+    width: 24px;
+    height: 24px;
+  }
+  .clay-log__branch {
+    --sub: 1.35rem;
+  }
+  .clay-log__branch::before {
+    left: calc(0.35rem + 5px - var(--rail));
+    width: calc(var(--rail) - 0.35rem - 5px + 5px);
+    border-width: 0 0 8px 8px;
+    translate: -4px 0;
+  }
+  .clay-window--sub .clay-window__commit {
+    left: calc(5px - var(--sub) - 10px);
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ---------- Education: coils rolled along a ruler, then the degrees ---------- */
+.clay-ruler {
+  margin-bottom: 3rem;
+}
+.clay-ruler__coils {
+  position: relative;
+  height: calc(var(--tracks) * 28px + 12px);
+}
+.clay-ruler__coil {
+  position: absolute;
+  top: calc(4px + var(--track) * 28px);
+  height: 20px;
+  border-radius: 999px;
+  background-color: var(--c);
+  box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.4), inset 0 -4px 0 rgb(0 0 0 / 0.14), 0 7px 9px -3px rgb(6 60 56 / 0.5);
+}
+.clay-ruler__coil--pink { --c: var(--clay-pink); }
+.clay-ruler__coil--lilac { --c: var(--clay-lilac); }
+.clay-ruler__coil--orange { --c: var(--clay-orange); }
+.clay-ruler__coil--mint { --c: var(--clay-mint); }
+.clay-ruler__coil--purple { --c: var(--clay-purple); }
+.clay-ruler__stick {
+  display: grid;
+  grid-template-columns: repeat(var(--years), 1fr);
+  border-radius: 10px 12px 9px 11px;
+  background-color: var(--clay-white);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: var(--clay-lift), 0 8px 12px -6px rgb(6 60 56 / 0.45);
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.clay-ruler__stick > span {
+  padding: 0.45rem 0 0.5rem 0.45rem;
+  border-left: 2px solid rgb(28 23 32 / 0.25);
+}
+.clay-ruler__stick > span:first-child {
+  border-left: 0;
+}
+.clay-degrees {
+  display: grid;
+  gap: 2.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.clay-degrees__year {
+  display: grid;
+  gap: 1rem;
+}
+.clay-degrees__when {
+  margin: 0;
+  font-family: 'Bagel Fat One', sans-serif;
+  font-size: clamp(2.75rem, 5vw, 3.75rem);
+  line-height: 0.9;
+}
+.clay-degrees__list {
+  display: grid;
+  gap: 1.5rem;
+}
+.clay-degree {
+  padding: 1.4rem 1.5rem 1.5rem;
+}
+.clay-degree h3 {
+  margin: 0;
+  max-width: 24ch;
+  padding-right: 2.75rem;
+  font-family: 'Gabarito Variable', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+.clay-degree__tag {
+  position: absolute;
+  top: 1.35rem;
+  right: 1.3rem;
+  width: 2.25rem;
+  height: 0.8rem;
+  border-radius: 999px;
+  background: var(--c);
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.4), inset 0 -3px 0 rgb(0 0 0 / 0.14);
+}
+.clay-degree__tag--pink { --c: var(--clay-pink); }
+.clay-degree__tag--lilac { --c: var(--clay-lilac); }
+.clay-degree__tag--orange { --c: var(--clay-orange); }
+.clay-degree__tag--mint { --c: var(--clay-mint); }
+.clay-degree__tag--purple { --c: var(--clay-purple); }
+.clay-degree__school {
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+}
+.clay-degree__period {
+  margin: 0.2rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #4a4250;
+}
+.clay-degree__desc {
+  margin: 0.6rem 0 0;
+  max-width: 60ch;
+  font-size: 0.9375rem;
+  color: #4a4250;
+}
+@media (min-width: 768px) {
+  .clay-degrees__year {
+    grid-template-columns: 10.5rem 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  .clay-degrees__list {
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+}
+
+/* ---------- Skills: a keyboard pressed in clay ---------- */
+.clay-keyboard {
+  isolation: isolate;
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 24px 18px 26px 16px / 18px 24px 16px 26px;
+  background-color: var(--clay-ink);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.14), inset 0 -7px 0 rgb(0 0 0 / 0.35), var(--clay-cast);
+}
+.clay-keyboard__row {
+  display: grid;
+  gap: 0.5rem;
+  align-items: start;
+}
+.clay-keyboard__keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* A keycap with its legend, its side wall a layer below (as .clay-key); hovering presses it */
+.clay-cap {
+  --key: var(--clay-white);
+  --key-side: var(--side-white);
+  --depth: 4px;
+  position: relative;
+  margin: 0 0 var(--depth);
+  padding: 0.42rem 0.7rem 0.38rem;
+  border-radius: 9px 8px 10px 7px;
+  background-color: var(--key);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / 0.4);
+  color: var(--clay-ink);
+  font-family: 'Gabarito Variable', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transition: translate 0.16s steps(2, end);
+}
+.clay-cap::before {
+  box-shadow: none;
+  transition-duration: 0.16s;
+}
+.clay-keyboard__keys .clay-cap:hover {
+  translate: 0 2px;
+}
+.clay-keyboard__keys .clay-cap:hover::before {
+  translate: 0 2px;
+}
+/* The row's modifier key, wide like Shift or Tab, names the kind */
+.clay-cap--mod {
+  justify-self: start;
+  padding-inline: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.clay-cap--pink { --key: var(--clay-pink); --key-side: var(--side-pink); }
+.clay-cap--orange { --key: var(--clay-orange); --key-side: var(--side-orange); }
+.clay-cap--mint { --key: var(--clay-mint); --key-side: var(--side-mint); }
+.clay-cap--lilac { --key: var(--clay-lilac); --key-side: var(--side-lilac); }
+@media (min-width: 768px) {
+  .clay-keyboard {
+    gap: 0.6rem;
+    padding: 1.25rem;
+  }
+  .clay-keyboard__row {
+    grid-template-columns: 10.5rem 1fr;
+    gap: 0.45rem;
+  }
+  .clay-cap--mod {
+    justify-self: stretch;
+  }
+}
+
+/* ---------- Projects: repository folders ---------- */
+.clay-folders {
+  display: grid;
+  gap: 3rem 1.75rem;
+  margin: 0;
+  padding: 1.5rem 0 0;
+  list-style: none;
+}
+/* (the folders' list beats the slabs' dealt silhouettes: the tab needs a square corner) */
+.clay-folders .clay-folder {
+  --press: 4px 26px 30px 22px / 4px 24px 28px 26px;
+  padding: 1.5rem 1.6rem 1.6rem;
+  transition: transform 0.25s steps(3, end);
+}
+/* The folder's tab, pressed from the same clay */
+.clay-folder::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  bottom: calc(100% - 4px);
+  width: 42%;
+  height: 26px;
+  border-radius: 14px 20px 0 0;
+  background-color: var(--slab);
+  background-image: var(--clay-surface);
+  background-size: var(--ts, 320px);
+  background-position: var(--tx, 0px) var(--ty, 0px);
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.38);
+}
+.clay-folder:hover {
+  transform: scale(1.02, 0.97);
+}
+.clay-folder h3 {
+  margin: 0;
+  font-family: 'Bagel Fat One', sans-serif;
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+.clay-folder h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+/* The whole folder opens the repository */
+.clay-folder h3 a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.clay-folder h3 a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+.clay-folder p {
+  margin: 0.6rem 0 0;
+  font-weight: 500;
+  line-height: 1.45;
+}
+@media (min-width: 768px) {
+  .clay-folders {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- Contact: Akira points at the Enter key ---------- */
+.clay-contact {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'line line'
+    'akira send'
+    'more more';
+  align-items: center;
+  gap: 1.5rem 0.75rem;
+}
+.clay-contact__line {
+  grid-area: line;
+  margin: 0;
+  max-width: 40ch;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.clay-contact__akira {
+  grid-area: akira;
+  width: clamp(8rem, 30vw, 15rem);
+}
+.clay-contact__send {
+  grid-area: send;
+  justify-self: start;
+}
+/* The shared address island's Copy button, pressed as a small clay keycap */
+.clay-contact__more button {
+  --key: var(--clay-white);
+  --key-side: var(--side-white);
+  --depth: 5px;
+  position: relative;
+  min-width: 0;
+  min-height: 2.5rem;
+  margin-bottom: var(--depth);
+  padding: 0.5rem 0.9rem 0.45rem;
+  border: 0;
+  border-radius: 13px 11px 14px 10px;
+  background-color: var(--key);
+  background-image: var(--clay-surface);
+  background-size: 320px;
+  background-blend-mode: hard-light;
+  box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.4);
+  color: var(--clay-ink);
+  font-family: 'Gabarito Variable', sans-serif;
+  font-weight: 800;
+  font-size: 0.9375rem;
+  line-height: 1.1;
+  transition: translate 0.2s steps(2, end);
+}
+.clay-contact__more button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--key-side);
+  translate: 0 var(--depth);
+  box-shadow: 0 10px 14px -6px rgb(6 60 56 / 0.55);
+  transition: translate 0.2s steps(2, end);
+}
+.clay-contact__more button:hover {
+  translate: 0 2px;
+  color: var(--clay-ink);
+}
+.clay-contact__more button:hover::before {
+  translate: 0 3px;
+}
+.clay-contact__more {
+  grid-area: more;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  font-weight: 600;
+}
+@media (max-width: 639px) {
+  .clay-contact__akira {
+    width: 7.25rem;
+  }
+  .clay-contact .clay-contact__send {
+    padding: 0.8rem 1.1rem 0.75rem;
+    font-size: 1.25rem;
+  }
+}
+@media (min-width: 768px) {
+  .clay-contact {
+    grid-template-columns: 15rem 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      'akira line'
+      'akira send'
+      'akira more';
+    column-gap: 2.5rem;
+    row-gap: 1.75rem;
+    align-items: start;
+  }
+  .clay-contact__akira {
+    width: 15rem;
+    align-self: end;
+  }
+  .clay-contact__send {
+    margin: 0.25rem 0 0.5rem;
+  }
+}
+
+/* ---------- The stills: frames of the puppet, played on twos ---------- */
+.clay-still {
+  display: inline-block;
+  flex: none;
+  aspect-ratio: 400 / 560;
+  background-repeat: no-repeat;
+  background-size: calc(var(--frames) * 100%) 100%;
+  background-position: 0 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .clay-still {
+    animation: clay-still calc(var(--frames) * 1s / 12) steps(var(--frames), jump-none) infinite;
+  }
+}
+@keyframes clay-still {
+  to { background-position-x: 100%; }
+}
+
+/* ---------- The end: the page closes its tag, lights down ---------- */
+[data-design='clay'] body > footer {
+  background: #0a4a45;
+  color: var(--clay-white);
+  --text: var(--clay-white);
+  --text-secondary: #d5ebe7;
+  --accent-text: var(--clay-white);
+  --border: #2c6d67;
+  --color-text: var(--clay-white);
+  --color-text-secondary: #d5ebe7;
+  --color-border: #2c6d67;
+}
+.clay-end {
+  padding-block: clamp(4rem, 8vw, 6rem) 3rem;
+  color: var(--clay-white);
+  text-align: center;
+}
+.clay-end__shot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.5rem 1.5rem;
+  padding-inline: 1.5rem;
+}
+.clay-end__tag {
+  margin: 0 0 1.25rem;
+  font-family: 'Bagel Fat One', sans-serif;
+  font-size: clamp(2.4rem, 7vw, 4.75rem);
+  line-height: 1;
+  color: var(--clay-white);
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.3));
+}
+.clay-end__bracket {
+  color: var(--clay-pink);
+}
+.clay-end__akira {
+  width: clamp(7.5rem, 18vw, 9.5rem);
+}
+.clay-end__credits {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 2.75rem;
+  font-size: 0.875rem;
+  color: #d5ebe7;
+}
+.clay-end__credits p {
+  margin: 0;
+}
+.clay-end__credit {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--clay-white);
+}
+.clay-end .clay-socials a {
+  text-decoration-color: var(--clay-pink);
+}
+
+/* ---------- Motion: on twos ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .clay-hero__col > * {
+    animation: clay-pop 0.34s steps(1, end) both;
+  }
+  .clay-hero__col > :nth-child(1) { animation-delay: 0.05s; }
+  .clay-hero__col > :nth-child(2) { animation-delay: 0.17s; }
+  .clay-hero__col > :nth-child(3) { animation-delay: 0.25s; }
+  .clay-hero__col > :nth-child(4) { animation-delay: 0.3s; }
+  .clay-hero__col > :nth-child(5) { animation-delay: 0.38s; }
+  .clay-hero__col > :nth-child(6) { animation-delay: 0.46s; }
+  .clay-hero__col > :nth-child(7) { animation-delay: 0.5s; }
+  /* The copy waits while the curtain is up */
+  html[data-intro='wait'] .clay-hero__col > *,
+  html[data-intro='play'] .clay-hero__col > * {
+    animation-play-state: paused !important;
+  }
+  /* A window plops into place as it comes on screen; it is never hidden first */
+  .clay-window[data-in] {
+    animation: clay-plop 0.34s steps(1, end);
+  }
+  /* A running role's commit blinks, as a live process does */
+  .clay-window--active .clay-window__commit {
+    animation: clay-live 1s steps(1, end) infinite;
+  }
+}
+@keyframes clay-pop {
+  0% { opacity: 0; transform: translateY(14px) scale(0.92, 1.08); }
+  33% { opacity: 1; transform: translateY(-3px) scale(1.04, 0.95); }
+  66% { opacity: 1; transform: scale(0.99, 1.02); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes clay-plop {
+  0% { transform: scale(1.03, 0.95); }
+  33% { transform: scale(0.98, 1.03); }
+  66% { transform: scale(1.01, 0.99); }
+  100% { transform: none; }
+}
+/* the running commit pulses between two shades of mint: it always reads as running */
+@keyframes clay-live {
+  50% { background-color: var(--side-mint); }
+}
+@keyframes clay-lights {
+  0% { opacity: 0; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}

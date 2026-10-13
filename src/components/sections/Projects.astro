@@ -7,13 +7,14 @@ import EngineerProjects from '@components/designs/engineer/EngineerProjects.astr
 import TerminalProjects from '@components/designs/terminal/TerminalProjects.astro';
 import TapeProjects from '@components/designs/tape/TapeProjects.astro';
 import CartoonProjects from '@components/designs/cartoon/CartoonProjects.astro';
+import ClayProjects from '@components/designs/clay/ClayProjects.astro';
 
 // Professional work is told in Experience (the hero's main action leads there); this section keeps the personal repositories.
 const personal = projects.filter((p) => p.type === 'personal');
 ---
 
 <section id="projects" class="py-12 md:py-20">
-  <div class="mx-auto max-w-4xl px-6" data-design-hide="engineer terminal tape cartoon">
+  <div class="mx-auto max-w-4xl px-6" data-design-hide="engineer terminal tape cartoon clay">
     <ScrollReveal client:visible>
       <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
         <span class="section-tag"><T k="projects.title" /></span>
@@ -62,6 +63,10 @@ const personal = projects.filter((p) => p.type === 'personal');
         </ScrollReveal>
       ))}
     </div>
+  </div>
+
+  <div class="mx-auto max-w-4xl px-6" data-design-show="clay">
+    <ClayProjects />
   </div>
 
   <div class="mx-auto max-w-5xl px-6" data-design-show="cartoon">

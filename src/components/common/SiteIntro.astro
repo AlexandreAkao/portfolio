@@ -172,6 +172,21 @@ const printable = (text: string) =>
     </p>
   </div>
 
+  <!-- Clay: on the painted sweep, </> is rolled out in three coils of clay, one
+       piece per beat on twos, the name pressed under it; then the glyph is
+       squashed flat and lifted away onto the hero's own set. -->
+  <div class="intro intro-clay" data-design-show="clay">
+    <div class="intro-clay__sweep"></div>
+    <div class="intro-clay__glyph">
+      <svg class="intro-clay__coils" viewBox="0 0 260 150" aria-hidden="true" focusable="false">
+        <g class="intro-clay__coil intro-clay__coil--lt"><path class="intro-clay__body" d="M86 24 L32 75 L86 126" /><path class="intro-clay__lit" d="M82 22 L30 71" /></g>
+        <g class="intro-clay__coil intro-clay__coil--sl"><path class="intro-clay__body" d="M150 16 L110 134" /><path class="intro-clay__lit" d="M146 16 L112 118" /></g>
+        <g class="intro-clay__coil intro-clay__coil--gt"><path class="intro-clay__body" d="M174 24 L228 75 L174 126" /><path class="intro-clay__lit" d="M178 22 L226 70" /></g>
+      </svg>
+      <p class="intro-clay__name">{t('hero.name', 'en')}</p>
+    </div>
+  </div>
+
   <!-- Arcade: READY? pops and blinks, then five candy bars sweep the screen clean -->
   <div class="intro intro-arc" data-design-show="arcade">
     <div class="intro-arc__cabinet">
@@ -515,6 +530,7 @@ const printable = (text: string) =>
   /* Tape hydrates its hero early (underneath, already in place) and fades when the reader is done; 2.6s cap */
   [data-design='tape']       #site-intro { --intro-reveal: 0.4s; --intro-total: 2.6s; }
   [data-design='cartoon']    #site-intro { --intro-reveal: 1s; --intro-total: 1.65s; }
+  [data-design='clay']       #site-intro { --intro-reveal: 0.95s; --intro-total: 1.2s; }
 
   /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
   /* The curtain carries the incoming design on its own data-design so it can
@@ -528,7 +544,8 @@ const printable = (text: string) =>
   #site-intro[data-design='arcade'] [data-design-show='arcade'],
   #site-intro[data-design='terminal'] [data-design-show='terminal'],
   #site-intro[data-design='tape'] [data-design-show='tape'],
-  #site-intro[data-design='cartoon'] [data-design-show='cartoon'] { display: block !important; }
+  #site-intro[data-design='cartoon'] [data-design-show='cartoon'],
+  #site-intro[data-design='clay'] [data-design-show='clay'] { display: block !important; }
 
   html[data-intro='quick'] #site-intro {
     display: block;
@@ -547,6 +564,7 @@ const printable = (text: string) =>
   html[data-intro='quick'] #site-intro[data-design='terminal']   { --intro-total: 1.2s; }
   html[data-intro='quick'] #site-intro[data-design='tape']       { --intro-total: 1.4s; }
   html[data-intro='quick'] #site-intro[data-design='cartoon']    { --intro-total: 0.75s; }
+  html[data-intro='quick'] #site-intro[data-design='clay']       { --intro-total: 0.7s; }
 
   /* Avant-garde: no title card, the stage just splits */
   html[data-intro='quick'] .intro-ag__stage { display: none; }
@@ -568,6 +586,12 @@ const printable = (text: string) =>
   /* Cartoon: no title card; the iris opens on the incoming painter at once */
   html[data-intro='quick'] .intro-cart__card { display: none; }
   html[data-intro='quick'] .intro-cart__leader { animation-delay: 0.2s; animation-duration: 0.5s; }
+
+  /* Clay: the glyph is already rolled out; it is squashed and lifted away at once */
+  html[data-intro='quick'] .intro-clay__coil { animation: none; opacity: 1; transform: none; }
+  html[data-intro='quick'] .intro-clay__name { display: none; }
+  html[data-intro='quick'] .intro-clay__glyph { animation: clay-glyph-out 0.34s steps(1, end) 0.12s forwards; }
+  html[data-intro='quick'] .intro-clay__sweep { animation: clay-cut 1ms linear 0.5s forwards; }
 
   /* Creative: the halo is already whole, it glides to the portrait and dissolves */
   html[data-intro='quick'] .intro-cr__name,
@@ -988,6 +1012,72 @@ const printable = (text: string) =>
   }
   @keyframes cart-iris { to { --intro-iris: 150vmax; } }
   @keyframes cart-cut { to { visibility: hidden; } }
+
+  /* ---------- Clay: </> rolled out in clay, then squashed and lifted away ---------- */
+  /* Colours and the cast shadow are the world's own tokens: the curtain wears data-design='clay' */
+  .intro-clay__sweep {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    animation: clay-cut 1ms linear 1.05s forwards;
+  }
+  .intro-clay__glyph {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    translate: -50% -50%;
+    transform-origin: 50% 100%;
+    animation: clay-glyph-out 0.4s steps(1, end) 0.72s forwards;
+  }
+  .intro-clay__coils {
+    width: min(17rem, 62vw);
+    overflow: visible;
+    filter: drop-shadow(0 12px 10px rgb(6 60 56 / 0.45));
+  }
+  .intro-clay__body {
+    fill: none;
+    stroke: var(--coil);
+    stroke-width: 24;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .intro-clay__lit {
+    fill: none;
+    stroke: rgb(255 255 255 / 0.42);
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+  .intro-clay__coil {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: clay-coil-in 0.3s steps(1, end) both;
+  }
+  .intro-clay__coil--lt { --coil: var(--clay-pink); animation-delay: 0.08s; }
+  .intro-clay__coil--sl { --coil: var(--clay-orange); animation-delay: 0.2s; }
+  .intro-clay__coil--gt { --coil: var(--clay-purple); animation-delay: 0.32s; }
+  .intro-clay__name {
+    margin: 0;
+    font: 400 clamp(1.6rem, 5vw, 2.4rem) / 1 'Bagel Fat One', sans-serif;
+    color: var(--clay-ink);
+    animation: clay-coil-in 0.3s steps(1, end) 0.44s both;
+  }
+  @keyframes clay-coil-in {
+    0% { opacity: 0; transform: scale(0.5, 1.3); }
+    33% { opacity: 1; transform: scale(1.12, 0.88); }
+    66% { opacity: 1; transform: scale(0.97, 1.03); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes clay-glyph-out {
+    0% { transform: none; }
+    25% { transform: scale(1.12, 0.8); }
+    50% { transform: translateY(-12vh) scale(0.94, 1.08); }
+    75% { transform: translateY(-60vh) scale(0.9, 1.1); opacity: 1; }
+    100% { transform: translateY(-120vh); opacity: 0; }
+  }
+  @keyframes clay-cut { to { visibility: hidden; } }
 
   /* ---------- Arcade: READY? then candy sweep ---------- */
   .intro-arc__cabinet {

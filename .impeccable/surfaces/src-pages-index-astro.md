@@ -7,7 +7,7 @@ related_targets: ["src/components/sections/Hero.astro","src/components/sections/
 
 # Home surface
 
-Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: eight worlds (Editorial, Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
+Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: nine worlds (Editorial, Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon, Clay), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
 
 ## Direction contract: Engineer, "draft-akira" (2026-10-11)
 
@@ -43,6 +43,15 @@ OWN-WORLD: drenched flat fields (vermilion, ultramarine, marigold, ink, paper), 
 STORY: the visitor watches the credits: Starring, the roles as credits (both current jobs share one card), the cast of skills, personal repos as shorts, and THE END inside an iris that closes as the page ends.
 FIRST VIEWPORT: vermilion card; "Starring" over ALEXANDRE AKIRA hand-lettered across the width; the caricature paints the role's stripe with a roller; employers, Email, View my work, CV, socials.
 FORM: opening title sequence, candidate 1 of 7 (Impeccable's pick); seed key aae49696.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
+## Direction contract: Clay ("Massinha"), the developer's desk in plasticine (2026-10-13, restaged)
+
+THESIS: a developer's world moulded in plasticine: Akira (wire glasses, fringe, #0B3D2E tee with `</>`) up from his clay desk, every dev object hand-pressed. Refuses film-set grammar (slates, takes, wraps; user steer) and the low-poly dev room.
+OWN-WORLD: teal sweep; clay in pink, orange, purple, mint, lilac, ink, with fingerprints; Bagel Fat One over Gabarito; controls are clay keycaps; headings are tags; motion on twos, 12 fps.
+STORY: he waves from the desk; roles are editor windows on a git branch coil, skills are keys on a clay keyboard, figures are sticky notes, repos are folders; the page closes on a closing tag.
+FIRST VIEWPORT: copy left (name, role, employers, tagline, Email/CV keycaps, socials, invitation); live Three.js desk set right; an FPS meter in the corner.
+FORM: stop-motion clay set, candidate 3 of 7, steered "more developer, less cinema"; seed 08c073e6 (assigned).
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
 ## Retired worlds (2026-10-10)

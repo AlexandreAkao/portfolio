@@ -1,0 +1,32 @@
+---
+import T from '@components/ui/T.astro';
+import { socialLinks } from '@data/social';
+import DesignInvite from '@components/ui/DesignInvite.tsx';
+import ClayStill from './ClayStill.astro';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+{/* The page closes its own tag, rolled in clay, and Akira waves goodbye */}
+<div class="clay clay-end">
+  <div class="clay-end__shot">
+    <p class="clay-end__tag" aria-hidden="true"><span class="clay-end__bracket">&lt;/</span>portfolio<span class="clay-end__bracket">&gt;</span></p>
+    <ClayStill pose="wave" class="clay-end__akira" />
+  </div>
+  <div class="clay-end__credits mx-auto max-w-6xl px-6">
+    <p class="clay-end__credit"><T k="clay.credit" /></p>
+    <p>&copy; {year} Alexandre Akira</p>
+    <p class="clay-socials clay-socials--center">
+      {socialLinks.map((link) => (
+        <a href={link.url} {...(link.url.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}>
+          {link.name}
+        </a>
+      ))}
+    </p>
+    <DesignInvite client:visible world="clay" locale={locale} />
+  </div>
+</div>

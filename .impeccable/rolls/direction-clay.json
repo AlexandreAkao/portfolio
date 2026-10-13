@@ -1,0 +1,88 @@
+{
+  "title": "Um mundo em Three.js com o Akira em 3D",
+  "question": "O sorteio caiu na Massinha. Fique com ela, escolha uma alternativa ou sorteie de novo. Em todas, o personagem é o do Desenho em 3D: óculos redondos de arame, franja escura, camiseta no lugar do casaco. (Três desafiantes esperam no sorteio: molde de costura, gaveta de caixas de fósforo, pilha de HyperCard.)",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Massinha",
+      "kicker": "THE ROLL",
+      "lineage": "Stop-motion de massinha: bonecos moldados à mão, fotografados quadro a quadro num set de mesa.",
+      "thesis": "Um Akira de massinha atua cada seção num set de mesa, e a página anda a 12 quadros por segundo, como a stop-motion.",
+      "palette": ["#13a89e", "#f26b8a", "#ffb000", "#6a4bc4", "#1c1720"],
+      "materials": ["massinha com digitais do animador", "óculos de arame de verdade", "fundo infinito pintado", "luz de estúdio"],
+      "viewport": "O set em tela cheia sobre fundo verde-água: o Akira de massinha enrola o próprio nome em rolinhos; Email e CV são plaquinhas espetadas em palitos.",
+      "risk": "Lembra Aardman; é um segundo mundo de animação ao lado do Desenho, e o boneco feito de primitivas precisa sair simpático, não estranho.",
+      "raised": [
+        {
+          "from": "challenger-chaekgeori",
+          "raise": "Skills viram a prateleira de peças de reposição do estúdio: um compartimento por tecnologia, uma peça em cada, e a grade é o índice."
+        }
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "A Maquete",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "Maquete de arquitetura em escala: papel paraná, balsa, cortiça e a figurinha humana de escala.",
+      "thesis": "Você desenha arquitetura de sistemas; aqui ela vira maquete física, e o Akira de escala anda pelo que construiu.",
+      "palette": ["#2f6e57", "#f3f3f0", "#d8b47e", "#e2483d", "#151515"],
+      "materials": ["papel paraná cortado a estilete", "balsa e cortiça", "tapete de corte verde com grade", "alfinetes com etiqueta"],
+      "viewport": "A maquete sobre o tapete de corte: 26 blocos brancos (os serviços da Appointally) ligados por fios, o Akira de escala no meio, nome e cargo na etiqueta da prancha.",
+      "risk": "Familiar: miniaturas e dioramas são onde muitos portfólios em Three.js aterrissam, e a figura de escala é pequena e pede closes."
+    },
+    {
+      "id": "challenger-cloudquarry",
+      "label": "Pedreira de Nuvens",
+      "verdict": "competitive",
+      "lineage": "Mundo surreal: operários cortam blocos de nuvem e montam prédios que chovem das próprias paredes.",
+      "thesis": "O Akira de capacete corta blocos de nuvem e monta a arquitetura que construiu, um bloco por serviço.",
+      "palette": ["#f2f4f8", "#4d8fd6", "#6b7280", "#c7ccd6", "#1a2030"],
+      "materials": ["nuvem volumétrica", "faces de corte azul-céu", "estêncil de pedreira", "guindaste"],
+      "viewport": "Um penhasco de cúmulos; a serra de prata abre um bloco; o nome em estêncil na lousa de contagem; Email e CV pendurados no guindaste.",
+      "case": "Segura a clareza (cloud e serviços viram blocos de verdade), mas perde identificação: lê como peça de arte surreal, e prédio que vira chuva contradiz confiabilidade.",
+      "risk": "Nuvem volumétrica pesa no celular, e o trocadilho com cloud pode soar forçado.",
+      "hero": "https://impeccable.style/worlds/cards/dream-surreal-impossible-worlds-cloud-quarry-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/dream-surreal-impossible-worlds-cloud-quarry.webp"
+    },
+    {
+      "id": "challenger-sixpack",
+      "label": "Voo por Instrumentos",
+      "verdict": "competitive",
+      "lineage": "Os seis instrumentos de um avião pequeno à noite: lá fora, só escuro.",
+      "thesis": "As seis métricas confirmadas viram seis mostradores, e o Akira é o piloto calmo no assento.",
+      "palette": ["#0c0d0e", "#1b1d1f", "#eeeeea", "#8dffb4", "#ffb020"],
+      "materials": ["painel preto fosco", "mostradores com marcação luminosa", "agulhas com mola amortecida"],
+      "viewport": "A cabine à noite, o Akira de perfil no assento, seis mostradores (8+ anos, 26 serviços, 200+ CDs, 18%, 52 componentes, 95%) e o nome na placa do painel.",
+      "case": "Segura a clareza (métricas reais lidas numa varredura), mas perde identificação: cabine não é o mundo do Akira, e preto com verde luminoso é o dark-neon que todo mundo faz.",
+      "risk": "O personagem vira figurante, e seis mostradores no celular viram uma pilha.",
+      "hero": "https://impeccable.style/worlds/cards/signals-instruments-night-flight-six-pack-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/signals-instruments-night-flight-six-pack.webp"
+    },
+    {
+      "id": "challenger-chaekgeori",
+      "label": "Estante Invertida",
+      "verdict": "declined",
+      "lineage": "Chaekgeori coreano: estante pintada em perspectiva invertida, que se abre na sua direção.",
+      "thesis": "Cada seção é uma caixa da estante, com perspectiva invertida de verdade na câmera.",
+      "palette": ["#4f7f6a", "#b8452f", "#efe7d6", "#2a2622"],
+      "materials": ["pigmento mineral sobre seda", "contorno sem sombra"],
+      "viewport": "A estante inteira se abrindo para você, o Akira sentado numa das caixas.",
+      "case": "Perde nos dois eixos: o recrutador brasileiro não reconhece a pintura coreana, e a estante não explica a carreira melhor que o set.",
+      "kept": "Inventário: um objeto por compartimento, e a grade é o índice.",
+      "risk": "Erudito demais; a perspectiva invertida confunde antes de encantar.",
+      "hero": "https://impeccable.style/worlds/cards/graphic-worlds-publishing-chaekgeori-reverse-perspective-hero.webp"
+    }
+  ],
+  "reroll": { "registers": ["safer", "bolder"] },
+  "buildPath": { "value": "code", "toggle": false },
+  "canon": true,
+  "canonCard": {
+    "label": "O padrão da categoria",
+    "thesis": "O portfólio em Three.js que todo mundo faz, executado sem erro: o quarto isométrico.",
+    "palette": ["#1d1b3a", "#7c6cff", "#38d9f5", "#ff7ab6", "#0f0f17"],
+    "materials": ["low-poly", "monitores com neon", "câmera orbital"],
+    "viewport": "Um quarto isométrico flutuando no escuro: o Akira na mesa com três monitores acesos; clique nos objetos para abrir as seções.",
+    "risk": "Indistinguível de centenas de portfólios, e clicar em objetos esconde o conteúdo do recrutador."
+  },
+  "steer": true
+}

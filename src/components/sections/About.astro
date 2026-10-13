@@ -8,6 +8,7 @@ import EngineerAbout from '@components/designs/engineer/EngineerAbout.astro';
 import TerminalAbout from '@components/designs/terminal/TerminalAbout.astro';
 import TapeAbout from '@components/designs/tape/TapeAbout.astro';
 import CartoonAbout from '@components/designs/cartoon/CartoonAbout.astro';
+import ClayAbout from '@components/designs/clay/ClayAbout.astro';
 
 const stats = [
   { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label' },
@@ -19,7 +20,7 @@ const stats = [
 
 <section id="about" class="py-12 md:py-20">
   <div class="mx-auto max-w-4xl px-6">
-    <div data-design-hide="engineer terminal tape cartoon">
+    <div data-design-hide="engineer terminal tape cartoon clay">
       <ScrollReveal client:visible>
         <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
           <span class="section-tag"><T k="about.title" /></span>
@@ -27,7 +28,7 @@ const stats = [
       </ScrollReveal>
     </div>
 
-    <div data-design-hide="editorial engineer terminal tape cartoon">
+    <div data-design-hide="editorial engineer terminal tape cartoon clay">
       <ScrollReveal client:visible delay={0.1}>
         <div class="mb-8 flex justify-center">
           <Image
@@ -77,6 +78,11 @@ const stats = [
     {/* Cartoon: the star of the picture in a paper disc, the figures as credits */}
     <div data-design-show="cartoon">
       <CartoonAbout />
+    </div>
+
+    {/* Clay: the about slab, and the figures as plaques on toothpicks */}
+    <div data-design-show="clay">
+      <ClayAbout />
     </div>
 
     {/* Tape: a punched window, the figures as the teletype's printout */}

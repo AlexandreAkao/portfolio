@@ -27,10 +27,13 @@
 @import '@fontsource/londrina-solid/900';
 @import '@fontsource/londrina-solid/400';
 @import '@fontsource-variable/jost';
+@import '@fontsource/bagel-fat-one/400.css';
+@import '@fontsource-variable/gabarito';
 @import './worlds/engineer.css';
 @import './worlds/terminal.css';
 @import './worlds/tape.css';
 @import './worlds/cartoon.css';
+@import './worlds/clay.css';
 
 @theme {
   --color-bg: var(--bg);
@@ -207,6 +210,39 @@
   --radius-btn: 4px;
 }
 
+/* Clay Design Tokens: a stop-motion set. The page is one painted teal sweep;
+   colour lives in the clay laid on it (pink, orange, purple, mint, lilac), with
+   ink text on every clay but purple. Pink is the accent, always as a fill with
+   ink on it: no clay colour reads as small text on the sweep, so accent text is ink. */
+[data-design='clay'] {
+  --bg: #13a89e;
+  /* Raised surfaces (the switcher) catch the key light: a lighter teal */
+  --bg-secondary: #14b2a7;
+  /* 5.97:1 on the sweep, 6.67:1 on the raised teal, 15.8:1 on clay white */
+  --text: #1c1720;
+  /* The sweep's own shadow: 4.87:1 on the sweep, 5.44:1 on the raised teal */
+  --text-secondary: #0f2f2c;
+  --accent: #f26b8a;
+  --accent-hover: #ff8aa5;
+  --on-accent: #1c1720;
+  --accent-text: #1c1720;
+  --code-bg: #1c1720;
+  --clay-ink: #1c1720;
+  --clay-white: #f7f2ea;
+  --clay-pink: #f26b8a;
+  --clay-orange: #ffb000;
+  --clay-purple: #6a4bc4;
+  --clay-mint: #7fe0d6;
+  --clay-lilac: #b9a3ff;
+  --clay-shirt: #0b3d2e;
+  --border: #0e7a73;
+  --card: #f7f2ea;
+  --card-hover: #fffaf2;
+  --font-heading: 'Bagel Fat One', sans-serif;
+  --font-body: 'Gabarito Variable', sans-serif;
+  --radius-card: 22px;
+  --radius-btn: 16px;
+}
 /* Arcade Design Tokens */
 [data-design='arcade'] {
   --bg: #0f0d0e;
@@ -303,7 +339,8 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='arcade'] [data-design-show]:not([data-design-show='arcade']),
 [data-design='terminal'] [data-design-show]:not([data-design-show='terminal']),
 [data-design='tape'] [data-design-show]:not([data-design-show='tape']),
-[data-design='cartoon'] [data-design-show]:not([data-design-show='cartoon']) {
+[data-design='cartoon'] [data-design-show]:not([data-design-show='cartoon']),
+[data-design='clay'] [data-design-show]:not([data-design-show='clay']) {
   display: none !important;
 }
 
@@ -316,7 +353,8 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='arcade'] [data-design-hide~='arcade'],
 [data-design='terminal'] [data-design-hide~='terminal'],
 [data-design='tape'] [data-design-hide~='tape'],
-[data-design='cartoon'] [data-design-hide~='cartoon'] {
+[data-design='cartoon'] [data-design-hide~='cartoon'],
+[data-design='clay'] [data-design-hide~='clay'] {
   display: none !important;
 }
 
