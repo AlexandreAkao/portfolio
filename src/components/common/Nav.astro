@@ -9,6 +9,7 @@ const blogHref = locale === 'pt' ? '/pt/blog/' : '/blog/';
 const sectionLinks = [
   { key: 'nav.about', href: '#about' },
   { key: 'nav.experience', href: '#experience' },
+  { key: 'nav.education', href: '#education' },
   { key: 'nav.skills', href: '#skills' },
   { key: 'nav.projects', href: '#projects' },
   { key: 'nav.contact', href: '#contact' },
@@ -19,7 +20,7 @@ const blogLinks = [
 ];
 ---
 
-<nav class="hidden items-center gap-6 md:flex">
+<nav class="hidden items-center gap-3 md:flex lg:gap-6">
   {!onHome ? (
     blogLinks.map((link) => (
       <a

@@ -13,6 +13,7 @@ interface Props {
 const sectionLinks = [
   { key: 'nav.about', href: '#about' },
   { key: 'nav.experience', href: '#experience' },
+  { key: 'nav.education', href: '#education' },
   { key: 'nav.skills', href: '#skills' },
   { key: 'nav.projects', href: '#projects' },
   { key: 'nav.contact', href: '#contact' },
