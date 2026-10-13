@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-11T23:30:00.000Z",
+  "generatedAt": "2026-10-13T12:00:00.000Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
@@ -1233,6 +1233,366 @@
           "#b3caff",
           "#e7effe"
         ]
+      },
+      "clay-sweep": {
+        "role": "neutral",
+        "displayName": "Sweep",
+        "canonical": "oklch(66.0% 0.112 187.2)",
+        "tonalRamp": [
+          "#000f0d",
+          "#012825",
+          "#014440",
+          "#00635d",
+          "#178c84",
+          "#31b8ad",
+          "#66e2d7",
+          "#bbfef6"
+        ]
+      },
+      "clay-sweep-raised": {
+        "role": "neutral",
+        "displayName": "Sweep Raised",
+        "canonical": "oklch(68.9% 0.118 186.9)",
+        "tonalRamp": [
+          "#000f0d",
+          "#022825",
+          "#024440",
+          "#02635c",
+          "#038d84",
+          "#24b9ae",
+          "#5ee3d7",
+          "#b8fff6"
+        ]
+      },
+      "clay-sweep-line": {
+        "role": "neutral",
+        "displayName": "Sweep Line",
+        "canonical": "oklch(52.3% 0.088 187.7)",
+        "tonalRamp": [
+          "#000f0d",
+          "#002825",
+          "#054440",
+          "#0a635d",
+          "#2a8b84",
+          "#58b3ab",
+          "#83ded5",
+          "#c7fbf5"
+        ]
+      },
+      "clay-ink": {
+        "role": "neutral",
+        "displayName": "Clay Ink",
+        "canonical": "oklch(21.5% 0.019 309.9)",
+        "tonalRamp": [
+          "#0d0a0f",
+          "#232026",
+          "#3d3842",
+          "#58535d",
+          "#7e7783",
+          "#a59eab",
+          "#cec7d4",
+          "#f1ecf4"
+        ]
+      },
+      "clay-sweep-shadow": {
+        "role": "neutral",
+        "displayName": "Sweep Shadow",
+        "canonical": "oklch(28.0% 0.038 186.9)",
+        "tonalRamp": [
+          "#010e0d",
+          "#152523",
+          "#22413e",
+          "#3c5c59",
+          "#61827e",
+          "#87aaa5",
+          "#b0d3ce",
+          "#def4f1"
+        ]
+      },
+      "clay-white": {
+        "role": "neutral",
+        "displayName": "Clay White",
+        "canonical": "oklch(96.3% 0.012 79.8)",
+        "tonalRamp": [
+          "#0d0b08",
+          "#23211e",
+          "#3e3a34",
+          "#59554e",
+          "#7e7a73",
+          "#a5a199",
+          "#cfcac2",
+          "#f1eee9"
+        ]
+      },
+      "clay-white-hover": {
+        "role": "neutral",
+        "displayName": "Clay White Hover",
+        "canonical": "oklch(98.7% 0.012 79.8)",
+        "tonalRamp": [
+          "#0d0b08",
+          "#23211e",
+          "#3e3a34",
+          "#59554e",
+          "#7e7a73",
+          "#a5a199",
+          "#cfcac2",
+          "#f1eee9"
+        ]
+      },
+      "clay-ink-muted": {
+        "role": "neutral",
+        "displayName": "Clay Ink Muted",
+        "canonical": "oklch(39.2% 0.025 310.7)",
+        "tonalRamp": [
+          "#0d0910",
+          "#242027",
+          "#3f3745",
+          "#5a5160",
+          "#7f7686",
+          "#a79dae",
+          "#d0c6d7",
+          "#f2ecf6"
+        ]
+      },
+      "clay-ink-soft": {
+        "role": "neutral",
+        "displayName": "Clay Ink Soft",
+        "canonical": "oklch(34.2% 0.022 316.8)",
+        "tonalRamp": [
+          "#0d090f",
+          "#242026",
+          "#3f3742",
+          "#5a525d",
+          "#807783",
+          "#a79eab",
+          "#d0c6d4",
+          "#f2ecf4"
+        ]
+      },
+      "clay-pink": {
+        "role": "primary",
+        "displayName": "Clay Pink",
+        "canonical": "oklch(70.0% 0.168 8.2)",
+        "tonalRamp": [
+          "#1e0007",
+          "#450018",
+          "#6f042c",
+          "#9b1443",
+          "#c84567",
+          "#f66e8d",
+          "#ffb2bf",
+          "#ffe8eb"
+        ]
+      },
+      "clay-pink-light": {
+        "role": "primary",
+        "displayName": "Clay Pink Light",
+        "canonical": "oklch(76.8% 0.144 6.3)",
+        "tonalRamp": [
+          "#1e0007",
+          "#41081b",
+          "#6f042f",
+          "#922748",
+          "#be506d",
+          "#eb7893",
+          "#feb2c1",
+          "#ffe8ec"
+        ]
+      },
+      "clay-orange": {
+        "role": "secondary",
+        "displayName": "Clay Orange",
+        "canonical": "oklch(81.2% 0.170 76.4)",
+        "tonalRamp": [
+          "#130900",
+          "#301e00",
+          "#4f3503",
+          "#724d05",
+          "#a26f0a",
+          "#d4930f",
+          "#febd57",
+          "#ffecd1"
+        ]
+      },
+      "clay-purple": {
+        "role": "secondary",
+        "displayName": "Clay Purple",
+        "canonical": "oklch(51.2% 0.180 290.4)",
+        "tonalRamp": [
+          "#0e002b",
+          "#241150",
+          "#41128e",
+          "#5937af",
+          "#7d60db",
+          "#a28dfe",
+          "#c9c2fe",
+          "#eeecfe"
+        ]
+      },
+      "clay-mint": {
+        "role": "secondary",
+        "displayName": "Clay Mint",
+        "canonical": "oklch(84.4% 0.093 187.0)",
+        "tonalRamp": [
+          "#000f0d",
+          "#002825",
+          "#054440",
+          "#09635c",
+          "#208c84",
+          "#52b4ab",
+          "#7edfd5",
+          "#c5fbf5"
+        ]
+      },
+      "clay-lilac": {
+        "role": "secondary",
+        "displayName": "Clay Lilac",
+        "canonical": "oklch(77.0% 0.131 294.1)",
+        "tonalRamp": [
+          "#0f0128",
+          "#251743",
+          "#412676",
+          "#5b4395",
+          "#8069bf",
+          "#a690eb",
+          "#cdc0fe",
+          "#efecfe"
+        ]
+      },
+      "clay-shirt": {
+        "role": "secondary",
+        "displayName": "Shirt",
+        "canonical": "oklch(32.3% 0.058 168.3)",
+        "tonalRamp": [
+          "#000f09",
+          "#0f271e",
+          "#144435",
+          "#32604f",
+          "#578674",
+          "#7eae9b",
+          "#a6d7c3",
+          "#d9f7ea"
+        ]
+      },
+      "clay-side-pink": {
+        "role": "secondary",
+        "displayName": "Side Pink",
+        "canonical": "oklch(59.3% 0.159 8.5)",
+        "tonalRamp": [
+          "#1e0006",
+          "#440318",
+          "#6f042c",
+          "#981c43",
+          "#c44967",
+          "#f2728d",
+          "#ffb2bf",
+          "#ffe8eb"
+        ]
+      },
+      "clay-side-orange": {
+        "role": "secondary",
+        "displayName": "Side Orange",
+        "canonical": "oklch(67.6% 0.142 75.2)",
+        "tonalRamp": [
+          "#130900",
+          "#301d01",
+          "#503401",
+          "#734c01",
+          "#a46e01",
+          "#d4931d",
+          "#febd5c",
+          "#ffebd2"
+        ]
+      },
+      "clay-side-lilac": {
+        "role": "secondary",
+        "displayName": "Side Lilac",
+        "canonical": "oklch(62.3% 0.142 293.4)",
+        "tonalRamp": [
+          "#0f0029",
+          "#251646",
+          "#41227c",
+          "#5b409b",
+          "#7f67c6",
+          "#a68ff1",
+          "#ccc1fe",
+          "#efecfe"
+        ]
+      },
+      "clay-side-mint": {
+        "role": "secondary",
+        "displayName": "Side Mint",
+        "canonical": "oklch(71.2% 0.098 185.0)",
+        "tonalRamp": [
+          "#000f0d",
+          "#012824",
+          "#06443e",
+          "#0b635b",
+          "#148d82",
+          "#4cb5a9",
+          "#79e0d3",
+          "#c3fcf4"
+        ]
+      },
+      "clay-side-white": {
+        "role": "secondary",
+        "displayName": "Side White",
+        "canonical": "oklch(81.8% 0.022 79.1)",
+        "tonalRamp": [
+          "#0e0b06",
+          "#25211b",
+          "#41392e",
+          "#5c5448",
+          "#81796c",
+          "#a9a093",
+          "#d2c9bb",
+          "#f3eee5"
+        ]
+      },
+      "clay-wrap": {
+        "role": "neutral",
+        "displayName": "Wrap",
+        "canonical": "oklch(37.0% 0.061 186.8)",
+        "tonalRamp": [
+          "#000f0d",
+          "#082724",
+          "#014440",
+          "#27605b",
+          "#4e8680",
+          "#75aea8",
+          "#9dd8d1",
+          "#d4f7f2"
+        ]
+      },
+      "clay-wrap-mist": {
+        "role": "neutral",
+        "displayName": "Wrap Mist",
+        "canonical": "oklch(92.3% 0.024 183.7)",
+        "tonalRamp": [
+          "#050d0c",
+          "#1a2422",
+          "#2d3f3c",
+          "#475a57",
+          "#6b7f7c",
+          "#92a7a3",
+          "#bad0cc",
+          "#e5f2ef"
+        ]
+      },
+      "clay-wrap-line": {
+        "role": "neutral",
+        "displayName": "Wrap Line",
+        "canonical": "oklch(49.1% 0.067 187.0)",
+        "tonalRamp": [
+          "#000f0d",
+          "#042825",
+          "#024440",
+          "#1e615b",
+          "#488781",
+          "#6fafa8",
+          "#98d9d2",
+          "#d2f8f3"
+        ]
       }
     },
     "typographyMeta": {
@@ -1359,6 +1719,30 @@
       "cartoon-caps": {
         "displayName": "Cartoon Caps",
         "purpose": "The credit's function line, figure labels, institutions: Jost 600 caps at 0.8125rem, 0.14em tracking, under the name it bills."
+      },
+      "clay-display": {
+        "displayName": "Clay Display",
+        "purpose": "The hero name in Clay: Bagel Fat One 400, letters like rolled clay, Clay Ink on the sweep in a 31rem column beside the live set."
+      },
+      "clay-headline": {
+        "displayName": "Clay Headline",
+        "purpose": "Clay section titles written as component tags, <Title />, Clay Ink with Purple brackets (decorative), over a coil of clay."
+      },
+      "clay-window-name": {
+        "displayName": "Clay Window Name",
+        "purpose": "The company in each editor window, Bagel Fat One; 1.4rem on sub-entries."
+      },
+      "clay-key": {
+        "displayName": "Clay Key",
+        "purpose": "Labels on the clay keycaps that are every control in Clay: Gabarito 800 in Clay Ink."
+      },
+      "clay-body": {
+        "displayName": "Clay Body",
+        "purpose": "Running copy in Clay: Gabarito Variable 400, slab copy capped at 62ch."
+      },
+      "clay-cap": {
+        "displayName": "Clay Cap",
+        "purpose": "Tool keycaps on the clay keyboard: Gabarito 700 at 0.8125rem; modifier keys 800 caps at 0.05em."
       }
     },
     "shadows": [
@@ -1396,6 +1780,26 @@
         "name": "acid-lime-glow",
         "value": "0 0 16px rgba(197, 255, 65, 0.12)",
         "purpose": "Avant-garde chip hover."
+      },
+      {
+        "name": "clay-lift",
+        "value": "inset 0 3px 0 rgb(255 255 255 / 0.38), inset 0 -6px 0 rgb(0 0 0 / 0.1)",
+        "purpose": "Clay: the lit top edge and shaded underside of every slab, editor window, and the ruler."
+      },
+      {
+        "name": "clay-cast",
+        "value": "0 14px 22px -8px rgb(6 60 56 / 0.5)",
+        "purpose": "Clay: the soft shadow a slab, folder, window, or the keyboard casts on the teal sweep, in the sweep's own dark teal."
+      },
+      {
+        "name": "clay-key-wall",
+        "value": "side wall translate(0, var(--depth)) in the clay's shade; 0 10px 14px -6px rgb(6 60 56 / 0.55)",
+        "purpose": "Clay: a keycap's side wall and its cast; the face carries only inset 0 3px 0 rgb(255 255 255 / 0.4)."
+      },
+      {
+        "name": "clay-note-cast",
+        "value": "inset 0 16px 0 rgb(0 0 0 / 0.05), inset 0 -5px 0 rgb(0 0 0 / 0.08), 0 16px 18px -12px rgb(6 60 56 / 0.6)",
+        "purpose": "Clay: a sticky note lying on the sweep, its top band shaded."
       }
     ],
     "motion": [
@@ -1523,6 +1927,31 @@
         "name": "cartoon-curtain",
         "value": "leader card lettered in, cut at 0.95s; iris opens 1.0s to 1.6s cubic-bezier(0.55, 0, 0.8, 0.35) centred on the painter's face (cartPlace); reveal 1s, total 1.65s (quick: no card, iris 0.2s to 0.7s, total 0.75s)",
         "purpose": "Cartoon's intro curtain and quick-change in SiteIntro.astro."
+      },
+      {
+        "name": "clay-on-twos",
+        "value": "clay-pop 0.34s steps(1, end), hero lines from 0.05s to 0.5s (paused while the curtain is up); set canvas clay-lights 0.25s steps(2); keycap press translate only, 0.2s steps(2) (hover a third of --depth, active two thirds); tool keys 2px, 0.16s steps(2); folder squash 0.25s steps(3); running commit clay-live 1s steps(1) Mint to Side Mint",
+        "purpose": "Clay: stop-motion, poses held, never tweened."
+      },
+      {
+        "name": "clay-plop",
+        "value": "scale(1.03, 0.95) to (0.98, 1.03) to (1.01, 0.99) to none, 0.34s steps(1, end), when 25% of a window is on screen; never hidden first",
+        "purpose": "Clay: each editor window plops into place."
+      },
+      {
+        "name": "clay-set-12fps",
+        "value": "react-three-fiber frameloop demand invalidated every 1000/12 ms; mounted only while Clay is the active world (MutationObserver on html data-design unmounts the canvas); paused off screen (IntersectionObserver) or under reduced motion (one still frame); dpr [1, 2], [1, 1.5] and a 1024px shadow map below 768px",
+        "purpose": "Clay hero's live Three.js set, shot on twos; the FPS meter reads 12 FPS, 83 ms."
+      },
+      {
+        "name": "clay-still",
+        "value": "sprite sheet, steps(frames, jump-none) over frames/12 s, infinite; first frame under reduced motion",
+        "purpose": "Clay: Akira's wave (8 frames, the footer) and point (3 frames, Contact)."
+      },
+      {
+        "name": "clay-curtain",
+        "value": "</> rolled out in three lit coils (Pink, Orange, Purple) clay-coil-in 0.3s steps(1) at 0.08s, 0.2s, 0.32s; name at 0.44s; glyph squashed and lifted clay-glyph-out 0.4s steps(1) at 0.72s; sweep cut at 1.05s; reveal 0.95s, total 1.2s (quick: glyph already there, no name, out at 0.12s, sweep cut 0.5s, total 0.7s)",
+        "purpose": "Clay's intro curtain and quick-change in SiteIntro.astro, drawn in the world's tokens (--bg, --clay-*)."
       }
     ],
     "breakpoints": [
@@ -1714,22 +2143,54 @@
       "kind": "card",
       "refersTo": "cartoon-short",
       "description": "Personal repositories as shorts: small title cards in their own fields, hand-cut corners, pasted at a slight tilt that straightens on hover or focus.",
-      "html": "<ul class=\"ds-cshorts\"><li class=\"ds-cshort ds-cshort--u\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, eight worlds over one script.</p><ul class=\"ds-ctags\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-cshort ds-cshort--m\"><h4><a href=\"#\">Dotfiles</a></h4><p>A shell set up the same way everywhere.</p><ul class=\"ds-ctags\"><li>Zsh</li></ul></li></ul>",
+      "html": "<ul class=\"ds-cshorts\"><li class=\"ds-cshort ds-cshort--u\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, nine worlds over one script.</p><ul class=\"ds-ctags\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-cshort ds-cshort--m\"><h4><a href=\"#\">Dotfiles</a></h4><p>A shell set up the same way everywhere.</p><ul class=\"ds-ctags\"><li>Zsh</li></ul></li></ul>",
       "css": ".ds-cshorts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.75rem;margin:0;padding:2rem 1.5rem;list-style:none;background:#f0532d;font:400 1rem/1.55 'Jost Variable',Jost,sans-serif}.ds-cshort{padding:1.5rem 1.4rem 1.4rem;border-radius:5px 12px 6px 14px/12px 5px 14px 6px;transition:transform .2s steps(2,end)}.ds-cshort--u{background:#2547b5;color:#fbfbfb;transform:rotate(-1.4deg)}.ds-cshort--m{background:#f3c623;color:#121212;transform:rotate(1deg)}.ds-cshort:hover,.ds-cshort:focus-within{transform:rotate(0)}.ds-cshort h4{margin:0;font:900 clamp(1.7rem,2.6vw,2.1rem)/.95 'Londrina Solid',sans-serif;text-transform:uppercase}.ds-cshort h4 a{color:inherit;text-decoration:none}.ds-cshort h4 a:hover{text-decoration:underline wavy 2px;text-underline-offset:6px}.ds-cshort h4 a:focus-visible{outline:2px solid currentColor;outline-offset:2px}.ds-cshort p{margin:.75rem 0 0}.ds-ctags{display:flex;flex-wrap:wrap;gap:.4rem .5rem;margin:.9rem 0 0;padding:0;list-style:none}.ds-ctags li{border:2px solid currentColor;border-radius:3px 8px 4px 9px/8px 3px 9px 4px;padding:.05rem .55rem .1rem;font-size:.8125rem;font-weight:600;letter-spacing:.02em}"
+    },
+    {
+      "name": "Clay Keycaps",
+      "kind": "button",
+      "refersTo": "clay-key",
+      "description": "Every control in Clay is a clay keycap: the face in its clay over a side wall of the same clay in shade; a press sinks the face by translate only, on twos. Email is a Pink Enter key with a drawn return glyph, View my work Orange, CV Lilac.",
+      "html": "<p class=\"ds-ykeys\"><a class=\"ds-yk ds-yk--pink\" href=\"#\">Email<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 5v6.5a3 3 0 0 1-3 3H6.5M10.5 10.5l-4 4 4 4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a><a class=\"ds-yk ds-yk--orange\" href=\"#experience\">View my work</a><a class=\"ds-yk ds-yk--lilac\" href=\"#\">Download CV</a></p>",
+      "css": ".ds-ykeys{display:flex;flex-wrap:wrap;gap:.9rem .75rem;margin:0;padding:1.5rem;background:#13a89e}.ds-yk{--d:6px;position:relative;isolation:isolate;display:inline-flex;align-items:center;gap:.5rem;min-height:2.75rem;margin-bottom:var(--d);padding:.62rem 1.15rem .56rem;border-radius:13px 11px 14px 10px;background-image:url('/images/clay/clay-surface.webp');background-size:320px;background-blend-mode:hard-light;box-shadow:inset 0 3px 0 rgb(255 255 255/.4);color:#1c1720;font:800 1rem/1.1 'Gabarito Variable',Gabarito,sans-serif;text-decoration:none;white-space:nowrap;transition:translate .2s steps(2,end)}.ds-yk::before{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--ks);translate:0 var(--d);box-shadow:0 10px 14px -6px rgb(6 60 56/.55);transition:translate .2s steps(2,end)}.ds-yk:hover{translate:0 2px}.ds-yk:hover::before{translate:0 4px}.ds-yk:active{translate:0 4px}.ds-yk:active::before{translate:0 2px}.ds-yk:focus-visible{outline:3px solid #1c1720;outline-offset:3px}.ds-yk svg{width:1.15em;height:1.15em}.ds-yk--pink{background-color:#f26b8a;--ks:#c94d6b}.ds-yk--orange{background-color:#ffb000;--ks:#c98800}.ds-yk--lilac{background-color:#b9a3ff;--ks:#8c74d4}"
+    },
+    {
+      "name": "Clay Editor Window",
+      "kind": "card",
+      "refersTo": "clay-window",
+      "description": "One role as an editor window in white clay on a git branch coil: three clay traffic lights and the role's .md file in the tab, the company in Bagel Fat One, role and period with a Mint Active pill on a running role, the result; its commit a pressed ball of clay on the purple branch.",
+      "html": "<div class=\"ds-ylog\"><article class=\"ds-ywin\"><span class=\"ds-ywin__commit\"></span><div class=\"ds-ywin__bar\"><span class=\"ds-ywin__lights\"><i></i><i></i><i></i></span><span class=\"ds-ywin__tab\">seva-appointally.md</span></div><div class=\"ds-ywin__body\"><h4>Seva / Appointally</h4><p class=\"ds-ywin__meta\"><span>Full-Stack Engineer</span><span class=\"ds-ywin__per\">2024 - Present</span><span class=\"ds-yact\">Active</span></p><p class=\"ds-ywin__imp\">Shipped the scheduling core used by every clinic.</p></div></article></div>",
+      "css": ".ds-ylog{position:relative;padding:1.5rem 1.5rem 2rem 4.25rem;background:#13a89e;font:400 1rem/1.5 'Gabarito Variable',Gabarito,sans-serif;color:#1c1720}.ds-ylog::before{content:'';position:absolute;left:2.05rem;top:1.5rem;bottom:1.5rem;width:12px;border-radius:999px;background:#6a4bc4;box-shadow:inset 4px 0 0 rgb(255 255 255/.32),inset -4px 0 0 rgb(0 0 0/.24),6px 10px 12px -4px rgb(6 60 56/.55)}.ds-ywin{position:relative;max-width:28rem;border-radius:28px 14px 32px 12px/14px 28px 12px 34px;background-color:#f7f2ea;background-image:url('/images/clay/clay-surface.webp');background-size:320px;background-blend-mode:hard-light;box-shadow:inset 0 3px 0 rgb(255 255 255/.38),inset 0 -6px 0 rgb(0 0 0/.1),0 14px 22px -8px rgb(6 60 56/.5)}.ds-ywin__commit{position:absolute;top:.9rem;left:-2.6rem;width:28px;height:28px;border-radius:52% 48% 50% 46%/50% 46% 54% 48%;background:#7fe0d6;box-shadow:inset 0 4px 0 rgb(255 255 255/.45),inset 0 -5px 0 rgb(0 0 0/.2)}.ds-ywin__bar{display:flex;align-items:center;gap:.85rem;padding:.65rem .95rem;border-bottom:2px solid rgb(28 23 32/.1)}.ds-ywin__lights{display:inline-flex;gap:.4rem}.ds-ywin__lights i{width:.8rem;height:.8rem;border-radius:50%;background:#f26b8a;box-shadow:inset 0 2px 0 rgb(255 255 255/.45)}.ds-ywin__lights i:nth-child(2){background:#ffb000}.ds-ywin__lights i:nth-child(3){background:#7fe0d6}.ds-ywin__tab{padding:.22rem .65rem .26rem;border-radius:8px 9px 7px 8px;background:rgb(28 23 32/.07);color:#4a4250;font-size:.8125rem;font-weight:700}.ds-ywin__body{padding:1rem 1.3rem 1.35rem}.ds-ywin h4{margin:0;font:400 clamp(1.55rem,2.8vw,1.9rem)/1.02 'Bagel Fat One',sans-serif}.ds-ywin__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem .85rem;margin:.6rem 0 0;font-size:.9375rem;font-weight:700}.ds-ywin__per{font-weight:600;color:#4a4250}.ds-yact{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .6rem .24rem;border-radius:999px;background:#7fe0d6;font-size:.75rem;font-weight:800;letter-spacing:.04em}.ds-yact::before{content:'';width:.5rem;height:.5rem;border-radius:50%;background:#1c1720}.ds-ywin__imp{margin:.85rem 0 0;font-size:1.125rem;font-weight:700;line-height:1.35}"
+    },
+    {
+      "name": "Clay Keyboard",
+      "kind": "custom",
+      "refersTo": "clay-keyboard",
+      "description": "Skills as a keyboard pressed in ink clay: a coloured modifier key names each kind, then a Clay White keycap per tool; hovering a key presses it on twos.",
+      "html": "<div class=\"ds-ykb\"><section class=\"ds-ykb__row\"><h4 class=\"ds-ycap ds-ycap--mod\">Backend</h4><ul><li class=\"ds-ycap\">Node.js</li><li class=\"ds-ycap\">PostgreSQL</li><li class=\"ds-ycap\">Go</li></ul></section><section class=\"ds-ykb__row\"><h4 class=\"ds-ycap ds-ycap--mod ds-ycap--orange\">Frontend</h4><ul><li class=\"ds-ycap\">React</li><li class=\"ds-ycap\">Astro</li></ul></section></div>",
+      "css": ".ds-ykb{isolation:isolate;display:grid;gap:.6rem;padding:1.25rem;border-radius:24px 18px 26px 16px/18px 24px 16px 26px;background-color:#1c1720;background-image:url('/images/clay/clay-surface.webp');background-size:320px;background-blend-mode:hard-light;box-shadow:inset 0 3px 0 rgb(255 255 255/.14),inset 0 -7px 0 rgb(0 0 0/.35),0 14px 22px -8px rgb(6 60 56/.5);font-family:'Gabarito Variable',Gabarito,sans-serif}.ds-ykb__row{display:grid;grid-template-columns:10.5rem 1fr;gap:.45rem;align-items:start}.ds-ykb ul{display:flex;flex-wrap:wrap;gap:.5rem .45rem;margin:0;padding:0;list-style:none}.ds-ycap{--d:4px;--ks:#cbc2b4;position:relative;margin:0 0 var(--d);padding:.42rem .7rem .38rem;border-radius:9px 8px 10px 7px;background:#f7f2ea;box-shadow:inset 0 2px 0 rgb(255 255 255/.4);color:#1c1720;font-size:.8125rem;font-weight:700;line-height:1.2;transition:translate .16s steps(2,end)}.ds-ycap::before{content:'';position:absolute;inset:0;z-index:-1;border-radius:inherit;background:var(--ks);translate:0 var(--d);transition:translate .16s steps(2,end)}.ds-ykb ul .ds-ycap:hover{translate:0 2px}.ds-ykb ul .ds-ycap:hover::before{translate:0 2px}.ds-ycap--mod{padding-inline:.85rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:#f26b8a;--ks:#c94d6b}.ds-ycap--orange{background:#ffb000;--ks:#c98800}"
+    },
+    {
+      "name": "Clay Folders",
+      "kind": "card",
+      "refersTo": "clay-folder",
+      "description": "Personal repositories as folders pressed in their own clay, a tab of the same clay on top, lit and casting a soft teal shadow, the stack as white beads; the whole folder is the link.",
+      "html": "<ul class=\"ds-yfolders\"><li class=\"ds-yf ds-yf--pink\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, nine worlds over one script.</p><ul class=\"ds-ybeads\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-yf ds-yf--orange\"><h4><a href=\"#\">DevTray</a></h4><p>A tray for the tools a developer opens every day.</p><ul class=\"ds-ybeads\"><li>Tauri</li></ul></li></ul>",
+      "css": ".ds-yfolders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3rem 1.75rem;margin:0;padding:3rem 1.5rem 2rem;list-style:none;background:#13a89e;font:400 1rem/1.5 'Gabarito Variable',Gabarito,sans-serif;color:#1c1720}.ds-yf{position:relative;isolation:isolate;padding:1.5rem 1.6rem 1.6rem;border-radius:4px 26px 30px 22px/4px 24px 28px 26px;background-color:var(--c);background-image:url('/images/clay/clay-surface.webp');background-size:320px;background-blend-mode:hard-light;box-shadow:inset 0 3px 0 rgb(255 255 255/.38),inset 0 -6px 0 rgb(0 0 0/.1),0 14px 22px -8px rgb(6 60 56/.5);transition:transform .25s steps(3,end)}.ds-yf::before{content:'';position:absolute;z-index:-1;left:0;bottom:calc(100% - 4px);width:42%;height:26px;border-radius:14px 20px 0 0;background:var(--c);box-shadow:inset 0 3px 0 rgb(255 255 255/.38)}.ds-yf--pink{--c:#f26b8a;rotate:-.4deg}.ds-yf--orange{--c:#ffb000;rotate:.5deg}.ds-yf:hover{transform:scale(1.02,.97)}.ds-yf h4{margin:0;font:400 1.75rem/1 'Bagel Fat One',sans-serif}.ds-yf h4 a{color:inherit;text-decoration:none}.ds-yf h4 a::before{content:'';position:absolute;inset:0;border-radius:inherit}.ds-yf h4 a:focus-visible{outline:3px solid #1c1720;outline-offset:3px}.ds-yf p{margin:.6rem 0 0;font-weight:500;line-height:1.45}.ds-ybeads{display:flex;flex-wrap:wrap;gap:.45rem;margin:.9rem 0 0;padding:0;list-style:none}.ds-ybeads li{padding:.28rem .7rem .32rem;border-radius:999px;background:#f7f2ea;box-shadow:inset 0 2px 0 rgb(255 255 255/.4),inset 0 -3px 0 rgb(0 0 0/.12);font-size:.8125rem;font-weight:700;line-height:1.2}"
     }
   ],
   "narrative": {
     "northStar": "The Repertoire",
-    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, eight staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of eight complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, and Cartoon. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the studio, the arcade cabinet, the shell session, the punched teletype tape, and the opening titles of a 1960s cartoon). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all eight: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows, Cartoon's five paper fields); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, Tape, and Cartoon also stage their own About and footer, and the last four their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Cartoon turns the strategy over: colour is the field, not the accent; every section is a title card drenched in one of five flat paper colours, and on each card the accent is the one colour that card names safe for small text. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain.",
+    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, nine staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of nine complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon, and Clay. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the studio, the arcade cabinet, the shell session, the punched teletype tape, the opening titles of a 1960s cartoon, and a developer's desk moulded in plasticine). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all nine: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows, Cartoon's five paper fields, Clay's five clays and its surface tile); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, Tape, Cartoon, and Clay also stage their own About and footer, and the last five their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Cartoon turns the strategy over: colour is the field, not the accent; every section is a title card drenched in one of five flat paper colours, and on each card the accent is the one colour that card names safe for small text. Clay keeps one field, the painted teal sweep, and puts its colour in the clay laid on it; its pink accent is only ever a fill with ink on it, never text. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain; Cartoon and Clay replace the tween with poses held on twos.",
     "keyCharacteristics": [
-      "Eight complete worlds, one content source, switched at runtime and persisted per visitor.",
+      "Nine complete worlds, one content source, switched at runtime and persisted per visitor.",
       "One accent per world, spent on interactive and labeling elements only; Terminal's prompt green is its one sanctioned second voice.",
-      "Display typography carries identity: monospace, typewriter, geometric sans, heavy grotesk, display grotesk, slab poster, condensed caps, or hand-lettered cartoon titling.",
-      "Flat surfaces in seven worlds: border-defined in six, drenched cut-paper fields in Cartoon, where depth is only paper lying on paper. Creative alone lifts with shadow.",
+      "Display typography carries identity: monospace, typewriter, geometric sans, heavy grotesk, display grotesk, slab poster, condensed caps, hand-lettered cartoon titling, or letters rolled from clay.",
+      "Flat surfaces in seven worlds: border-defined in six, drenched cut-paper fields in Cartoon, where depth is only paper lying on paper. Two worlds lift: Creative with a soft neutral shadow, Clay with lit, shaded plasticine that casts a soft teal shadow on its sweep.",
       "Shared reveal motion (fade, 30px rise, 0.5s, once) with a signature per world, staged in the hero.",
-      "WebGL in one world only (Avant-garde's particle field), mounted only while that world is active and backed by a CSS fallback.",
-      "Candy stays on the cards: Arcade's candy colors are surfaces, never UI chrome. Cartoon's fields are surfaces too, one per section.",
-      "Limited animation in Cartoon: poses held on twos (`steps()`), never tweened.",
+      "WebGL in two worlds: Avant-garde's particle field, mounted only while that world is active and backed by a CSS fallback, and Clay's live tabletop set, likewise mounted only while Clay is active, rendered at 12 frames a second on demand and paused off screen.",
+      "Candy stays on the cards: Arcade's candy colors are surfaces, never UI chrome. Cartoon's fields are surfaces too, one per section; Clay's clays are material, laid on the sweep.",
+      "Limited animation in Cartoon and Clay: poses held on twos (`steps()`), never tweened.",
       "Bilingual by construction: every text node renders both locales and CSS shows one."
     ],
     "rules": [
@@ -1740,12 +2201,12 @@
       },
       {
         "name": "The Own Palette Rule",
-        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Creative shadow in Editorial, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal, no Cartoon field outside Cartoon.",
+        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Creative shadow in Editorial, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal, no Cartoon field outside Cartoon, no clay outside Clay.",
         "section": "colors"
       },
       {
         "name": "The Dark Text on Bright Accent Rule",
-        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Lime, Gold, and Tape Orange are light accents, so their fills take the page color, the default (6.3:1 to 16:1); Terminal's green key takes Terminal Ground (7.45:1). Violet's own hero and filter fills take white (6.7:1), and Engineer sets `--on-accent` to white on Link Blue (6.70:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`.",
+        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Lime, Gold, and Tape Orange are light accents, so their fills take the page color, the default (6.3:1 to 16:1); Terminal's green key takes Terminal Ground (7.45:1). Violet's own hero and filter fills take white (6.7:1), and Engineer sets `--on-accent` to white on Link Blue (6.70:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`. Clay Pink fails even display size on the sweep (1.02:1), so Clay sets both tokens and `.text-accent-display` to Clay Ink.",
         "section": "colors"
       },
       {
@@ -1764,13 +2225,18 @@
         "section": "colors"
       },
       {
+        "name": "The Ink on Clay Rule (Clay)",
+        "body": "Colour in Clay is material, not type. Every clay that carries words carries Clay Ink (6.07:1 to 15.8:1); the only light text is on ink clay (the FPS meter) and on the footer's Wrap. Pink is the accent as a fill, an underline, a bead, or a coil, never as running text; Purple and the side-wall shades carry no words at all. A new clay surface takes ink, or takes no text.",
+        "section": "colors"
+      },
+      {
         "name": "The Heading Slot Rule",
         "body": "Headings in shared components never hardcode a family. They use the heading slot (`--font-heading`) so a world can swap the voice in one token. A world's own stylesheet (`src/styles/worlds/<world>.css`) may name its faces directly, because those classes never render outside it.",
         "section": "typography"
       },
       {
         "name": "The Loud Display, Quiet Body Rule",
-        "body": "Identity lives in the display size and face. Body and label sizes stay between 0.75rem and 1.125rem in every world, except Tape's condensed body at 1.1875rem and its 1.25rem skill rows, which set the same measure a regular face sets at 1rem, and Cartoon's credit results at 1.1875rem.",
+        "body": "Identity lives in the display size and face. Body and label sizes stay between 0.75rem and 1.125rem in every world, except Tape's condensed body at 1.1875rem and its 1.25rem skill rows, which set the same measure a regular face sets at 1rem, Cartoon's credit results at 1.1875rem, and Clay's running copy at 1.0625rem, its lede at 1.25rem.",
         "section": "typography"
       },
       {
@@ -1790,17 +2256,22 @@
       },
       {
         "name": "The Same Bones Rule",
-        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills; Editorial also stages its own About and footer (its own Contact was retired on 2026-10-11 at the user's request, so it uses the shared one); Engineer, Terminal, Tape, and Cartoon stage their own About, Education, Projects, Contact, and footer, plus their own section headings in Experience and Skills (since 2026-10-11, when the user decided to keep the worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world> <world>\"` (space-separated) and the world's version `data-design-show=\"<world>\"`. A world's own extras (Engineer's seams and pager) sit in `HomePage.astro` behind `data-design-show`.",
+        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills; Editorial also stages its own About and footer (its own Contact was retired on 2026-10-11 at the user's request, so it uses the shared one); Engineer, Terminal, Tape, Cartoon, and Clay stage their own About, Education, Projects, Contact, and footer, plus their own section headings in Experience and Skills (since 2026-10-11, when the user decided to keep the worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world> <world>\"` (space-separated) and the world's version `data-design-show=\"<world>\"`. A world's own extras (Engineer's seams and pager) sit in `HomePage.astro` behind `data-design-show`.",
         "section": "layout"
       },
       {
         "name": "The 896 Rule",
-        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px. Engineer narrows the whole page, hero included, to a 72ch column, the width of a plain-text draft. Cartoon's fields run full bleed, but their content keeps the column; only the shorts widen to 1024px for three tilted cards.",
+        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px. Engineer narrows the whole page, hero included, to a 72ch column, the width of a plain-text draft. Cartoon's fields run full bleed, but their content keeps the column; only the shorts widen to 1024px for three tilted cards. Clay keeps the 896px column for every section; only its hero widens to 1152px, with the set running full width behind it.",
         "section": "layout"
       },
       {
         "name": "The Paper on Paper Rule (Cartoon)",
         "body": "Depth in Cartoon comes only from one cut shape lying over another. A card, ticket, short, or figure never casts a shadow, takes a gradient, or blurs what is behind it; a new layer earns its place by overlapping.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Lit Clay Rule (Clay)",
+        "body": "A clay surface is always the full recipe: its clay colour, the surface tile under hard-light, the lift insets, and a soft cast in the sweep's teal. Never a flat clay, a black shadow, or a hard offset shadow; never a gradient standing in for the light.",
         "section": "elevation"
       },
       {
@@ -1817,6 +2288,26 @@
         "name": "The Hand-Cut Rule (Cartoon)",
         "body": "Inside the cards nothing is machine-true: edges, rules, tickets, tags, and bullets are cut or drawn, with unequal corners and wandering lines. The iris is the only true circle, because it is the camera's, not the paper's.",
         "section": "shapes"
+      },
+      {
+        "name": "The Pressed by Hand Rule (Clay)",
+        "body": "No clay surface has four equal corners or sits dead level. Slabs, windows, keycaps, notes, and folders take unequal radii, and slabs and notes a small tilt; only rolled pieces (beads, coils, commits, pills) are round.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Keycap Rule (Clay)",
+        "body": "Every control in Clay is a clay keycap: a face in its clay over a side wall of the same clay in shade, and a press that sinks the face into the wall by `translate` alone, on twos, never by changing colour alone or by reflowing. An action that sends is an Enter key with its return glyph; a toggle prints its plus or minus.",
+        "section": "components"
+      },
+      {
+        "name": "The Dev Objects Rule (Clay)",
+        "body": "Everything on the sweep is an object from a developer's desk, pressed in clay: keycaps, editor windows, a git branch, a keyboard, sticky notes, folders, tags. Film-set grammar (slates, takes, clapperboards, wraps, frame counters) is retired at the user's request; the stop-motion lives only in how things move.",
+        "section": "components"
+      },
+      {
+        "name": "The On Twos Rule (Clay)",
+        "body": "Clay moves like stop-motion: every animation is `steps()` or a 12 fps clock, poses held, never tweened; the set renders only on that clock and only while seen.",
+        "section": "components"
       }
     ],
     "dos": [
@@ -1831,7 +2322,10 @@
       "Do carry state as a mark or a word as well as a colour (Tape's band and cross, Terminal's \"●\" and \"Present\", `aria-pressed`, `aria-expanded`).",
       "Do give a new Cartoon card a field, a text colour, a safe colour, and a display colour from the measured pairs (The Field Rule), and keep Paper on Vermilion to display type (3.4:1).",
       "Do animate Cartoon on held poses (`steps()`), never tweened, and keep its depth to overlap (The Paper on Paper Rule).",
-      "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a CSS fallback, as Avant-garde does."
+      "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a fallback, as Avant-garde (a CSS fallback) and Clay (the copy alone on the sweep) do.",
+      "Do set Clay's chrome on Sweep Raised (#14b2a7) in Sweep Shadow (5.44:1) or Clay Ink (6.67:1), with Sweep Line borders, as the design switcher does.",
+      "Do set every word on clay in Clay Ink and keep Pink a fill, an underline, a bead, or a coil (The Ink on Clay Rule); build a new clay surface from the full Lit Clay recipe and press it by hand (unequal radii, a small tilt).",
+      "Do make a new Clay control a clay keycap with its side wall that sinks on twos (The Keycap Rule), give a new Clay surface its own patch of the tile (`--tx`, `--ty`, `--ts`), and give a new Clay animation `steps()` or the 12 fps clock (The On Twos Rule)."
     ],
     "donts": [
       "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no prompt green outside Terminal, no Tape Orange outside Tape, no Cartoon field outside Cartoon (The Own Palette Rule).",
@@ -1839,7 +2333,8 @@
       "Don't add a fill to Engineer beyond the Email key and reverse video, or a size beyond the text size and the hero title (The Reverse Video Rule, The One Size Rule).",
       "Don't punch decorative noise into Tape: every strip encodes its text (The Holes Are Data Rule).",
       "Don't give a Cartoon card a shadow, a gradient, a blur, a frame, halftone dots, or comic-book lettering effects: it is cut paper, not a comic page or a neo-brutalist card. Strokes stay drawn lines on tickets and tags in the card's own colour.",
-      "Don't label a Cartoon title from above; a credit is the name over its function in small caps (The Credits Rule)."
+      "Don't label a Cartoon title from above; a credit is the name over its function in small caps (The Credits Rule).",
+      "Don't set Pink text anywhere in Clay (1.02:1 on the sweep), cast a black or hard-offset shadow, lay a flat untextured clay, or tween a Clay motion; and don't bring back film-set grammar (slates, takes, wraps) or drift into the isometric low-poly dev room: it is a developer's desk, handmade, on one painted sweep (The Dev Objects Rule)."
     ]
   }
 }
