@@ -89,24 +89,4 @@ export const projects: Project[] = [
     tech: ['TypeScript', 'Design Patterns'],
     github: 'https://github.com/alexandreakao/design-pattern-ts',
   },
-  {
-    title: 'Particle Website',
-    description: {
-      en: 'Interactive website featuring particle animations and creative visual effects.',
-      pt: 'Website interativo com animações de partículas e efeitos visuais criativos.',
-    },
-    type: 'personal',
-    tech: ['JavaScript', 'Canvas API', 'CSS'],
-    github: 'https://github.com/alexandreakao/particle-website',
-  },
-  {
-    title: 'Space Themed Website',
-    description: {
-      en: 'Immersive space-themed website with parallax scrolling and cosmic visual effects.',
-      pt: 'Website imersivo com tema espacial, scrolling parallax e efeitos visuais cósmicos.',
-    },
-    type: 'personal',
-    tech: ['JavaScript', 'Three.js', 'CSS'],
-    github: 'https://github.com/alexandreakao/space-themed-website',
-  },
 ];
