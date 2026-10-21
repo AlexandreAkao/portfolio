@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { designs } from '../src/data/designs';
 
 const worlds = designs.map((d) => d.id);
-const webglWorlds = new Set(['avantgarde']);
+const webglWorlds = new Set(['avantgarde', 'clay']);
 
 /** Collect console errors and uncaught exceptions for the life of a page. */
 function watchErrors(page: Page) {
