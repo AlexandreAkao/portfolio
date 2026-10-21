@@ -5,7 +5,6 @@ Personal portfolio built with Astro 5, featuring a multi-design system that lets
 ## Designs
 
 - **Engineer** — Dark blue terminal aesthetic with JetBrains Mono, teal accents
-- **Creative** — Warm off-white with purple accents, Space Grotesk/Playfair Display, rounded elements
 - **Avant-garde** — Charcoal with lime accents, Three.js particles, custom cursor, marquee animations
 - **Editorial** — Off-white with orange accents, Clash Display, oversized typography, asymmetric layout
 
@@ -28,7 +27,6 @@ src/
 ├── components/
 │   ├── designs/          # Design-specific components
 │   │   ├── engineer/
-│   │   ├── creative/
 │   │   ├── avantgarde/
 │   │   └── editorial/
 │   └── sections/         # Shared section wrappers

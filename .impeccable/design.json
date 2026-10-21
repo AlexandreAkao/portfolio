@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-13T12:00:00.000Z",
+  "generatedAt": "2026-10-21T12:00:00.000Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
@@ -137,141 +137,6 @@
           "#7ba2fd",
           "#b1c9fe",
           "#e7efff"
-        ]
-      },
-      "creative-warm-paper": {
-        "role": "neutral",
-        "displayName": "Warm Paper",
-        "canonical": "oklch(97.2% 0.011 76.6)",
-        "tonalRamp": [
-          "#0e0b07",
-          "#28241f",
-          "#45413c",
-          "#65615b",
-          "#86827b",
-          "#a9a49e",
-          "#cdc8c2",
-          "#f3eee7"
-        ]
-      },
-      "creative-warm-paper-deep": {
-        "role": "neutral",
-        "displayName": "Warm Paper Deep",
-        "canonical": "oklch(93.7% 0.015 77.1)",
-        "tonalRamp": [
-          "#0f0a05",
-          "#29241d",
-          "#474139",
-          "#666058",
-          "#888178",
-          "#aba49b",
-          "#cfc8be",
-          "#f4ede3"
-        ]
-      },
-      "creative-white-card": {
-        "role": "neutral",
-        "displayName": "White Card",
-        "canonical": "oklch(100.0% 0.000 89.9)",
-        "tonalRamp": [
-          "#0b0b0b",
-          "#252525",
-          "#424242",
-          "#616161",
-          "#828282",
-          "#a5a5a5",
-          "#c9c9c9",
-          "#eeeeee"
-        ]
-      },
-      "creative-warm-card-hover": {
-        "role": "neutral",
-        "displayName": "Warm Card Hover",
-        "canonical": "oklch(96.9% 0.008 73.7)",
-        "tonalRamp": [
-          "#0d0b08",
-          "#272521",
-          "#45413d",
-          "#64615c",
-          "#85827d",
-          "#a8a4a0",
-          "#ccc8c4",
-          "#f2eee9"
-        ]
-      },
-      "creative-sand-line": {
-        "role": "neutral",
-        "displayName": "Sand Line",
-        "canonical": "oklch(88.7% 0.020 72.6)",
-        "tonalRamp": [
-          "#100a03",
-          "#2b241b",
-          "#494137",
-          "#686055",
-          "#8a8176",
-          "#ada398",
-          "#d1c7bc",
-          "#f7ede1"
-        ]
-      },
-      "creative-ink-navy": {
-        "role": "neutral",
-        "displayName": "Ink Navy",
-        "canonical": "oklch(22.8% 0.038 282.9)",
-        "tonalRamp": [
-          "#09081b",
-          "#222337",
-          "#3f4056",
-          "#5e5f77",
-          "#7f8099",
-          "#a1a2bd",
-          "#c5c7e2",
-          "#ecedfe"
-        ]
-      },
-      "creative-ink-muted": {
-        "role": "neutral",
-        "displayName": "Ink Muted",
-        "canonical": "oklch(42.2% 0.050 284.1)",
-        "tonalRamp": [
-          "#09071f",
-          "#22213c",
-          "#3f3e5c",
-          "#5d5e7d",
-          "#7e7fa0",
-          "#a1a1c4",
-          "#c5c5e9",
-          "#ecedff"
-        ]
-      },
-      "creative-royal-violet": {
-        "role": "primary",
-        "displayName": "Royal Violet",
-        "canonical": "oklch(50.3% 0.227 294.9)",
-        "tonalRamp": [
-          "#10002b",
-          "#2e0062",
-          "#5002a1",
-          "#702fd1",
-          "#9058f8",
-          "#ad8eff",
-          "#cdbefc",
-          "#efecfc"
-        ]
-      },
-      "creative-royal-violet-deep": {
-        "role": "primary",
-        "displayName": "Royal Violet Deep",
-        "canonical": "oklch(45.5% 0.218 294.2)",
-        "tonalRamp": [
-          "#10002b",
-          "#2e0063",
-          "#4f01a2",
-          "#6e34cd",
-          "#8e5cf5",
-          "#ac8ffd",
-          "#ccbffd",
-          "#efecfd"
         ]
       },
       "avantgarde-charcoal": {
@@ -1600,10 +1465,6 @@
         "displayName": "Engineer Display",
         "purpose": "Hero name in Courier Prime, centered under the draft's header block; the only size exception in the world besides the role line."
       },
-      "creative-display": {
-        "displayName": "Creative Display",
-        "purpose": "Hero name in Sora; 3.75rem below 768px; surname in Royal Violet."
-      },
       "avantgarde-display": {
         "displayName": "Avant-garde Display",
         "purpose": "Hero name in Poppins, characters staggered in."
@@ -1631,10 +1492,6 @@
       "engineer-body": {
         "displayName": "Engineer Body",
         "purpose": "Courier Prime at one size for everything in Engineer (headings bold, numbered, flush left; paragraphs indented 3ch in a 72ch column)."
-      },
-      "creative-body": {
-        "displayName": "Creative Body",
-        "purpose": "Source Serif 4 body copy for the Creative world."
       },
       "avantgarde-body": {
         "displayName": "Avant-garde Body",
@@ -1674,7 +1531,7 @@
       },
       "body-small": {
         "displayName": "Body Small",
-        "purpose": "Copy inside cards and experience entries; experience copy capped at 65ch (max-w-prose) in Creative, Arcade, and Avant-garde, sub-roles included."
+        "purpose": "Copy inside cards and experience entries; experience copy capped at 65ch (max-w-prose) in Arcade and Avant-garde, sub-roles included."
       },
       "prose": {
         "displayName": "Prose",
@@ -1682,11 +1539,7 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Eyebrows, periods, chips, and tags; uppercase in Creative, Avant-garde, Editorial, and Arcade. Editorial datelines are 0.75rem semibold caps at 0.15em tracking. Engineer, Terminal, and Tape have no eyebrows."
-      },
-      "button": {
-        "displayName": "Button",
-        "purpose": "Creative buttons and filter pills."
+        "purpose": "Eyebrows, periods, chips, and tags; uppercase in Avant-garde, Editorial, and Arcade. Editorial datelines are 0.75rem semibold caps at 0.15em tracking. Engineer, Terminal, and Tape have no eyebrows."
       },
       "button-caps": {
         "displayName": "Button Caps",
@@ -1747,26 +1600,6 @@
     },
     "shadows": [
       {
-        "name": "creative-card",
-        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
-        "purpose": "Creative experience card, About portrait, blog card hover."
-      },
-      {
-        "name": "creative-portrait",
-        "value": "0 25px 50px -12px rgb(0 0 0 / 0.25)",
-        "purpose": "Creative hero portrait."
-      },
-      {
-        "name": "creative-chip",
-        "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)",
-        "purpose": "Creative skill pills at rest."
-      },
-      {
-        "name": "creative-chip-hover",
-        "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
-        "purpose": "Creative skill pills on hover."
-      },
-      {
         "name": "floating-menu",
         "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
         "purpose": "Design dropdown in every world."
@@ -1825,8 +1658,8 @@
       },
       {
         "name": "hover-lift",
-        "value": "translateY(-4px); Creative buttons scale(1.05); Creative chips scale(1.1)",
-        "purpose": "Cards and Creative interactive elements."
+        "value": "translateY(-4px)",
+        "purpose": "Cards."
       },
       {
         "name": "dropdown",
@@ -2006,7 +1839,7 @@
       "name": "Code Block",
       "kind": "custom",
       "refersTo": "mono",
-      "description": "Blog code block: Shiki's github-dark-default palette in every world on the --code-bg panel (the raised surface in dark worlds, the world's ink in Editorial, Creative, and Engineer) with color-scheme: dark, so every syntax token reads at 5.1:1 or more. Inline code sits in a 6px box on the raised surface in the accent-text token.",
+      "description": "Blog code block: Shiki's github-dark-default palette in every world on the --code-bg panel (the raised surface in dark worlds, the world's ink in Editorial and Engineer) with color-scheme: dark, so every syntax token reads at 5.1:1 or more. Inline code sits in a 6px box on the raised surface in the accent-text token.",
       "html": "<pre class=\"ds-code\"><code><span style=\"color:#ff7b72\">const</span> <span style=\"color:#e6edf3\">port</span> <span style=\"color:#ff7b72\">=</span> <span style=\"color:#79c0ff\">4321</span>;</code></pre><p class=\"ds-code-p\">Run <code>npm run dev</code> to start.</p>",
       "css": ".ds-code{background:var(--code-bg,#1c1a18);color-scheme:dark;color:#e6edf3;border:1px solid var(--border,#2a2725);border-radius:8px;padding:1.25rem 1.5rem;overflow-x:auto;margin:1.5em 0;font-family:\"JetBrains Mono\",monospace;font-size:.875rem;line-height:1.7}.ds-code-p{font-family:var(--font-body, Inter, sans-serif);color:var(--text-secondary,#9a948b)}.ds-code-p code{background:var(--bg-secondary,#1c1a18);border:1px solid var(--border,#2a2725);border-radius:6px;padding:.15em .4em;font-family:\"JetBrains Mono\",monospace;font-size:.85em;color:var(--accent-text,#c5ff41)}"
     },
@@ -2143,7 +1976,7 @@
       "kind": "card",
       "refersTo": "cartoon-short",
       "description": "Personal repositories as shorts: small title cards in their own fields, hand-cut corners, pasted at a slight tilt that straightens on hover or focus.",
-      "html": "<ul class=\"ds-cshorts\"><li class=\"ds-cshort ds-cshort--u\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, nine worlds over one script.</p><ul class=\"ds-ctags\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-cshort ds-cshort--m\"><h4><a href=\"#\">Dotfiles</a></h4><p>A shell set up the same way everywhere.</p><ul class=\"ds-ctags\"><li>Zsh</li></ul></li></ul>",
+      "html": "<ul class=\"ds-cshorts\"><li class=\"ds-cshort ds-cshort--u\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, eight worlds over one script.</p><ul class=\"ds-ctags\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-cshort ds-cshort--m\"><h4><a href=\"#\">Dotfiles</a></h4><p>A shell set up the same way everywhere.</p><ul class=\"ds-ctags\"><li>Zsh</li></ul></li></ul>",
       "css": ".ds-cshorts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.75rem;margin:0;padding:2rem 1.5rem;list-style:none;background:#f0532d;font:400 1rem/1.55 'Jost Variable',Jost,sans-serif}.ds-cshort{padding:1.5rem 1.4rem 1.4rem;border-radius:5px 12px 6px 14px/12px 5px 14px 6px;transition:transform .2s steps(2,end)}.ds-cshort--u{background:#2547b5;color:#fbfbfb;transform:rotate(-1.4deg)}.ds-cshort--m{background:#f3c623;color:#121212;transform:rotate(1deg)}.ds-cshort:hover,.ds-cshort:focus-within{transform:rotate(0)}.ds-cshort h4{margin:0;font:900 clamp(1.7rem,2.6vw,2.1rem)/.95 'Londrina Solid',sans-serif;text-transform:uppercase}.ds-cshort h4 a{color:inherit;text-decoration:none}.ds-cshort h4 a:hover{text-decoration:underline wavy 2px;text-underline-offset:6px}.ds-cshort h4 a:focus-visible{outline:2px solid currentColor;outline-offset:2px}.ds-cshort p{margin:.75rem 0 0}.ds-ctags{display:flex;flex-wrap:wrap;gap:.4rem .5rem;margin:.9rem 0 0;padding:0;list-style:none}.ds-ctags li{border:2px solid currentColor;border-radius:3px 8px 4px 9px/8px 3px 9px 4px;padding:.05rem .55rem .1rem;font-size:.8125rem;font-weight:600;letter-spacing:.02em}"
     },
     {
@@ -2175,18 +2008,18 @@
       "kind": "card",
       "refersTo": "clay-folder",
       "description": "Personal repositories as folders pressed in their own clay, a tab of the same clay on top, lit and casting a soft teal shadow, the stack as white beads; the whole folder is the link.",
-      "html": "<ul class=\"ds-yfolders\"><li class=\"ds-yf ds-yf--pink\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, nine worlds over one script.</p><ul class=\"ds-ybeads\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-yf ds-yf--orange\"><h4><a href=\"#\">DevTray</a></h4><p>A tray for the tools a developer opens every day.</p><ul class=\"ds-ybeads\"><li>Tauri</li></ul></li></ul>",
+      "html": "<ul class=\"ds-yfolders\"><li class=\"ds-yf ds-yf--pink\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, eight worlds over one script.</p><ul class=\"ds-ybeads\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-yf ds-yf--orange\"><h4><a href=\"#\">DevTray</a></h4><p>A tray for the tools a developer opens every day.</p><ul class=\"ds-ybeads\"><li>Tauri</li></ul></li></ul>",
       "css": ".ds-yfolders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3rem 1.75rem;margin:0;padding:3rem 1.5rem 2rem;list-style:none;background:#13a89e;font:400 1rem/1.5 'Gabarito Variable',Gabarito,sans-serif;color:#1c1720}.ds-yf{position:relative;isolation:isolate;padding:1.5rem 1.6rem 1.6rem;border-radius:4px 26px 30px 22px/4px 24px 28px 26px;background-color:var(--c);background-image:url('/images/clay/clay-surface.webp');background-size:320px;background-blend-mode:hard-light;box-shadow:inset 0 3px 0 rgb(255 255 255/.38),inset 0 -6px 0 rgb(0 0 0/.1),0 14px 22px -8px rgb(6 60 56/.5);transition:transform .25s steps(3,end)}.ds-yf::before{content:'';position:absolute;z-index:-1;left:0;bottom:calc(100% - 4px);width:42%;height:26px;border-radius:14px 20px 0 0;background:var(--c);box-shadow:inset 0 3px 0 rgb(255 255 255/.38)}.ds-yf--pink{--c:#f26b8a;rotate:-.4deg}.ds-yf--orange{--c:#ffb000;rotate:.5deg}.ds-yf:hover{transform:scale(1.02,.97)}.ds-yf h4{margin:0;font:400 1.75rem/1 'Bagel Fat One',sans-serif}.ds-yf h4 a{color:inherit;text-decoration:none}.ds-yf h4 a::before{content:'';position:absolute;inset:0;border-radius:inherit}.ds-yf h4 a:focus-visible{outline:3px solid #1c1720;outline-offset:3px}.ds-yf p{margin:.6rem 0 0;font-weight:500;line-height:1.45}.ds-ybeads{display:flex;flex-wrap:wrap;gap:.45rem;margin:.9rem 0 0;padding:0;list-style:none}.ds-ybeads li{padding:.28rem .7rem .32rem;border-radius:999px;background:#f7f2ea;box-shadow:inset 0 2px 0 rgb(255 255 255/.4),inset 0 -3px 0 rgb(0 0 0/.12);font-size:.8125rem;font-weight:700;line-height:1.2}"
     }
   ],
   "narrative": {
     "northStar": "The Repertoire",
-    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, nine staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of nine complete visual worlds: Editorial (the default), Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon, and Clay. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the studio, the arcade cabinet, the shell session, the punched teletype tape, the opening titles of a 1960s cartoon, and a developer's desk moulded in plasticine). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all nine: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows, Cartoon's five paper fields, Clay's five clays and its surface tile); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, Tape, Cartoon, and Clay also stage their own About and footer, and the last five their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Cartoon turns the strategy over: colour is the field, not the accent; every section is a title card drenched in one of five flat paper colours, and on each card the accent is the one colour that card names safe for small text. Clay keeps one field, the painted teal sweep, and puts its colour in the clay laid on it; its pink accent is only ever a fill with ink on it, never text. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain; Cartoon and Clay replace the tween with poses held on twos.",
+    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, eight staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of eight complete visual worlds: Editorial (the default), Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon, and Clay. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the arcade cabinet, the shell session, the punched teletype tape, the opening titles of a 1960s cartoon, and a developer's desk moulded in plasticine). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all eight: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows, Cartoon's five paper fields, Clay's five clays and its surface tile); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, Tape, Cartoon, and Clay also stage their own About and footer, and the last five their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Cartoon turns the strategy over: colour is the field, not the accent; every section is a title card drenched in one of five flat paper colours, and on each card the accent is the one colour that card names safe for small text. Clay keeps one field, the painted teal sweep, and puts its colour in the clay laid on it; its pink accent is only ever a fill with ink on it, never text. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain; Cartoon and Clay replace the tween with poses held on twos.",
     "keyCharacteristics": [
-      "Nine complete worlds, one content source, switched at runtime and persisted per visitor.",
+      "Eight complete worlds, one content source, switched at runtime and persisted per visitor.",
       "One accent per world, spent on interactive and labeling elements only; Terminal's prompt green is its one sanctioned second voice.",
-      "Display typography carries identity: monospace, typewriter, geometric sans, heavy grotesk, display grotesk, slab poster, condensed caps, hand-lettered cartoon titling, or letters rolled from clay.",
-      "Flat surfaces in seven worlds: border-defined in six, drenched cut-paper fields in Cartoon, where depth is only paper lying on paper. Two worlds lift: Creative with a soft neutral shadow, Clay with lit, shaded plasticine that casts a soft teal shadow on its sweep.",
+      "Display typography carries identity: monospace, typewriter, heavy grotesk, display grotesk, slab poster, condensed caps, hand-lettered cartoon titling, or letters rolled from clay.",
+      "Flat surfaces in seven worlds: border-defined in six, drenched cut-paper fields in Cartoon, where depth is only paper lying on paper. One world lifts: Clay, with lit, shaded plasticine that casts a soft teal shadow on its sweep.",
       "Shared reveal motion (fade, 30px rise, 0.5s, once) with a signature per world, staged in the hero.",
       "WebGL in two worlds: Avant-garde's particle field, mounted only while that world is active and backed by a CSS fallback, and Clay's live tabletop set, likewise mounted only while Clay is active, rendered at 12 frames a second on demand and paused off screen.",
       "Candy stays on the cards: Arcade's candy colors are surfaces, never UI chrome. Cartoon's fields are surfaces too, one per section; Clay's clays are material, laid on the sweep.",
@@ -2201,12 +2034,12 @@
       },
       {
         "name": "The Own Palette Rule",
-        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Creative shadow in Editorial, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal, no Cartoon field outside Cartoon, no clay outside Clay.",
+        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal, no Cartoon field outside Cartoon, no clay outside Clay.",
         "section": "colors"
       },
       {
         "name": "The Dark Text on Bright Accent Rule",
-        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Lime, Gold, and Tape Orange are light accents, so their fills take the page color, the default (6.3:1 to 16:1); Terminal's green key takes Terminal Ground (7.45:1). Violet's own hero and filter fills take white (6.7:1), and Engineer sets `--on-accent` to white on Link Blue (6.70:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`. Clay Pink fails even display size on the sweep (1.02:1), so Clay sets both tokens and `.text-accent-display` to Clay Ink.",
+        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Lime, Gold, and Tape Orange are light accents, so their fills take the page color, the default (6.3:1 to 16:1); Terminal's green key takes Terminal Ground (7.45:1). Engineer sets `--on-accent` to white on Link Blue (6.70:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`. Clay Pink fails even display size on the sweep (1.02:1), so Clay sets both tokens and `.text-accent-display` to Clay Ink.",
         "section": "colors"
       },
       {
@@ -2328,7 +2161,7 @@
       "Do make a new Clay control a clay keycap with its side wall that sinks on twos (The Keycap Rule), give a new Clay surface its own patch of the tile (`--tx`, `--ty`, `--ts`), and give a new Clay animation `steps()` or the 12 fps clock (The On Twos Rule)."
     ],
     "donts": [
-      "Don't mix tokens across worlds. No candy surface in Engineer, no Creative shadow in Editorial, no prompt green outside Terminal, no Tape Orange outside Tape, no Cartoon field outside Cartoon (The Own Palette Rule).",
+      "Don't mix tokens across worlds. No candy surface in Engineer, no prompt green outside Terminal, no Tape Orange outside Tape, no Cartoon field outside Cartoon (The Own Palette Rule).",
       "Don't fork content per world. Copy, data, order, and links come from `src/data` and `src/i18n` only; a world may restage them, never rewrite or reorder them.",
       "Don't add a fill to Engineer beyond the Email key and reverse video, or a size beyond the text size and the hero title (The Reverse Video Rule, The One Size Rule).",
       "Don't punch decorative noise into Tape: every strip encodes its text (The Holes Are Data Rule).",

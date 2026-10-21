@@ -2,7 +2,6 @@
 import T from '@components/ui/T.astro';
 import { skillGroups } from '@data/skills';
 import EngineerSkills from '@components/designs/engineer/EngineerSkills.tsx';
-import CreativeSkills from '@components/designs/creative/CreativeSkills.tsx';
 import AvantgardeSkills from '@components/designs/avantgarde/AvantgardeSkills.tsx';
 import EditorialSkills from '@components/designs/editorial/EditorialSkills.tsx';
 import ArcadeSkills from '@components/designs/arcade/ArcadeSkills.tsx';
@@ -48,9 +47,6 @@ const { locale } = Astro.props;
     </div>
     <div data-design-show="clay">
       <ClaySkills />
-    </div>
-    <div data-design-show="creative">
-      <CreativeSkills skillGroups={skillGroups} locale={locale} client:visible />
     </div>
     <div data-design-show="avantgarde">
       <AvantgardeSkills skillGroups={skillGroups} locale={locale} client:visible />

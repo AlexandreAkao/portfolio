@@ -9,12 +9,11 @@ export const designs: DesignConfig[] = [
   { id: 'editorial', label: 'Editorial', icon: '01', order: 0 },
   { id: 'avantgarde', label: 'Avant-garde', icon: '//', order: 1 },
   { id: 'engineer', label: 'Engineer', icon: '§', order: 2 },
-  { id: 'creative', label: 'Creative', icon: '~', order: 3 },
-  { id: 'arcade', label: 'Arcade', icon: '🕹', order: 4 },
-  { id: 'terminal', label: 'Terminal', icon: '>_', order: 5 },
-  { id: 'tape', label: 'Tape', icon: '::', order: 6 },
-  { id: 'cartoon', label: 'Cartoon', icon: '◉', order: 7 },
-  { id: 'clay', label: 'Clay', icon: '●', order: 8 },
+  { id: 'arcade', label: 'Arcade', icon: '🕹', order: 3 },
+  { id: 'terminal', label: 'Terminal', icon: '>_', order: 4 },
+  { id: 'tape', label: 'Tape', icon: '::', order: 5 },
+  { id: 'cartoon', label: 'Cartoon', icon: '◉', order: 6 },
+  { id: 'clay', label: 'Clay', icon: '●', order: 7 },
 ];
 
 export const designIds = designs.sort((a, b) => a.order - b.order).map((d) => d.id);

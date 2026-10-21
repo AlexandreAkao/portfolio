@@ -2,7 +2,6 @@
 import T from '@components/ui/T.astro';
 import { experiences } from '@data/experience';
 import EngineerTimeline from '@components/designs/engineer/EngineerTimeline.tsx';
-import CreativeCarousel from '@components/designs/creative/CreativeCarousel.tsx';
 import AvantgardeExperience from '@components/designs/avantgarde/AvantgardeExperience.tsx';
 import EditorialExperience from '@components/designs/editorial/EditorialExperience.tsx';
 import ArcadeExperience from '@components/designs/arcade/ArcadeExperience.tsx';
@@ -56,9 +55,6 @@ const { locale } = Astro.props;
     <div data-design-show="clay" class="clay">
       <ClayHeading k="experience.title" coil="purple" />
       <ClayExperience experiences={experiences} locale={locale} client:visible />
-    </div>
-    <div data-design-show="creative">
-      <CreativeCarousel experiences={experiences} locale={locale} client:visible />
     </div>
     <div data-design-show="avantgarde">
       <AvantgardeExperience experiences={experiences} locale={locale} client:visible />

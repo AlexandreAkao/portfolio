@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const worlds = ['editorial', 'avantgarde', 'engineer', 'creative', 'arcade', 'terminal', 'tape', 'cartoon'];
+const worlds = ['editorial', 'avantgarde', 'engineer', 'arcade', 'terminal', 'tape', 'cartoon'];
 
 /** Every link and button a visitor can reach on the home, smaller than a thumb (44px) in either direction. */
 function smallTargets() {

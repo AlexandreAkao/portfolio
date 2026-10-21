@@ -1,7 +1,5 @@
 ---
-import { getImage } from 'astro:assets';
 import EngineerHero from '@components/designs/engineer/EngineerHero.tsx';
-import CreativeHero from '@components/designs/creative/CreativeHero.tsx';
 import AvantgardeHero from '@components/designs/avantgarde/AvantgardeHero.tsx';
 import EditorialHero from '@components/designs/editorial/EditorialHero.tsx';
 import ArcadeHero from '@components/designs/arcade/ArcadeHero.tsx';
@@ -11,11 +9,6 @@ import CartoonHero from '@components/designs/cartoon/CartoonHero.tsx';
 import ClayHero from '@components/designs/clay/ClayHero.tsx';
 import { rfcDate } from '@components/designs/engineer/rfc';
 import { loginDate } from '@components/designs/terminal/session';
-import avatarImg from '@/assets/images/avatar.jpeg';
-
-const avatar1x = await getImage({ src: avatarImg, width: 224, height: 224 });
-const avatar2x = await getImage({ src: avatarImg, width: 448, height: 448 });
-const avatarSrcSet = `${avatar1x.src} 1x, ${avatar2x.src} 2x`;
 
 // Dates some worlds print, formatted here so the islands hydrate with the same text
 const draftDate = { en: rfcDate('en'), pt: rfcDate('pt') };
@@ -32,9 +25,6 @@ const { locale } = Astro.props;
 <section id="hero">
   <div data-design-show="engineer">
     <EngineerHero date={draftDate} locale={locale} client:intro />
-  </div>
-  <div data-design-show="creative">
-    <CreativeHero avatarSrc={avatar1x.src} avatarSrcSet={avatarSrcSet} locale={locale} client:intro />
   </div>
   <div data-design-show="avantgarde">
     <AvantgardeHero locale={locale} client:intro />

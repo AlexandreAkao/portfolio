@@ -29,7 +29,7 @@ test('Editorial keeps its orange readable: ink on fills, Signal Orange Ink for s
 });
 
 test('blog code reads in every world: every syntax token at 4.5:1 or more on its panel', async ({ page }) => {
-  for (const world of ['editorial', 'creative', 'avantgarde', 'engineer', 'arcade', 'terminal', 'tape', 'cartoon']) {
+  for (const world of ['editorial', 'avantgarde', 'engineer', 'arcade', 'terminal', 'tape', 'cartoon']) {
     await page.addInitScript((w) => localStorage.setItem('design', w), world);
     await page.goto('/blog/es6-es7-es8-what-feature-is-that/');
     await expect(page.locator('html')).toHaveAttribute('data-design', world);
@@ -74,14 +74,15 @@ test('filters announce which one is selected, and the blog shows none for two po
   await page.goto('/blog/');
   await expect(page.locator('.tag-filter')).toHaveCount(0);
 
-  await page.addInitScript(() => localStorage.setItem('design', 'creative'));
+  await page.addInitScript(() => localStorage.setItem('design', 'avantgarde'));
   await page.goto('/');
-  const skills = page.locator('#skills [data-design-show="creative"]');
+  const skills = page.locator('#skills [data-design-show="avantgarde"]');
   await skills.scrollIntoViewIfNeeded();
-  // Creative opens on its first category; the full cloud is one tap away under "All".
+  // Avant-garde opens on the full cloud; a category header narrows it to that one.
   const first = skills.getByRole('button', { name: 'Backend' });
+  await expect(first).toHaveAttribute('aria-pressed', 'false');
+  await first.click();
   await expect(first).toHaveAttribute('aria-pressed', 'true');
-  await expect(skills.getByRole('button', { name: 'All' })).toHaveAttribute('aria-pressed', 'false');
   await skills.getByRole('button', { name: 'Frontend' }).click();
   await expect(skills.getByRole('button', { name: 'Frontend' })).toHaveAttribute('aria-pressed', 'true');
   await expect(first).toHaveAttribute('aria-pressed', 'false');

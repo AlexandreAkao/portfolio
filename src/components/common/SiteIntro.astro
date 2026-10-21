@@ -96,72 +96,6 @@ const printable = (text: string) =>
     </div>
   </div>
 
-  <!-- Creative: the halo finds its portrait. Rings ripple out to the hero's own
-       halo geometry, the name rises beneath, then the halo glides to where the
-       portrait lands while the paper dissolves. -->
-  <div class="intro intro-cr" data-design-show="creative">
-    <div class="intro-cr__paper">
-      <p class="intro-cr__name"><span>Alexandre</span> <span class="intro-cr__last">Akira</span></p>
-    </div>
-    <div class="intro-cr__halo">
-      <span class="intro-cr__glow"></span>
-      <span class="intro-cr__disc"></span>
-      <span class="intro-cr__ring intro-cr__ring--wave"></span>
-      <span class="intro-cr__ring intro-cr__ring--outer"></span>
-      <span class="intro-cr__ring intro-cr__ring--inner"></span>
-    </div>
-  </div>
-
-  <!-- Editorial: an orange rule draws across newsprint beside the issue number, then the page turns -->
-  <div class="intro intro-ed" data-design-show="editorial" data-intro-no-font-wait>
-    <div class="intro-ed__page">
-      <span class="intro-ed__issue">01</span>
-      <span class="intro-ed__rule"></span>
-    </div>
-  </div>
-
-  <!-- Terminal: the visitor's own plain shell connects over ssh. The remote session's
-       first two lines land exactly on the hero's (the script lines them up), and the
-       curtain lifts only once the hero has reset to that same frame (data-intro-hold),
-       so the hero's replay carries straight on from the curtain. -->
-  <div class="intro intro-term" data-design-show="terminal" data-intro-hold>
-    <div class="term intro-ssh">
-      <p class="intro-ssh__ln intro-ssh__cmd"><span class="intro-ssh__who">visitor@local </span>~ % <span class="intro-ssh__typed">ssh akira@alexandreakira.dev</span><span class="term-cursor intro-ssh__cur"></span></p>
-      <p class="intro-ssh__ln intro-ssh__warn">Warning: Permanently added 'alexandreakira.dev' (ED25519) to the list of known hosts.</p>
-      <p class="term-muted mb-5 intro-ssh__login">{(['en', 'pt'] as const).map((l) => <span data-lang-show={l}>{t('term.lastLogin', l)}: {login[l]} {t('term.on', l)} ttys001</span>)}</p>
-      <p class="term-pl intro-ssh__prompt"><span class="term-u">akira@portfolio</span>:<span class="term-w">~</span>$ <span class="term-cursor"></span></p>
-    </div>
-  </div>
-
-  <!-- Tape: the reader. The hero's own tape steps through one column at a time,
-       blank leader first, and each column read prints its character in the hero's
-       own window; the " . " between name and role is the line feed. Window and tape
-       sit exactly on the hero's (the script places them), so when the page comes up
-       around them (data-intro-hold="fade") nothing moves, and the hero's flag drops. -->
-  <div class="intro intro-tape" data-design-show="tape" data-intro-hold="fade">
-    <div class="tape tape-win intro-tape__win">
-      <p class="m-0 font-heading text-[clamp(3rem,8vw,6rem)] font-black uppercase leading-[0.88]" data-tape-name>
-        {[...t('hero.name', 'en')].map((c) => <span data-ch>{c}</span>)}
-      </p>
-      <p class="tape-caps mb-0 mt-3 text-[clamp(1.05rem,2.2vw,1.45rem)]">
-        {(['en', 'pt'] as const).map((l) => (
-          <span data-lang-show={l} data-tape-role={l}>
-            {printable(t('hero.title', l)).map((part) =>
-              part.keep ? (
-                <span class="whitespace-nowrap">{part.chars.map((c) => <span data-ch>{c}</span>)}</span>
-              ) : (
-                part.chars.map((c) => <span data-ch>{c}</span>)
-              ),
-            )}
-          </span>
-        ))}
-      </p>
-    </div>
-    <div class="tape-band intro-tape__band">
-      <div class="intro-tape__feed"><TapeStrip columns={44} /><TapeStrip text={punched} columns={240} /></div>
-    </div>
-  </div>
-
   <!-- Cartoon: the titles open. "Alexandre Akira presents" is lettered on the black
        leader, cut, then an iris opens on Akira's face (the script finds it in the
        hero) onto the hero's own title card, whose entrance plays as it opens. -->
@@ -522,7 +456,6 @@ const printable = (text: string) =>
   /* --intro-reveal: when the exit begins (heroes hydrate); --intro-total: when the curtain is gone */
   [data-design='avantgarde'] #site-intro { --intro-reveal: 1.05s; --intro-total: 1.75s; }
   [data-design='engineer']   #site-intro { --intro-reveal: 1.25s; --intro-total: 1.3s; }
-  [data-design='creative']   #site-intro { --intro-reveal: 1.05s; --intro-total: 1.75s; }
   [data-design='editorial']  #site-intro { --intro-reveal: 0.95s; --intro-total: 1.65s; }
   [data-design='arcade']     #site-intro { --intro-reveal: 1.25s; --intro-total: 1.9s; }
   /* Terminal lifts as soon as its hero has reset under it (see data-intro-hold); 2.2s is the cap */
@@ -539,7 +472,6 @@ const printable = (text: string) =>
   #site-intro[data-design] [data-design-show] { display: none !important; }
   #site-intro[data-design='avantgarde'] [data-design-show='avantgarde'],
   #site-intro[data-design='engineer'] [data-design-show='engineer'],
-  #site-intro[data-design='creative'] [data-design-show='creative'],
   #site-intro[data-design='editorial'] [data-design-show='editorial'],
   #site-intro[data-design='arcade'] [data-design-show='arcade'],
   #site-intro[data-design='terminal'] [data-design-show='terminal'],
@@ -558,7 +490,6 @@ const printable = (text: string) =>
   @keyframes intro-in { from { opacity: 0; } }
   html[data-intro='quick'] #site-intro[data-design='avantgarde'] { --intro-total: 0.8s; }
   html[data-intro='quick'] #site-intro[data-design='engineer']   { --intro-total: 0.55s; }
-  html[data-intro='quick'] #site-intro[data-design='creative']   { --intro-total: 0.75s; }
   html[data-intro='quick'] #site-intro[data-design='editorial']  { --intro-total: 0.75s; }
   html[data-intro='quick'] #site-intro[data-design='arcade']     { --intro-total: 0.8s; }
   html[data-intro='quick'] #site-intro[data-design='terminal']   { --intro-total: 1.2s; }
@@ -592,20 +523,6 @@ const printable = (text: string) =>
   html[data-intro='quick'] .intro-clay__name { display: none; }
   html[data-intro='quick'] .intro-clay__glyph { animation: clay-glyph-out 0.34s steps(1, end) 0.12s forwards; }
   html[data-intro='quick'] .intro-clay__sweep { animation: clay-cut 1ms linear 0.5s forwards; }
-
-  /* Creative: the halo is already whole, it glides to the portrait and dissolves */
-  html[data-intro='quick'] .intro-cr__name,
-  html[data-intro='quick'] .intro-cr__ring--wave { display: none; }
-  html[data-intro='quick'] .intro-cr__glow,
-  html[data-intro='quick'] .intro-cr__disc,
-  html[data-intro='quick'] .intro-cr__ring--inner,
-  html[data-intro='quick'] .intro-cr__ring--outer { opacity: 1; transform: none; animation: none; }
-  html[data-intro='quick'] .intro-cr__halo {
-    animation:
-      cr-travel 0.5s cubic-bezier(0.83, 0, 0.17, 1) 0.15s forwards,
-      cr-halo-out 0.25s ease-in 0.48s forwards;
-  }
-  html[data-intro='quick'] .intro-cr__paper { animation: cr-paper-out 0.35s ease-in 0.3s forwards; }
 
   /* Editorial: the printed sheet turns straight away */
   html[data-intro='quick'] .intro-ed__issue { opacity: 1; transform: translateY(-50%); animation: none; }
@@ -821,121 +738,6 @@ const printable = (text: string) =>
   .intro-tape[data-ready] [data-ch][data-on] {
     visibility: visible;
   }
-
-  /* ---------- Creative: the halo finds its portrait ---------- */
-  /* Final ring geometry mirrors CreativeHero's portrait composition (320px box:
-     blurred glow, gradient disc at 288px, rings at 256px and 192px). On md+ the
-     halo travels to the portrait's position: right column centre of the 1152px
-     hero grid, 64px down for the header offset. */
-  .intro-cr__paper {
-    position: absolute;
-    inset: 0;
-    background: var(--bg);
-    animation: cr-paper-out 0.4s ease-in 1.25s forwards;
-  }
-  .intro-cr__halo {
-    --halo-dx: 0px;
-    --halo-dy: 0px;
-    --halo-scale: 0.88; /* no portrait to land on below md: dissolve inward instead */
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 320px;
-    height: 320px;
-    transform: translate(-50%, -50%);
-    animation:
-      cr-travel 0.6s cubic-bezier(0.83, 0, 0.17, 1) 1.05s forwards,
-      cr-halo-out 0.25s ease-in 1.5s forwards;
-  }
-  @media (min-width: 768px) {
-    .intro-cr__halo {
-      --halo-dx: calc(24px + (min(1152px, 100vw - 48px) - 48px) / 4);
-      --halo-dy: 64px;
-      --halo-scale: 1;
-    }
-  }
-  .intro-cr__glow,
-  .intro-cr__disc,
-  .intro-cr__ring {
-    position: absolute;
-    inset: 0;
-    margin: auto;
-    border-radius: 50%;
-    opacity: 0;
-  }
-  .intro-cr__glow {
-    width: 320px;
-    height: 320px;
-    background: linear-gradient(
-      to bottom right,
-      color-mix(in srgb, var(--accent) 30%, transparent),
-      color-mix(in srgb, var(--accent) 10%, transparent)
-    );
-    filter: blur(64px);
-    transform: scale(0.6);
-    animation: cr-breathe 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
-  }
-  .intro-cr__disc {
-    width: 288px;
-    height: 288px;
-    background: linear-gradient(to bottom right, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
-    transform: scale(0.5);
-    animation: cr-breathe 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-  }
-  .intro-cr__ring { transform: scale(0.3); }
-  .intro-cr__ring--inner {
-    width: 192px;
-    height: 192px;
-    border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-    animation: cr-ring 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-  }
-  .intro-cr__ring--outer {
-    width: 256px;
-    height: 256px;
-    border: 2px solid color-mix(in srgb, var(--accent) 20%, transparent);
-    animation: cr-ring 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-  }
-  .intro-cr__ring--wave {
-    width: 320px;
-    height: 320px;
-    border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-    animation: cr-wave 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
-  }
-  .intro-cr__name {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: calc(50% + 190px);
-    margin: 0;
-    text-align: center;
-    font-family: var(--font-heading);
-    font-size: clamp(1.75rem, 4.5vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1;
-    color: var(--text);
-    opacity: 0;
-    transform: translateY(14px);
-    filter: blur(6px);
-    animation:
-      cr-name-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards,
-      cr-name-out 0.25s ease-in 1.05s forwards;
-  }
-  .intro-cr__last { color: var(--accent); }
-  @keyframes cr-breathe { to { opacity: 1; transform: scale(1); } }
-  @keyframes cr-ring { to { opacity: 1; transform: scale(1); } }
-  @keyframes cr-wave {
-    0%   { opacity: 0; transform: scale(0.3); }
-    40%  { opacity: 1; }
-    100% { opacity: 0; transform: scale(1.25); }
-  }
-  @keyframes cr-name-in { to { opacity: 1; transform: translateY(0); filter: blur(0); } }
-  @keyframes cr-name-out { from { opacity: 1; } to { opacity: 0; } }
-  @keyframes cr-paper-out { to { opacity: 0; } }
-  @keyframes cr-travel {
-    to { transform: translate(calc(-50% + var(--halo-dx)), calc(-50% + var(--halo-dy))) scale(var(--halo-scale)); }
-  }
-  @keyframes cr-halo-out { from { opacity: 1; } to { opacity: 0; } }
 
   /* ---------- Editorial: rule draws, page turns ---------- */
   .intro-ed__page {

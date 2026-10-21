@@ -20,7 +20,7 @@ Personal portfolio and blog for Alexandre Akira, Senior Software Engineer ("Dese
 
 ## Positioning
 
-One body of content rendered through nine complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Creative, Arcade, Terminal, Tape, Cartoon, Clay). The site demonstrates frontend range alongside backend depth: a SaaS with 26 independent services, a warehouse system for 200+ distribution centers, and applied AI work with RAG and LLM integration.
+One body of content rendered through eight complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon, Clay). The site demonstrates frontend range alongside backend depth: a SaaS with 26 independent services, a warehouse system for 200+ distribution centers, and applied AI work with RAG and LLM integration.
 
 **Confirmed decision (2026-10-10):** keep all five designs and differentiate them, rather than consolidate. The 2026-10-10 re-critique found them sharing one template (identical hero stacks; About, Education, Projects and Contact shared across worlds at 41–61% of page height; Engineer recognisable as a widely cloned template). Future work deepens each world's own staging instead of removing worlds; no design is removed without an explicit decision.
 
@@ -29,6 +29,8 @@ One body of content rendered through nine complete, switchable visual identities
 **Confirmed decision (2026-10-11):** an eighth world, Cartoon ("Desenho" in Portuguese), was added at the user's request: a 1960s cartoon's opening titles, chosen by the user from a direction round (seed aae49696). It carries a caricature of Alexandre drawn in SVG from the avatar, which the user asked for. It is a homage to the era's style, never to its characters.
 
 **Confirmed decision (2026-10-13):** a ninth world, Clay ("Massinha" in Portuguese), was added at the user's request for a Three.js world following Cartoon's example: a stop-motion plasticine set with a live Three.js puppet of Alexandre, modelled after the Cartoon caricature without the coat (direction round seed 08c073e6). The user chose it over the architectural-model direction after seeing both as a lab prototype, steered it toward "more developer" (clay desk, laptop showing code, rubber duck, `</>`), and set the puppet's shirt to #0B3D2E. After the first build the user found it read as cinema rather than developer ("muita vibe de cinema e não de desenvolvedor"), so the film-set staging (clapperboards, takes, a wrap) was replaced by developer objects pressed in clay: keycaps for controls, editor windows on a git branch, a clay keyboard for skills, sticky notes, repository folders, a closing tag.
+
+**Confirmed decision (2026-10-21):** Creative was removed at the user's request ("Quero remover um tema creative"). This is the explicit decision the 2026-10-10 entry asks for before any world is removed. The site now has eight worlds; a visitor who had Creative saved falls back to Editorial.
 
 ## Operating Context
 
