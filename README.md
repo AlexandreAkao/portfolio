@@ -1,6 +1,6 @@
 # Alexandre Akira — Portfolio
 
-Personal portfolio and blog at [alexandreakira.dev](https://alexandreakira.dev), built with Astro 5. One body of content is staged in eight complete visual worlds; a switch in the header restages the whole site without changing a word.
+Personal portfolio and blog at [alexandreakira.dev](https://alexandreakira.dev), built with Astro 5. One body of content is staged in seven complete visual worlds; a switch in the header restages the whole site without changing a word.
 
 ## Worlds
 
@@ -13,7 +13,6 @@ Personal portfolio and blog at [alexandreakira.dev](https://alexandreakira.dev),
 | **Terminal** | Terminal | A shell session the visitor opens over ssh | JetBrains Mono | Path Blue `#58a6ff` |
 | **Tape** | Fita | Punched teletype paper tape | Big Shoulders Display + Text | Tape Orange `#ff5a1f` |
 | **Cartoon** | Desenho | A 1960s cartoon's opening titles, with an SVG caricature | Londrina Solid + Jost | Marigold `#f3c623` |
-| **Clay** | Massinha | A developer's desk in plasticine, with a live Three.js clay puppet | Bagel Fat One + Gabarito | Clay Pink `#f26b8a` |
 
 Every world stages its own Hero, Experience and Skills, and most also stage their own About, Education, Projects, Contact and footer. Each one opens with its own intro curtain, and switching worlds plays a short version of the incoming world's curtain.
 
@@ -36,7 +35,7 @@ English is the default, with Portuguese at `/pt/`. UI strings live in `src/i18n/
 - **UI Islands:** React 19
 - **Styling:** Tailwind CSS v4 (Vite plugin)
 - **Animations:** Motion (framer-motion)
-- **3D:** Three.js + React Three Fiber + drei (Avant-garde and Clay)
+- **3D:** Three.js + React Three Fiber + drei (Avant-garde)
 - **Blog:** Content Collections + MDX
 - **Fonts:** self-hosted via `@fontsource`, except Clash Display (Fontshare)
 - **Tests:** Playwright
@@ -54,8 +53,7 @@ src/
 │   │   ├── arcade/
 │   │   ├── terminal/
 │   │   ├── tape/
-│   │   ├── cartoon/
-│   │   └── clay/
+│   │   └── cartoon/
 │   ├── islands/          # Design switcher, language switcher, mobile menu
 │   ├── pages/            # Home and blog index, shared by both languages
 │   ├── sections/         # Shared sections that stage each world's variant

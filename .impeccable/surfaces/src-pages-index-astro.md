@@ -7,7 +7,7 @@ related_targets: ["src/components/sections/Hero.astro","src/components/sections/
 
 # Home surface
 
-Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: eight worlds (Editorial, Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon, Clay), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
+Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: seven worlds (Editorial, Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
 
 ## Direction contract: Engineer, "draft-akira" (2026-10-11)
 
@@ -45,7 +45,9 @@ FIRST VIEWPORT: vermilion card; "Starring" over ALEXANDRE AKIRA hand-lettered ac
 FORM: opening title sequence, candidate 1 of 7 (Impeccable's pick); seed key aae49696.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
-## Direction contract: Clay ("Massinha"), the developer's desk in plasticine (2026-10-13, restaged)
+## Retired direction contract: Clay ("Massinha"), the developer's desk in plasticine (2026-10-13, restaged; retired 2026-11-01)
+
+Retired at the user's request on 2026-11-01 ("Quero remover o tema de massinha"). Its components, tokens, curtain, stills and the Bagel Fat One / Gabarito fonts are gone; the code lives in git before that date (last at 11bf7b5), and the uncommitted refinement in progress then was kept in `git stash` ("WIP Clay refinement"). The roll record (`.impeccable/rolls/direction-clay.json`) stays as history. Do not treat this contract as active.
 
 THESIS: a developer's world moulded in plasticine: Akira (wire glasses, fringe, #0B3D2E tee with `</>`) up from his clay desk, every dev object hand-pressed. Refuses film-set grammar (slates, takes, wraps; user steer) and the low-poly dev room.
 OWN-WORLD: teal sweep; clay in pink, orange, purple, mint, lilac, ink, with fingerprints; Bagel Fat One over Gabarito; controls are clay keycaps; headings are tags; motion on twos, 12 fps.

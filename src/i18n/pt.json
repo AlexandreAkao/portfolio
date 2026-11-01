@@ -112,8 +112,5 @@
   "cartoon.presents": "Alexandre Akira apresenta",
   "cartoon.end": "Fim",
   "cartoon.production": "Uma produção de Alexandre Akira",
-  "cartoon.showing": "Em cartaz",
-  "design.clay": "Massinha",
-  "clay.credit": "Feito à mão com Astro, Tailwind, Three.js, massinha e um patinho de borracha",
-  "clay.active": "Ativo"
+  "cartoon.showing": "Em cartaz"
 }
