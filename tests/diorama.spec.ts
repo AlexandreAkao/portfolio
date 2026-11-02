@@ -242,3 +242,46 @@ test('diorama: the day nav links each chapter by hour', async ({ page }) => {
   await expect(links.first()).toHaveAccessibleName('09:00 Coffee');
   await expect(links.last()).toHaveAccessibleName('21:00 Side projects');
 });
+
+/* ------------------------------------------------------------ Task 5: Experience as six hours */
+
+test('diorama: each role is an hour, in order, with its impact on the face', async ({ page }) => {
+  await arrive(page);
+  const chapters = page.locator('#experience [data-diorama-chapter]');
+  await expect(chapters).toHaveCount(6);
+  const ids = ['seva', 'wms', 'bees', 'uikit', 'nati', 'funcap'];
+  expect(await chapters.evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.dioramaChapter))).toEqual(ids);
+  for (const [i, id] of ids.entries()) {
+    const s = STATIONS.find((x) => x.id === id)!;
+    await expect(chapters.nth(i)).toHaveAttribute('data-diorama-hour', clockText(s.hour));
+  }
+  await expect(page.locator('#dio-wms')).toContainText('200+ distribution centers');
+});
+
+test('diorama: opening details re-measures the day', async ({ page }) => {
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  const toggle = page.locator('#dio-wms button[aria-expanded]');
+  await toggle.scrollIntoViewIfNeeded();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await page.evaluate(() => {
+    const top = document.getElementById('dio-funcap')!.getBoundingClientRect().top + scrollY;
+    window.scrollTo({ top: top - 64 + 40, behavior: 'instant' });
+  });
+  await page.waitForTimeout(1500);
+  expect(await page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('funcap');
+});
+
+test('diorama: the day speaks Portuguese on /pt/', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.addInitScript(() => {
+    localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'pt'); sessionStorage.setItem('intro-seen', '1');
+  });
+  await page.goto('/pt/');
+  await expect(page.getByRole('navigation', { name: 'O dia' }).getByRole('link', { name: '13:00 Um bug' })).toHaveCount(1);
+  await expect(page.locator('#dio-wms')).toContainText('200+ centros de distribuição');
+  expect(errors.filter((e) => /hydrat/i.test(e))).toEqual([]);
+});

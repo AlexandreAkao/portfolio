@@ -13,6 +13,7 @@ import TapeExperience from '@components/designs/tape/TapeExperience.tsx';
 import TapeCareer from '@components/designs/tape/TapeCareer.astro';
 import TapeHeading from '@components/designs/tape/TapeHeading.astro';
 import CartoonExperience from '@components/designs/cartoon/CartoonExperience.tsx';
+import DioramaExperience from '@components/designs/diorama/DioramaExperience.tsx';
 import CartoonHeading from '@components/designs/cartoon/CartoonHeading.astro';
 
 interface Props {
@@ -25,7 +26,7 @@ const { locale } = Astro.props;
 
 <section id="experience" class="py-12 md:py-20">
   <div class="mx-auto max-w-4xl px-6">
-    <div data-design-hide="engineer terminal tape cartoon">
+    <div data-design-hide="engineer terminal tape cartoon diorama">
       <ScrollReveal client:visible>
         <h2 class="mb-8 text-center font-heading text-3xl font-bold text-text md:mb-12">
           <span class="section-tag"><T k="experience.title" /></span>
@@ -49,6 +50,9 @@ const { locale } = Astro.props;
     <div data-design-show="cartoon" class="cartoon">
       <CartoonHeading k="experience.title" seed={1} />
       <CartoonExperience experiences={experiences} locale={locale} client:visible />
+    </div>
+    <div data-design-show="diorama" class="dio-experience-wrap">
+      <DioramaExperience experiences={experiences} locale={locale} client:visible />
     </div>
     <div data-design-show="avantgarde">
       <AvantgardeExperience experiences={experiences} locale={locale} client:visible />
