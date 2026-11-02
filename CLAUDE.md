@@ -14,7 +14,7 @@ No linter or test runner is configured.
 
 ## Architecture
 
-Astro 5 portfolio site with 7 swappable visual designs (Editorial, Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon) and i18n (en/pt). React 19 islands handle interactive components; everything else is Astro server-rendered.
+Astro 5 portfolio site with 8 swappable visual designs (Editorial, Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon, Diorama) and i18n (en/pt). React 19 islands handle interactive components; everything else is Astro server-rendered.
 
 ### Multi-Design System
 
@@ -25,7 +25,7 @@ The core architectural pattern: all designs render simultaneously, with CSS visi
 - **CSS visibility:** `[data-design='X'] [data-design-show]:not([data-design-show='X']) { display: none !important }` in `global.css`. To conditionally show content for a design, wrap it in `<div data-design-show="designId">`.
 - **Design tokens:** Each design defines CSS custom properties (`--bg`, `--text`, `--accent`, `--font-heading`, etc.) scoped to `[data-design='X']` in `global.css`. Tailwind reads these via `@theme` mappings.
 - **Section pattern:** Each section in `src/components/sections/` (Hero, Experience, Skills, etc.) imports all design variants and wraps each in `data-design-show`. See `Hero.astro` for the canonical example.
-- **Design components:** `src/components/designs/{editorial,avantgarde,engineer,arcade,terminal,tape,cartoon}/` — React (.tsx) components for each design's variant of a section. Use `client:load` or `client:visible` Astro directives.
+- **Design components:** `src/components/designs/{editorial,avantgarde,engineer,arcade,terminal,tape,cartoon,diorama}/` — React (.tsx) components for each design's variant of a section. Use `client:load` or `client:visible` Astro directives.
 
 ### i18n
 
@@ -42,7 +42,7 @@ Defined in `tsconfig.json`: `@/*` → `src/*`, `@components/*`, `@layouts/*`, `@
 
 - **Tailwind CSS v4** — configured as a Vite plugin (not PostCSS). Design tokens flow through CSS custom properties → `@theme` block in `global.css`.
 - **Motion (framer-motion)** — animations in React islands.
-- **Three.js + @react-three/fiber + @react-three/drei** — 3D effects in Avant-garde design.
+- **Three.js + @react-three/fiber + @react-three/drei** — 3D effects in the Avant-garde and Diorama designs.
 - **Astro View Transitions** — `ClientRouter` in BaseLayout for smooth page transitions.
 - **Astro Content Collections** — blog uses `glob` loader with Zod schema in `src/content/config.ts`.
 

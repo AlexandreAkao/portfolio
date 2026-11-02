@@ -20,7 +20,7 @@ Personal portfolio and blog for Alexandre Akira, Senior Software Engineer ("Dese
 
 ## Positioning
 
-One body of content rendered through seven complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon). The site demonstrates frontend range alongside backend depth: a SaaS with 26 independent services, a warehouse system for 200+ distribution centers, and applied AI work with RAG and LLM integration.
+One body of content rendered through eight complete, switchable visual identities (Editorial as default since 2026-10-10, then Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon, Diorama). The site demonstrates frontend range alongside backend depth: a SaaS with 26 independent services, a warehouse system for 200+ distribution centers, and applied AI work with RAG and LLM integration.
 
 **Confirmed decision (2026-10-10):** keep all five designs and differentiate them, rather than consolidate. The 2026-10-10 re-critique found them sharing one template (identical hero stacks; About, Education, Projects and Contact shared across worlds at 41–61% of page height; Engineer recognisable as a widely cloned template). Future work deepens each world's own staging instead of removing worlds; no design is removed without an explicit decision.
 
@@ -34,6 +34,8 @@ One body of content rendered through seven complete, switchable visual identitie
 
 **Confirmed decision (2026-11-01):** Clay was removed at the user's request ("Quero remover o tema de massinha"). The site now has seven worlds, and Avant-garde is the only one with WebGL; a visitor who had Clay saved falls back to Editorial.
 
+**Confirmed decision (2026-11-02):** an eighth world, Diorama (same name in Portuguese), was added at the user's request: a Three.js miniature of his room seen from outside, where scroll is a working day from 08:00 to 22:00. It is the user's own fusion of two options from direction round 817c6fc2, Impeccable's pick (the working day) and the category standard (the isometric room), judged as a lab prototype. The user asked for it brighter than the sketch and, at the checkpoint, for text never to overlap the scenes: copy sits on paper cards or in the hero's own clear column, never bare over the room. The site now has eight worlds; Avant-garde and Diorama are the ones with WebGL.
+
 ## Operating Context
 
 - Entry points: LinkedIn (linkedin.com/in/alexandre-akao), dev.to (alexandreakira), GitHub (alexandreakao), and the CV link.
@@ -44,7 +46,7 @@ One body of content rendered through seven complete, switchable visual identitie
 
 ## Capabilities and Constraints
 
-- Static Astro 5 site with React 19 islands, Tailwind CSS v4, Motion, and Three.js for the Avant-garde design. No server, no form handler, no analytics configured.
+- Static Astro 5 site with React 19 islands, Tailwind CSS v4, Motion, and Three.js for the Avant-garde and Diorama designs. No server, no form handler, no analytics configured.
 - Locales: English is the default at `/`, Portuguese at `/pt/`. **Confirmed decision:** keep English as the default locale. Portuguese is a full peer with content parity, not a fallback.
 - Design registry lives in `src/data/designs.ts`. All designs render at once and CSS visibility toggles the active one via `data-design`. Adding a design means registry entry, per-section components, and tokens (see CLAUDE.md).
 - Shared content lives in `src/data/*.ts` (experience, education, skills, projects, social) and `src/i18n/*.json`. Designs consume it; they never fork it.

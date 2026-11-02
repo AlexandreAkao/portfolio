@@ -1,6 +1,6 @@
 # Alexandre Akira — Portfolio
 
-Personal portfolio and blog at [alexandreakira.dev](https://alexandreakira.dev), built with Astro 5. One body of content is staged in seven complete visual worlds; a switch in the header restages the whole site without changing a word.
+Personal portfolio and blog at [alexandreakira.dev](https://alexandreakira.dev), built with Astro 5. One body of content is staged in eight complete visual worlds; a switch in the header restages the whole site without changing a word.
 
 ## Worlds
 
@@ -13,6 +13,7 @@ Personal portfolio and blog at [alexandreakira.dev](https://alexandreakira.dev),
 | **Terminal** | Terminal | A shell session the visitor opens over ssh | JetBrains Mono | Path Blue `#58a6ff` |
 | **Tape** | Fita | Punched teletype paper tape | Big Shoulders Display + Text | Tape Orange `#ff5a1f` |
 | **Cartoon** | Desenho | A 1960s cartoon's opening titles, with an SVG caricature | Londrina Solid + Jost | Marigold `#f3c623` |
+| **Diorama** | Diorama | A Three.js miniature of his room seen from outside; scroll is a working day from 08:00 to 22:00 | Bricolage Grotesque + Martian Mono | Lamp Amber `#f2a65a` |
 
 Every world stages its own Hero, Experience and Skills, and most also stage their own About, Education, Projects, Contact and footer. Each one opens with its own intro curtain, and switching worlds plays a short version of the incoming world's curtain.
 
@@ -53,7 +54,8 @@ src/
 │   │   ├── arcade/
 │   │   ├── terminal/
 │   │   ├── tape/
-│   │   └── cartoon/
+│   │   ├── cartoon/
+│   │   └── diorama/
 │   ├── islands/          # Design switcher, language switcher, mobile menu
 │   ├── pages/            # Home and blog index, shared by both languages
 │   ├── sections/         # Shared sections that stage each world's variant
