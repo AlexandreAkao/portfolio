@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 import { STATIONS, clockText, locate, sampleDay, sunAt } from '../src/components/designs/diorama/day';
 import en from '../src/i18n/en.json' with { type: 'json' };
 
@@ -65,6 +65,23 @@ async function arrive(page: Page, path = '/') {
   await expect(page.locator('html')).toHaveAttribute('data-design', 'diorama');
 }
 
+const theDay = (page: Page) => page.getByRole('navigation', { name: 'The day' }).getByRole('link');
+
+/** Focus a link and expect a sighted keyboard user to see it: opaque, in the viewport, below the header, on top. */
+async function seenWhenFocused(link: Locator) {
+  await link.focus();
+  await expect(link).toBeFocused();
+  await expect
+    .poll(() =>
+      link.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        return { opacity: getComputedStyle(el).opacity, belowHeader: r.top >= 64, inView: r.bottom <= innerHeight + 1 && r.left >= 0 && r.right <= innerWidth, onTop: !!hit && el.contains(hit) };
+      }),
+    )
+    .toEqual({ opacity: '1', belowHeader: true, inView: true, onTop: true });
+}
+
 test('diorama: the hero copy is readable before WebGL and the canvas arrives @mobile', async ({ page }) => {
   // Hold the stage's code until the copy has been read: the copy never waits on WebGL.
   let release = () => {};
@@ -76,6 +93,9 @@ test('diorama: the hero copy is readable before WebGL and the canvas arrives @mo
   await expect(hero(page).getByRole('link', { name: 'View my work' })).toHaveAttribute('href', '#experience');
   await expect(hero(page).getByText(/Currently at/)).toBeVisible();
   await expect(page.locator('.dio-stage canvas')).toHaveCount(0);
+  // The day's links wait out of sight, but one reached by keyboard shows, clear of the header
+  await expect(theDay(page)).toHaveCount(10);
+  await seenWhenFocused(theDay(page).first());
   release();
   await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
 });
@@ -105,7 +125,7 @@ test('diorama: switching away removes the stage', async ({ page }) => {
   await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive ?? 'none')).toBe('none');
 });
 
-test('diorama: without WebGL the still stands in and the day still navigates', async ({ page }) => {
+test('diorama: without WebGL the still stands in and the day still navigates @mobile', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.addInitScript(() => {
@@ -117,9 +137,10 @@ test('diorama: without WebGL the still stands in and the day still navigates', a
   });
   await arrive(page);
   await expect(page.locator('.dio-stage img[src*="room-0800"]')).toBeVisible();
-  const day = page.getByRole('navigation', { name: 'The day' });
-  await expect(day.getByRole('link')).toHaveCount(10);
-  await expect(day.getByRole('link').first()).toBeVisible();
+  await expect(theDay(page)).toHaveCount(10);
+  await expect(theDay(page).first()).toBeVisible();
+  await seenWhenFocused(theDay(page).first());
+  await seenWhenFocused(theDay(page).last());
   await page.waitForTimeout(1500);
   await expect(page.locator('.dio-stage canvas')).toHaveCount(0);
   expect(errors).toEqual([]);
@@ -142,6 +163,71 @@ test('diorama: without WebGL the page ground is the 08:00 ground the live stage 
   await arrive(still);
   await expect(still.locator('.dio-stage img[src*="room-0800"]')).toBeVisible();
   expect(await still.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(live);
+});
+
+test('diorama: on phones the whole day stays in the accessibility tree @mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive ?? 'none')).toBe('arrival');
+  // Only the hour on screen shows in the band (none at 08:00), but all ten are in the list
+  await expect(theDay(page)).toHaveCount(10);
+  await expect.poll(() => theDay(page).evaluateAll((links) => links.filter((a) => getComputedStyle(a).opacity !== '0').length)).toBe(0);
+  await seenWhenFocused(theDay(page).nth(2));
+  await seenWhenFocused(theDay(page).last());
+});
+
+test('diorama: at the wide hours the day is an agenda beside the room, and each hour travels to its object', async ({ page }) => {
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive ?? 'none')).toBe('arrival');
+  await page.waitForTimeout(600);
+  const read = () =>
+    page.evaluate(() => {
+      const copy = document.querySelector('#hero [data-design-show="diorama"] .dio-hero__copy')!.getBoundingClientRect();
+      const links = [...document.querySelectorAll<HTMLElement>('.dio-day a')].map((a) => {
+        const r = a.getBoundingClientRect();
+        return { id: a.getAttribute('href'), x: r.left, y: r.top, right: r.right, bottom: r.bottom, opacity: getComputedStyle(a).opacity, current: a.getAttribute('aria-current') };
+      });
+      return { copyRight: copy.right, vh: innerHeight, links };
+    });
+
+  // 08:00: ten opaque labels, clear of the copy, inside the first viewport, in hour order, none on another
+  const wide = await read();
+  expect(wide.links.map((l) => l.opacity)).toEqual(Array(10).fill('1'));
+  for (const l of wide.links) {
+    expect(l.x).toBeGreaterThanOrEqual(wide.copyRight);
+    expect(l.bottom).toBeLessThanOrEqual(wide.vh);
+  }
+  const order = [...wide.links].sort((p, q) => (Math.abs(p.y - q.y) > 1 ? p.y - q.y : p.x - q.x)).map((l) => l.id);
+  expect(order).toEqual(wide.links.map((l) => l.id));
+  for (const [i, p] of wide.links.entries()) {
+    for (const q of wide.links.slice(i + 1)) {
+      const apart = p.right <= q.x || q.right <= p.x || p.bottom <= q.y || q.bottom <= p.y;
+      expect(apart, `${p.id} overlaps ${q.id}`).toBe(true);
+    }
+  }
+
+  // 09:00 (a coffee chapter injected after the hero): the camera closes in and the coffee label leaves the agenda for its object
+  await page.evaluate(() => {
+    const coffee = Object.assign(document.createElement('section'), { id: 'dio-coffee' });
+    coffee.dataset.dioramaChapter = 'coffee';
+    coffee.style.height = '150vh';
+    document.querySelector('#hero')!.after(coffee);
+  });
+  await page.waitForTimeout(300);
+  await page.evaluate(() => {
+    const top = document.getElementById('dio-coffee')!.getBoundingClientRect().top + scrollY;
+    window.scrollTo({ top: top - 64 + 40, behavior: 'instant' });
+  });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('coffee');
+  await page.waitForTimeout(2000);
+  const close = await read();
+  const before = wide.links.find((l) => l.id === '#dio-coffee')!;
+  const after = close.links.find((l) => l.id === '#dio-coffee')!;
+  expect(after.current).toBe('true');
+  expect(after.opacity).toBe('1');
+  expect(Math.hypot(after.x - before.x, after.y - before.y)).toBeGreaterThan(80);
 });
 
 test('diorama: the day nav links each chapter by hour', async ({ page }) => {

@@ -61,8 +61,11 @@ html[data-design='diorama']:has(.dio-stage) {
   pointer-events: none;
 }
 
-/* ---------- The day: one list of links, pinned over their objects ---------- */
-/* The layer matches the stage; the stage moves each link with a transform */
+/* ---------- The day: one list of links, over their objects or as the day's agenda ---------- */
+/* The layer matches the stage; the stage moves each link with a transform. On the
+   wide shots (08:00, 22:00) the links line up as an agenda under the room; as the
+   camera closes in they travel to their objects. Until the stage has placed them
+   they wait in the corner below the header, so a link reached by keyboard shows. */
 .dio-day {
   position: fixed;
   inset: 0;
@@ -91,8 +94,9 @@ html[data-design='diorama']:has(.dio-stage) {
   line-height: 1.2;
   white-space: nowrap;
   text-decoration: none;
-  pointer-events: auto;
+  pointer-events: none;
   opacity: 0;
+  transform: translate(1rem, calc(64px + 1rem));
   transition: opacity 0.3s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .dio-day time {
@@ -101,8 +105,9 @@ html[data-design='diorama']:has(.dio-stage) {
 /* Shown once the stage has placed them */
 html[data-dio-active] .dio-day[data-mode='pinned'] a {
   opacity: 1;
+  pointer-events: auto;
 }
-/* Off its object (out of frame): gone, unless reached by keyboard */
+/* Off its object (out of frame): out of sight, unless reached by keyboard */
 html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   opacity: 0;
   pointer-events: none;
@@ -110,8 +115,10 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 .dio-day a:hover {
   border-color: var(--accent);
 }
-.dio-day a:focus-visible {
+.dio-day a:focus {
+  z-index: 1;
   opacity: 1 !important;
+  pointer-events: auto !important;
 }
 .dio-day a[aria-current='true'] {
   border-color: var(--accent);
@@ -121,7 +128,7 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 .dio-day a[aria-current='true'] time {
   color: inherit;
 }
-/* No live room (no WebGL, or it failed): the day is a plain list in the corner */
+/* No live room (no WebGL, or it failed): the day is a plain agenda in the corner */
 .dio-day[data-mode='list'] {
   inset: auto clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) auto;
   max-width: 36rem;
@@ -135,6 +142,8 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 .dio-day[data-mode='list'] a {
   position: static;
   opacity: 1;
+  pointer-events: auto;
+  transform: none;
 }
 
 /* ---------- The hero: 08:00 ---------- */
@@ -319,17 +328,28 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
     height: 38svh;
     z-index: 41;
   }
-  /* Only the hour on screen shows its label, at thumb size */
-  .dio-day[data-mode='pending'],
-  .dio-day[data-mode='list'],
-  .dio-day li:not(:has(> a[aria-current='true'])) {
-    display: none;
-  }
+  /* Only the hour on screen shows its label, at thumb size. The other nine stay in the
+     list for keyboards and screen readers, out of sight until one is focused. */
   .dio-day a {
     min-width: 44px;
     min-height: 44px;
     padding: 0 0.9rem;
     font-size: 0.75rem;
+    transform: translate(0.75rem, 0.75rem);
+  }
+  .dio-day:not([data-mode='list']) a:not([aria-current='true']):not(:focus) {
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* No live room: the day is a row of hours under the hero copy */
+  .dio-day[data-mode='list'] {
+    position: static;
+    height: auto;
+    max-width: none;
+    padding: 0 1rem 2.5rem;
+  }
+  .dio-day[data-mode='list'] ol {
+    justify-content: flex-start;
   }
 
   .dio-hero__inner {
