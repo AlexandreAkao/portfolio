@@ -36,7 +36,7 @@ English is the default, with Portuguese at `/pt/`. UI strings live in `src/i18n/
 - **UI Islands:** React 19
 - **Styling:** Tailwind CSS v4 (Vite plugin)
 - **Animations:** Motion (framer-motion)
-- **3D:** Three.js + React Three Fiber + drei (Avant-garde)
+- **3D:** Three.js + React Three Fiber + drei (Avant-garde, Diorama)
 - **Blog:** Content Collections + MDX
 - **Fonts:** self-hosted via `@fontsource`, except Clash Display (Fontshare)
 - **Tests:** Playwright
