@@ -237,6 +237,29 @@ function printTexture() {
   return t;
 }
 
+/**
+ * After dusk his dark tee, jeans and hair would melt into the black chair. A soft rim of cool
+ * light along his silhouette (a fresnel term added to the emissive, strongest where a surface
+ * turns away from the eye) keeps him readable, the way the moon and the screens would catch his
+ * edges. No extra light: it costs a few shader instructions, so phones get it too.
+ */
+const RIM = { uRim: { value: 0 }, uRimColor: { value: new THREE.Color('#a9bfff') } };
+function rimmed<T extends THREE.MeshStandardMaterial>(m: T, k = 1): T {
+  m.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, RIM);
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform float uRim;\nuniform vec3 uRimColor;')
+      .replace(
+        '#include <emissivemap_fragment>',
+        `#include <emissivemap_fragment>
+        float rimEdge = 1.0 - saturate(dot(normal, normalize(vViewPosition)));
+        totalEmissiveRadiance += uRimColor * uRim * ${k.toFixed(2)} * pow(rimEdge, 3.6);`,
+      );
+  };
+  m.customProgramCacheKey = () => `diorama-rim-${k}`;
+  return m;
+}
+
 /** A soft wisp of steam: a tall blurred blob, brighter at its heart. */
 function wispTexture() {
   const c = document.createElement('canvas');
@@ -296,13 +319,13 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
       skinShade: new THREE.MeshStandardMaterial({ color: '#d9a07c', roughness: 0.6 }),
       blush: new THREE.MeshStandardMaterial({ color: '#ef9f86', roughness: 0.7 }),
       // Matte, like painted hair on a miniature: no gloss that outshines the room, only a soft sheen along each lock's edge
-      hair: new THREE.MeshPhysicalMaterial({ color: HAIR, roughness: 0.85, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#4f5058') }),
-      hairLight: new THREE.MeshPhysicalMaterial({ color: '#1f1c1c', roughness: 0.84, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#5a5b64') }),
+      hair: rimmed(new THREE.MeshPhysicalMaterial({ color: HAIR, roughness: 0.85, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#4f5058') }), 0.5),
+      hairLight: rimmed(new THREE.MeshPhysicalMaterial({ color: '#1f1c1c', roughness: 0.84, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#5a5b64') }), 0.5),
       // Cloth: a soft sheen along the silhouette, the way cotton and denim catch light
-      shirt: new THREE.MeshPhysicalMaterial({ color: SHIRT, roughness: 0.82, sheen: 0.6, sheenRoughness: 0.55, sheenColor: new THREE.Color('#5f9e83') }),
-      hem: new THREE.MeshPhysicalMaterial({ color: '#08301f', roughness: 0.85, sheen: 0.4, sheenColor: new THREE.Color('#4f8a72') }),
-      jeans: new THREE.MeshPhysicalMaterial({ color: JEANS, roughness: 0.86, sheen: 0.55, sheenRoughness: 0.6, sheenColor: new THREE.Color('#7f95c0') }),
-      cuff: new THREE.MeshPhysicalMaterial({ color: '#25324b', roughness: 0.86, sheen: 0.4, sheenColor: new THREE.Color('#7f95c0') }),
+      shirt: rimmed(new THREE.MeshPhysicalMaterial({ color: SHIRT, roughness: 0.82, sheen: 0.6, sheenRoughness: 0.55, sheenColor: new THREE.Color('#5f9e83') })),
+      hem: rimmed(new THREE.MeshPhysicalMaterial({ color: '#08301f', roughness: 0.85, sheen: 0.4, sheenColor: new THREE.Color('#4f8a72') })),
+      jeans: rimmed(new THREE.MeshPhysicalMaterial({ color: JEANS, roughness: 0.86, sheen: 0.55, sheenRoughness: 0.6, sheenColor: new THREE.Color('#7f95c0') })),
+      cuff: rimmed(new THREE.MeshPhysicalMaterial({ color: '#25324b', roughness: 0.86, sheen: 0.4, sheenColor: new THREE.Color('#7f95c0') })),
       shoe: new THREE.MeshStandardMaterial({ color: SHOE, roughness: 0.7 }),
       sole: new THREE.MeshStandardMaterial({ color: '#fbfaf7', roughness: 0.6 }),
       strap: new THREE.MeshStandardMaterial({ color: '#1b1c1f', roughness: 0.5 }),
@@ -339,6 +362,8 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
 
   useFrame((state) => {
     const s = sample.current;
+    // The rim rises with the room's evening light and is full by night
+    RIM.uRim.value = 0.26 * Math.min(1, Math.max(0, (s.light.practical - 0.25) / 0.6));
     const a = POSES[s.poseFrom];
     const b = POSES[s.poseTo];
     const k = s.poseMix;

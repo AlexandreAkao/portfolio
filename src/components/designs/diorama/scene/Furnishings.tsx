@@ -17,7 +17,7 @@ import { RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import type { DaySample, V3 } from '../day';
-import { aoTexture, photoTexture, posterTexture, seeded, skyTexture, townTextures } from './textures';
+import { aoTexture, glassTexture, moonTexture, photoTexture, posterTexture, seeded, skyTexture, townTextures } from './textures';
 
 type Mats = Record<'wood' | 'woodSmall' | 'black' | 'cream' | 'metal' | 'housing', THREE.Material>;
 
@@ -762,6 +762,9 @@ export default function Furnishings({ sample, mats, lite, still }: { sample: Mut
         toneMapped: false,
         depthWrite: false,
       }),
+      moon: new THREE.MeshBasicMaterial({ map: moonTexture(), transparent: true, opacity: 0, toneMapped: false, depthWrite: false }),
+      // The glass catches the room's light: soft streaks, faint by day, a touch brighter at night when the glass turns mirror
+      glass: new THREE.MeshBasicMaterial({ map: glassTexture(), transparent: true, blending: THREE.AdditiveBlending, opacity: 0.1, toneMapped: false, depthWrite: false }),
     };
   }, []);
 
@@ -818,6 +821,8 @@ export default function Furnishings({ sample, mats, lite, still }: { sample: Mut
     // The town is the sky's silhouette by day, a deep blue mass by night
     view.skyline.color.set(L.sky).multiplyScalar(0.55);
     view.lights.opacity = Math.min(1, Math.max(0, (on - 0.1) / 0.75));
+    view.moon.opacity = Math.min(1, Math.max(0, (L.moon - 0.4) / 1.0));
+    view.glass.opacity = 0.08 + 0.06 * on;
   });
 
   // Where the strip (down onto the desk) and the bias light (back onto the wall) point
@@ -1074,7 +1079,15 @@ export default function Furnishings({ sample, mats, lite, still }: { sample: Mut
         <mesh position={[0, -0.05, 0.002]} material={view.skyline} renderOrder={1}>
           <planeGeometry args={[1.6, 1.3]} />
         </mesh>
+        {/* the moon over the town's roofs in the right-hand pane, low enough to clear the blind from the camera's height */}
+        <mesh position={[0.42, 0.12, 0.001]} material={view.moon} renderOrder={1}>
+          <planeGeometry args={[0.36, 0.36]} />
+        </mesh>
       </group>
+      {/* the glass in the window, just inside the mullions */}
+      <mesh position={[2.075, 1.6, -0.2]} rotation={[0, -Math.PI / 2, 0]} material={view.glass} renderOrder={5}>
+        <planeGeometry args={[1.46, 1.24]} />
+      </mesh>
 
       {/* ---------------- The front-right corner: a credenza, two prints over it, a floor lamp */}
       <group position={[1.84, 0, 0.98]}>

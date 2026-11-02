@@ -615,3 +615,47 @@ export function photoTexture(kind: number): THREE.CanvasTexture {
   t.colorSpace = THREE.SRGBColorSpace;
   return t;
 }
+
+/** The moon: a pale disc with a faint mare or two, in a soft halo, on clear. */
+export function moonTexture(): THREE.CanvasTexture {
+  const [c, ctx] = canvas(128, 128);
+  const halo = ctx.createRadialGradient(64, 64, 14, 64, 64, 64);
+  halo.addColorStop(0, 'rgba(220,230,255,0.35)');
+  halo.addColorStop(1, 'rgba(220,230,255,0)');
+  ctx.fillStyle = halo;
+  ctx.fillRect(0, 0, 128, 128);
+  ctx.fillStyle = '#f3f0e6';
+  ctx.beginPath();
+  ctx.arc(64, 64, 17, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = 'rgba(180,180,170,0.35)';
+  for (const [x, y, r] of [
+    [58, 58, 5],
+    [70, 66, 4],
+    [62, 72, 3],
+  ]) {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  return tex(c);
+}
+
+/** Light on the window's glass: two soft diagonal streaks on clear, drawn white for additive blending. */
+export function glassTexture(): THREE.CanvasTexture {
+  const [c, ctx] = canvas(256, 256);
+  ctx.translate(128, 128);
+  ctx.rotate(-0.7);
+  for (const [x, w, a] of [
+    [-40, 46, 0.55],
+    [26, 16, 0.4],
+  ]) {
+    const g = ctx.createLinearGradient(x - w / 2, 0, x + w / 2, 0);
+    g.addColorStop(0, 'rgba(255,255,255,0)');
+    g.addColorStop(0.5, `rgba(255,255,255,${a})`);
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(x - w / 2, -200, w, 400);
+  }
+  return tex(c);
+}
