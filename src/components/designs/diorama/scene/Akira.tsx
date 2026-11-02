@@ -112,6 +112,9 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
       shirt: new THREE.MeshStandardMaterial({ color: SHIRT, roughness: 0.8 }),
       jeans: new THREE.MeshStandardMaterial({ color: JEANS, roughness: 0.85 }),
       shoe: new THREE.MeshStandardMaterial({ color: SHOE, roughness: 0.7 }),
+      sole: new THREE.MeshStandardMaterial({ color: '#fbfaf7', roughness: 0.6 }),
+      hem: new THREE.MeshStandardMaterial({ color: '#08301f', roughness: 0.85 }),
+      strap: new THREE.MeshStandardMaterial({ color: '#1b1c1f', roughness: 0.5 }),
       ink: new THREE.MeshStandardMaterial({ color: '#141012', roughness: 0.3 }),
       mouth: new THREE.MeshStandardMaterial({ color: '#8a3b33', roughness: 0.6 }),
       wire: new THREE.MeshStandardMaterial({ color: WIRE, metalness: 0.85, roughness: 0.3 }),
@@ -194,7 +197,10 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
           <mesh {...cast} material={m.jeans} position={[x, 0.33, 0.42]}>
             <capsuleGeometry args={[0.056, 0.4, 8, 16]} />
           </mesh>
-          {S([0.056, 0.045, 0.11], [x, 0.045, 0.47], m.shoe)}
+          {/* sneakers: a white sole under the upper, the laces' dark tongue */}
+          {S([0.06, 0.016, 0.118], [x, 0.016, 0.472], m.sole)}
+          {S([0.054, 0.04, 0.105], [x, 0.048, 0.468], m.shoe)}
+          {S([0.026, 0.012, 0.04], [x, 0.082, 0.5], m.strap, [0.35, 0, 0])}
         </group>
       ))}
 
@@ -220,6 +226,10 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
         <mesh {...cast} material={m.skin} position={[0, 0.48, 0]}>
           <cylinderGeometry args={[0.042, 0.048, 0.1, 16]} />
         </mesh>
+        {/* the tee's ribbed crew neck */}
+        <mesh material={m.hem} position={[0, 0.512, 0]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 0.85, 1]}>
+          <torusGeometry args={[0.054, 0.011, 8, 24]} />
+        </mesh>
 
         {/* arms */}
         {(
@@ -232,6 +242,9 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
             <mesh {...cast} material={m.shirt} position={[0, -0.07, 0]}>
               <capsuleGeometry args={[0.058, 0.06, 8, 16]} />
             </mesh>
+            <mesh material={m.hem} position={[0, -0.125, 0]} rotation={[Math.PI / 2, 0, 0]}>
+              <torusGeometry args={[0.05, 0.008, 8, 20]} />
+            </mesh>
             <mesh {...cast} material={m.skin} position={[0, -0.16, 0]}>
               <capsuleGeometry args={[0.044, 0.1, 8, 16]} />
             </mesh>
@@ -240,6 +253,17 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
                 <capsuleGeometry args={[0.04, 0.17, 8, 16]} />
               </mesh>
               {S([0.042, 0.05, 0.034], [0, -0.27, 0], m.skin)}
+              {/* a watch on his left wrist */}
+              {side === 1 && (
+                <group position={[0, -0.215, 0]}>
+                  <mesh material={m.strap} rotation={[Math.PI / 2, 0, 0]}>
+                    <torusGeometry args={[0.041, 0.008, 8, 20]} />
+                  </mesh>
+                  <mesh material={m.wire} position={[0.044, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+                    <cylinderGeometry args={[0.016, 0.016, 0.008, 16]} />
+                  </mesh>
+                </group>
+              )}
               {side === 1 && (
                 <group ref={mug} position={[0.02, -0.27, -0.05]} rotation={[MUG_UPRIGHT, 0, 0]} visible={false}>
                   <mesh castShadow material={m.mug}>

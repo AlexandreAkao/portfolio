@@ -25,7 +25,15 @@ export interface Station {
   on?: PinObject;
 }
 
-export interface Light { sun: number; sunColor: string; sunDir: V3; sky: string; lamp: number; hemi: number; fill: number }
+/**
+ * `sun` and `moon` share the window's directional light (the sun sets before the moon rises);
+ * `practical` is the room's own evening light (the LED strip under the riser, the bias light
+ * behind the monitor, the floor lamp, the string of lights, the town's windows); `hemiSky`
+ * tints the sky's bounce.
+ */
+export interface Light {
+  sun: number; sunColor: string; sunDir: V3; sky: string; lamp: number; hemi: number; hemiSky: string; fill: number; moon: number; practical: number;
+}
 export interface Located { i: number; u: number; move: number }
 export interface DaySample {
   pos: V3; target: V3; fov: number; hour: number; light: Light;
@@ -91,13 +99,16 @@ function mixHex(a: string, b: string, t: number): string {
 
 // Daytime is lit like a bright room (spec: surfaces read outside the sun patch). Sun, sky
 // (hemi) and fill rise together, so the patch keeps its ratio to the shade and stays the drama.
+// Evening is lit like a lived-in room, never a black box (user, 2026-11-02: "quando fica a noite
+// ele fica muito escuro"): a blue moon through the window, a cool sky bounce, and the room's own
+// warm practicals; the desk lamp stays the brightest pool.
 const SUN: [number, Light][] = [
-  [8, { sun: 4.4, sunColor: '#ffd7a6', sunDir: [1, 0.3, -0.25], sky: '#bdd3ea', lamp: 0, hemi: 2.6, fill: 0.95 }],
-  [10.5, { sun: 6.0, sunColor: '#fff0da', sunDir: [1, 0.62, 0.05], sky: '#cde2f4', lamp: 0, hemi: 3.1, fill: 1.1 }],
-  [13, { sun: 6.6, sunColor: '#ffffff', sunDir: [0.55, 1, 0.3], sky: '#dbe9f6', lamp: 0, hemi: 3.1, fill: 1.1 }],
-  [16, { sun: 5.6, sunColor: '#ffad62', sunDir: [1, 0.3, 0.62], sky: '#f2c99c', lamp: 0.6, hemi: 1.9, fill: 0.75 }],
-  [19, { sun: 0.35, sunColor: '#ff6f45', sunDir: [1, 0.06, 0.62], sky: '#433e72', lamp: 5.5, hemi: 0.35, fill: 0.15 }],
-  [22, { sun: 0, sunColor: '#ff6f45', sunDir: [1, 0.06, 0.62], sky: '#0b1328', lamp: 7, hemi: 0.18, fill: 0.06 }],
+  [8, { sun: 4.4, sunColor: '#ffd7a6', sunDir: [1, 0.3, -0.25], sky: '#bdd3ea', lamp: 0, hemi: 2.6, hemiSky: '#c9d4e0', fill: 0.95, moon: 0, practical: 0 }],
+  [10.5, { sun: 6.0, sunColor: '#fff0da', sunDir: [1, 0.62, 0.05], sky: '#cde2f4', lamp: 0, hemi: 3.1, hemiSky: '#c9d4e0', fill: 1.1, moon: 0, practical: 0 }],
+  [13, { sun: 6.6, sunColor: '#ffffff', sunDir: [0.55, 1, 0.3], sky: '#dbe9f6', lamp: 0, hemi: 3.1, hemiSky: '#cfd8e2', fill: 1.1, moon: 0, practical: 0 }],
+  [16, { sun: 5.6, sunColor: '#ffad62', sunDir: [1, 0.3, 0.62], sky: '#f2c99c', lamp: 0.6, hemi: 1.9, hemiSky: '#e0d2c4', fill: 0.75, moon: 0, practical: 0.12 }],
+  [19, { sun: 0.35, sunColor: '#ff6f45', sunDir: [1, 0.06, 0.62], sky: '#4a4580', lamp: 5.5, hemi: 1.15, hemiSky: '#a49cc8', fill: 0.42, moon: 0.25, practical: 0.85 }],
+  [22, { sun: 0, sunColor: '#ff6f45', sunDir: [1, 0.72, 0.15], sky: '#1b2a55', lamp: 7, hemi: 1.0, hemiSky: '#7d90c8', fill: 0.34, moon: 1.6, practical: 1 }],
 ];
 
 /** The sun and lamps for an hour of the day, through the window on the right wall. */
@@ -115,7 +126,10 @@ export function sunAt(hour: number): Light {
     sky: mixHex(a.sky, b.sky, t),
     lamp: mix(a.lamp, b.lamp, t),
     hemi: mix(a.hemi, b.hemi, t),
+    hemiSky: mixHex(a.hemiSky, b.hemiSky, t),
     fill: mix(a.fill, b.fill, t),
+    moon: mix(a.moon, b.moon, t),
+    practical: mix(a.practical, b.practical, t),
   };
 }
 

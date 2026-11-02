@@ -38,6 +38,8 @@ const TRAVEL = 0.6;
 const DAMP = 4.5;
 /** The page ground is the hour's sky, dimmed: a value step below the room's walls, above its graphite shell. */
 const GROUND = 0.055;
+/** After dusk the dimmed sky would sink to black: the ground holds at a night blue, so the box still reads against it. */
+const NIGHT_GROUND = new THREE.Color('#171c2d');
 const REST: Located = { i: 0, u: 0, move: 0 };
 const smooth = (x: number) => x * x * (3 - 2 * x);
 /** Room between two labels that would touch, in pixels. */
@@ -53,12 +55,12 @@ const CLOSE_FIT = 0.5;
 /** Cards scroll under the clock's line by a scroll-driven clip (diorama.css); without one, the stage cuts them each frame. */
 const CSS_CUT = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()');
 
-/** The room's silhouette from the camera's side: the floor slab's corners and the walls' top edges. */
+/** The room's silhouette from the camera's side: the plinth's corners, the floor's front edge, the walls' top edges. */
 const OUTLINE: V3[] = [
-  [-2.06, -0.16, -1.72],
-  [2.18, -0.16, -1.72],
-  [2.18, -0.16, 1.6],
-  [-2.06, -0.16, 1.6],
+  [-2.15, -0.26, -1.81],
+  [2.27, -0.26, -1.81],
+  [2.27, -0.26, 1.69],
+  [-2.15, -0.26, 1.69],
   [-2.06, 0, 1.6],
   [2.18, 0, 1.6],
   [-2.06, 2.6, -1.72],
@@ -436,6 +438,7 @@ function Driver({
 
     // The page around the stage: ground, clock, the active chapter
     work.ground.set(s.light.sky).multiplyScalar(GROUND);
+    work.ground.setRGB(Math.max(work.ground.r, NIGHT_GROUND.r), Math.max(work.ground.g, NIGHT_GROUND.g), Math.max(work.ground.b, NIGHT_GROUND.b));
     const ground = `#${work.ground.getHexString()}`;
     const wr = written.current;
     if (ground !== wr.ground) {
