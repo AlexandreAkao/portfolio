@@ -1,0 +1,32 @@
+---
+/**
+ * 19:00, study: the book open under the lamp. The degrees, newest first, each
+ * with its school and period; one still under way is marked in progress.
+ */
+import { education, inProgress } from '@data/education';
+import T from '@components/ui/T.astro';
+import KeepWords from '@components/ui/KeepWords.tsx';
+import DioramaChapter from './DioramaChapter.astro';
+---
+
+<DioramaChapter id="study" titleKey="education.title">
+  <ol class="dio-degrees">
+    {education.map((edu) => (
+      <li>
+        <h3 class="dio-degree">
+          <span data-lang-show="en"><KeepWords text={edu.degree.en} /></span><span data-lang-show="pt"><KeepWords text={edu.degree.pt} /></span>
+        </h3>
+        <p class="dio-degree__school">{edu.institution}</p>
+        <p class="dio-degree__when">
+          <span data-lang-show="en">{edu.period.en}</span><span data-lang-show="pt">{edu.period.pt}</span>
+          {inProgress(edu) && <span class="dio-badge"><T k="education.inProgress" /></span>}
+        </p>
+        {edu.description && (
+          <p class="dio-degree__note">
+            <span data-lang-show="en">{edu.description.en}</span><span data-lang-show="pt">{edu.description.pt}</span>
+          </p>
+        )}
+      </li>
+    ))}
+  </ol>
+</DioramaChapter>

@@ -12,6 +12,11 @@
 html[data-design='diorama']:has(.dio-stage) {
   --dio-ground: #373e46;
 }
+/* A deep link (/#skills) lands on its hour at once: until the stage has written its first hour,
+   the page does not smooth-scroll there through the whole day. Day-nav clicks still glide. */
+html[data-design='diorama']:not([data-dio-active]) {
+  scroll-behavior: auto;
+}
 /* No transition: the stage writes the ground as the hour moves, and the canvas clears to the same colour */
 [data-design='diorama'] body {
   background: var(--dio-ground);
@@ -273,17 +278,33 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 }
 
 /* ---------- A chapter: one hour, one card ---------- */
-/* Cards ride above the day's labels; the stage stays under both */
+/* Cards ride above the day's labels; the stage stays under both. A chapter is at least a
+   screen tall with its card centred in it: in the viewport's right column from 1024px (the
+   room keeps the rest), centred on tablets, full width under the band on phones. A card
+   taller than the screen (the skills) runs with the page. The section's own centred column
+   and padding step aside (below), so the card is placed against the viewport. */
 .dio-chapter {
   position: relative;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: 1rem;
+  /* The full-width chapter must not swallow pointer events meant for the pins under it */
+  pointer-events: none;
 }
 .dio-card {
-  width: min(30rem, 100%);
+  width: min(34rem, 100%);
+  margin-inline: auto;
   padding: 1.4rem 1.5rem;
   border-radius: var(--radius-card);
   background: var(--dio-paper);
   color: var(--dio-ink);
+  pointer-events: auto;
+}
+/* The site's accent ring is too faint on paper */
+.dio-card :focus-visible {
+  outline-color: var(--dio-ink);
 }
 .dio-card .dio-kicker {
   color: var(--dio-lamp-ink);
@@ -401,15 +422,8 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-.dio-chapter--role {
-  display: flex;
-  align-items: center;
-  min-height: 100svh;
-  padding: 1rem 0;
-}
 .dio-chapter--role .dio-card {
   width: min(30rem, 100%);
-  margin-left: auto;
 }
 .dio-role-name {
   font-size: clamp(1.4rem, 2.4vw, 1.9rem);
@@ -483,47 +497,189 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   font-family: var(--font-dio-mono);
   font-size: 0.7rem;
 }
-@media (max-width: 1023px) {
-  .dio-chapter--role .dio-card {
-    margin-inline: auto;
-  }
+
+/* ---------- 09:00 About ---------- */
+.dio-lede {
+  margin: 0 0 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--dio-ink);
 }
-@media (max-width: 767px) {
-  .dio-chapter--role {
-    align-items: flex-start;
-    min-height: 0;
-    padding: 0.25rem 1rem 1.5rem;
-  }
-  .dio-chapter--role .dio-card {
-    width: 100%;
-  }
+.dio-body {
+  margin: 0 0 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--dio-ink-2);
+}
+.dio-figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.25rem;
+  margin: 0;
+}
+/* The number reads first, its label under it (dt stays first for assistive tech) */
+.dio-figures > div {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  padding: 0.7rem 0;
+  border-top: 1px solid rgb(23 24 27 / 0.14);
+}
+.dio-figures dd {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.3vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--dio-ink);
+}
+.dio-figures dt {
+  margin-top: 0.35rem;
+  font-family: var(--font-dio-mono);
+  font-size: 0.7rem;
+  color: var(--dio-ink-2);
 }
 
-/* The diorama fork leaves the page's centred column: the card takes the viewport's right column */
+/* ---------- 19:00 Education ---------- */
+.dio-degrees,
+.dio-projects {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dio-degrees > li,
+.dio-projects > li {
+  padding: 0.95rem 0;
+  border-top: 1px solid rgb(23 24 27 / 0.14);
+}
+.dio-degrees > li:last-child,
+.dio-projects > li:last-child {
+  padding-bottom: 0.2rem;
+}
+.dio-degree {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--dio-ink);
+}
+.dio-degree__school {
+  margin: 0.3rem 0 0;
+  font-weight: 600;
+  color: var(--dio-ink-2);
+}
+.dio-degree__when {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  margin: 0.35rem 0 0;
+  font-family: var(--font-dio-mono);
+  font-size: 0.72rem;
+  color: var(--dio-ink-2);
+}
+.dio-badge {
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  background: var(--dio-lamp-ink);
+  color: var(--dio-paper);
+}
+.dio-degree__note {
+  margin: 0.45rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--dio-ink-2);
+}
+
+/* ---------- 20:00 Skills: the groups as columns of chips ---------- */
+.dio-skillsets {
+  columns: 2 13rem;
+  column-gap: 1.5rem;
+}
+.dio-skillset {
+  break-inside: avoid;
+  padding: 0.75rem 0 0.9rem;
+  border-top: 1px solid rgb(23 24 27 / 0.14);
+}
+.dio-skillset h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--dio-ink);
+}
+
+/* ---------- 21:00 Projects ---------- */
+.dio-project {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+/* Thumb-sized: the title is the whole target */
+.dio-project a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  min-height: 44px;
+  color: var(--dio-ink);
+  text-decoration: underline;
+  text-decoration-color: rgb(23 24 27 / 0.3);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.18em;
+}
+.dio-project a::after {
+  content: '\2197';
+  font-family: var(--font-dio-mono);
+  font-size: 0.7em;
+  font-weight: 400;
+  color: var(--dio-lamp-ink);
+}
+.dio-project a:hover {
+  text-decoration-color: var(--dio-lamp-ink);
+}
+.dio-project__about {
+  margin: 0 0 0.65rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--dio-ink-2);
+}
+
+/* ---------- Where the cards stand ---------- */
+/* The diorama forks leave the page's centred column and padding: each card is placed
+   against the viewport (Experience's fork sits inside the column, so the column steps aside) */
 html[data-design='diorama'] #experience > .mx-auto {
   max-width: none;
   padding-inline: 0;
 }
-html[data-design='diorama'] #experience {
+html[data-design='diorama'] :is(#about, #experience, #education, #skills, #projects) {
   padding-block: 0;
 }
-.dio-chapter--role {
-  padding-inline: 1rem;
-}
 @media (min-width: 1024px) {
-  .dio-chapter--role {
+  .dio-chapter {
     padding-inline: 4rem;
+  }
+  .dio-chapter .dio-card {
+    width: min(34rem, 38vw);
+    margin-right: 0;
   }
   .dio-chapter--role .dio-card {
     width: min(30rem, 34vw);
-    margin-left: auto;
-    margin-right: 0;
   }
 }
-/* The full-width chapter must not swallow pointer events meant for the pins under it */
-.dio-chapter--role {
-  pointer-events: none;
-}
-.dio-chapter--role .dio-card {
-  pointer-events: auto;
+/* Phones: full width under the band. scroll-padding-top already clears the band, so the
+   chapter adds no band-tall padding of its own (a scrolled-to card starts right under it) */
+@media (max-width: 767px) {
+  .dio-chapter {
+    align-items: flex-start;
+    min-height: 0;
+    padding: 0.25rem 1rem 1.5rem;
+  }
+  .dio-chapter .dio-card {
+    width: 100%;
+  }
 }

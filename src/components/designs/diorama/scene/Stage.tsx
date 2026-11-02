@@ -115,6 +115,8 @@ function stageLayout(w: number, h: number, band: boolean, column: boolean, copyR
 }
 
 interface Layout {
+  /** False until the chapters have been read: no frame samples the day before that. */
+  measured: boolean;
   anchors: number[];
   stations: Station[];
   band: boolean;
@@ -139,6 +141,7 @@ function Driver({
   const gl = useThree((s) => s.gl);
 
   const layout = useRef<Layout>({
+    measured: false,
     anchors: [0],
     stations: [STATIONS[0]],
     band: false,
@@ -177,12 +180,14 @@ function Driver({
     const band = window.matchMedia(BAND);
     const column = window.matchMedia(COLUMN);
 
-    // A chapter is reached when its top meets the stage's bottom edge (the header on desktop, the band on phones)
+    // A chapter is reached when its top meets the stage's top edge: the header on desktop, the band's
+    // bottom on phones, or where scroll-padding-top lands a scrolled-to chapter if that is lower, so a
+    // deep link or a day-nav link arrives on the chapter's own hour (20:00, not 19:59)
     const measure = () => {
-      // On phones that is where scroll-padding-top lands a scrolled-to chapter (the band plus a little air)
-      const bandBottom = band.matches && stage
-        ? Math.max(stage.getBoundingClientRect().bottom, parseFloat(getComputedStyle(html).scrollPaddingTop) || 0)
-        : HEADER;
+      const edge = Math.max(
+        band.matches && stage ? stage.getBoundingClientRect().bottom : HEADER,
+        parseFloat(getComputedStyle(html).scrollPaddingTop) || 0,
+      );
       const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       const stations: Station[] = [];
       const anchors: number[] = [];
@@ -191,13 +196,14 @@ function Driver({
         const station = STATIONS.find((s) => s.id === el.dataset.dioramaChapter);
         if (!station) continue;
         // A chapter too near the end to reach the band is reached when the page bottoms out
-        const at = Math.min(el.getBoundingClientRect().top + window.scrollY - bandBottom, maxScroll);
+        const at = Math.min(el.getBoundingClientRect().top + window.scrollY - edge, maxScroll);
         stations.push(station);
         // The first chapter (the hero) stands at its station at scrollY 0, wherever the band puts its top
         anchors.push(anchors.length ? Math.max(at, anchors[anchors.length - 1]) : 0);
       }
       const copy = document.querySelector<HTMLElement>('.dio-hero__copy');
       layout.current = {
+        measured: true,
         anchors: anchors.length ? anchors : [0],
         stations: stations.length ? stations : [STATIONS[0]],
         band: band.matches,
@@ -232,6 +238,9 @@ function Driver({
   }, [gl, scene, work, clock]);
 
   useFrame((_, dt) => {
+    // The first sampled frame snaps the camera: it must already know where the chapters are, or a
+    // deep link (/#skills) would start at 08:00 and glide through the day
+    if (!layout.current.measured) return;
     const { anchors, stations, band, column, copyRight } = layout.current;
     const html = document.documentElement;
     const w = size.width;

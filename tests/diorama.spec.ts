@@ -1,6 +1,9 @@
 import { test, expect, type Locator, type Page } from '@playwright/test';
 import { STATIONS, clockText, locate, sampleDay, sunAt } from '../src/components/designs/diorama/day';
 import en from '../src/i18n/en.json' with { type: 'json' };
+import { education, inProgress } from '../src/data/education';
+import { skillGroups } from '../src/data/skills';
+import { projects } from '../src/data/projects';
 
 test('the switcher offers Diorama in both languages', async ({ page }) => {
   await page.addInitScript(() => { localStorage.setItem('design', 'diorama'); sessionStorage.setItem('intro-seen', '1'); });
@@ -344,6 +347,120 @@ test('diorama: on a phone the page opens at 08:00 and each card reads its own ho
     const gap = await page.evaluate((i) => {
       const band = document.querySelector('.dio-stage')!.getBoundingClientRect().bottom;
       return document.querySelector(`#${i} .dio-card`)!.getBoundingClientRect().top - band;
+    }, id);
+    expect(gap, `${id} card gap`).toBeGreaterThanOrEqual(0);
+    expect(gap, `${id} card gap`).toBeLessThanOrEqual(32);
+  }
+});
+
+/* ------------------------------------------------------------ Task 7: About, Education, Skills, Projects as hours */
+
+test('diorama: every section is an hour of the day, 08:00 to 22:00, in page order', async ({ page }) => {
+  await arrive(page);
+  const chapters = page.locator('[data-diorama-chapter]');
+  // 'night' (22:00, contact) comes with Task 8
+  const ids = STATIONS.filter((s) => s.id !== 'night').map((s) => s.id);
+  await expect(chapters).toHaveCount(ids.length);
+  expect(await chapters.evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.dioramaChapter))).toEqual(ids);
+  for (const [i, id] of ids.entries()) {
+    await expect(chapters.nth(i)).toBeVisible();
+    await expect(chapters.nth(i)).toHaveAttribute('data-diorama-hour', clockText(STATIONS.find((s) => s.id === id)!.hour));
+  }
+});
+
+test('diorama: a deep link starts the day at its hour', async ({ page }) => {
+  // Every hour and chapter the stage ever writes, from its first frame
+  await page.addInitScript(() => {
+    const seen: string[] = [];
+    (window as unknown as { __day: string[] }).__day = seen;
+    new MutationObserver(() => {
+      const clock = document.querySelector('.dio-clock')?.textContent ?? '';
+      const at = `${document.documentElement.dataset.dioActive ?? '-'} ${clock}`;
+      if (seen[seen.length - 1] !== at) seen.push(at);
+    }).observe(document, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['data-dio-active'] });
+  });
+  await arrive(page, '/#skills');
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await page.waitForTimeout(1500);
+  expect(await page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('skills');
+  await expect(page.locator('.dio-clock')).toHaveText('20:00');
+  // The stage's first frame is already at 20:00: it never set off from 08:00
+  const day = await page.evaluate(() => (window as unknown as { __day: string[] }).__day.filter((s) => !s.startsWith('-')));
+  expect(day[0]).toBe('skills 20:00');
+});
+
+test('diorama: the evening hours carry the real content', async ({ page }) => {
+  await arrive(page);
+  const coffee = page.locator('#dio-coffee .dio-card');
+  await expect(coffee.getByRole('heading', { level: 2, name: en['about.title'] })).toBeVisible();
+  await expect(coffee).toContainText(en['about.p1']);
+  await expect(coffee).toContainText(en['about.p2']);
+  for (const k of ['years', 'centers', 'components', 'microservices'] as const) {
+    await expect(coffee).toContainText(en[`about.stat.${k}`]);
+    await expect(coffee).toContainText(en[`about.stat.${k}.label`]);
+  }
+
+  const study = page.locator('#dio-study .dio-card');
+  await expect(study.getByRole('heading', { level: 2, name: en['education.title'] })).toBeVisible();
+  await expect(study.getByRole('heading', { level: 3 })).toHaveCount(education.length);
+  for (const edu of education) {
+    await expect(study).toContainText(edu.institution);
+    await expect(study).toContainText(edu.period.en);
+  }
+  await expect(study.getByText(en['education.inProgress'])).toHaveCount(education.filter(inProgress).length);
+
+  const skills = page.locator('#dio-skills .dio-card');
+  await expect(skills.getByRole('heading', { level: 2, name: en['skills.title'] })).toBeVisible();
+  await expect(skills.getByRole('heading', { level: 3 })).toHaveText(skillGroups.map((g) => g.category.en), { useInnerText: true });
+  await expect(skills.getByRole('listitem')).toHaveCount(skillGroups.reduce((n, g) => n + g.skills.length, 0));
+
+  const side = page.locator('#dio-projects .dio-card');
+  const personal = projects.filter((p) => p.type === 'personal');
+  await expect(side.getByRole('heading', { level: 2, name: en['projects.title'] })).toBeVisible();
+  await expect(side.getByRole('heading', { level: 3 })).toHaveText(personal.map((p) => p.title), { useInnerText: true });
+  for (const p of personal) {
+    await expect(side.getByRole('link', { name: p.github ? `${p.title} on GitHub` : `${p.title}, live site` })).toHaveAttribute('href', (p.github ?? p.live)!);
+  }
+});
+
+test('diorama: the sections print nothing bare over the room', async ({ page }) => {
+  await arrive(page);
+  for (const section of ['about', 'experience', 'education', 'skills', 'projects']) {
+    const bare = await page.evaluate((s) => {
+      const walker = document.createTreeWalker(document.getElementById(s)!, NodeFilter.SHOW_TEXT);
+      const out: string[] = [];
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+        const el = n.parentElement!;
+        const text = (n.textContent ?? '').trim();
+        if (!text || el.closest('.dio-card') || !el.checkVisibility()) continue;
+        const r = el.getBoundingClientRect();
+        // visually hidden headings (1px boxes) are for screen readers only
+        if (r.width <= 1 || r.height <= 1) continue;
+        out.push(text.slice(0, 40));
+      }
+      return out;
+    }, section);
+    expect(bare, `#${section}`).toEqual([]);
+  }
+});
+
+test('diorama: on a phone the About, Education, Skills and Projects cards start under the band, on their hour @mobile', async ({ page }) => {
+  test.setTimeout(90_000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  const clock = page.locator('.dio-clock');
+  for (const id of ['coffee', 'study', 'skills', 'projects'] as const) {
+    await page.evaluate((i) => document.getElementById(`dio-${i}`)!.scrollIntoView(), id);
+    await page.waitForTimeout(2000);
+    expect(await page.evaluate(() => document.documentElement.dataset.dioActive)).toBe(id);
+    const [hh, mm] = ((await clock.textContent()) ?? '').trim().split(':').map(Number);
+    const at = STATIONS.find((s) => s.id === id)!.hour * 60;
+    expect(hh * 60 + mm, `${id} clock`).toBeGreaterThanOrEqual(at);
+    expect(hh * 60 + mm, `${id} clock`).toBeLessThanOrEqual(at + 15);
+    const gap = await page.evaluate((i) => {
+      const band = document.querySelector('.dio-stage')!.getBoundingClientRect().bottom;
+      return document.querySelector(`#dio-${i} .dio-card`)!.getBoundingClientRect().top - band;
     }, id);
     expect(gap, `${id} card gap`).toBeGreaterThanOrEqual(0);
     expect(gap, `${id} card gap`).toBeLessThanOrEqual(32);

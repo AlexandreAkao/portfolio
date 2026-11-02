@@ -1,0 +1,24 @@
+---
+/**
+ * 20:00, tools: the keyboard stand. Every skill group as a column of chips,
+ * the names translated where they are descriptions (SkillName).
+ */
+import { skillGroups } from '@data/skills';
+import SkillName from '@components/ui/SkillName.astro';
+import DioramaChapter from './DioramaChapter.astro';
+---
+
+<DioramaChapter id="skills" titleKey="skills.title">
+  <div class="dio-skillsets">
+    {skillGroups.map((g) => (
+      <div class="dio-skillset">
+        <h3><span data-lang-show="en">{g.category.en}</span><span data-lang-show="pt">{g.category.pt}</span></h3>
+        <ul class="dio-tags">
+          {g.skills.map((s) => (
+            <li><SkillName skill={s} /></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</DioramaChapter>
