@@ -112,5 +112,21 @@
   "cartoon.presents": "Alexandre Akira presents",
   "cartoon.end": "The End",
   "cartoon.production": "An Alexandre Akira production",
-  "cartoon.showing": "Now showing"
+  "cartoon.showing": "Now showing",
+  "design.diorama": "Diorama",
+  "diorama.day": "The day",
+  "diorama.sample": "sample data",
+  "diorama.loading": "The room is coming in",
+  "diorama.scene.arrival": "The day begins",
+  "diorama.scene.coffee": "Coffee",
+  "diorama.scene.seva": "Architecture",
+  "diorama.scene.wms": "A bug",
+  "diorama.scene.bees": "Commerce",
+  "diorama.scene.uikit": "Code",
+  "diorama.scene.nati": "Classrooms",
+  "diorama.scene.funcap": "Research",
+  "diorama.scene.study": "Study",
+  "diorama.scene.skills": "Tools",
+  "diorama.scene.projects": "Side projects",
+  "diorama.scene.night": "Lights out"
 }

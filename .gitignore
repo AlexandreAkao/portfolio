@@ -38,3 +38,6 @@ docs/superpowers/
 # playwright
 test-results/
 playwright-report/
+
+# local chrome-channel playwright config
+playwright.chrome.config.ts

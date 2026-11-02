@@ -22,10 +22,13 @@
 @import '@fontsource/londrina-solid/900';
 @import '@fontsource/londrina-solid/400';
 @import '@fontsource-variable/jost';
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/martian-mono';
 @import './worlds/engineer.css';
 @import './worlds/terminal.css';
 @import './worlds/tape.css';
 @import './worlds/cartoon.css';
+@import './worlds/diorama.css';
 
 @theme {
   --color-bg: var(--bg);
@@ -183,6 +186,35 @@
   --radius-btn: 4px;
 }
 
+/* Diorama Design Tokens: one working day in Akira's room, a miniature seen from
+   outside (see worlds/diorama.css). Graphite walls, window daylight, lamp amber. */
+[data-design='diorama'] {
+  --bg: #15161a;
+  --bg-secondary: #1d1f24;
+  --text: #f1ece3;
+  --text-secondary: #b3aa9d;
+  --accent: #f2a65a;
+  --accent-hover: #ffb873;
+  --on-accent: #17181b;
+  --accent-text: #f2a65a;
+  --code-bg: #17181b;
+  --border: #33353b;
+  --card: #1d1f24;
+  --card-hover: #25272d;
+  --dio-paper: #f1ece3;
+  --dio-ink: #17181b;
+  --dio-ink-2: #4a4640;
+  --dio-lamp-ink: #8f4a10;
+  --dio-wood: #a8622f;
+  --dio-leaf: #2f6a3a;
+  --dio-ground: #15161a;
+  --font-heading: 'Bricolage Grotesque Variable', sans-serif;
+  --font-body: 'Bricolage Grotesque Variable', sans-serif;
+  --font-dio-mono: 'Martian Mono Variable', monospace;
+  --radius-card: 14px;
+  --radius-btn: 999px;
+}
+
 /* Arcade Design Tokens */
 [data-design='arcade'] {
   --bg: #0f0d0e;
@@ -278,7 +310,8 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='arcade'] [data-design-show]:not([data-design-show='arcade']),
 [data-design='terminal'] [data-design-show]:not([data-design-show='terminal']),
 [data-design='tape'] [data-design-show]:not([data-design-show='tape']),
-[data-design='cartoon'] [data-design-show]:not([data-design-show='cartoon']) {
+[data-design='cartoon'] [data-design-show]:not([data-design-show='cartoon']),
+[data-design='diorama'] [data-design-show]:not([data-design-show='diorama']) {
   display: none !important;
 }
 
@@ -290,7 +323,8 @@ h1, h2, h3, h4, h5, h6 {
 [data-design='arcade'] [data-design-hide~='arcade'],
 [data-design='terminal'] [data-design-hide~='terminal'],
 [data-design='tape'] [data-design-hide~='tape'],
-[data-design='cartoon'] [data-design-hide~='cartoon'] {
+[data-design='cartoon'] [data-design-hide~='cartoon'],
+[data-design='diorama'] [data-design-hide~='diorama'] {
   display: none !important;
 }
 

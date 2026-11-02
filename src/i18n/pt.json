@@ -112,5 +112,21 @@
   "cartoon.presents": "Alexandre Akira apresenta",
   "cartoon.end": "Fim",
   "cartoon.production": "Uma produção de Alexandre Akira",
-  "cartoon.showing": "Em cartaz"
+  "cartoon.showing": "Em cartaz",
+  "design.diorama": "Diorama",
+  "diorama.day": "O dia",
+  "diorama.sample": "dados de exemplo",
+  "diorama.loading": "O quarto está chegando",
+  "diorama.scene.arrival": "O dia começa",
+  "diorama.scene.coffee": "Café",
+  "diorama.scene.seva": "Arquitetura",
+  "diorama.scene.wms": "Um bug",
+  "diorama.scene.bees": "Comércio",
+  "diorama.scene.uikit": "Código",
+  "diorama.scene.nati": "Salas de aula",
+  "diorama.scene.funcap": "Pesquisa",
+  "diorama.scene.study": "Estudo",
+  "diorama.scene.skills": "Ferramentas",
+  "diorama.scene.projects": "Projetos paralelos",
+  "diorama.scene.night": "Luzes apagadas"
 }

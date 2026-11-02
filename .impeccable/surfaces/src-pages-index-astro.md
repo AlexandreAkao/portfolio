@@ -45,6 +45,15 @@ FIRST VIEWPORT: vermilion card; "Starring" over ALEXANDRE AKIRA hand-lettered ac
 FORM: opening title sequence, candidate 1 of 7 (Impeccable's pick); seed key aae49696.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
+## Direction contract: Diorama, the day in the diorama (2026-11-02)
+
+THESIS: the home is one working day in Akira's room, a miniature seen from outside; scroll is the clock. It refuses the click-to-explore 3D room and first-person walkthroughs.
+OWN-WORLD: graphite walls, butcher-block wood, monstera green, window daylight, lamp amber; paper cards with ink; thin clock numerals; hour labels pinned to objects.
+STORY: 08:00 arrival, coffee, one scene per role, study, skills, side projects, 22:00 he turns and waves; contact.
+FIRST VIEWPORT: copy left (hour kicker, name, title, Currently at, Email, View my work, CV, socials, invite); the whole diorama right in morning light; the clock top right. Phones: the room in a band under the header, copy below.
+FORM: fusion of Impeccable's pick (the working day) and the canon (isometric room), user's choice; seed key 817c6fc2.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+
 ## Retired direction contract: Clay ("Massinha"), the developer's desk in plasticine (2026-10-13, restaged; retired 2026-11-01)
 
 Retired at the user's request on 2026-11-01 ("Quero remover o tema de massinha"). Its components, tokens, curtain, stills and the Bagel Fat One / Gabarito fonts are gone; the code lives in git before that date (last at 11bf7b5), and the uncommitted refinement in progress then was kept in `git stash` ("WIP Clay refinement"). The roll record (`.impeccable/rolls/direction-clay.json`) stays as history. Do not treat this contract as active.
