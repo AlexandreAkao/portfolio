@@ -154,7 +154,8 @@ function DioramaHeroInner() {
           {DAY.map((s) => (
             <li key={s.id}>
               <a href={`#dio-${s.id}`} ref={(el) => registerLabel(s.id, el)}>
-                <time dateTime={clockText(s.hour)}>{clockText(s.hour)}</time> {t(`diorama.scene.${s.id}`, locale)}
+                <time dateTime={clockText(s.hour)}>{clockText(s.hour)}</time>{' '}
+                <span className="dio-day__name">{t(`diorama.scene.${s.id}`, locale)}</span>
               </a>
             </li>
           ))}

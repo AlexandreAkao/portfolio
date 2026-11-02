@@ -263,8 +263,11 @@ test('diorama: opening details re-measures the day', async ({ page }) => {
   await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
   const toggle = page.locator('#dio-wms button[aria-expanded]');
   await toggle.scrollIntoViewIfNeeded();
-  await toggle.click();
-  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  // The island hydrates on visibility: retry until the click lands on a live button
+  await expect(async () => {
+    if ((await toggle.getAttribute('aria-expanded')) !== 'true') await toggle.click();
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true', { timeout: 1000 });
+  }).toPass({ timeout: 15_000 });
   await page.evaluate(() => {
     const top = document.getElementById('dio-funcap')!.getBoundingClientRect().top + scrollY;
     window.scrollTo({ top: top - 64 + 40, behavior: 'instant' });
@@ -284,4 +287,35 @@ test('diorama: the day speaks Portuguese on /pt/', async ({ page }) => {
   await expect(page.getByRole('navigation', { name: 'O dia' }).getByRole('link', { name: '13:00 Um bug' })).toHaveCount(1);
   await expect(page.locator('#dio-wms')).toContainText('200+ centros de distribuição');
   expect(errors.filter((e) => /hydrat/i.test(e))).toEqual([]);
+});
+
+test('diorama: at the wms hour the card stands in the viewport\'s right column', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await page.evaluate(() => {
+    const top = document.getElementById('dio-wms')!.getBoundingClientRect().top + scrollY;
+    window.scrollTo({ top: top - 64 + 40, behavior: 'instant' });
+  });
+  await page.waitForTimeout(800);
+  const left = await page.locator('#dio-wms .dio-card').evaluate((el) => el.getBoundingClientRect().left / innerWidth);
+  expect(left).toBeGreaterThanOrEqual(0.55);
+});
+
+test('diorama: close in, only the active hour keeps its full pill; names stay in the links', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await page.evaluate(() => {
+    const top = document.getElementById('dio-wms')!.getBoundingClientRect().top + scrollY;
+    window.scrollTo({ top: top - 64 + 40, behavior: 'instant' });
+  });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('wms');
+  await page.waitForTimeout(2500);
+  const names = page.locator('.dio-day a .dio-day__name');
+  const wide = await names.evaluateAll((els) => els.map((e) => e.getBoundingClientRect().width > 4));
+  expect(wide.filter(Boolean)).toHaveLength(1);
+  await expect(theDay(page).nth(0)).toHaveAccessibleName('09:00 Coffee');
+  await theDay(page).nth(0).hover();
+  await expect.poll(() => names.first().evaluate((e) => e.getBoundingClientRect().width > 4)).toBe(true);
 });

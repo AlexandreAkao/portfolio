@@ -154,7 +154,7 @@ function Driver({
     fit: 1,
     init: false,
   });
-  const written = useRef({ clock: '', active: '', ground: '', frames: 0 });
+  const written = useRef({ clock: '', active: '', ground: '', compact: false, frames: 0 });
   const ready = useRef(onReady);
   ready.current = onReady;
   const work = useMemo(
@@ -218,6 +218,7 @@ function Driver({
       delete html.dataset.dioActive;
       html.style.removeProperty('--dio-ground');
       if (clock.current) clock.current.textContent = '08:00';
+      document.querySelector('.dio-day')?.removeAttribute('data-compact');
       eachLabel((_, el) => {
         el.removeAttribute('aria-current');
         el.removeAttribute('data-out');
@@ -315,6 +316,12 @@ function Driver({
     if (time !== wr.clock && clock.current) {
       clock.current.textContent = time;
       wr.clock = time;
+    }
+    // Close in, only the active hour keeps its full pill: the others are hour-only pins (the names stay in the links)
+    const compact = !band && c.fit < 0.05;
+    if (compact !== wr.compact) {
+      document.querySelector('.dio-day')?.toggleAttribute('data-compact', compact);
+      wr.compact = compact;
     }
     if (s.active !== wr.active) {
       html.dataset.dioActive = s.active;
