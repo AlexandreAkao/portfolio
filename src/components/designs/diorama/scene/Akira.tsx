@@ -94,11 +94,15 @@ interface Joints {
   legL: [pitch: number, yaw: number, knee: number];
 }
 
+/**
+ * Both hands on the keyboard centred in front of him: fingertips on the middle rows at key-top
+ * height, palms just over the wrist rest, elbows by his sides (solved against the keyboard's box).
+ */
 const HANDS_ON_KEYS = {
-  armR: [-0.62, 0.12],
-  foreR: [-1.2, 0],
-  armL: [-0.62, -0.12],
-  foreL: [-1.2, 0],
+  armR: [-0.852, 0.057],
+  foreR: [-1.066, 0.242],
+  armL: [-0.852, -0.057],
+  foreL: [-1.066, -0.242],
   handR: [Math.PI / 2, 0.55],
   handL: [-Math.PI / 2, 0.55],
   legR: [0, 0, 0],

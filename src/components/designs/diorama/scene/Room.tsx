@@ -630,8 +630,9 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
 
       {/* Desk mat, keyboard, mouse, mug, duck, tablet */}
       <RoundedBox args={[0.98, 0.004, 0.42]} radius={0.002} position={[-0.22, 0.792, -1.04]} material={mats.mat} receiveShadow />
-      <Keys x={-0.3} y={0.803} z={-1.01} w={0.36} d={0.12} rows={5} cols={15} color="#f1ede6" base="#c9c5bd" />
-      <RoundedBox args={[0.36, 0.016, 0.055]} radius={0.007} position={[-0.3, 0.802, -0.918]} material={mats.woodSmall} {...cast} />
+      {/* The keyboard sits centred in front of him, under the main monitor, so both hands land on it */}
+      <Keys x={-0.2} y={0.803} z={-1.01} w={0.36} d={0.12} rows={5} cols={15} color="#f1ede6" base="#c9c5bd" />
+      <RoundedBox args={[0.36, 0.016, 0.055]} radius={0.007} position={[-0.2, 0.802, -0.918]} material={mats.woodSmall} {...cast} />
       <group position={[0.06, 0.794, -1.0]}>
         <mesh {...cast} position={[0, 0.012, 0]} scale={[0.03, 0.017, 0.05]} material={mats.black}>
           <sphereGeometry args={[1, 24, 14, 0, Math.PI * 2, 0, Math.PI / 2]} />

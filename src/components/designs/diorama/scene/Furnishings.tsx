@@ -1245,9 +1245,9 @@ export default function Furnishings({ sample, mats, lite, still }: { sample: Mut
           <tubeGeometry
             args={[
               new THREE.CatmullRomCurve3([
-                new THREE.Vector3(-0.3, 0.806, -1.07),
-                new THREE.Vector3(-0.31, 0.8, -1.14),
-                new THREE.Vector3(-0.38, 0.8, -1.2),
+                new THREE.Vector3(-0.2, 0.806, -1.07),
+                new THREE.Vector3(-0.22, 0.8, -1.14),
+                new THREE.Vector3(-0.33, 0.8, -1.2),
                 new THREE.Vector3(-0.45, 0.83, -1.3),
                 new THREE.Vector3(-0.42, 0.9, -1.335),
               ]),

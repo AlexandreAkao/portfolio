@@ -57,7 +57,7 @@ export const STATIONS: Station[] = [
   st('seva', 10.5, [-0.2, 1.5, -1.4], 6.8, 0.14, SHIFT, false, 'lookUp', 0, 'code', 'arch', 'off', [-0.2, 2.02, -1.55], 'upper'),
   st('wms', 13, [0, 1.05, -1.15], 6.4, -0.04, SHIFT, false, 'think', 0, 'trace', 'arch', 'off', MONITOR, 'monitor'),
   st('bees', 14.5, [0.45, 0.95, -1.1], 5.6, -0.1, SHIFT, false, 'typing', 0, 'code', 'arch', 'store', [0.5, 1.05, -1.08], 'tablet'),
-  st('uikit', 16, [-0.3, 0.9, -1.05], 6.0, -0.16, SHIFT, false, 'typing', 0, 'storybook', 'arch', 'off', [-0.3, 0.95, -1.0], 'keyboard'),
+  st('uikit', 16, [-0.2, 0.9, -1.05], 6.0, -0.16, SHIFT, false, 'typing', 0, 'storybook', 'arch', 'off', [-0.2, 0.95, -1.0], 'keyboard'),
   st('nati', 17, [-0.2, 1.2, -1.4], 6.4, 0.05, SHIFT, false, 'typing', 0, 'athena', 'code', 'off', MONITOR, 'monitor'),
   st('funcap', 17.75, [-0.2, 1.2, -1.4], 6.4, 0.12, SHIFT, false, 'think', 0, 'chart', 'code', 'off', MONITOR, 'monitor'),
   st('study', 19, [-0.9, 0.95, -1.2], 6.6, 0.22, SHIFT, false, 'reading', 0, 'wall', 'off', 'off', [-1.2, 1.02, -1.46], 'books'),
