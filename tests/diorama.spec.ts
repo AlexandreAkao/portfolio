@@ -340,5 +340,12 @@ test('diorama: on a phone the page opens at 08:00 and each card reads its own ho
     const t = await minutes();
     expect(t, `${id} clock`).toBeGreaterThanOrEqual(from);
     expect(t, `${id} clock`).toBeLessThanOrEqual(to);
+    // and the card starts right under the band, not a screen below it
+    const gap = await page.evaluate((i) => {
+      const band = document.querySelector('.dio-stage')!.getBoundingClientRect().bottom;
+      return document.querySelector(`#${i} .dio-card`)!.getBoundingClientRect().top - band;
+    }, id);
+    expect(gap, `${id} card gap`).toBeGreaterThanOrEqual(0);
+    expect(gap, `${id} card gap`).toBeLessThanOrEqual(32);
   }
 });

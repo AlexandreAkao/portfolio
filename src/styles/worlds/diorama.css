@@ -492,7 +492,7 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   .dio-chapter--role {
     align-items: flex-start;
     min-height: 0;
-    padding: calc(38svh + 1rem) 1rem 1.5rem;
+    padding: 0.25rem 1rem 1.5rem;
   }
   .dio-chapter--role .dio-card {
     width: 100%;
