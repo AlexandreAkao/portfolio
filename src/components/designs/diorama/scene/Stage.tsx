@@ -5,6 +5,9 @@
  * on the page's clock, tints the page ground with the sky and places the day's
  * navigation links: on the wide shots (08:00, 22:00) they line up as the day's
  * agenda under the room; as the camera closes in they travel to their objects.
+ * Nothing the stage places covers text: a label that would touch a card or the
+ * hero copy hides, the agenda slides clear of them, and the clock fades while a
+ * card passes under it.
  * Loaded lazily by DioramaHero, only while Diorama is the active world.
  */
 import { useEffect, useMemo, useRef, useState, type MutableRefObject, type RefObject } from 'react';
@@ -39,6 +42,8 @@ const smooth = (x: number) => x * x * (3 - 2 * x);
 const LABEL_GAP = 4;
 /** Room between two labels in the agenda, in pixels. */
 const AGENDA_GAP = 6;
+/** Room kept between a label (or the agenda) and a card or the hero copy, in pixels. */
+const GUARD = 6;
 
 /** The room's silhouette from the camera's side: the floor slab's corners and the walls' top edges. */
 const OUTLINE: V3[] = [
@@ -63,6 +68,31 @@ interface Box {
 interface Slot {
   x: number;
   y: number;
+}
+
+/** Two boxes overlap, or come within `pad` pixels of each other. */
+const meets = (a: Box, b: Box, pad = 0) => a.x0 < b.x1 + pad && b.x0 < a.x1 + pad && a.y0 < b.y1 + pad && b.y0 < a.y1 + pad;
+
+/**
+ * How far the agenda's block must slide up or down to clear every obstacle (the
+ * cards and the hero copy on screen) while staying inside [lo, hi]: 0 when it is
+ * already clear, the nearest slide that clears them all otherwise, or null when
+ * none does (each label then hides on its own).
+ */
+function clearance(block: Box, obstacles: Box[], lo: number, hi: number): number | null {
+  if (!obstacles.some((o) => meets(block, o, GUARD))) return 0;
+  const fits = (d: number) =>
+    block.y0 + d >= lo &&
+    block.y1 + d <= hi &&
+    !obstacles.some((o) => meets({ x0: block.x0, x1: block.x1, y0: block.y0 + d, y1: block.y1 + d }, o, GUARD));
+  let best: number | null = null;
+  for (const o of obstacles) {
+    // Just above or just below each obstacle
+    for (const d of [o.y0 - GUARD - 1 - block.y1, o.y1 + GUARD + 1 - block.y0]) {
+      if ((best === null || Math.abs(d) < Math.abs(best)) && fits(d)) best = d;
+    }
+  }
+  return best;
 }
 
 /**
@@ -122,6 +152,10 @@ interface Layout {
   band: boolean;
   column: boolean;
   copyRight: number;
+  /** The text the stage must not cover: every card and the hero copy, in page coordinates (y + scrollY). */
+  obstacles: Box[];
+  /** The clock's box on screen (it is fixed). */
+  clock: Box | null;
 }
 
 function Driver({
@@ -147,6 +181,8 @@ function Driver({
     band: false,
     column: true,
     copyRight: 0,
+    obstacles: [],
+    clock: null,
   });
   const cur = useRef({
     pos: new THREE.Vector3(),
@@ -157,7 +193,7 @@ function Driver({
     fit: 1,
     init: false,
   });
-  const written = useRef({ clock: '', active: '', ground: '', compact: false, frames: 0 });
+  const written = useRef({ clock: '', active: '', ground: '', compact: false, covered: false, frames: 0 });
   const ready = useRef(onReady);
   ready.current = onReady;
   const work = useMemo(
@@ -202,6 +238,14 @@ function Driver({
         anchors.push(anchors.length ? Math.max(at, anchors[anchors.length - 1]) : 0);
       }
       const copy = document.querySelector<HTMLElement>('.dio-hero__copy');
+      // Cards and copy scroll with the page: cached in page coordinates, each frame only subtracts scrollY
+      const obstacles: Box[] = [];
+      for (const el of document.querySelectorAll<HTMLElement>('.dio-card, .dio-hero__copy')) {
+        if (el.getClientRects().length === 0) continue;
+        const r = el.getBoundingClientRect();
+        obstacles.push({ x0: r.left, x1: r.right, y0: r.top + window.scrollY, y1: r.bottom + window.scrollY });
+      }
+      const c = clock.current?.getBoundingClientRect();
       layout.current = {
         measured: true,
         anchors: anchors.length ? anchors : [0],
@@ -209,17 +253,24 @@ function Driver({
         band: band.matches,
         column: column.matches,
         copyRight: copy ? copy.getBoundingClientRect().right : 0,
+        obstacles,
+        clock: c && c.width > 0 ? { x0: c.left, x1: c.right, y0: c.top, y1: c.bottom } : null,
       };
     };
     measure();
+    // Re-read whenever the page's layout changes: a card opening its details, fonts arriving, a resize
     const main = document.querySelector('main');
     const resize = new ResizeObserver(measure);
     if (main) resize.observe(main);
+    if (clock.current) resize.observe(clock.current);
+    let alive = true;
+    document.fonts?.ready.then(() => alive && measure());
     window.addEventListener('resize', measure);
     band.addEventListener('change', measure);
     column.addEventListener('change', measure);
 
     return () => {
+      alive = false;
       resize.disconnect();
       window.removeEventListener('resize', measure);
       band.removeEventListener('change', measure);
@@ -227,7 +278,10 @@ function Driver({
       // Without the live room the 08:00 still stands in, so the page returns to that hour
       delete html.dataset.dioActive;
       html.style.removeProperty('--dio-ground');
-      if (clock.current) clock.current.textContent = '08:00';
+      if (clock.current) {
+        clock.current.textContent = '08:00';
+        clock.current.removeAttribute('data-covered');
+      }
       document.querySelector('.dio-day')?.removeAttribute('data-compact');
       eachLabel((_, el) => {
         el.removeAttribute('aria-current');
@@ -245,6 +299,16 @@ function Driver({
     const html = document.documentElement;
     const w = size.width;
     const h = size.height;
+
+    // The text on screen this frame (desktop and tablets; on phones the band sits above the cards)
+    const obstacles: Box[] = [];
+    if (!band) {
+      for (const o of layout.current.obstacles) {
+        const y0 = o.y0 - window.scrollY;
+        const y1 = o.y1 - window.scrollY;
+        if (y1 > 0 && y0 < h) obstacles.push({ x0: o.x0, x1: o.x1, y0, y1 });
+      }
+    }
 
     // Label sizes first, before this frame writes anything that dirties layout. Hour order, for the agenda.
     const byId = new Map<StationId, HTMLElement>();
@@ -330,6 +394,13 @@ function Driver({
       clock.current.textContent = time;
       wr.clock = time;
     }
+    // The clock steps aside (fades, diorama.css) while a card or the copy passes under it
+    const face = layout.current.clock;
+    const covered = !!face && obstacles.some((o) => meets(face, o));
+    if (covered !== wr.covered && clock.current) {
+      clock.current.toggleAttribute('data-covered', covered);
+      wr.covered = covered;
+    }
     // Close in, only the active hour keeps its full pill: the others are hour-only pins (the names stay in the links)
     const compact = !band && c.fit < 0.05;
     if (compact !== wr.compact) {
@@ -348,12 +419,25 @@ function Driver({
     // Each link over its object; on the wide shots they leave the room for their agenda slots, travelling
     // with the camera. Labels that collide on the way spread apart, so each one reads in every frame.
     const g = stage.slots ? smooth(Math.min(1, Math.max(0, c.fit))) : 0;
+    // The agenda slides, as one block, clear of the cards and the copy (a card rising from below pushes it up)
+    let slots = stage.slots;
+    if (slots && g > 0 && obstacles.length) {
+      const block: Box = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
+      slots.forEach((slot, i) => {
+        block.x0 = Math.min(block.x0, slot.x);
+        block.y0 = Math.min(block.y0, slot.y);
+        block.x1 = Math.max(block.x1, slot.x + boxes[i].w);
+        block.y1 = Math.max(block.y1, slot.y + boxes[i].h);
+      });
+      const shift = clearance(block, obstacles, HEADER + 8, h - 8);
+      if (shift) slots = slots.map((slot) => ({ x: slot.x, y: slot.y + shift }));
+    }
     const pins = boxes.map((b, i) => {
       work.p.copy(b.at).project(camera);
       let x = ((work.p.x + 1) / 2) * w;
       let y = ((1 - work.p.y) / 2) * h;
       const out = (work.p.z > 1 || x < 0 || x > w || y < 0 || y > h) && g < 0.5;
-      const slot = stage.slots?.[i];
+      const slot = slots?.[i];
       if (slot && g > 0) {
         x += (slot.x + b.w / 2 - x) * g;
         y += (slot.y + b.h / 2 - y) * g;
@@ -383,10 +467,23 @@ function Driver({
     // A link reached by keyboard while off its object still shows: clamped inside the stage, below the header
     const top = band ? 8 : HEADER + 8;
     for (const pin of pins) {
-      const x = Math.min(Math.max(pin.x, pin.w / 2 + 8), w - pin.w / 2 - 8);
+      let x = Math.min(Math.max(pin.x, pin.w / 2 + 8), w - pin.w / 2 - 8);
       const y = Math.min(Math.max(pin.y, top + pin.h / 2), h - pin.h / 2 - 8);
+      let out = pin.out;
+      // A label over a card or the copy hides (it stays in the list). One the visitor is on stays:
+      // hovered, it keeps the pill it opened; focused, it steps beside the card so it can be seen.
+      const hit = obstacles.find((o) => meets({ x0: x - pin.w / 2, x1: x + pin.w / 2, y0: y - pin.h / 2, y1: y + pin.h / 2 }, o, GUARD));
+      if (hit) {
+        if (pin.el === document.activeElement) {
+          const left = hit.x0 - GUARD - pin.w / 2;
+          const right = hit.x1 + GUARD + pin.w / 2;
+          x = left - pin.w / 2 >= 8 ? left : right + pin.w / 2 <= w - 8 ? right : x;
+        } else if (out || !pin.el.matches(':hover')) {
+          out = true;
+        }
+      }
       pin.el.style.transform = `translate(${(x - pin.w / 2).toFixed(1)}px, ${(y - pin.h / 2).toFixed(1)}px)`;
-      pin.el.toggleAttribute('data-out', pin.out);
+      pin.el.toggleAttribute('data-out', out);
     }
 
     if (++wr.frames === 2) ready.current();

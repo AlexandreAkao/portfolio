@@ -64,6 +64,11 @@ html[data-design='diorama']:not([data-dio-active]) {
   color: var(--dio-paper);
   text-shadow: 0 2px 24px rgb(0 0 0 / 0.55);
   pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+/* A card (or the hero copy) passing under the clock: the clock steps aside until it is clear (Stage.tsx) */
+.dio-clock[data-covered] {
+  opacity: 0;
 }
 
 /* ---------- The day: one list of links, over their objects or as the day's agenda ---------- */
@@ -596,7 +601,7 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 
 /* ---------- 20:00 Skills: the groups as columns of chips ---------- */
 .dio-skillsets {
-  columns: 2 13rem;
+  columns: 2 11.5rem;
   column-gap: 1.5rem;
 }
 .dio-skillset {

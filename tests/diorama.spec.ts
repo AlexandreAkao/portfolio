@@ -444,6 +444,40 @@ test('diorama: the sections print nothing bare over the room', async ({ page }) 
   }
 });
 
+/** Every visible hour label and the clock, against every card and the hero copy: the boxes that touch. */
+const overlaps = (page: Page) =>
+  page.evaluate(() => {
+    const shown = (el: Element) => el.getClientRects().length > 0 && parseFloat(getComputedStyle(el).opacity) > 0.5;
+    const obstacles = [...document.querySelectorAll('.dio-card, .dio-hero__copy')]
+      .filter((el) => el.getClientRects().length > 0)
+      .map((el) => ({ name: el.closest('[data-diorama-chapter]')?.id ?? el.className, r: el.getBoundingClientRect() }));
+    const marks = [...document.querySelectorAll('.dio-day a, .dio-clock')].filter(shown);
+    const hits: string[] = [];
+    for (const mark of marks) {
+      const a = mark.getBoundingClientRect();
+      for (const { name, r: b } of obstacles) {
+        if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) hits.push(`${mark.textContent?.trim()} over ${name}`);
+      }
+    }
+    return hits;
+  });
+
+for (const [w, h] of [[1440, 900], [1280, 800]] as const) {
+  test(`diorama: at ${w}x${h} no hour label and no clock covers a card or the hero copy`, async ({ page }) => {
+    test.setTimeout(150_000);
+    await page.setViewportSize({ width: w, height: h });
+    await arrive(page);
+    await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+    const ids = await page.locator('[data-diorama-chapter]').evaluateAll((els) => els.map((e) => e.id));
+    expect(ids.length).toBeGreaterThanOrEqual(11);
+    for (const id of ids) {
+      await page.evaluate((i) => document.getElementById(i)!.scrollIntoView({ behavior: 'instant' }), id);
+      await page.waitForTimeout(2000);
+      expect(await overlaps(page), `at #${id}`).toEqual([]);
+    }
+  });
+}
+
 test('diorama: on a phone the About, Education, Skills and Projects cards start under the band, on their hour @mobile', async ({ page }) => {
   test.setTimeout(90_000);
   await page.setViewportSize({ width: 390, height: 844 });
