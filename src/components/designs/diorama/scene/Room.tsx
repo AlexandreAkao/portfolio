@@ -129,11 +129,11 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
     wood.repeat.set(2.4, 1);
     const woodSmall = woodTexture();
     woodSmall.repeat.set(0.8, 0.5);
-    const carpet = noiseTexture('#4a4d52', 26);
+    const carpet = noiseTexture('#5a5d62', 26);
     carpet.repeat.set(6, 5);
-    const rug = noiseTexture('#55575a', 30);
+    const rug = noiseTexture('#64666a', 30);
     rug.repeat.set(4, 3);
-    const wall = noiseTexture('#3d3f44', 10);
+    const wall = noiseTexture('#63666b', 10);
     wall.repeat.set(3, 2);
     return {
       wood: new THREE.MeshStandardMaterial({ map: wood, roughness: 0.48 }),

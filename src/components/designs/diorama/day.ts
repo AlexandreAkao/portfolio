@@ -83,11 +83,13 @@ function mixHex(a: string, b: string, t: number): string {
 
 /* ------------------------------------------------------------ light */
 
+// Daytime is lit like a bright room (spec: surfaces read outside the sun patch). Sun, sky
+// (hemi) and fill rise together, so the patch keeps its ratio to the shade and stays the drama.
 const SUN: [number, Light][] = [
-  [8, { sun: 2.2, sunColor: '#ffd7a6', sunDir: [1, 0.3, -0.25], sky: '#bdd3ea', lamp: 0, hemi: 1.2, fill: 0.45 }],
-  [10.5, { sun: 2.8, sunColor: '#fff0da', sunDir: [1, 0.62, 0.05], sky: '#cde2f4', lamp: 0, hemi: 1.35, fill: 0.5 }],
-  [13, { sun: 3.2, sunColor: '#ffffff', sunDir: [0.55, 1, 0.3], sky: '#dbe9f6', lamp: 0, hemi: 1.4, fill: 0.5 }],
-  [16, { sun: 3.0, sunColor: '#ffad62', sunDir: [1, 0.3, 0.62], sky: '#f2c99c', lamp: 0.6, hemi: 1.0, fill: 0.4 }],
+  [8, { sun: 4.4, sunColor: '#ffd7a6', sunDir: [1, 0.3, -0.25], sky: '#bdd3ea', lamp: 0, hemi: 2.6, fill: 0.95 }],
+  [10.5, { sun: 6.0, sunColor: '#fff0da', sunDir: [1, 0.62, 0.05], sky: '#cde2f4', lamp: 0, hemi: 3.1, fill: 1.1 }],
+  [13, { sun: 6.6, sunColor: '#ffffff', sunDir: [0.55, 1, 0.3], sky: '#dbe9f6', lamp: 0, hemi: 3.1, fill: 1.1 }],
+  [16, { sun: 5.6, sunColor: '#ffad62', sunDir: [1, 0.3, 0.62], sky: '#f2c99c', lamp: 0.6, hemi: 1.9, fill: 0.75 }],
   [19, { sun: 0.35, sunColor: '#ff6f45', sunDir: [1, 0.06, 0.62], sky: '#433e72', lamp: 5.5, hemi: 0.35, fill: 0.15 }],
   [22, { sun: 0, sunColor: '#ff6f45', sunDir: [1, 0.06, 0.62], sky: '#0b1328', lamp: 7, hemi: 0.18, fill: 0.06 }],
 ];
