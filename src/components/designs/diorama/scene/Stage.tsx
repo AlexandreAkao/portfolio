@@ -245,7 +245,7 @@ function Driver({
       // Cards and copy scroll with the page: cached in page coordinates, each frame only subtracts scrollY
       const obstacles: Box[] = [];
       const texts = new Set<Element>();
-      for (const el of document.querySelectorAll<HTMLElement>('.dio-card, .dio-hero__copy')) {
+      for (const el of document.querySelectorAll<HTMLElement>('.dio-card, .dio-hero__copy, .dio-footer')) {
         if (el.getClientRects().length === 0) continue;
         const r = el.getBoundingClientRect();
         obstacles.push({ x0: r.left, x1: r.right, y0: r.top + window.scrollY, y1: r.bottom + window.scrollY });

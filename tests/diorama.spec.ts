@@ -358,8 +358,7 @@ test('diorama: on a phone the page opens at 08:00 and each card reads its own ho
 test('diorama: every section is an hour of the day, 08:00 to 22:00, in page order', async ({ page }) => {
   await arrive(page);
   const chapters = page.locator('[data-diorama-chapter]');
-  // 'night' (22:00, contact) comes with Task 8
-  const ids = STATIONS.filter((s) => s.id !== 'night').map((s) => s.id);
+  const ids = STATIONS.map((s) => s.id);
   await expect(chapters).toHaveCount(ids.length);
   expect(await chapters.evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.dioramaChapter))).toEqual(ids);
   for (const [i, id] of ids.entries()) {
@@ -425,7 +424,7 @@ test('diorama: the evening hours carry the real content', async ({ page }) => {
 
 test('diorama: the sections print nothing bare over the room', async ({ page }) => {
   await arrive(page);
-  for (const section of ['about', 'experience', 'education', 'skills', 'projects']) {
+  for (const section of ['about', 'experience', 'education', 'skills', 'projects', 'contact']) {
     const bare = await page.evaluate((s) => {
       const walker = document.createTreeWalker(document.getElementById(s)!, NodeFilter.SHOW_TEXT);
       const out: string[] = [];
@@ -448,7 +447,7 @@ test('diorama: the sections print nothing bare over the room', async ({ page }) 
 const overlaps = (page: Page) =>
   page.evaluate(() => {
     const shown = (el: Element) => el.getClientRects().length > 0 && parseFloat(getComputedStyle(el).opacity) > 0.5;
-    const obstacles = [...document.querySelectorAll('.dio-card, .dio-hero__copy')]
+    const obstacles = [...document.querySelectorAll('.dio-card, .dio-hero__copy, .dio-footer')]
       .filter((el) => el.getClientRects().length > 0)
       .map((el) => ({ name: el.closest('[data-diorama-chapter]')?.id ?? el.className, r: el.getBoundingClientRect() }));
     const marks = [...document.querySelectorAll('.dio-day a, .dio-clock')].filter(shown);
@@ -505,7 +504,7 @@ test('diorama: on a phone the About, Education, Skills and Projects cards start 
   await arrive(page);
   await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
   const clock = page.locator('.dio-clock');
-  for (const id of ['coffee', 'study', 'skills', 'projects'] as const) {
+  for (const id of ['coffee', 'study', 'skills', 'projects', 'night'] as const) {
     await page.evaluate((i) => document.getElementById(`dio-${i}`)!.scrollIntoView(), id);
     await page.waitForTimeout(2000);
     expect(await page.evaluate(() => document.documentElement.dataset.dioActive)).toBe(id);
@@ -520,4 +519,34 @@ test('diorama: on a phone the About, Education, Skills and Projects cards start 
     expect(gap, `${id} card gap`).toBeGreaterThanOrEqual(0);
     expect(gap, `${id} card gap`).toBeLessThanOrEqual(32);
   }
+});
+
+test('diorama: at 22:00 he turns and the contact names the action', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  const contact = page.locator('#contact');
+  await contact.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(2000);
+  expect(await page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('night');
+  await expect(contact.locator('.dio-card .dio-kicker')).toContainText('22:00');
+  await expect(contact.getByRole('heading', { level: 2, name: en['contact.title'] })).toBeVisible();
+  await expect(contact.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', /^mailto:/);
+  await expect(contact.getByRole('link', { name: 'Download CV' })).toHaveAttribute('href', /\.pdf$/);
+  await expect(contact.getByText(/@gmail\.com$/).filter({ visible: true }).first()).toBeVisible();
+  await contact.getByRole('button', { name: 'Copy email address' }).click();
+  await expect(contact.getByRole('button', { name: 'Copy email address' })).toHaveText('Copied');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/@gmail\.com$/);
+});
+
+test('diorama: the footer is one quiet row on paper: socials, year, the invitation', async ({ page }) => {
+  await arrive(page);
+  const footer = page.locator('footer .dio-footer');
+  await footer.scrollIntoViewIfNeeded();
+  await expect(footer).toBeVisible();
+  await expect(footer.getByRole('link', { name: 'GitHub' })).toBeVisible();
+  await expect(footer).toContainText(String(new Date().getFullYear()));
+  await expect(footer).toContainText('Alexandre Akira');
+  // the other worlds' footers do not show
+  await expect(page.locator('footer [data-design-show="editorial"]')).toBeHidden();
 });

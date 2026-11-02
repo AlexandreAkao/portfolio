@@ -1,0 +1,29 @@
+---
+/**
+ * 22:00, lights out: the contact. The card stands on the left, the whole lit box on the
+ * right, where he has turned his chair to the visitor and waves. The card names the action.
+ */
+import { t } from '@i18n/utils';
+import T from '@components/ui/T.astro';
+import EmailCopy from '@components/islands/EmailCopy.tsx';
+import { email } from '@data/social';
+import CvLink from '@components/ui/CvLink.astro';
+import DioramaChapter from './DioramaChapter.astro';
+
+interface Props {
+  locale?: 'en' | 'pt';
+}
+
+const { locale } = Astro.props;
+---
+
+<DioramaChapter id="night" titleKey="contact.title">
+  <p class="dio-lede">
+    <span data-lang-show="en">{t('contact.description', 'en')}</span><span data-lang-show="pt">{t('contact.description', 'pt')}</span>
+  </p>
+  <a href={`mailto:${email}`} class="dio-action"><T k="contact.emailMe" /></a>
+  <div class="dio-contact__more">
+    <EmailCopy client:visible locale={locale} />
+    <CvLink class="dio-link" />
+  </div>
+</DioramaChapter>

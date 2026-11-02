@@ -654,6 +654,109 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   color: var(--dio-ink-2);
 }
 
+/* ---------- 22:00 Contact ---------- */
+.dio-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 1.1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-card);
+  background: var(--dio-ink);
+  color: var(--dio-paper);
+  font-weight: 700;
+  text-decoration: none;
+}
+.dio-action:hover {
+  background: var(--dio-lamp-ink);
+}
+.dio-contact__more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+}
+/* The shared copy-address island paints with the page's light-on-dark tokens: ink on paper here */
+.dio-card .dio-contact__more :is(.text-text, .text-text-secondary) {
+  color: var(--dio-ink);
+}
+.dio-card .dio-contact__more button {
+  border-color: rgb(23 24 27 / 0.35);
+}
+.dio-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--dio-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--dio-lamp-ink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+/* ---------- The footer: one quiet row on paper ---------- */
+.dio-footer {
+  position: relative;
+  z-index: 2;
+  background: var(--dio-paper);
+  color: var(--dio-ink-2);
+  font-size: 0.8125rem;
+}
+.dio-footer__row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding: 0.75rem 1.5rem;
+}
+.dio-footer__line,
+.dio-footer p {
+  margin: 0;
+  color: var(--dio-ink-2);
+}
+.dio-footer__socials {
+  display: flex;
+  align-items: center;
+}
+.dio-footer__socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--dio-ink);
+}
+.dio-footer__socials a:hover {
+  color: var(--dio-lamp-ink);
+}
+.dio-footer :is(.text-text, .text-text-secondary) {
+  color: var(--dio-ink);
+}
+.dio-footer button:hover {
+  color: var(--dio-lamp-ink);
+}
+.dio-footer :focus-visible {
+  outline-color: var(--dio-ink);
+}
+@media (min-width: 1024px) {
+  .dio-footer__row {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  /* The agenda list stands at the right edge: the lit box is never behind text, the card is on the left */
+  .dio-chapter[data-diorama-chapter='night'] .dio-card {
+    margin-left: 0;
+    margin-right: auto;
+  }
+}
+
 /* ---------- Where the cards stand ---------- */
 /* The diorama forks leave the page's centred column and padding: each card is placed
    against the viewport (Experience's fork sits inside the column, so the column steps aside) */
@@ -661,7 +764,7 @@ html[data-design='diorama'] #experience > .mx-auto {
   max-width: none;
   padding-inline: 0;
 }
-html[data-design='diorama'] :is(#about, #experience, #education, #skills, #projects) {
+html[data-design='diorama'] :is(#about, #experience, #education, #skills, #projects, #contact) {
   padding-block: 0;
 }
 @media (min-width: 1024px) {
