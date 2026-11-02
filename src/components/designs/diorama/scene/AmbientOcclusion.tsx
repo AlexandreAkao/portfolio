@@ -14,6 +14,7 @@ import { useEffect, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { GTAOPass } from 'three/examples/jsm/postprocessing/GTAOPass.js';
+import { BEAM_LAYER } from './Sunbeam';
 
 /** How much of the occlusion reaches the picture (1 = all of it). */
 const STRENGTH = 0.85;
@@ -72,8 +73,11 @@ export default function AmbientOcclusion() {
   );
 
   useFrame(() => {
-    // Occlusion first: its normal pass also renders this frame's shadow maps
+    // Occlusion first: its normal pass also renders this frame's shadow maps. Light made visible
+    // (the window's shaft, the steam) occludes nothing, so its layer sits this pass out.
+    camera.layers.disable(BEAM_LAYER);
     pass.render(gl, null as unknown as THREE.WebGLRenderTarget, null as unknown as THREE.WebGLRenderTarget, 0, false);
+    camera.layers.enable(BEAM_LAYER);
     gl.setRenderTarget(null);
     const shadows = gl.shadowMap.autoUpdate;
     gl.shadowMap.autoUpdate = false;

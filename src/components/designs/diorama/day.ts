@@ -103,12 +103,14 @@ function mixHex(a: string, b: string, t: number): string {
 // ele fica muito escuro"): a blue moon through the window, a cool sky bounce, and the room's own
 // warm practicals; the desk lamp stays the brightest pool.
 const SUN: [number, Light][] = [
-  [8, { sun: 4.4, sunColor: '#ffd7a6', sunDir: [1, 0.3, -0.25], sky: '#bdd3ea', lamp: 0, hemi: 2.6, hemiSky: '#c9d4e0', fill: 0.95, moon: 0, practical: 0 }],
+  // 08:00: the sun high enough for the whole window, crossbars and all, to land on the open carpet in front of the rug
+  [8, { sun: 5.6, sunColor: '#ffd7a6', sunDir: [1, 0.75, -0.45], sky: '#bdd3ea', lamp: 0, hemi: 2.6, hemiSky: '#c9d4e0', fill: 0.95, moon: 0, practical: 0 }],
   [10.5, { sun: 6.0, sunColor: '#fff0da', sunDir: [1, 0.62, 0.05], sky: '#cde2f4', lamp: 0, hemi: 3.1, hemiSky: '#c9d4e0', fill: 1.1, moon: 0, practical: 0 }],
   [13, { sun: 6.6, sunColor: '#ffffff', sunDir: [0.55, 1, 0.3], sky: '#dbe9f6', lamp: 0, hemi: 3.1, hemiSky: '#cfd8e2', fill: 1.1, moon: 0, practical: 0 }],
   [16, { sun: 5.6, sunColor: '#ffad62', sunDir: [1, 0.3, 0.62], sky: '#f2c99c', lamp: 0.6, hemi: 1.9, hemiSky: '#e0d2c4', fill: 0.75, moon: 0, practical: 0.12 }],
   [19, { sun: 0.35, sunColor: '#ff6f45', sunDir: [1, 0.06, 0.62], sky: '#4a4580', lamp: 5.5, hemi: 1.15, hemiSky: '#a49cc8', fill: 0.42, moon: 0.25, practical: 0.85 }],
-  [22, { sun: 0, sunColor: '#ff6f45', sunDir: [1, 0.72, 0.15], sky: '#1b2a55', lamp: 7, hemi: 1.0, hemiSky: '#7d90c8', fill: 0.34, moon: 1.6, practical: 1 }],
+  // 22:00: the moon's window lands on the open carpet right of the rug, clear of the chair and of him
+  [22, { sun: 0, sunColor: '#ff6f45', sunDir: [1, 1.0, -0.35], sky: '#1b2a55', lamp: 7, hemi: 1.0, hemiSky: '#7d90c8', fill: 0.34, moon: 1.9, practical: 1 }],
 ];
 
 /** The sun and lamps for an hour of the day, through the window on the right wall. */

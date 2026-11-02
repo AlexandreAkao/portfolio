@@ -8,12 +8,13 @@
  * blended from one station's pose to the next by the day sample; each rigid
  * part folds its pieces into a few draws (StaticMerge).
  */
-import { useMemo, useRef, type MutableRefObject } from 'react';
+import { useEffect, useMemo, useRef, type MutableRefObject } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import type { DaySample, Pose } from '../day';
 import StaticMerge from './StaticMerge';
+import { BEAM_LAYER } from './Sunbeam';
 
 const SKIN = '#ebbd98';
 const HAIR = '#1b1716';
@@ -228,6 +229,58 @@ function printTexture() {
   return t;
 }
 
+/** A soft wisp of steam: a tall blurred blob, brighter at its heart. */
+function wispTexture() {
+  const c = document.createElement('canvas');
+  c.width = 64;
+  c.height = 96;
+  const ctx = c.getContext('2d')!;
+  const g = ctx.createRadialGradient(32, 50, 4, 32, 48, 30);
+  g.addColorStop(0, 'rgba(255,255,255,1)');
+  g.addColorStop(0.55, 'rgba(255,255,255,0.6)');
+  g.addColorStop(1, 'rgba(255,255,255,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 64, 96);
+  return new THREE.CanvasTexture(c);
+}
+
+/**
+ * Steam off his coffee at 09:00: three wisps rising from the mug in turn, swelling and fading.
+ * Light, not matter: on the beam layer, which the occlusion pass leaves out. Held under reduced motion.
+ */
+function Steam({ still }: { still: boolean }) {
+  const wisps = useRef<(THREE.Sprite | null)[]>([]);
+  const materials = useMemo(() => {
+    const map = wispTexture();
+    return [0, 1, 2].map(() => new THREE.SpriteMaterial({ map, transparent: true, depthWrite: false, opacity: 0, color: '#f4efe8' }));
+  }, []);
+  useEffect(() => wisps.current.forEach((w) => w?.layers.set(BEAM_LAYER)), []);
+  useFrame((state) => {
+    const clock = still ? 0.4 : state.clock.elapsedTime * 0.35;
+    wisps.current.forEach((w, i) => {
+      if (!w) return;
+      const t = (clock + i / 3) % 1;
+      w.position.set(Math.sin(t * 5 + i * 2) * 0.012, 0.07 + t * 0.15, 0);
+      const size = 0.05 + t * 0.07;
+      w.scale.set(size, size * 1.5, 1);
+      materials[i].opacity = Math.sin(t * Math.PI) * 0.8;
+    });
+  });
+  return (
+    <group>
+      {materials.map((m, i) => (
+        <sprite
+          key={i}
+          ref={(el) => {
+            wisps.current[i] = el;
+          }}
+          material={m}
+        />
+      ))}
+    </group>
+  );
+}
+
 export default function Akira({ sample, still }: { sample: MutableRefObject<DaySample>; still: boolean }) {
   const m = useMemo(
     () => ({
@@ -235,8 +288,8 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
       skinShade: new THREE.MeshStandardMaterial({ color: '#d9a07c', roughness: 0.6 }),
       blush: new THREE.MeshStandardMaterial({ color: '#ef9f86', roughness: 0.7 }),
       // Matte, like painted hair on a miniature: no gloss that outshines the room, only a soft sheen along each lock's edge
-      hair: new THREE.MeshPhysicalMaterial({ color: HAIR, roughness: 0.85, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#5e4f48') }),
-      hairLight: new THREE.MeshPhysicalMaterial({ color: '#241e1c', roughness: 0.84, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#6a5a52') }),
+      hair: new THREE.MeshPhysicalMaterial({ color: HAIR, roughness: 0.85, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#4f5058') }),
+      hairLight: new THREE.MeshPhysicalMaterial({ color: '#1f1c1c', roughness: 0.84, envMapIntensity: 0.5, sheen: 0.6, sheenRoughness: 0.5, sheenColor: new THREE.Color('#5a5b64') }),
       // Cloth: a soft sheen along the silhouette, the way cotton and denim catch light
       shirt: new THREE.MeshPhysicalMaterial({ color: SHIRT, roughness: 0.82, sheen: 0.6, sheenRoughness: 0.55, sheenColor: new THREE.Color('#5f9e83') }),
       hem: new THREE.MeshPhysicalMaterial({ color: '#08301f', roughness: 0.85, sheen: 0.4, sheenColor: new THREE.Color('#4f8a72') }),
@@ -439,6 +492,7 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
                   <mesh material={m.coffee} position={[0, 0.0462, 0]}>
                     <cylinderGeometry args={[0.03, 0.03, 0.002, 20]} />
                   </mesh>
+                  <Steam still={still} />
                 </group>
               )}
             </group>

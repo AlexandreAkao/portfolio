@@ -65,30 +65,59 @@ export function leafCanvas(fill: string, vein: string, size = 512): HTMLCanvasEl
   return c;
 }
 
-/** Butcher block: strips of warm wood with a little grain. */
-export function woodTexture(): THREE.CanvasTexture {
+/**
+ * Butcher block, as in the reference photo: strips of uneven width glued side by side, each a
+ * slightly different warm tone that drifts along its length, a quiet grain, the odd end joint.
+ * `veneer` is the finer, calmer board for the speakers, shelves and small pieces.
+ */
+export function woodTexture(variant: 'block' | 'veneer' = 'block'): THREE.CanvasTexture {
   const c = document.createElement('canvas');
   c.width = 1024;
   c.height = 256;
   const ctx = c.getContext('2d')!;
-  const tones = ['#9a5a2c', '#b06a35', '#8a4e26', '#c07a3e', '#a4612f', '#7d4520', '#b87440'];
+  const block = variant === 'block';
+  let seed = block ? 19 : 43;
+  const rnd = () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+  const warm = new THREE.Color('#a0582a');
+  const light = new THREE.Color('#c27a3e');
+  const tone = new THREE.Color();
   let x = 0;
   let k = 0;
   while (x < c.width) {
-    const w = 22 + ((k * 37) % 19);
-    ctx.fillStyle = tones[(k * 5) % tones.length];
+    const w = Math.round((block ? 30 : 46) * (0.6 + rnd()));
+    // a low drift across the board, then each strip's own small step in lightness
+    const drift = 0.5 + 0.5 * Math.sin(k * 0.55 + rnd() * 0.8);
+    tone.copy(warm).lerp(light, drift).multiplyScalar(1 + (rnd() - 0.5) * (block ? 0.16 : 0.08));
+    const top = `#${tone.getHexString()}`;
+    const bottom = `#${tone.clone().multiplyScalar(0.92 + rnd() * 0.12).getHexString()}`;
+    const g = ctx.createLinearGradient(0, 0, 0, c.height);
+    g.addColorStop(0, top);
+    g.addColorStop(1, bottom);
+    ctx.fillStyle = g;
     ctx.fillRect(x, 0, w, c.height);
-    for (let i = 0; i < 9; i++) {
-      ctx.strokeStyle = `rgba(40,18,6,${0.05 + ((i * 13 + k) % 7) * 0.012})`;
-      ctx.lineWidth = 1 + (i % 3);
-      const gx = x + ((i * 7 + k * 3) % w);
+    // grain: fine wavering lines along the strip
+    const lines = block ? 7 : 5;
+    for (let i = 0; i < lines; i++) {
+      ctx.strokeStyle = `rgba(52,24,8,${(block ? 0.05 : 0.035) + rnd() * 0.04})`;
+      ctx.lineWidth = 0.6 + rnd() * 1.4;
+      const gx = x + rnd() * w;
+      const bend = (rnd() - 0.5) * 6;
       ctx.beginPath();
       ctx.moveTo(gx, 0);
-      ctx.bezierCurveTo(gx + 3, c.height * 0.3, gx - 3, c.height * 0.7, gx + 2, c.height);
+      ctx.bezierCurveTo(gx + bend, c.height * 0.33, gx - bend, c.height * 0.66, gx + bend * 0.5, c.height);
       ctx.stroke();
     }
-    ctx.fillStyle = 'rgba(30,12,4,0.35)';
+    // the glue line, and in a block an end joint here and there along the strip
+    ctx.fillStyle = `rgba(36,14,4,${block ? 0.22 : 0.1})`;
     ctx.fillRect(x + w - 1, 0, 1, c.height);
+    if (block && rnd() > 0.55) {
+      const y = rnd() * c.height;
+      ctx.fillStyle = 'rgba(36,14,4,0.28)';
+      ctx.fillRect(x, y, w - 1, 1.5);
+    }
     x += w;
     k++;
   }
@@ -332,7 +361,10 @@ function town(W: number, H: number, rnd: () => number) {
 export function townTextures(): {
   skyline: THREE.CanvasTexture;
   lights: THREE.CanvasTexture;
+  /** Someone in town turns a light on or off: one window flips, the texture re-uploads. */
+  flicker: (rnd: number) => void;
 } {
+  const slots: { x: number; y: number; on: boolean; colour: string }[] = [];
   const W = 640;
   const H = 560;
   const rnd = seeded(23);
@@ -373,10 +405,13 @@ export function townTextures(): {
     const awake = 0.12 + rnd() * 0.2;
     for (let wy = top + 10 + rnd() * 6; wy < H - 34; wy += pitchY) {
       for (let wx = r.x + 6 + rnd() * 4; wx < r.x + r.w - 10; wx += pitchX) {
-        if (rnd() < awake) {
-          const warm = rnd() > 0.2;
-          const a = 0.55 + rnd() * 0.45;
-          lx.fillStyle = warm ? `rgba(255,${185 + Math.floor(rnd() * 45)},${105 + Math.floor(rnd() * 45)},${a})` : `rgba(170,200,255,${a})`;
+        const warm = rnd() > 0.2;
+        const a = 0.55 + rnd() * 0.45;
+        const colour = warm ? `rgba(255,${185 + Math.floor(rnd() * 45)},${105 + Math.floor(rnd() * 45)},${a})` : `rgba(170,200,255,${a})`;
+        const on = rnd() < awake;
+        slots.push({ x: wx, y: wy, on, colour });
+        if (on) {
+          lx.fillStyle = colour;
           lx.fillRect(wx, wy, 5, 7);
         }
       }
@@ -401,7 +436,16 @@ export function townTextures(): {
     const d = rnd() > 0.9 ? 2 : 1.2;
     lx.fillRect(sxp, syp, d, d);
   }
-  return { skyline: tex(s), lights: tex(l) };
+  const lights = tex(l);
+  const flicker = (r: number) => {
+    const slot = slots[Math.floor(r * slots.length) % slots.length];
+    if (!slot) return;
+    slot.on = !slot.on;
+    lx.fillStyle = slot.on ? slot.colour : '#000';
+    lx.fillRect(slot.x, slot.y, 5, 7);
+    lights.needsUpdate = true;
+  };
+  return { skyline: tex(s), lights, flicker };
 }
 
 /** Two prints for the right wall: a system diagram in blueprint, and mid-century shapes in the room's colours. */

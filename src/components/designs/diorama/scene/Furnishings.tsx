@@ -23,6 +23,22 @@ type Mats = Record<'wood' | 'woodSmall' | 'black' | 'cream' | 'metal' | 'housing
 
 const cast = { castShadow: true, receiveShadow: true } as const;
 
+/** The string's bulbs breathe at night, each on its own phase (its instance): time and night are shared uniforms. */
+const TWINKLE = { uTime: { value: 0 }, uNight: { value: 0 } };
+function twinkling(m: THREE.MeshBasicMaterial): THREE.MeshBasicMaterial {
+  m.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, TWINKLE);
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nuniform float uTime;\nvarying float vTwinkle;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nfloat id = float(gl_InstanceID);\nvTwinkle = 0.72 + 0.28 * sin(uTime * (1.3 + mod(id, 3.0) * 0.4) + id * 2.39);');
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nuniform float uNight;\nvarying float vTwinkle;')
+      .replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb *= mix(1.0, vTwinkle, uNight);');
+  };
+  m.customProgramCacheKey = () => 'diorama-twinkle';
+  return m;
+}
+
 /** Marks a material the frame loop animates, so StaticMerge keeps it apart. */
 function live<T extends THREE.Material>(m: T): T {
   m.userData.live = true;
@@ -225,7 +241,12 @@ function SnakePlant() {
 }
 
 /** A curtain hanging in folds: a plane rippled along its width. */
-function Curtain({ width, height, folds }: { width: number; height: number; folds: number }) {
+/** A curtain hanging in folds that breathe a little with the room's air (still under reduced motion). */
+function Curtain({ width, height, folds, phase, still }: { width: number; height: number; folds: number; phase: number; still: boolean }) {
+  const mesh = useRef<THREE.Mesh>(null);
+  useFrame((state) => {
+    if (mesh.current && !still) mesh.current.scale.z = 1 + Math.sin(state.clock.elapsedTime * 0.7 + phase) * 0.12;
+  });
   const geometry = useMemo(() => {
     const g = new THREE.PlaneGeometry(width, height, folds * 8, 6);
     const pos = g.attributes.position;
@@ -240,7 +261,7 @@ function Curtain({ width, height, folds }: { width: number; height: number; fold
     return g;
   }, [width, height, folds]);
   return (
-    <mesh geometry={geometry} castShadow receiveShadow>
+    <mesh ref={mesh} geometry={geometry} castShadow receiveShadow userData={{ live: true }}>
       <meshStandardMaterial color="#e6ddcd" roughness={0.95} side={THREE.DoubleSide} />
     </mesh>
   );
@@ -586,7 +607,7 @@ function FloatingShelf({ mats, frame, photo }: { mats: Mats; frame: THREE.Materi
   );
 }
 
-export default function Furnishings({ sample, mats, lite }: { sample: MutableRefObject<DaySample>; mats: Mats; lite: boolean }) {
+export default function Furnishings({ sample, mats, lite, still }: { sample: MutableRefObject<DaySample>; mats: Mats; lite: boolean; still: boolean }) {
   const m = useMemo(
     () => ({
       trim: new THREE.MeshStandardMaterial({
@@ -700,10 +721,12 @@ export default function Furnishings({ sample, mats, lite }: { sample: MutableRef
         roughness: 0.8,
       }),
       led: new THREE.MeshBasicMaterial({ color: '#ffb066', toneMapped: false }),
-      fairy: new THREE.MeshBasicMaterial({
-        color: '#ffd59a',
-        toneMapped: false,
-      }),
+      fairy: twinkling(
+        new THREE.MeshBasicMaterial({
+          color: '#ffd59a',
+          toneMapped: false,
+        }),
+      ),
       frame: new THREE.MeshStandardMaterial({
         color: '#2b2621',
         roughness: 0.6,
@@ -720,6 +743,7 @@ export default function Furnishings({ sample, mats, lite }: { sample: MutableRef
   const view = useMemo(() => {
     const town = townTextures();
     return {
+      flicker: town.flicker,
       sky: new THREE.MeshBasicMaterial({
         map: skyTexture(),
         toneMapped: false,
@@ -767,9 +791,19 @@ export default function Furnishings({ sample, mats, lite }: { sample: MutableRef
   const strip = useRef<THREE.RectAreaLight>(null);
   const bias = useRef<THREE.RectAreaLight>(null);
 
-  useFrame(() => {
+  // When someone in town next turns a light on or off (seconds on the frame clock)
+  const nextFlicker = useRef(4);
+
+  useFrame((state) => {
     const L = sample.current.light;
     const on = L.practical;
+    const time = state.clock.elapsedTime;
+    TWINKLE.uTime.value = still ? 0 : time;
+    TWINKLE.uNight.value = still ? 0 : on;
+    if (!still && on > 0.3 && time > nextFlicker.current) {
+      view.flicker(Math.random());
+      nextFlicker.current = time + 2.5 + Math.random() * 4;
+    }
     if (lamp.current) lamp.current.intensity = on * 2.4;
     m.shade.emissiveIntensity = on * 1.1;
     m.bulb.color.setRGB(1, 0.94, 0.84).multiplyScalar(0.3 + on * 1.4);
@@ -1025,10 +1059,10 @@ export default function Furnishings({ sample, mats, lite }: { sample: MutableRef
       </group>
       <Rod a={[1.92, 2.38, -1.35]} b={[1.92, 2.38, 0.95]} r={0.008} material={mats.black} />
       <group position={[1.9, 1.675, -1.1]} rotation={[0, -Math.PI / 2, 0]}>
-        <Curtain width={0.26} height={1.4} folds={4} />
+        <Curtain width={0.26} height={1.4} folds={4} phase={0} still={still} />
       </group>
       <group position={[1.9, 1.675, 0.68]} rotation={[0, -Math.PI / 2, 0]}>
-        <Curtain width={0.22} height={1.4} folds={3} />
+        <Curtain width={0.22} height={1.4} folds={3} phase={1.9} still={still} />
       </group>
       <group position={[2.13, 1.6, -0.2]} rotation={[0, -Math.PI / 2, 0]}>
         <mesh material={view.sky}>

@@ -58,15 +58,15 @@ const CSS_CUT = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: 
 
 /** The room's silhouette from the camera's side: the plinth's corners, the floor's front edge, the walls' top edges. */
 const OUTLINE: V3[] = [
-  [-2.15, -0.26, -1.81],
-  [2.27, -0.26, -1.81],
-  [2.27, -0.26, 1.69],
-  [-2.15, -0.26, 1.69],
+  [-2.16, -0.4, -1.82],
+  [2.28, -0.4, -1.82],
+  [2.28, -0.4, 1.7],
+  [-2.16, -0.4, 1.7],
   [-2.06, 0, 1.6],
   [2.18, 0, 1.6],
-  [-2.06, 2.6, -1.72],
-  [2.12, 2.6, -1.72],
-  [2.12, 2.6, 1.6],
+  [-2.07, 2.63, -1.72],
+  [2.13, 2.63, -1.72],
+  [2.13, 2.63, 1.61],
 ];
 
 interface Box {
@@ -572,7 +572,8 @@ export default function Stage({ lite, still, onReady, clock, locale }: Props) {
     <Canvas
       shadows={{ type: THREE.PCFShadowMap }}
       dpr={lite ? [1, 1.5] : [1, 1.75]}
-      gl={{ antialias: !lite }}
+      // Antialiased everywhere: on phones the stair-stepped edges of the walls and the plinth read as unfinished, and MSAA is cheap on their tiled GPUs
+      gl={{ antialias: true }}
       camera={{ fov: 18, near: 0.1, far: 80 }}
       frameloop={frameloop}
       style={{ position: 'absolute', inset: 0 }}

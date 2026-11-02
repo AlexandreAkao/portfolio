@@ -20,14 +20,22 @@ import Akira, { poseWeight } from './Akira';
 import Furnishings, { Parts, Rod, type Part } from './Furnishings';
 import { ScreenCanvas } from './screens';
 import StaticMerge from './StaticMerge';
+import Sunbeam from './Sunbeam';
 import { aoTexture, carpetTexture, leafCanvas, matTexture, noiseTexture, pegboardTexture, printTexture, rugTexture, woodTexture } from './textures';
 
 RectAreaLightUniformsLib.init();
 
 const CHAIR: V3 = [-0.2, 0, -0.5];
 const TURN_TO_CAMERA = 2.45;
+/**
+ * The layer of the shadow fins: the walls carried on upward, seen only by the sun's shadow camera,
+ * so the cut-away room is lit from outside the way a real one is, through its window only, and not
+ * over the tops of its cut walls.
+ */
+const FIN_LAYER = 2;
+
 /** The moon's light through the window, after the sun has set. */
-const MOON = new THREE.Color('#a9bcff');
+const MOON = new THREE.Color('#8ea6ff');
 /** One rounded keycap, shared by every keyboard's instances. */
 const KEYCAP = new RoundedBoxGeometry(1, 1, 1, 2, 0.18);
 
@@ -199,6 +207,9 @@ function Succulent({ position, scale = 1, pot = '#efeae2' }: { position: V3; sca
   );
 }
 
+/** The clock the monstera's leaves sway on (seconds; held at 0 under reduced motion). */
+const SWAY = { value: 0 };
+
 /** The monstera's leaves: [turn around the pot, stem height, lean, leaf size]. */
 const MONSTERA_STEMS: [number, number, number, number][] = [
   [0.0, 1.05, 0.0, 0.42],
@@ -219,7 +230,21 @@ function Monstera({ position }: { position: V3 }) {
   const leaf = useMemo(() => {
     const t = new THREE.CanvasTexture(leafCanvas('#2f6a3a', '#5a9a62'));
     t.colorSpace = THREE.SRGBColorSpace;
-    return new THREE.MeshStandardMaterial({ map: t, alphaTest: 0.5, side: THREE.DoubleSide, roughness: 0.6 });
+    const m = new THREE.MeshStandardMaterial({ map: t, alphaTest: 0.5, side: THREE.DoubleSide, roughness: 0.6 });
+    // Each leaf sways a little from its base, on its own phase (its instance)
+    m.onBeforeCompile = (shader) => {
+      shader.uniforms.uSway = SWAY;
+      shader.vertexShader = shader.vertexShader.replace('#include <common>', '#include <common>\nuniform float uSway;').replace(
+        '#include <begin_vertex>',
+        `#include <begin_vertex>
+        float lift = position.y + 0.47;
+        float ph = float(gl_InstanceID) * 1.7;
+        transformed.z += sin(uSway * 1.1 + ph) * 0.05 * lift * lift;
+        transformed.x += sin(uSway * 0.8 + ph * 1.3) * 0.02 * lift;`,
+      );
+    };
+    m.customProgramCacheKey = () => 'diorama-leaf-sway';
+    return m;
   }, []);
   const parts = useMemo(() => {
     const out = { stems: [] as Part[], leaves: [] as Part[] };
@@ -260,7 +285,7 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
   const mats = useMemo(() => {
     const wood = woodTexture();
     wood.repeat.set(2.4, 1);
-    const woodSmall = woodTexture();
+    const woodSmall = woodTexture('veneer');
     woodSmall.repeat.set(0.8, 0.5);
     const carpet = carpetTexture();
     carpet.repeat.set(2.12, 1.66);
@@ -280,7 +305,9 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
       // The box's shell (its outside and the cut edges) is graphite, so the lit room reads as a solid miniature on the page
       outer: new THREE.MeshStandardMaterial({ color: '#1a1a1b', roughness: 1 }),
       cut: new THREE.MeshStandardMaterial({ color: '#2b2c30', roughness: 0.9 }),
-      plinth: new THREE.MeshStandardMaterial({ color: '#111214', roughness: 0.7 }),
+      plinth: new THREE.MeshStandardMaterial({ color: '#1d1f24', roughness: 0.7 }),
+      // The cut-away's section, as a model maker leaves it: a pale core wherever the walls and floor are cut
+      section: new THREE.MeshStandardMaterial({ color: '#e6e0d5', roughness: 0.92 }),
       black: new THREE.MeshStandardMaterial({ color: '#141416', roughness: 0.42, metalness: 0.2 }),
       // Monitor housings: a lighter graphite than the hair, so a screen's back seen past his head never reads as part of it
       housing: new THREE.MeshStandardMaterial({ color: '#3b3d45', roughness: 0.5, metalness: 0.25 }),
@@ -340,6 +367,7 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
   const glowMain = useRef<THREE.RectAreaLight>(null);
   const glowUpper = useRef<THREE.RectAreaLight>(null);
   const chair = useRef<THREE.Group>(null);
+  const fins = useRef<THREE.Group>(null);
   const deskMug = useRef<THREE.Group>(null);
   const sunTarget = useMemo(() => {
     const o = new THREE.Object3D();
@@ -354,6 +382,9 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
   const sunDir = useMemo(() => new THREE.Vector3(), []);
 
   useEffect(() => {
+    // The fins cast the sun's and moon's shadow only (their layer is one the cameras never draw)
+    if (sun.current) sun.current.shadow.camera.layers.enable(FIN_LAYER);
+    fins.current?.children.forEach((f) => f.layers.set(FIN_LAYER));
     if (sun.current) sun.current.target = sunTarget;
     if (lamp.current) lamp.current.target = lampTarget;
     glowMain.current?.lookAt(-0.2, 1.2, 2);
@@ -386,6 +417,7 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
     screens.upper.draw(s.screens.upper, opts);
     screens.tablet.draw(s.screens.tablet, opts);
     if (chair.current) chair.current.rotation.y = Math.PI + s.turn * TURN_TO_CAMERA;
+    SWAY.value = still ? 0 : state.clock.elapsedTime;
     // the mug leaves the desk while it is in his hand
     if (deskMug.current) deskMug.current.visible = poseWeight(s, 'coffee') <= 0.5;
   });
@@ -437,13 +469,36 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
         <Lightformer form="rect" intensity={0.6} position={[-4, 3, 3]} scale={[4, 3, 1]} color="#ffd8b0" />
       </Environment>
 
-      {/* The plinth the model stands on, a step wider than the room */}
-      <RoundedBox args={[4.42, 0.1, 3.5]} radius={0.02} position={[0.06, -0.21, -0.06]} material={mats.plinth} receiveShadow />
+      {/* Shadow fins over the back and right walls (shadow only, see FIN_LAYER) */}
+      <group ref={fins} userData={{ live: true }}>
+        <mesh castShadow position={[2.06, 5.6, -0.06]}>
+          <boxGeometry args={[0.12, 6, 3.32]} />
+        </mesh>
+        <mesh castShadow position={[0.06, 5.6, -1.66]}>
+          <boxGeometry args={[4.24, 6, 0.12]} />
+        </mesh>
+      </group>
+
+      {/* The model's base: a butcher-block band under the floor, on a deep graphite plinth a step wider than the room */}
+      <RoundedBox args={[4.34, 0.04, 3.42]} radius={0.012} position={[0.06, -0.18, -0.06]} material={mats.wood} {...cast} />
+      <RoundedBox args={[4.44, 0.2, 3.52]} radius={0.025} position={[0.06, -0.3, -0.06]} material={mats.plinth} receiveShadow />
+
+      {/* The section: pale caps on the walls' cut tops and ends, a pale band where the floor is cut */}
+      <RoundedBox args={[4.248, 0.03, 0.128]} radius={0.008} position={[0.06, 2.615, -1.66]} material={mats.section} {...cast} />
+      <RoundedBox args={[0.128, 0.03, 3.204]} radius={0.008} position={[2.06, 2.615, 0.0]} material={mats.section} {...cast} />
+      <RoundedBox args={[0.012, 2.6, 0.128]} radius={0.004} position={[-2.066, 1.3, -1.66]} material={mats.section} {...cast} />
+      <RoundedBox args={[0.128, 2.6, 0.012]} radius={0.004} position={[2.06, 1.3, 1.606]} material={mats.section} {...cast} />
+      <mesh position={[0.06, -0.035, 1.6035]} material={mats.section}>
+        <boxGeometry args={[4.24, 0.03, 0.006]} />
+      </mesh>
+      <mesh position={[-2.0635, -0.035, -0.06]} material={mats.section}>
+        <boxGeometry args={[0.006, 0.03, 3.32]} />
+      </mesh>
 
       {/* The soft shadow the model casts on the page, so it sits on the ground instead of floating (the phone band would clip it) */}
       {!lite && (
-        <mesh position={[0.02, -0.262, -0.02]} rotation={[-Math.PI / 2, 0, 0]} material={groundShadow}>
-          <planeGeometry args={[6.4, 5.1]} />
+        <mesh position={[0.02, -0.402, -0.02]} rotation={[-Math.PI / 2, 0, 0]} material={groundShadow}>
+          <planeGeometry args={[6.6, 5.3]} />
         </mesh>
       )}
 
@@ -743,7 +798,8 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
       </group>
 
       <Monstera position={[1.62, 0, -1.22]} />
-      <Furnishings sample={sample} mats={mats} lite={lite} />
+      <Furnishings sample={sample} mats={mats} lite={lite} still={still} />
+      <Sunbeam sample={sample} still={still} />
 
       {/* The chair and Akira, turning together */}
       <group ref={chair} position={CHAIR} userData={{ live: true }}>
