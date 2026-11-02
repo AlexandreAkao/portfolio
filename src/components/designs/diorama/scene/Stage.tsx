@@ -215,6 +215,10 @@ function Driver({
     const stage = gl.domElement.closest<HTMLElement>('.dio-stage');
     const band = window.matchMedia(BAND);
     const column = window.matchMedia(COLUMN);
+    // Re-read whenever the page's layout changes. A card opening its details grows around its centre inside
+    // a screen-tall chapter without changing the page's height, so each card (and the copy) is watched too.
+    const resize = new ResizeObserver(() => measure());
+    const watched = new Set<Element>();
 
     // A chapter is reached when its top meets the stage's top edge: the header on desktop, the band's
     // bottom on phones, or where scroll-padding-top lands a scrolled-to chapter if that is lower, so a
@@ -240,11 +244,19 @@ function Driver({
       const copy = document.querySelector<HTMLElement>('.dio-hero__copy');
       // Cards and copy scroll with the page: cached in page coordinates, each frame only subtracts scrollY
       const obstacles: Box[] = [];
+      const texts = new Set<Element>();
       for (const el of document.querySelectorAll<HTMLElement>('.dio-card, .dio-hero__copy')) {
         if (el.getClientRects().length === 0) continue;
         const r = el.getBoundingClientRect();
         obstacles.push({ x0: r.left, x1: r.right, y0: r.top + window.scrollY, y1: r.bottom + window.scrollY });
+        texts.add(el);
       }
+      // Keep watching exactly the boxes in use: cards that mount later (an island hydrating) join, gone ones leave.
+      // Only new ones are observed, since observing a watched box again would report it again.
+      for (const el of texts) if (!watched.has(el)) resize.observe(el);
+      for (const el of watched) if (!texts.has(el)) resize.unobserve(el);
+      watched.clear();
+      texts.forEach((el) => watched.add(el));
       const c = clock.current?.getBoundingClientRect();
       layout.current = {
         measured: true,
@@ -258,11 +270,18 @@ function Driver({
       };
     };
     measure();
-    // Re-read whenever the page's layout changes: a card opening its details, fonts arriving, a resize
     const main = document.querySelector('main');
-    const resize = new ResizeObserver(measure);
     if (main) resize.observe(main);
     if (clock.current) resize.observe(clock.current);
+    // Content mounted or swapped in the page (not the stage's own writes: the clock, the day's links)
+    const mounts = new MutationObserver((list) => {
+      const outside = list.some((m) => {
+        const el = m.target instanceof Element ? m.target : m.target.parentElement;
+        return !el?.closest('.dio-clock, .dio-day, .dio-stage');
+      });
+      if (outside) measure();
+    });
+    if (main) mounts.observe(main, { childList: true, subtree: true });
     let alive = true;
     document.fonts?.ready.then(() => alive && measure());
     window.addEventListener('resize', measure);
@@ -272,6 +291,7 @@ function Driver({
     return () => {
       alive = false;
       resize.disconnect();
+      mounts.disconnect();
       window.removeEventListener('resize', measure);
       band.removeEventListener('change', measure);
       column.removeEventListener('change', measure);

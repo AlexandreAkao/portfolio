@@ -478,6 +478,27 @@ for (const [w, h] of [[1440, 900], [1280, 800]] as const) {
   });
 }
 
+// Each card here still fits its screen-tall chapter once opened (uikit at 1280 in the test browser, whose
+// svh runs a little short: bees there outgrows its chapter, so the page grows too and is re-measured anyway)
+for (const [w, h, id] of [[1280, 800, 'bees'], [1280, 800, 'uikit'], [1920, 1080, 'seva']] as const) {
+  test(`diorama: at ${w}x${h} a card that opens its details still keeps the clock and the labels off it (#dio-${id})`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: h });
+    await arrive(page);
+    await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+    await page.evaluate((i) => document.getElementById(`dio-${i}`)!.scrollIntoView({ behavior: 'instant' }), id);
+    await page.waitForTimeout(1500);
+    expect(await overlaps(page)).toEqual([]);
+    // The card grows around its centre inside a screen-tall chapter: the page's height does not change
+    const toggle = page.locator(`#dio-${id} .dio-toggle`);
+    await expect(async () => {
+      if ((await toggle.getAttribute('aria-expanded')) !== 'true') await toggle.click();
+      await expect(toggle).toHaveAttribute('aria-expanded', 'true', { timeout: 1000 });
+    }).toPass({ timeout: 15_000 });
+    await page.waitForTimeout(1500);
+    expect(await overlaps(page)).toEqual([]);
+  });
+}
+
 test('diorama: on a phone the About, Education, Skills and Projects cards start under the band, on their hour @mobile', async ({ page }) => {
   test.setTimeout(90_000);
   await page.setViewportSize({ width: 390, height: 844 });
