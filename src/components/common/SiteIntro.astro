@@ -106,6 +106,13 @@ const printable = (text: string) =>
     </p>
   </div>
 
+  <!-- Diorama: the room in the dark at 07:59, the clock turns to 08:00 and the light
+       comes up on the still of the hero's own room. Fixed length, never waits on WebGL. -->
+  <div class="intro intro-dio" data-design-show="diorama" data-intro-no-font-wait>
+    <img class="intro-dio__still" src="/images/diorama/room-0800.webp" alt="" width="1600" height="1000" decoding="async" />
+    <p class="intro-dio__clock"><span class="intro-dio__a">07:59</span><span class="intro-dio__b">08:00</span></p>
+  </div>
+
   <!-- Arcade: READY? pops and blinks, then five candy bars sweep the screen clean -->
   <div class="intro intro-arc" data-design-show="arcade">
     <div class="intro-arc__cabinet">
@@ -448,6 +455,8 @@ const printable = (text: string) =>
   /* Tape hydrates its hero early (underneath, already in place) and fades when the reader is done; 2.6s cap */
   [data-design='tape']       #site-intro { --intro-reveal: 0.4s; --intro-total: 2.6s; }
   [data-design='cartoon']    #site-intro { --intro-reveal: 1s; --intro-total: 1.65s; }
+  /* Diorama: 07:59 dark, 08:00 at 0.55s, light up by 0.9s, fades out by 1.45s; never held */
+  [data-design='diorama']    #site-intro { --intro-reveal: 0.9s; --intro-total: 1.45s; }
 
   /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
   /* The curtain carries the incoming design on its own data-design so it can
@@ -461,6 +470,7 @@ const printable = (text: string) =>
   #site-intro[data-design='terminal'] [data-design-show='terminal'],
   #site-intro[data-design='tape'] [data-design-show='tape'],
   #site-intro[data-design='cartoon'] [data-design-show='cartoon'] { display: block !important; }
+  #site-intro[data-design='diorama'] [data-design-show='diorama'] { display: block !important; }
 
   html[data-intro='quick'] #site-intro {
     display: block;
@@ -478,6 +488,7 @@ const printable = (text: string) =>
   html[data-intro='quick'] #site-intro[data-design='terminal']   { --intro-total: 1.2s; }
   html[data-intro='quick'] #site-intro[data-design='tape']       { --intro-total: 1.4s; }
   html[data-intro='quick'] #site-intro[data-design='cartoon']    { --intro-total: 0.75s; }
+  html[data-intro='quick'] #site-intro[data-design='diorama']    { --intro-total: 0.7s; }
 
   /* Avant-garde: no title card, the stage just splits */
   html[data-intro='quick'] .intro-ag__stage { display: none; }
@@ -790,6 +801,51 @@ const printable = (text: string) =>
   }
   @keyframes cart-iris { to { --intro-iris: 150vmax; } }
   @keyframes cart-cut { to { visibility: hidden; } }
+
+  /* Diorama: no dark phase on a quick change, the clock only, already turned, over the lit room */
+  html[data-intro='quick'] .intro-dio__still { filter: none; animation: none; }
+  html[data-intro='quick'] .intro-dio__a { display: none; }
+  html[data-intro='quick'] .intro-dio__b { visibility: visible; animation: none; }
+  html[data-intro='quick'] .intro-dio { animation: dio-out 0.3s ease-in 0.4s forwards; }
+
+  /* ---------- Diorama: 07:59 in the dark, then 08:00 and the light comes up ---------- */
+  .intro-dio {
+    background: #15161a;
+    animation: dio-out 0.55s ease-in 0.9s forwards;
+  }
+  .intro-dio__still {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.18);
+    animation: dio-light 0.35s ease-out 0.55s forwards;
+  }
+  /* Where the hero's clock sits, set the same way (see .dio-clock) */
+  .intro-dio__clock {
+    position: fixed;
+    top: calc(64px + 1.25rem);
+    right: clamp(1rem, 4vw, 3rem);
+    margin: 0;
+    font-family: var(--font-dio-mono, 'Martian Mono Variable', ui-monospace, monospace);
+    font-weight: 200;
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    line-height: 1;
+    letter-spacing: -0.06em;
+    font-variant-numeric: tabular-nums;
+    color: var(--dio-paper, #f1ece3);
+    text-shadow: 0 2px 24px rgb(0 0 0 / 0.55);
+  }
+  .intro-dio__a { animation: dio-off 1ms linear 0.55s forwards; }
+  .intro-dio__b { position: absolute; right: 0; top: 0; visibility: hidden; animation: dio-on 1ms linear 0.55s forwards; }
+  @media (max-width: 767px) {
+    .intro-dio__clock { top: calc(64px + 0.5rem); right: 0.75rem; font-size: 2.5rem; }
+  }
+  @keyframes dio-light { to { filter: brightness(1); } }
+  @keyframes dio-off { to { visibility: hidden; } }
+  @keyframes dio-on { to { visibility: visible; } }
+  @keyframes dio-out { to { opacity: 0; } }
 
   /* ---------- Arcade: READY? then candy sweep ---------- */
   .intro-arc__cabinet {

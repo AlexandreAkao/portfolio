@@ -550,3 +550,26 @@ test('diorama: the footer is one quiet row on paper: socials, year, the invitati
   // the other worlds' footers do not show
   await expect(page.locator('footer [data-design-show="editorial"]')).toBeHidden();
 });
+
+for (const [label, blockGl] of [['', false], [' with WebGL blocked', true]] as const) {
+  test(`diorama: the arrival curtain turns 07:59 to 08:00 and never waits on WebGL${label}`, async ({ page }) => {
+    await page.addInitScript((block) => {
+      localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en');
+      if (block) {
+        const get = HTMLCanvasElement.prototype.getContext;
+        HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...rest: unknown[]) {
+          if (/webgl/i.test(type)) return null;
+          return (get as (...a: unknown[]) => unknown).call(this, type, ...rest) as never;
+        } as typeof get;
+      }
+    }, blockGl);
+    await page.goto('/');
+    const curtain = page.locator('#site-intro .intro-dio');
+    await expect(curtain).toBeVisible();
+    await expect(curtain.locator('.intro-dio__a')).toHaveText('07:59');
+    await expect(curtain.locator('.intro-dio__a')).toBeVisible();
+    await expect(curtain.locator('.intro-dio__b')).toHaveText('08:00');
+    await expect(curtain.locator('.intro-dio__b')).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('data-intro', 'done', { timeout: 2_000 });
+  });
+}
