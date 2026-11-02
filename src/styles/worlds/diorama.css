@@ -7,10 +7,10 @@
    Classes here are used only in this world. */
 
 /* ---------- The page ground follows the hour ---------- */
-/* The home starts at 08:00: the stage's ground for that hour (sunAt(8).sky x 0.075, in linear light).
+/* The home starts at 08:00: the stage's ground for that hour (sunAt(8).sky x 0.055, in linear light).
    It matches the 08:00 still, so a page without WebGL has no seam; the live stage overrides it inline. */
 html[data-design='diorama']:has(.dio-stage) {
-  --dio-ground: #373e46;
+  --dio-ground: #2f353c;
 }
 /* A deep link (/#skills) lands on its hour at once: until the stage has written its first hour,
    the page does not smooth-scroll there through the whole day. Day-nav clicks still glide. */

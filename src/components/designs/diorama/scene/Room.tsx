@@ -141,8 +141,9 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
       carpet: new THREE.MeshStandardMaterial({ map: carpet, roughness: 1 }),
       rug: new THREE.MeshStandardMaterial({ map: rug, roughness: 1 }),
       wall: new THREE.MeshStandardMaterial({ map: wall, roughness: 0.95 }),
+      // The box's shell (its outside and the cut edges) is graphite, so the lit room reads as a solid miniature on the page
       outer: new THREE.MeshStandardMaterial({ color: '#1a1a1b', roughness: 1 }),
-      cut: new THREE.MeshStandardMaterial({ color: '#8f8a83', roughness: 0.9 }),
+      cut: new THREE.MeshStandardMaterial({ color: '#2b2c30', roughness: 0.9 }),
       black: new THREE.MeshStandardMaterial({ color: '#141416', roughness: 0.42, metalness: 0.2 }),
       leather: new THREE.MeshStandardMaterial({ color: '#16171a', roughness: 0.38 }),
       metal: new THREE.MeshStandardMaterial({ color: '#202124', roughness: 0.35, metalness: 0.8 }),

@@ -292,7 +292,7 @@ function code(f: Frame, blink: boolean) {
   statusBar(f, 'main  ✓ 0 problems   TypeScript   UTF-8');
 }
 
-/** Appointally's 26 services on one board, the payment flow on the outbox. */
+/** Appointally's 26 services on one board, the payment flow on the outbox. The layout and the unnamed boxes are illustrative. */
 function arch(f: Frame) {
   const { ctx, W } = f;
   chrome(f, 'appointally / architecture', '#0f1216');
@@ -368,6 +368,7 @@ function arch(f: Frame) {
       ctx.fillText(tech, x + 12, y + 48);
     }
   }
+  sampleMark(f);
 }
 
 /** The WMS stock-reservation race, the lock that fixed it. Illustrative. */

@@ -21,6 +21,53 @@ const SPHERE_FINE = new THREE.SphereGeometry(1, 40, 28);
 
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
 
+/**
+ * The fringe, swept to his right (-x): from the parting over his left brow, locks
+ * run across the forehead and drop to his right temple, each laid tangent to the
+ * head (in the head's local frame, where the face is the skin ellipsoid and the
+ * hair cap sits over it). Each lock: [t0, t1] along the sweep, its width, its
+ * thickness and how far above the sweep it rides.
+ */
+const FRINGE = (() => {
+  const skin = (x: number, y: number) => 0.02 + 0.32 * Math.sqrt(Math.max(0, 1 - (x / 0.315) ** 2 - (y / 0.36) ** 2));
+  const cap = (x: number, y: number) => -0.06 + 0.35 * Math.sqrt(Math.max(0, 1 - (x / 0.335) ** 2 - ((y - 0.1) / 0.33) ** 2));
+  const head = (x: number, y: number) => Math.max(skin(x, y), cap(x, y));
+  // The sweep: across and down, falling faster toward the temple
+  const at = (t: number, lift: number) => {
+    const x = 0.16 - 0.4 * t;
+    const y = 0.31 - 0.05 * t - 0.11 * t * t + lift;
+    return new THREE.Vector3(x, y, head(x, y));
+  };
+  const locks: [number, number, number, number, number][] = [
+    [-0.05, 0.42, 0.08, 0.05, 0.03],
+    [0.0, 0.5, 0.075, 0.05, 0.0],
+    [0.28, 0.74, 0.07, 0.048, 0.005],
+    [0.52, 0.94, 0.06, 0.044, 0.0],
+    [0.74, 1.06, 0.045, 0.036, -0.004],
+  ];
+  const e = 0.002;
+  return locks.map(([t0, t1, width, thick, lift]) => {
+    const a = at(t0, lift);
+    const b = at(t1, lift);
+    const c = at((t0 + t1) / 2, lift);
+    const tangent = b.clone().sub(a);
+    const length = tangent.length();
+    tangent.normalize();
+    // The head's normal at the lock's middle, kept square to the lock
+    const normal = new THREE.Vector3((head(c.x - e, c.y) - head(c.x + e, c.y)) / (2 * e), (head(c.x, c.y - e) - head(c.x, c.y + e)) / (2 * e), 1)
+      .normalize()
+      .projectOnPlane(tangent)
+      .normalize();
+    const side = new THREE.Vector3().crossVectors(tangent, normal);
+    const quaternion = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(tangent, normal, side));
+    return {
+      position: c.addScaledVector(normal, thick * 0.35).toArray() as [number, number, number],
+      quaternion,
+      scale: [length / 2, thick, width] as [number, number, number],
+    };
+  });
+})();
+
 /** Joint angles in radians. Arms are [upper x, upper z] and [fore x, fore z]; his right arm sits at -x. */
 interface Joints {
   torso: [lean: number, twist: number];
@@ -60,7 +107,8 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
   const m = useMemo(
     () => ({
       skin: new THREE.MeshStandardMaterial({ color: SKIN, roughness: 0.62 }),
-      hair: new THREE.MeshStandardMaterial({ color: HAIR, roughness: 0.36 }),
+      // Matte, like painted hair on a miniature: its sheen never outshines the room
+      hair: new THREE.MeshStandardMaterial({ color: HAIR, roughness: 0.88, envMapIntensity: 0.5 }),
       shirt: new THREE.MeshStandardMaterial({ color: SHIRT, roughness: 0.8 }),
       jeans: new THREE.MeshStandardMaterial({ color: JEANS, roughness: 0.85 }),
       shoe: new THREE.MeshStandardMaterial({ color: SHOE, roughness: 0.7 }),
@@ -214,10 +262,11 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
               {S([0.04, 0.075, 0.06], [-0.31, 0.01, -0.02], m.skin)}
               {S([0.04, 0.075, 0.06], [0.31, 0.01, -0.02], m.skin)}
               {S([0.335, 0.33, 0.35], [0, 0.1, -0.06], m.hair, undefined, true)}
-              {S([0.3, 0.12, 0.22], [0.04, 0.27, 0.12], m.hair, [0.5, 0, -0.2])}
-              {S([0.16, 0.07, 0.1], [-0.12, 0.2, 0.22], m.hair, [0.2, 0.2, 0.42])}
-              {S([0.17, 0.065, 0.1], [0.06, 0.23, 0.23], m.hair, [0.25, 0, 0.3])}
-              {S([0.11, 0.05, 0.08], [-0.23, 0.11, 0.14], m.hair, [0, 0.5, 0.9])}
+              {/* Volume over the parting on his left, then the fringe sweeping to his right */}
+              {S([0.28, 0.12, 0.22], [0.05, 0.28, 0.1], m.hair, [0.5, 0, 0.16])}
+              {FRINGE.map((lock, i) => (
+                <mesh key={i} {...cast} geometry={SPHERE} material={m.hair} position={lock.position} quaternion={lock.quaternion} scale={lock.scale} />
+              ))}
               {S([0.06, 0.14, 0.12], [0.27, 0.06, 0.06], m.hair, [0, -0.3, -0.2])}
               {S([0.06, 0.14, 0.12], [-0.27, 0.06, 0.06], m.hair, [0, 0.3, 0.2])}
               <mesh geometry={SPHERE} material={m.hair} position={[-0.115, 0.115, 0.3]} rotation={[0, 0, -0.08]} scale={[0.062, 0.016, 0.02]} />

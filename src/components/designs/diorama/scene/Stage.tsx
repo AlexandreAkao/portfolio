@@ -36,8 +36,8 @@ const COLUMN = '(min-width: 1024px)';
 /** The camera travels to the next station over the last 60% of a viewport of scroll. */
 const TRAVEL = 0.6;
 const DAMP = 4.5;
-/** The page ground is the hour's sky, dimmed. */
-const GROUND = 0.075;
+/** The page ground is the hour's sky, dimmed: a value step below the room's walls, above its graphite shell. */
+const GROUND = 0.055;
 const REST: Located = { i: 0, u: 0, move: 0 };
 const smooth = (x: number) => x * x * (3 - 2 * x);
 /** Room between two labels that would touch, in pixels. */
