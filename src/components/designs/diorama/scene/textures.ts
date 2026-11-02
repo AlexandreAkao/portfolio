@@ -1,7 +1,7 @@
 /**
  * Canvas-drawn textures for the diorama: the monstera leaf sprite (also used
  * by the screens' wallpaper), butcher-block wood, wall noise, the pink
- * monstera print on the wall; then the lived-in detail: carpet tiles, the
+ * monstera print on the wall; then the lived-in detail: the carpet, the
  * woven rug, the dotted desk mat, the drilled pegboard, the window's sky and
  * town, two prints, the polaroids, and the soft footprints of contact shadow.
  */
@@ -167,51 +167,41 @@ export function seeded(seed: number) {
   };
 }
 
-/** Carpet tiles, as in the reference: square tiles laid in alternating pile direction, a fleck in each. */
+/**
+ * Wall-to-wall carpet: a low charcoal pile with soft, broad shifts of tone and no seams, so the
+ * floor reads as a material rather than an editor's grid. Tiles without wrapping edges.
+ */
 export function carpetTexture(): THREE.CanvasTexture {
   const size = 512;
   const [c, ctx] = canvas(size, size);
   const rnd = seeded(11);
-  const n = 4;
-  const t = size / n;
-  for (let i = 0; i < n; i++) {
-    for (let j = 0; j < n; j++) {
-      ctx.fillStyle = (i + j) % 2 ? '#5b5e63' : '#55585d';
-      ctx.fillRect(i * t, j * t, t, t);
-      // pile direction: fine stripes, turned a quarter on every other tile
-      ctx.strokeStyle = 'rgba(255,255,255,0.025)';
-      ctx.lineWidth = 1;
-      for (let k = 2; k < t; k += 4) {
-        ctx.beginPath();
-        if ((i + j) % 2) {
-          ctx.moveTo(i * t + k, j * t);
-          ctx.lineTo(i * t + k, j * t + t);
-        } else {
-          ctx.moveTo(i * t, j * t + k);
-          ctx.lineTo(i * t + t, j * t + k);
-        }
-        ctx.stroke();
+  ctx.fillStyle = '#585b60';
+  ctx.fillRect(0, 0, size, size);
+  // broad mottling, drawn at every wrap offset so the tile repeats without an edge
+  for (let i = 0; i < 26; i++) {
+    const x = rnd() * size;
+    const y = rnd() * size;
+    const r = 40 + rnd() * 110;
+    const light = rnd() > 0.5;
+    for (const dx of [-size, 0, size]) {
+      for (const dy of [-size, 0, size]) {
+        const g = ctx.createRadialGradient(x + dx, y + dy, 0, x + dx, y + dy, r);
+        g.addColorStop(0, light ? 'rgba(255,255,255,0.035)' : 'rgba(0,0,0,0.05)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(x + dx - r, y + dy - r, r * 2, r * 2);
       }
     }
   }
+  // the pile: fine grain, a touch warmer in the highlights
   const img = ctx.getImageData(0, 0, size, size);
   for (let p = 0; p < img.data.length; p += 4) {
-    const v = (rnd() - 0.5) * 22;
-    img.data[p] += v;
+    const v = (rnd() - 0.5) * 18;
+    img.data[p] += v + 1;
     img.data[p + 1] += v;
-    img.data[p + 2] += v;
+    img.data[p + 2] += v - 1;
   }
   ctx.putImageData(img, 0, 0);
-  ctx.strokeStyle = 'rgba(20,20,22,0.35)';
-  ctx.lineWidth = 2;
-  for (let k = 0; k <= n; k++) {
-    ctx.beginPath();
-    ctx.moveTo(k * t, 0);
-    ctx.lineTo(k * t, size);
-    ctx.moveTo(0, k * t);
-    ctx.lineTo(size, k * t);
-    ctx.stroke();
-  }
   return tex(c, true);
 }
 

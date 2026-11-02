@@ -5,6 +5,10 @@
  * this folds every static mesh under it into one mesh per material look, so the
  * room draws in a few dozen calls.
  *
+ * On the way every plain box gets softened edges (a rounded box of the same
+ * size), so shelves, panels, legs and frames catch a line of light along each
+ * edge like a finished model instead of meeting at razor corners.
+ *
  * Left alone: anything under an object marked `userData.live` (it moves or
  * hides: the chair and Akira, the mug, the clock's hands), instanced and
  * multi-material meshes, transparent materials (they sort per mesh), and any
@@ -14,6 +18,18 @@
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
+
+/** The edge radius a plain box gets: 6mm, never more than a quarter of its thinnest side. */
+const BEVEL = 0.006;
+
+/** A plain box as the same box with rounded edges; any other geometry as it is. */
+function soften(source: THREE.BufferGeometry): THREE.BufferGeometry {
+  if (!(source instanceof THREE.BoxGeometry) || source instanceof RoundedBoxGeometry) return source;
+  const { width, height, depth } = source.parameters;
+  const r = Math.min(BEVEL, Math.min(width, height, depth) * 0.25);
+  return r > 0.0008 ? new RoundedBoxGeometry(width, height, depth, 2, r) : source;
+}
 
 /** Materials that look the same merge together, whichever JSX created them. */
 function look(material: THREE.Material): string {
@@ -35,8 +51,10 @@ function look(material: THREE.Material): string {
 }
 
 /** Position, normal and uv only, non-indexed, so every geometry can join any other. */
-function normalise(source: THREE.BufferGeometry): THREE.BufferGeometry {
+function normalise(geometry: THREE.BufferGeometry): THREE.BufferGeometry {
+  const source = soften(geometry);
   const g = source.index ? source.toNonIndexed() : source.clone();
+  if (source !== geometry) source.dispose();
   for (const name of Object.keys(g.attributes)) {
     if (name !== 'position' && name !== 'normal' && name !== 'uv') g.deleteAttribute(name);
   }
@@ -94,10 +112,6 @@ export default function StaticMerge({ children, version }: { children: ReactNode
     const merged: THREE.Mesh[] = [];
     const hidden: THREE.Mesh[] = [];
     for (const b of buckets.values()) {
-      if (b.meshes.length < 2) {
-        b.geometries.forEach((g) => g.dispose());
-        continue;
-      }
       const geometry = mergeGeometries(b.geometries, false);
       b.geometries.forEach((g) => g.dispose());
       if (!geometry) continue;

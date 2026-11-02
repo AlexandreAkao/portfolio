@@ -15,6 +15,7 @@ import { useMemo, useRef, type MutableRefObject, type ReactNode } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import type { DaySample, V3 } from '../day';
 import { aoTexture, photoTexture, posterTexture, seeded, skyTexture, townTextures } from './textures';
 
@@ -135,10 +136,13 @@ const BOOK = new THREE.MeshStandardMaterial({
   roughness: 0.75,
 });
 
+/** A book's block with softened edges (scaled per book, so the rounding scales with it). */
+const BOOK_BLOCK = new RoundedBoxGeometry(1, 1, 1, 2, 0.05);
+
 /** All the room's loose books in one draw, each with its own spine colour. */
 function Books({ books }: { books: Book[] }) {
   const parts = useMemo(() => books.map((b) => ({ p: b.p, r: [0, 0, b.r ?? 0] as V3, s: b.s, c: b.c })), [books]);
-  return <Parts geometry={BOX} material={BOOK} parts={parts} />;
+  return <Parts geometry={BOOK_BLOCK} material={BOOK} parts={parts} />;
 }
 
 function Pot({ position, r = 0.06, h = 0.09, color = '#e9e3d9', children }: { position: V3; r?: number; h?: number; color?: string; children?: ReactNode }) {

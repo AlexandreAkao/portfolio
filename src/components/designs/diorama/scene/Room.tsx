@@ -20,7 +20,7 @@ import Akira, { poseWeight } from './Akira';
 import Furnishings, { Parts, Rod, type Part } from './Furnishings';
 import { ScreenCanvas } from './screens';
 import StaticMerge from './StaticMerge';
-import { carpetTexture, leafCanvas, matTexture, noiseTexture, pegboardTexture, printTexture, rugTexture, woodTexture } from './textures';
+import { aoTexture, carpetTexture, leafCanvas, matTexture, noiseTexture, pegboardTexture, printTexture, rugTexture, woodTexture } from './textures';
 
 RectAreaLightUniformsLib.init();
 
@@ -108,6 +108,32 @@ function backrestGeometry() {
   return g;
 }
 
+/** How far the walls' edges are rounded. */
+const SHELL_BEVEL = 0.018;
+
+/**
+ * The right wall as one slab with the window cut through it, extruded with rounded edges. Drawn in
+ * the wall's own plane (u along -z, v up), extruded along +x once the mesh turns a quarter about y.
+ * The bevel grows the outline outward and the opening inward, so both are drawn a bevel short.
+ */
+function rightWallGeometry() {
+  const b = SHELL_BEVEL;
+  const s = new THREE.Shape();
+  s.moveTo(-1.6 + b, b);
+  s.lineTo(1.72 - b, b);
+  s.lineTo(1.72 - b, 2.6 - b);
+  s.lineTo(-1.6 + b, 2.6 - b);
+  s.closePath();
+  const hole = new THREE.Path();
+  hole.moveTo(-0.55 - b, 0.95 - b);
+  hole.lineTo(-0.55 - b, 2.25 + b);
+  hole.lineTo(0.95 + b, 2.25 + b);
+  hole.lineTo(0.95 + b, 0.95 - b);
+  hole.closePath();
+  s.holes.push(hole);
+  return new THREE.ExtrudeGeometry(s, { depth: 0.12 - 2 * b, bevelEnabled: true, bevelThickness: b, bevelSize: b, bevelSegments: 3, curveSegments: 1 });
+}
+
 /** The architect lamp's shade: a short neck over a straight cone, turned on a lathe, open at the bottom. */
 function shadeGeometry(inset = 0) {
   const pts = [
@@ -123,7 +149,30 @@ function shadeGeometry(inset = 0) {
 
 const SPIKE = new THREE.ConeGeometry(0.012, 1, 6);
 const STEM = new THREE.CylinderGeometry(0.008, 0.011, 1, 6);
-const SHEET = new THREE.PlaneGeometry(1, 1);
+
+/**
+ * A monstera leaf as its own outline, in the unit square the leaf texture fills (base at the bottom
+ * centre, as leafCanvas draws it): only the leaf is geometry, so no square of empty texture casts
+ * shadow or occlusion. The slits and holes stay cut by the texture's alpha.
+ */
+const LEAF_OUTLINE = (() => {
+  const k = 0.92;
+  const at = (x: number, y: number) => new THREE.Vector2(k * x, -0.47 - k * y);
+  const s = new THREE.Shape();
+  const p0 = at(0, 0);
+  s.moveTo(p0.x, p0.y);
+  const c = (a: [number, number], b: [number, number], e: [number, number]) => {
+    const [p, q, r] = [at(...a), at(...b), at(...e)];
+    s.bezierCurveTo(p.x, p.y, q.x, q.y, r.x, r.y);
+  };
+  c([-0.78, -0.02], [-0.74, -0.86], [0, -1]);
+  c([0.74, -0.86], [0.78, -0.02], [0, 0]);
+  const g = new THREE.ShapeGeometry(s, 16);
+  const pos = g.attributes.position;
+  const uv = g.attributes.uv;
+  for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) + 0.5, pos.getY(i) + 0.5);
+  return g;
+})();
 /** A white base the instance colours tint. */
 const GREEN = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.7 });
 const STEM_GREEN = new THREE.MeshStandardMaterial({ color: '#3d6b3a', roughness: 0.7 });
@@ -202,7 +251,7 @@ function Monstera({ position }: { position: V3 }) {
         <meshStandardMaterial color="#6b5a3e" roughness={1} />
       </mesh>
       <Parts geometry={STEM} material={STEM_GREEN} parts={parts.stems} />
-      <Parts geometry={SHEET} material={leaf} parts={parts.leaves} />
+      <Parts geometry={LEAF_OUTLINE} material={leaf} parts={parts.leaves} />
     </group>
   );
 }
@@ -217,12 +266,17 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
     carpet.repeat.set(2.12, 1.66);
     const wall = noiseTexture('#63666b', 10);
     wall.repeat.set(3, 2);
+    const wallSide = wall.clone();
+    wallSide.repeat.set(3 / 4.24, 2 / 2.6);
+    wallSide.needsUpdate = true;
     return {
       wood: new THREE.MeshStandardMaterial({ map: wood, roughness: 0.48 }),
       woodSmall: new THREE.MeshStandardMaterial({ map: woodSmall, roughness: 0.5 }),
       carpet: new THREE.MeshStandardMaterial({ map: carpet, roughness: 1 }),
       rug: new THREE.MeshStandardMaterial({ map: rugTexture(), roughness: 1 }),
       wall: new THREE.MeshStandardMaterial({ map: wall, roughness: 0.95 }),
+      // The right wall is extruded, so its uv runs in metres: the same noise at the back wall's scale
+      wallSide: new THREE.MeshStandardMaterial({ map: wallSide, roughness: 0.95 }),
       // The box's shell (its outside and the cut edges) is graphite, so the lit room reads as a solid miniature on the page
       outer: new THREE.MeshStandardMaterial({ color: '#1a1a1b', roughness: 1 }),
       cut: new THREE.MeshStandardMaterial({ color: '#2b2c30', roughness: 0.9 }),
@@ -254,6 +308,19 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
     return { main, upper, tablet, mainMat: face(main), upperMat: face(upper), tabletMat: face(tablet) };
   }, []);
   const backrest = useMemo(() => backrestGeometry(), []);
+  const shells = useMemo(
+    () => ({
+      slab: new RoundedBoxGeometry(4.24, 0.16, 3.32, 2, 0.02),
+      rug: new RoundedBoxGeometry(1.9, 0.012, 1.45, 2, 0.005),
+      back: new RoundedBoxGeometry(4.24, 2.6, 0.12, 2, SHELL_BEVEL),
+      right: rightWallGeometry(),
+    }),
+    [],
+  );
+  const groundShadow = useMemo(
+    () => new THREE.MeshBasicMaterial({ color: '#000', alphaMap: aoTexture('rect'), transparent: true, opacity: 0.55, depthWrite: false }),
+    [],
+  );
   const shade = useMemo(() => ({ outer: shadeGeometry(), inner: shadeGeometry(0.003) }), []);
   // The shade's shells render both faces (a lathe's winding faces inward): the black outside hides the
   // lining from the room, and the lining, dark by day, glows once the lamp is on
@@ -326,7 +393,6 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
   const cast = { castShadow: true, receiveShadow: true } as const;
   // Box face order: +x, -x, +y, -y, +z, -z
   const backWallMats: Mat[] = [mats.cut, mats.cut, mats.cut, mats.cut, mats.wall, mats.outer];
-  const rightWallMats: Mat[] = [mats.outer, mats.wall, mats.cut, mats.cut, mats.cut, mats.cut];
   const sunMap = lite ? 1024 : 2048;
 
   return (
@@ -374,31 +440,21 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
       {/* The plinth the model stands on, a step wider than the room */}
       <RoundedBox args={[4.42, 0.1, 3.5]} radius={0.02} position={[0.06, -0.21, -0.06]} material={mats.plinth} receiveShadow />
 
-      {/* Floor slab, carpet, rug */}
-      <mesh {...cast} position={[0.06, -0.08, -0.06]} material={[mats.cut, mats.cut, mats.carpet, mats.cut, mats.cut, mats.cut]}>
-        <boxGeometry args={[4.24, 0.16, 3.32]} />
-      </mesh>
-      <mesh receiveShadow position={[-0.2, 0.006, -0.35]} material={mats.rug}>
-        <boxGeometry args={[1.9, 0.012, 1.45]} />
-      </mesh>
+      {/* The soft shadow the model casts on the page, so it sits on the ground instead of floating (the phone band would clip it) */}
+      {!lite && (
+        <mesh position={[0.02, -0.262, -0.02]} rotation={[-Math.PI / 2, 0, 0]} material={groundShadow}>
+          <planeGeometry args={[6.4, 5.1]} />
+        </mesh>
+      )}
+
+      {/* Floor slab, carpet, rug: every edge softened */}
+      <mesh {...cast} position={[0.06, -0.08, -0.06]} geometry={shells.slab} material={[mats.cut, mats.cut, mats.carpet, mats.cut, mats.cut, mats.cut]} />
+      <mesh receiveShadow position={[-0.2, 0.006, -0.35]} geometry={shells.rug} material={mats.rug} />
 
       {/* Back wall */}
-      <mesh {...cast} position={[0.06, 1.3, -1.66]} material={backWallMats}>
-        <boxGeometry args={[4.24, 2.6, 0.12]} />
-      </mesh>
-      {/* Right wall, built around the window opening (z -0.95..0.55, y 0.95..2.25) */}
-      <mesh {...cast} position={[2.06, 0.475, -0.06]} material={rightWallMats}>
-        <boxGeometry args={[0.12, 0.95, 3.32]} />
-      </mesh>
-      <mesh {...cast} position={[2.06, 2.425, -0.06]} material={rightWallMats}>
-        <boxGeometry args={[0.12, 0.35, 3.32]} />
-      </mesh>
-      <mesh {...cast} position={[2.06, 1.6, -1.335]} material={rightWallMats}>
-        <boxGeometry args={[0.12, 1.3, 0.77]} />
-      </mesh>
-      <mesh {...cast} position={[2.06, 1.6, 1.075]} material={rightWallMats}>
-        <boxGeometry args={[0.12, 1.3, 1.05]} />
-      </mesh>
+      <mesh {...cast} position={[0.06, 1.3, -1.66]} geometry={shells.back} material={backWallMats} />
+      {/* Right wall: one piece with the window cut through it (z -0.95..0.55, y 0.95..2.25), its edges softened */}
+      <mesh {...cast} position={[2.0 + SHELL_BEVEL, 0, 0]} rotation={[0, Math.PI / 2, 0]} geometry={shells.right} material={[mats.wallSide, mats.cut]} />
       {/* Window frame and mullions (the sill, blind, curtains and the town outside are in Furnishings) */}
       <group position={[2.03, 1.6, -0.2]}>
         {[

@@ -18,6 +18,7 @@ import * as THREE from 'three';
 import type { Locale } from '@i18n/utils';
 import { STATIONS, clockText, locate, sampleDay, type DaySample, type Located, type Station, type StationId, type V3 } from '../day';
 import Room from './Room';
+import AmbientOcclusion from './AmbientOcclusion';
 import { eachLabel } from './labels';
 
 interface Props {
@@ -578,6 +579,8 @@ export default function Stage({ lite, still, onReady, clock, locale }: Props) {
     >
       <Driver sample={sample} still={still} clock={clock} onReady={onReady} />
       <Room sample={sample} locale={locale} lite={lite} still={still} />
+      {/* Phones keep the plain render: the occlusion pass draws the room a second time */}
+      {!lite && <AmbientOcclusion />}
     </Canvas>
   );
 }

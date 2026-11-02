@@ -1439,9 +1439,9 @@
         "purpose": "Avant-garde chip hover."
       },
       {
-        "name": "diorama-clock-halo",
-        "value": "text-shadow: 0 2px 24px rgb(0 0 0 / 0.55), 0 0 10px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.45); radial pool rgb(24 20 18 / 0.62) behind the digits",
-        "purpose": "Diorama's clock only: Paper digits hold over the lit window at 13:00 and 16:00. Legibility, not elevation."
+        "name": "diorama-clock-plate",
+        "value": "background rgb(21 22 26 / 0.7); border 1px rgb(241 236 227 / 0.08); radius 0.16em; box-shadow 0 0.05em 0.2em rgb(0 0 0 / 0.22)",
+        "purpose": "Diorama's clock only: Paper digits hold over the lit window at 13:00 and 16:00. Legibility, not elevation. Replaced the radial pool, which read as a smudge."
       }
     ],
     "motion": [
