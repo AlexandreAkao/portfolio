@@ -149,6 +149,39 @@ test('diorama: without WebGL the still stands in and the day still navigates @mo
   expect(errors).toEqual([]);
 });
 
+for (const [w, h] of [[1440, 900], [900, 1000]] as const) {
+  test(`diorama: without WebGL at ${w}x${h} no card covers the day nav and no clock reads 08:00 over a later chapter`, async ({ page }) => {
+    test.setTimeout(90_000);
+    await page.setViewportSize({ width: w, height: h });
+    await page.addInitScript(() => {
+      const proto = HTMLCanvasElement.prototype as unknown as { getContext: (...args: unknown[]) => unknown };
+      const get = proto.getContext;
+      proto.getContext = function (this: HTMLCanvasElement, ...args: unknown[]) {
+        return /webgl/i.test(String(args[0])) ? null : get.apply(this, args);
+      };
+    });
+    await arrive(page);
+    await expect(page.locator('.dio-stage img[src*="room-0800"]')).toBeVisible();
+    for (const id of ['dio-coffee', 'dio-seva', 'dio-study', 'dio-skills', 'dio-projects']) {
+      await page.evaluate((i) => document.getElementById(i)!.scrollIntoView({ behavior: 'instant' }), id);
+      await page.waitForTimeout(700);
+      const state = await page.evaluate(() => {
+        const covered = [...document.querySelectorAll<HTMLElement>('.dio-day a')].filter((a) => {
+          const r = a.getBoundingClientRect();
+          if (r.width === 0 || r.bottom < 0 || r.top > innerHeight) return false;
+          const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+          return !!hit && !!hit.closest('.dio-card, .dio-hero__copy, .dio-footer');
+        }).length;
+        const clock = document.querySelector<HTMLElement>('.dio-clock')!;
+        const cr = clock.getBoundingClientRect();
+        const clockOnScreen = cr.width > 0 && cr.bottom > 0 && cr.top < innerHeight;
+        return { covered, stale: clockOnScreen && (clock.textContent ?? '').trim() === '08:00' };
+      });
+      expect(state, `#${id}`).toEqual({ covered: 0, stale: false });
+    }
+  });
+}
+
 test('diorama: without WebGL the page ground is the 08:00 ground the live stage paints', async ({ page, context }) => {
   await arrive(page);
   await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
@@ -831,3 +864,66 @@ test('diorama: the smooth-scroll guard applies to the home stage only', async ({
   await expect(page.locator('html')).toHaveAttribute('data-design', 'diorama');
   expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('smooth');
 });
+
+for (const [w, h] of [[1440, 900], [1280, 800]] as const) {
+  test(`diorama: at ${w}x${h} shift+tab through the Projects card never lands under the clock's line`, async ({ page }) => {
+    test.setTimeout(60_000);
+    await page.setViewportSize({ width: w, height: h });
+    await arrive(page);
+    await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+    await page.evaluate(() => document.getElementById('dio-projects')!.scrollIntoView({ behavior: 'instant' }));
+    await page.waitForTimeout(1500);
+    const links = page.locator('#dio-projects .dio-card a');
+    const n = await links.count();
+    expect(n).toBeGreaterThan(2);
+    await links.nth(n - 1).focus();
+    const seen: string[] = [];
+    for (let i = 0; i < n; i++) {
+      const state = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement;
+        const r = el.getBoundingClientRect();
+        const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        // A link still below the fold is not obscured: the next Tab scrolls to it
+        const onScreen = r.top >= 0 && r.bottom <= innerHeight;
+        return { text: (el.textContent ?? el.getAttribute('aria-label') ?? '').trim().slice(0, 30), ok: !onScreen || (!!hit && el.contains(hit)), tag: el.tagName };
+      });
+      if (state.tag === 'A') {
+        seen.push(state.text);
+        expect(state.ok, `focused "${state.text}" is hit at its centre`).toBe(true);
+      }
+      await page.keyboard.press('Shift+Tab');
+      await page.waitForTimeout(900);
+    }
+    expect(seen.length).toBeGreaterThan(2);
+  });
+}
+
+for (const [id, hour] of [['dio-wms', '13:00'], ['dio-uikit', '16:00']] as const) {
+  test(`diorama: the clock reads against the real scene at ${hour} (#${id})`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await arrive(page);
+    await page.addScriptTag({ content: CONTRAST_JS });
+    await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+    await page.evaluate((i) => document.getElementById(i)!.scrollIntoView({ behavior: 'instant' }), id);
+    await expect(page.locator('.dio-clock')).toHaveText(hour, { timeout: 8000 });
+    await page.waitForTimeout(2500);
+    const color = await page.evaluate(() => (window as unknown as Record<string, (...a: any[]) => any>).__rgb(getComputedStyle(document.querySelector('.dio-clock')!).color).slice(0, 3));
+    await page.addStyleTag({ content: '.dio-clock { color: transparent !important; -webkit-text-fill-color: transparent !important; }' });
+    const shot = await page.locator('.dio-clock').screenshot();
+    const ratios = await page.evaluate(async ({ b64, color }) => {
+      const w = window as unknown as Record<string, (...a: any[]) => any>;
+      const img = new Image();
+      img.src = `data:image/png;base64,${b64}`;
+      await img.decode();
+      const c = document.createElement('canvas');
+      c.width = img.width; c.height = img.height;
+      const ctx = c.getContext('2d')!;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, c.width, c.height).data;
+      const out: number[] = [];
+      for (let p = 0; p < d.length; p += 4) out.push(w.__cr(color, [d[p], d[p + 1], d[p + 2]]));
+      return out.sort((a, b) => a - b);
+    }, { b64: shot.toString('base64'), color });
+    expect(ratios[Math.floor(ratios.length * 0.05)], `clock ${hour}: 5th-percentile contrast`).toBeGreaterThanOrEqual(3);
+  });
+}

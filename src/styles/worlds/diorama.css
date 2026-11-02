@@ -79,6 +79,16 @@ html[data-design='diorama'] {
   text-shadow: 0 2px 24px rgb(0 0 0 / 0.55), 0 0 10px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.45);
   pointer-events: none;
 }
+/* A soft dark pool behind the digits: over the pale window (13:00, 16:00) the paper-white
+   figures still read at display-type contrast */
+.dio-clock::before {
+  content: '';
+  position: absolute;
+  inset: -0.5em -0.8em;
+  z-index: -1;
+  background: radial-gradient(ellipse closest-side, rgb(24 20 18 / 0.62) 0 80%, rgb(24 20 18 / 0) 100%);
+  pointer-events: none;
+}
 
 /* ---------- The day: one list of links, over their objects or as the day's agenda ---------- */
 /* The layer matches the stage; the stage moves each link with a transform. On the
@@ -175,6 +185,16 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   opacity: 1;
   pointer-events: auto;
   transform: none;
+}
+/* Wide screens: with no live room nothing may sit fixed over the cards, so the agenda and the
+   clock stay with the 08:00 hero and scroll away with it */
+@media (min-width: 768px) {
+  .dio-day[data-mode='list'] {
+    position: absolute;
+  }
+  .dio-hero:has(.dio-day[data-mode='list']) .dio-clock {
+    position: absolute;
+  }
 }
 
 /* ---------- The hero: 08:00 ---------- */
@@ -760,10 +780,16 @@ html[data-design='diorama'] :is(#about, #experience, #education, #skills, #proje
 }
 @keyframes dio-under-the-line {
   from {
-    clip-path: inset(0% 0 0 0);
+    clip-path: inset(0% 0 0 0 round var(--radius-card));
   }
   to {
-    clip-path: inset(100% 0 0 0);
+    clip-path: inset(100% 0 0 0 round var(--radius-card));
+  }
+}
+/* Keyboard focus scrolls a link clear of the cut line, not just the header */
+@media (min-width: 768px) {
+  .dio-card :is(a, button) {
+    scroll-margin-top: calc(var(--dio-line) - 5rem + 0.75rem);
   }
 }
 @supports (animation-timeline: view()) {
@@ -780,6 +806,12 @@ html[data-design='diorama'] :is(#about, #experience, #education, #skills, #proje
       animation-timeline: view(block var(--dio-line) 0px);
       animation-range: exit-crossing;
     }
+  }
+}
+/* No live room: nothing is fixed in the corner, so nothing cuts the cards */
+@media (min-width: 768px) {
+  html:has(.dio-day[data-mode='list']) :is(.dio-chapter .dio-card, .dio-hero__copy) {
+    animation: none;
   }
 }
 /* Phones: full width under the band. scroll-padding-top already clears the band, so the

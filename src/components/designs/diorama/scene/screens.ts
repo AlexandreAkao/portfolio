@@ -250,10 +250,11 @@ function wallpaper(w: number, h: number, dim: boolean) {
 /* ------------------------------------------------------------ drawers */
 
 function off({ ctx, W, H }: Frame) {
-  ctx.fillStyle = '#060607';
+  // A screen that is off still reflects the room: a lifted graphite with a sheen, never a hole of pure black
+  ctx.fillStyle = '#2a2d35';
   ctx.fillRect(0, 0, W, H);
   const g = ctx.createLinearGradient(0, 0, W * 0.6, H);
-  g.addColorStop(0, 'rgba(255,255,255,0.05)');
+  g.addColorStop(0, 'rgba(255,255,255,0.18)');
   g.addColorStop(0.5, 'rgba(255,255,255,0)');
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, W, H);

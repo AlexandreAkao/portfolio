@@ -145,6 +145,8 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
       outer: new THREE.MeshStandardMaterial({ color: '#1a1a1b', roughness: 1 }),
       cut: new THREE.MeshStandardMaterial({ color: '#2b2c30', roughness: 0.9 }),
       black: new THREE.MeshStandardMaterial({ color: '#141416', roughness: 0.42, metalness: 0.2 }),
+      // Monitor housings: a lighter graphite than the hair, so a screen's back seen past his head never reads as part of it
+      housing: new THREE.MeshStandardMaterial({ color: '#3b3d45', roughness: 0.5, metalness: 0.25 }),
       leather: new THREE.MeshStandardMaterial({ color: '#16171a', roughness: 0.38 }),
       metal: new THREE.MeshStandardMaterial({ color: '#202124', roughness: 0.35, metalness: 0.8 }),
       cream: new THREE.MeshStandardMaterial({ color: '#ece6dc', roughness: 0.55 }),
@@ -335,7 +337,7 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
       ))}
 
       {/* Main monitor on the riser */}
-      <RoundedBox args={[0.66, 0.39, 0.03]} radius={0.008} position={[-0.2, 1.2, -1.44]} material={mats.black} castShadow />
+      <RoundedBox args={[0.66, 0.39, 0.03]} radius={0.008} position={[-0.2, 1.2, -1.44]} material={mats.housing} castShadow />
       <mesh position={[-0.2, 1.2, -1.4245]} material={screens.mainMat}>
         <planeGeometry args={[0.625, 0.352]} />
       </mesh>
@@ -347,7 +349,7 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
       </mesh>
       {/* Upper monitor on the wall, tipped toward him */}
       <group position={[-0.2, 1.72, -1.555]} rotation={[0.1, 0, 0]}>
-        <RoundedBox args={[0.64, 0.38, 0.03]} radius={0.008} material={mats.black} castShadow />
+        <RoundedBox args={[0.64, 0.38, 0.03]} radius={0.008} material={mats.housing} castShadow />
         <mesh position={[0, 0, 0.0155]} material={screens.upperMat}>
           <planeGeometry args={[0.605, 0.342]} />
         </mesh>
@@ -419,7 +421,7 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
           <boxGeometry args={[0.08, 0.024, 0.06]} />
         </mesh>
         <group position={[0, 0.1, -0.05]} rotation={[-0.35, 0, 0]}>
-          <RoundedBox args={[0.24, 0.17, 0.008]} radius={0.004} material={mats.black} castShadow />
+          <RoundedBox args={[0.24, 0.17, 0.008]} radius={0.004} material={mats.housing} castShadow />
           <mesh position={[0, 0, 0.0045]} material={screens.tabletMat}>
             <planeGeometry args={[0.225, 0.155]} />
           </mesh>
