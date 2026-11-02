@@ -7,6 +7,8 @@ export type StationId = 'arrival' | 'coffee' | 'seva' | 'wms' | 'bees' | 'uikit'
 export type Pose = 'typing' | 'coffee' | 'lookUp' | 'think' | 'reading' | 'wave';
 export type ScreenId = 'wall' | 'lock' | 'off' | 'code' | 'arch' | 'trace' | 'store' | 'storybook' | 'athena' | 'chart' | 'projects';
 export type V3 = [number, number, number];
+/** The object an hour's label is pinned to. Hours on one object share one pin: the hour on it now. */
+export type PinObject = 'figure' | 'upper' | 'monitor' | 'tablet' | 'keyboard' | 'books' | 'stand';
 
 export interface Station {
   id: StationId;
@@ -20,6 +22,7 @@ export interface Station {
   turn: 0 | 1;
   screens: { main: ScreenId; upper: ScreenId; tablet: ScreenId };
   label?: V3;
+  on?: PinObject;
 }
 
 export interface Light { sun: number; sunColor: string; sunDir: V3; sky: string; lamp: number; hemi: number; fill: number }
@@ -34,21 +37,24 @@ const SHIFT = 0.62;
 
 const st = (
   id: StationId, hour: number, target: V3, dist: number, yaw: number, shift: number, wide: boolean, pose: Pose, turn: 0 | 1,
-  main: ScreenId, upper: ScreenId, tablet: ScreenId, label?: V3,
-): Station => ({ id, hour, target, dist, yaw, shift, wide, pose, turn, screens: { main, upper, tablet }, label });
+  main: ScreenId, upper: ScreenId, tablet: ScreenId, label?: V3, on?: PinObject,
+): Station => ({ id, hour, target, dist, yaw, shift, wide, pose, turn, screens: { main, upper, tablet }, label, on });
+
+/** Above the main monitor: the pin its four hours share (13:00, 17:00, 17:45, 21:00). */
+const MONITOR: V3 = [-0.2, 1.5, -1.44];
 
 export const STATIONS: Station[] = [
   st('arrival', 8, [-0.7, 0.9, -1.3], 18, 0, 0, true, 'typing', 0, 'wall', 'off', 'off'),
-  st('coffee', 9, [-0.2, 1.0, -0.9], 9, 0.1, SHIFT, false, 'coffee', 0, 'code', 'wall', 'off', [-0.2, 1.62, -0.5]),
-  st('seva', 10.5, [-0.2, 1.5, -1.4], 6.8, 0.14, SHIFT, false, 'lookUp', 0, 'code', 'arch', 'off', [-0.2, 2.02, -1.55]),
-  st('wms', 13, [0, 1.05, -1.15], 6.4, -0.04, SHIFT, false, 'think', 0, 'trace', 'arch', 'off', [0.24, 1.0, -1.24]),
-  st('bees', 14.5, [0.45, 0.95, -1.1], 5.6, -0.1, SHIFT, false, 'typing', 0, 'code', 'arch', 'store', [0.5, 1.05, -1.08]),
-  st('uikit', 16, [-0.3, 0.9, -1.05], 6.0, -0.16, SHIFT, false, 'typing', 0, 'storybook', 'arch', 'off', [-0.3, 0.95, -1.0]),
-  st('nati', 17, [-0.2, 1.2, -1.4], 6.4, 0.05, SHIFT, false, 'typing', 0, 'athena', 'code', 'off', [-0.2, 1.5, -1.44]),
-  st('funcap', 17.75, [-0.2, 1.2, -1.4], 6.4, 0.12, SHIFT, false, 'think', 0, 'chart', 'code', 'off', [-0.45, 1.5, -1.44]),
-  st('study', 19, [-0.9, 0.95, -1.2], 6.6, 0.22, SHIFT, false, 'reading', 0, 'wall', 'off', 'off', [-1.2, 1.02, -1.46]),
-  st('skills', 20, [0.86, 1.1, -1.4], 5.6, 0.18, SHIFT, false, 'typing', 0, 'code', 'off', 'off', [0.86, 1.12, -1.4]),
-  st('projects', 21, [-0.2, 1.2, -1.3], 7.0, 0.08, SHIFT, false, 'typing', 0, 'projects', 'code', 'off', [-0.2, 1.45, -1.44]),
+  st('coffee', 9, [-0.2, 1.0, -0.9], 9, 0.1, SHIFT, false, 'coffee', 0, 'code', 'wall', 'off', [-0.2, 1.62, -0.5], 'figure'),
+  st('seva', 10.5, [-0.2, 1.5, -1.4], 6.8, 0.14, SHIFT, false, 'lookUp', 0, 'code', 'arch', 'off', [-0.2, 2.02, -1.55], 'upper'),
+  st('wms', 13, [0, 1.05, -1.15], 6.4, -0.04, SHIFT, false, 'think', 0, 'trace', 'arch', 'off', MONITOR, 'monitor'),
+  st('bees', 14.5, [0.45, 0.95, -1.1], 5.6, -0.1, SHIFT, false, 'typing', 0, 'code', 'arch', 'store', [0.5, 1.05, -1.08], 'tablet'),
+  st('uikit', 16, [-0.3, 0.9, -1.05], 6.0, -0.16, SHIFT, false, 'typing', 0, 'storybook', 'arch', 'off', [-0.3, 0.95, -1.0], 'keyboard'),
+  st('nati', 17, [-0.2, 1.2, -1.4], 6.4, 0.05, SHIFT, false, 'typing', 0, 'athena', 'code', 'off', MONITOR, 'monitor'),
+  st('funcap', 17.75, [-0.2, 1.2, -1.4], 6.4, 0.12, SHIFT, false, 'think', 0, 'chart', 'code', 'off', MONITOR, 'monitor'),
+  st('study', 19, [-0.9, 0.95, -1.2], 6.6, 0.22, SHIFT, false, 'reading', 0, 'wall', 'off', 'off', [-1.2, 1.02, -1.46], 'books'),
+  st('skills', 20, [0.86, 1.1, -1.4], 5.6, 0.18, SHIFT, false, 'typing', 0, 'code', 'off', 'off', [0.86, 1.12, -1.4], 'stand'),
+  st('projects', 21, [-0.2, 1.2, -1.3], 7.0, 0.08, SHIFT, false, 'typing', 0, 'projects', 'code', 'off', MONITOR, 'monitor'),
   st('night', 22, [-0.7, 0.9, -1.3], 18, 0, 0, true, 'wave', 1, 'lock', 'lock', 'off'),
 ];
 

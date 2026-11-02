@@ -110,8 +110,9 @@ function DioramaHeroInner() {
 
       <div className="dio-hero__inner">
         <div className="dio-hero__copy">
-          <p className="dio-kicker">
-            <time dateTime="08:00">08:00</time> · {t('diorama.scene.arrival', locale)}
+          {/* The hour and scene for assistive tech; on screen the clock shows the hour */}
+          <p className="dio-hour sr-only">
+            <time dateTime="08:00">08:00</time> {t('diorama.scene.arrival', locale)}
           </p>
           <h1 className="dio-name">{t('hero.name', locale)}</h1>
           <p className="dio-role">

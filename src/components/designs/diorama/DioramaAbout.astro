@@ -1,18 +1,11 @@
 ---
 /**
- * 09:00, coffee: who he is, then the four figures. The card stands beside the
- * room while Akira reads the screen with the mug in hand.
+ * 09:00, coffee: who he is, in his own two paragraphs. The card stands beside
+ * the room while Akira reads the screen with the mug in hand. (No figures block:
+ * its numbers are the headlines of the hours that follow.)
  */
 import { t } from '@i18n/utils';
-import T from '@components/ui/T.astro';
 import DioramaChapter from './DioramaChapter.astro';
-
-const stats = [
-  { valueKey: 'about.stat.years', labelKey: 'about.stat.years.label' },
-  { valueKey: 'about.stat.centers', labelKey: 'about.stat.centers.label' },
-  { valueKey: 'about.stat.components', labelKey: 'about.stat.components.label' },
-  { valueKey: 'about.stat.microservices', labelKey: 'about.stat.microservices.label' },
-];
 ---
 
 <DioramaChapter id="coffee" titleKey="about.title">
@@ -22,13 +15,4 @@ const stats = [
   <p class="dio-body">
     <span data-lang-show="en">{t('about.p2', 'en')}</span><span data-lang-show="pt">{t('about.p2', 'pt')}</span>
   </p>
-  {/* The figures: the number first on screen, its label under it */}
-  <dl class="dio-figures">
-    {stats.map((s) => (
-      <div>
-        <dt><T k={s.labelKey} /></dt>
-        <dd><T k={s.valueKey} /></dd>
-      </div>
-    ))}
-  </dl>
 </DioramaChapter>

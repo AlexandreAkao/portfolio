@@ -49,26 +49,35 @@ html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
 }
 
 /* ---------- The clock ---------- */
+/* The clock owns the top-right corner and never steps aside. Below 768px it sits in the band;
+   from there up its line (its bottom edge plus a gap) is where the cards begin: a card reaching
+   it scrolls beneath it, cut there, instead of entering the corner (below). The stage reads the
+   line (registered, so it computes to pixels) to keep the labels off the cut part too. */
+@property --dio-line {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+html[data-design='diorama'] {
+  --dio-clock-top: calc(64px + 1.25rem);
+  --dio-clock-size: clamp(2.5rem, 8vw, 7rem);
+  --dio-line: calc(var(--dio-clock-top) + var(--dio-clock-size) + 1.25rem);
+}
 .dio-clock {
   position: fixed;
-  top: calc(64px + 1.25rem);
+  top: var(--dio-clock-top);
   right: clamp(1rem, 4vw, 3rem);
   z-index: 1;
   margin: 0;
   font-family: var(--font-dio-mono);
   font-weight: 200;
-  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-size: var(--dio-clock-size);
   line-height: 1;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
   color: var(--dio-paper);
   text-shadow: 0 2px 24px rgb(0 0 0 / 0.55), 0 0 10px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.45);
   pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-/* A card (or the hero copy) passing under the clock: the clock steps aside until it is clear (Stage.tsx) */
-.dio-clock[data-covered] {
-  opacity: 0;
 }
 
 /* ---------- The day: one list of links, over their objects or as the day's agenda ---------- */
@@ -185,13 +194,6 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 .dio-hero__copy {
   width: min(30rem, 100%);
 }
-.dio-kicker {
-  margin: 0 0 0.9rem;
-  font-family: var(--font-dio-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.02em;
-  color: var(--accent-text);
-}
 .dio-name {
   margin: 0;
   font-size: clamp(2rem, 6vw, 5.5rem);
@@ -261,8 +263,7 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   flex-wrap: wrap;
   gap: 0 1.25rem;
   margin: 0.75rem 0 0;
-  font-family: var(--font-dio-mono);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 .dio-socials a {
   display: inline-flex;
@@ -310,9 +311,6 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 /* The site's accent ring is too faint on paper */
 .dio-card :focus-visible {
   outline-color: var(--dio-ink);
-}
-.dio-card .dio-kicker {
-  color: var(--dio-lamp-ink);
 }
 .dio-card__title {
   margin: 0 0 0.75rem;
@@ -395,9 +393,6 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
     min-height: 0;
     padding: calc(38svh + 1rem) 1rem 2.5rem;
   }
-  .dio-kicker {
-    margin-bottom: 0.4rem;
-  }
   .dio-name {
     font-size: clamp(2rem, 10vw, 2.75rem);
     line-height: 0.95;
@@ -465,8 +460,8 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   border-radius: 999px;
   background: transparent;
   color: var(--dio-ink);
-  font-family: var(--font-dio-mono);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   cursor: pointer;
 }
 .dio-toggle:hover,
@@ -496,11 +491,12 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   list-style: none;
 }
 .dio-tags li {
-  padding: 0.15rem 0.55rem;
+  padding: 0.15rem 0.6rem;
   border-radius: 999px;
   background: color-mix(in srgb, var(--dio-ink) 10%, transparent);
-  font-family: var(--font-dio-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.45;
 }
 
 /* ---------- 09:00 About ---------- */
@@ -517,35 +513,6 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   line-height: 1.55;
   color: var(--dio-ink-2);
 }
-.dio-figures {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 1.25rem;
-  margin: 0;
-}
-/* The number reads first, its label under it (dt stays first for assistive tech) */
-.dio-figures > div {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  padding: 0.7rem 0;
-  border-top: 1px solid rgb(23 24 27 / 0.14);
-}
-.dio-figures dd {
-  margin: 0;
-  font-size: clamp(1.6rem, 2.3vw, 2rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--dio-ink);
-}
-.dio-figures dt {
-  margin-top: 0.35rem;
-  font-family: var(--font-dio-mono);
-  font-size: 0.7rem;
-  color: var(--dio-ink-2);
-}
-
 /* ---------- 19:00 Education ---------- */
 .dio-degrees,
 .dio-projects {
@@ -591,6 +558,9 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   border-radius: 999px;
   background: var(--dio-lamp-ink);
   color: var(--dio-paper);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 .dio-degree__note {
   margin: 0.45rem 0 0;
@@ -637,11 +607,10 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   text-decoration-thickness: 2px;
   text-underline-offset: 0.18em;
 }
-.dio-project a::after {
-  content: '\2197';
-  font-family: var(--font-dio-mono);
-  font-size: 0.7em;
-  font-weight: 400;
+.dio-project a > svg {
+  flex: none;
+  width: 0.8em;
+  height: 0.8em;
   color: var(--dio-lamp-ink);
 }
 .dio-project a:hover {
@@ -777,6 +746,40 @@ html[data-design='diorama'] :is(#about, #experience, #education, #skills, #proje
   }
   .dio-chapter--role .dio-card {
     width: min(30rem, 34vw);
+  }
+}
+/* The clock's corner stays its own. A chapter's card is centred below the clock's line, and a
+   card that reaches the line as the page moves on (or a tall one, the skills, read to its end)
+   scrolls beneath it: cut at the line from the top, by the scroll itself (exit-crossing of a
+   view timeline inset to the line). Tablets cut the hero copy too, which shares the clock's
+   side there. Browsers without scroll-driven animations get the same cut from the stage. */
+@media (min-width: 768px) {
+  .dio-chapter {
+    padding-top: var(--dio-line);
+  }
+}
+@keyframes dio-under-the-line {
+  from {
+    clip-path: inset(0% 0 0 0);
+  }
+  to {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (min-width: 768px) {
+    .dio-chapter .dio-card {
+      animation: dio-under-the-line auto linear both;
+      animation-timeline: view(block var(--dio-line) 0px);
+      animation-range: exit-crossing;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .dio-hero__copy {
+      animation: dio-under-the-line auto linear both;
+      animation-timeline: view(block var(--dio-line) 0px);
+      animation-range: exit-crossing;
+    }
   }
 }
 /* Phones: full width under the band. scroll-padding-top already clears the band, so the

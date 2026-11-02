@@ -4,10 +4,12 @@
  * a day sample (day.ts), glides the camera between stations, writes the hour
  * on the page's clock, tints the page ground with the sky and places the day's
  * navigation links: on the wide shots (08:00, 22:00) they line up as the day's
- * agenda under the room; as the camera closes in they travel to their objects.
- * Nothing the stage places covers text: a label that would touch a card or the
- * hero copy hides, the agenda slides clear of them, and the clock fades while a
- * card passes under it.
+ * agenda under the room; as the camera closes in they travel to their objects,
+ * and only the hour on screen and the next one stay in sight (one pin per object).
+ * Nothing the stage places covers text or the clock: a label that would touch a
+ * card, the hero copy or the clock hides, and the agenda slides clear of them.
+ * The clock never moves aside: the cards are cut at its line instead (diorama.css,
+ * or here where the browser has no scroll-driven animations).
  * Loaded lazily by DioramaHero, only while Diorama is the active world.
  */
 import { useEffect, useMemo, useRef, useState, type MutableRefObject, type RefObject } from 'react';
@@ -44,6 +46,12 @@ const LABEL_GAP = 4;
 const AGENDA_GAP = 6;
 /** Room kept between a label (or the agenda) and a card or the hero copy, in pixels. */
 const GUARD = 6;
+/** Room kept between a label and the clock: the clock reads alone in its corner. */
+const CLOCK_GUARD = 16;
+/** Closer than this (1 = the wide shot), the day's labels leave the agenda: only the hour on screen and the next one show. */
+const CLOSE_FIT = 0.5;
+/** Cards scroll under the clock's line by a scroll-driven clip (diorama.css); without one, the stage cuts them each frame. */
+const CSS_CUT = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()');
 
 /** The room's silhouette from the camera's side: the floor slab's corners and the walls' top edges. */
 const OUTLINE: V3[] = [
@@ -68,6 +76,12 @@ interface Box {
 interface Slot {
   x: number;
   y: number;
+}
+
+/** A card or the hero copy, in page coordinates; `cut` when it scrolls under the clock's line. */
+interface Text extends Box {
+  el: HTMLElement;
+  cut: boolean;
 }
 
 /** Two boxes overlap, or come within `pad` pixels of each other. */
@@ -153,9 +167,11 @@ interface Layout {
   column: boolean;
   copyRight: number;
   /** The text the stage must not cover: every card and the hero copy, in page coordinates (y + scrollY). */
-  obstacles: Box[];
+  obstacles: Text[];
   /** The clock's box on screen (it is fixed). */
   clock: Box | null;
+  /** Where the cards are cut, under the clock (0 on phones: the band sits above them). */
+  line: number;
 }
 
 function Driver({
@@ -183,6 +199,7 @@ function Driver({
     copyRight: 0,
     obstacles: [],
     clock: null,
+    line: 0,
   });
   const cur = useRef({
     pos: new THREE.Vector3(),
@@ -193,7 +210,7 @@ function Driver({
     fit: 1,
     init: false,
   });
-  const written = useRef({ clock: '', active: '', ground: '', compact: false, covered: false, frames: 0 });
+  const written = useRef({ clock: '', active: '', ground: '', compact: false, frames: 0 });
   const ready = useRef(onReady);
   ready.current = onReady;
   const work = useMemo(
@@ -205,6 +222,7 @@ function Driver({
       probe: new THREE.PerspectiveCamera(),
       outline: OUTLINE.map((v) => new THREE.Vector3(...v)),
       labels: STATIONS.filter((s) => s.label).map((s) => [s.id, new THREE.Vector3(...(s.label as V3))] as const),
+      cuts: new Map<HTMLElement, number>(),
     }),
     [],
   );
@@ -242,13 +260,15 @@ function Driver({
         anchors.push(anchors.length ? Math.max(at, anchors[anchors.length - 1]) : 0);
       }
       const copy = document.querySelector<HTMLElement>('.dio-hero__copy');
-      // Cards and copy scroll with the page: cached in page coordinates, each frame only subtracts scrollY
-      const obstacles: Box[] = [];
+      // Cards and copy scroll with the page: cached in page coordinates, each frame only subtracts scrollY.
+      // Off phones every card is cut at the clock's line, and the copy too where it shares the clock's side (tablets).
+      const obstacles: Text[] = [];
       const texts = new Set<Element>();
       for (const el of document.querySelectorAll<HTMLElement>('.dio-card, .dio-hero__copy, .dio-footer')) {
         if (el.getClientRects().length === 0) continue;
         const r = el.getBoundingClientRect();
-        obstacles.push({ x0: r.left, x1: r.right, y0: r.top + window.scrollY, y1: r.bottom + window.scrollY });
+        const cut = !band.matches && (el.classList.contains('dio-card') || (el === copy && !column.matches));
+        obstacles.push({ el, cut, x0: r.left, x1: r.right, y0: r.top + window.scrollY, y1: r.bottom + window.scrollY });
         texts.add(el);
       }
       // Keep watching exactly the boxes in use: cards that mount later (an island hydrating) join, gone ones leave.
@@ -267,6 +287,7 @@ function Driver({
         copyRight: copy ? copy.getBoundingClientRect().right : 0,
         obstacles,
         clock: c && c.width > 0 ? { x0: c.left, x1: c.right, y0: c.top, y1: c.bottom } : null,
+        line: band.matches ? 0 : parseFloat(getComputedStyle(html).getPropertyValue('--dio-line')) || 0,
       };
     };
     measure();
@@ -298,10 +319,9 @@ function Driver({
       // Without the live room the 08:00 still stands in, so the page returns to that hour
       delete html.dataset.dioActive;
       html.style.removeProperty('--dio-ground');
-      if (clock.current) {
-        clock.current.textContent = '08:00';
-        clock.current.removeAttribute('data-covered');
-      }
+      if (clock.current) clock.current.textContent = '08:00';
+      work.cuts.forEach((_, el) => el.style.removeProperty('clip-path'));
+      work.cuts.clear();
       document.querySelector('.dio-day')?.removeAttribute('data-compact');
       eachLabel((_, el) => {
         el.removeAttribute('aria-current');
@@ -315,28 +335,41 @@ function Driver({
     // The first sampled frame snaps the camera: it must already know where the chapters are, or a
     // deep link (/#skills) would start at 08:00 and glide through the day
     if (!layout.current.measured) return;
-    const { anchors, stations, band, column, copyRight } = layout.current;
+    const { anchors, stations, band, column, copyRight, line } = layout.current;
     const html = document.documentElement;
     const w = size.width;
     const h = size.height;
 
-    // The text on screen this frame (desktop and tablets; on phones the band sits above the cards)
+    // The text on screen this frame (desktop and tablets; on phones the band sits above the cards).
+    // What scrolls under the clock's line shows only below it.
     const obstacles: Box[] = [];
     if (!band) {
       for (const o of layout.current.obstacles) {
-        const y0 = o.y0 - window.scrollY;
+        const top = o.y0 - window.scrollY;
+        const y0 = o.cut ? Math.max(top, line) : top;
         const y1 = o.y1 - window.scrollY;
-        if (y1 > 0 && y0 < h) obstacles.push({ x0: o.x0, x1: o.x1, y0, y1 });
+        if (y1 > y0 && y1 > 0 && y0 < h) obstacles.push({ x0: o.x0, x1: o.x1, y0, y1 });
+        // No scroll-driven clip in this browser: cut the card here
+        if (!CSS_CUT && o.cut) {
+          const cut = Math.round(Math.min(o.y1 - o.y0, Math.max(0, line - top)));
+          if (cut !== (work.cuts.get(o.el) ?? 0)) {
+            o.el.style.clipPath = cut > 0 ? `inset(${cut}px 0 0 0)` : '';
+            work.cuts.set(o.el, cut);
+          }
+        }
       }
     }
+    // The clock's corner is kept clear of labels, with more room than a card (phones show one label, in the band)
+    const face = band ? null : layout.current.clock;
+    const corner: Box | null = face && { x0: face.x0 - CLOCK_GUARD, x1: face.x1 + CLOCK_GUARD, y0: face.y0 - CLOCK_GUARD, y1: face.y1 + CLOCK_GUARD };
 
     // Label sizes first, before this frame writes anything that dirties layout. Hour order, for the agenda.
     const byId = new Map<StationId, HTMLElement>();
     eachLabel((id, el) => byId.set(id, el));
-    const boxes: { el: HTMLElement; at: THREE.Vector3; w: number; h: number }[] = [];
+    const boxes: { id: StationId; el: HTMLElement; at: THREE.Vector3; w: number; h: number }[] = [];
     for (const [id, at] of work.labels) {
       const el = byId.get(id);
-      if (el && el.offsetWidth > 0) boxes.push({ el, at, w: el.offsetWidth, h: el.offsetHeight });
+      if (el && el.offsetWidth > 0) boxes.push({ id, el, at, w: el.offsetWidth, h: el.offsetHeight });
     }
     const stage = stageLayout(w, h, band, column, copyRight, boxes);
 
@@ -414,14 +447,7 @@ function Driver({
       clock.current.textContent = time;
       wr.clock = time;
     }
-    // The clock steps aside (fades, diorama.css) while a card or the copy passes under it
-    const face = layout.current.clock;
-    const covered = !!face && obstacles.some((o) => meets(face, o));
-    if (covered !== wr.covered && clock.current) {
-      clock.current.toggleAttribute('data-covered', covered);
-      wr.covered = covered;
-    }
-    // Close in, only the active hour keeps its full pill: the others are hour-only pins (the names stay in the links)
+    // Close in, only the active hour keeps its full pill: the next one is an hour-only pin (the names stay in the links)
     const compact = !band && c.fit < 0.05;
     if (compact !== wr.compact) {
       document.querySelector('.dio-day')?.toggleAttribute('data-compact', compact);
@@ -436,12 +462,25 @@ function Driver({
       wr.active = s.active;
     }
 
+    // Close in, only the hour on screen and the next one stay in sight, one pin per object: the next hour
+    // on the object the camera is on shows when its turn comes. The agenda shows the whole day.
+    let keep: Set<StationId> | null = null;
+    if (!band && c.fit < CLOSE_FIT) {
+      keep = new Set();
+      const k = stations.findIndex((st) => st.id === s.active);
+      const here = stations[k];
+      const next = stations[k + 1];
+      if (here?.label) keep.add(here.id);
+      if (next?.label && (!here?.label || next.on !== here.on)) keep.add(next.id);
+    }
+
     // Each link over its object; on the wide shots they leave the room for their agenda slots, travelling
     // with the camera. Labels that collide on the way spread apart, so each one reads in every frame.
     const g = stage.slots ? smooth(Math.min(1, Math.max(0, c.fit))) : 0;
-    // The agenda slides, as one block, clear of the cards and the copy (a card rising from below pushes it up)
+    // The agenda slides, as one block, clear of the cards, the copy and the clock (a card rising from below pushes it up)
+    const blockers = corner ? [...obstacles, corner] : obstacles;
     let slots = stage.slots;
-    if (slots && g > 0 && obstacles.length) {
+    if (slots && g > 0 && blockers.length) {
       const block: Box = { x0: Infinity, y0: Infinity, x1: -Infinity, y1: -Infinity };
       slots.forEach((slot, i) => {
         block.x0 = Math.min(block.x0, slot.x);
@@ -449,14 +488,14 @@ function Driver({
         block.x1 = Math.max(block.x1, slot.x + boxes[i].w);
         block.y1 = Math.max(block.y1, slot.y + boxes[i].h);
       });
-      const shift = clearance(block, obstacles, HEADER + 8, h - 8);
+      const shift = clearance(block, blockers, HEADER + 8, h - 8);
       if (shift) slots = slots.map((slot) => ({ x: slot.x, y: slot.y + shift }));
     }
     const pins = boxes.map((b, i) => {
       work.p.copy(b.at).project(camera);
       let x = ((work.p.x + 1) / 2) * w;
       let y = ((1 - work.p.y) / 2) * h;
-      const out = (work.p.z > 1 || x < 0 || x > w || y < 0 || y > h) && g < 0.5;
+      const out = ((work.p.z > 1 || x < 0 || x > w || y < 0 || y > h) && g < 0.5) || (keep !== null && !keep.has(b.id));
       const slot = slots?.[i];
       if (slot && g > 0) {
         x += (slot.x + b.w / 2 - x) * g;
@@ -490,9 +529,10 @@ function Driver({
       let x = Math.min(Math.max(pin.x, pin.w / 2 + 8), w - pin.w / 2 - 8);
       const y = Math.min(Math.max(pin.y, top + pin.h / 2), h - pin.h / 2 - 8);
       let out = pin.out;
-      // A label over a card or the copy hides (it stays in the list). One the visitor is on stays:
+      // A label over a card, the copy or the clock hides (it stays in the list). One the visitor is on stays:
       // hovered, it keeps the pill it opened; focused, it steps beside the card so it can be seen.
-      const hit = obstacles.find((o) => meets({ x0: x - pin.w / 2, x1: x + pin.w / 2, y0: y - pin.h / 2, y1: y + pin.h / 2 }, o, GUARD));
+      const at: Box = { x0: x - pin.w / 2, x1: x + pin.w / 2, y0: y - pin.h / 2, y1: y + pin.h / 2 };
+      const hit = obstacles.find((o) => meets(at, o, GUARD)) ?? (corner && meets(at, corner) ? corner : undefined);
       if (hit) {
         if (pin.el === document.activeElement) {
           const left = hit.x0 - GUARD - pin.w / 2;

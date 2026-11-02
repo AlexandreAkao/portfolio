@@ -42,8 +42,9 @@ function Hour({ entry, employer, locale }: { entry: Experience; employer?: strin
   return (
     <section className="dio-chapter dio-chapter--role" data-diorama-chapter={id} id={`dio-${id}`} data-diorama-hour={hour}>
       <div className="dio-card">
-        <p className="dio-kicker">
-          <time dateTime={hour}>{hour}</time> · {t(`diorama.scene.${id}`, locale)}
+        {/* The hour and scene for assistive tech; on screen the clock shows the hour */}
+        <p className="dio-hour sr-only">
+          <time dateTime={hour}>{hour}</time> {t(`diorama.scene.${id}`, locale)}
         </p>
         <h3 className="dio-card__title dio-role-name">{name}</h3>
         <p className="dio-role-line">

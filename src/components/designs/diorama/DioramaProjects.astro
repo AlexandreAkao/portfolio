@@ -5,6 +5,7 @@
  * live site when there is no public code.
  */
 import { projects } from '@data/projects';
+import { Icon } from 'astro-icon/components';
 import DioramaChapter from './DioramaChapter.astro';
 
 const personal = projects.filter((p) => p.type === 'personal');
@@ -15,7 +16,7 @@ const personal = projects.filter((p) => p.type === 'personal');
     {personal.map((p) => (
       <li>
         <h3 class="dio-project">
-          <a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer" aria-label={p.github ? `${p.title} on GitHub` : `${p.title}, live site`}>{p.title}</a>
+          <a href={p.github ?? p.live} target="_blank" rel="noopener noreferrer" aria-label={p.github ? `${p.title} on GitHub` : `${p.title}, live site`}>{p.title}<Icon name="lucide:arrow-up-right" aria-hidden="true" /></a>
         </h3>
         <p class="dio-project__about">
           <span data-lang-show="en">{p.description.en}</span><span data-lang-show="pt">{p.description.pt}</span>

@@ -305,22 +305,45 @@ test('diorama: at the wms hour the card stands in the viewport\'s right column',
   expect(left).toBeGreaterThanOrEqual(0.55);
 });
 
-test('diorama: close in, only the active hour keeps its full pill; names stay in the links', async ({ page }) => {
+/** The day's links a sighted visitor sees now (station ids), and which of them show their scene's name. */
+const shownPins = (page: Page) =>
+  page.evaluate(() =>
+    [...document.querySelectorAll<HTMLElement>('.dio-day a')]
+      .filter((a) => a.getClientRects().length > 0 && parseFloat(getComputedStyle(a).opacity) > 0.5)
+      .map((a) => ({ id: a.getAttribute('href')!.replace('#dio-', ''), named: a.querySelector('.dio-day__name')!.getBoundingClientRect().width > 4 })),
+  );
+
+test('diorama: close in, the active hour shows with its name, at most the next hour beside it, and one pin per object', async ({ page }) => {
+  test.setTimeout(120_000);
   await page.setViewportSize({ width: 1440, height: 900 });
   await arrive(page);
   await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
-  await page.evaluate(() => {
-    const top = document.getElementById('dio-wms')!.getBoundingClientRect().top + scrollY;
-    window.scrollTo({ top: top - 64 + 40, behavior: 'instant' });
-  });
-  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('wms');
-  await page.waitForTimeout(2500);
-  const names = page.locator('.dio-day a .dio-day__name');
-  const wide = await names.evaluateAll((els) => els.map((e) => e.getBoundingClientRect().width > 4));
-  expect(wide.filter(Boolean)).toHaveLength(1);
+  // The main monitor carries four hours: they share one pin, the hour on it now
+  expect(STATIONS.filter((s) => s.on === 'monitor').map((s) => s.id)).toEqual(['wms', 'nati', 'funcap', 'projects']);
+  for (const s of STATIONS.filter((x) => !x.wide)) {
+    await page.evaluate((i) => document.getElementById(`dio-${i}`)!.scrollIntoView({ behavior: 'instant' }), s.id);
+    await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive)).toBe(s.id);
+    await page.waitForTimeout(1500);
+    const next = STATIONS[STATIONS.indexOf(s) + 1];
+    const allowed = [s.id, ...(next.label && next.on !== s.on ? [next.id] : [])];
+    const shown = await shownPins(page);
+    const ids = shown.map((p) => p.id);
+    expect(ids, `at ${s.id}`).toContain(s.id);
+    expect(ids.length, `at ${s.id}: ${ids}`).toBeLessThanOrEqual(2);
+    for (const id of ids) expect(allowed, `at ${s.id}: ${id} shows`).toContain(id);
+    const on = ids.map((id) => STATIONS.find((x) => x.id === id)!.on);
+    expect(new Set(on).size, `at ${s.id}: one pin per object (${on})`).toBe(on.length);
+    // The active hour carries its scene's name; the next one is its hour alone
+    for (const p of shown) expect(p.named, `at ${s.id}: ${p.id} name`).toBe(p.id === s.id);
+  }
+  // Every name stays in its link for assistive tech, and the next hour opens its name on hover
   await expect(theDay(page).nth(0)).toHaveAccessibleName('09:00 Coffee');
-  await theDay(page).nth(0).hover();
-  await expect.poll(() => names.first().evaluate((e) => e.getBoundingClientRect().width > 4)).toBe(true);
+  await page.evaluate(() => document.getElementById('dio-wms')!.scrollIntoView({ behavior: 'instant' }));
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('wms');
+  await page.waitForTimeout(1500);
+  const bees = page.locator('.dio-day a[href="#dio-bees"]');
+  await bees.hover();
+  await expect.poll(() => bees.locator('.dio-day__name').evaluate((e) => e.getBoundingClientRect().width > 4)).toBe(true);
 });
 
 test('diorama: on a phone the page opens at 08:00 and each card reads its own hour @mobile', async ({ page }) => {
@@ -394,10 +417,9 @@ test('diorama: the evening hours carry the real content', async ({ page }) => {
   await expect(coffee.getByRole('heading', { level: 2, name: en['about.title'] })).toBeVisible();
   await expect(coffee).toContainText(en['about.p1']);
   await expect(coffee).toContainText(en['about.p2']);
-  for (const k of ['years', 'centers', 'components', 'microservices'] as const) {
-    await expect(coffee).toContainText(en[`about.stat.${k}`]);
-    await expect(coffee).toContainText(en[`about.stat.${k}.label`]);
-  }
+  // No figures block: its numbers are the next chapters' headlines
+  await expect(coffee.locator('dl')).toHaveCount(0);
+  await expect(coffee).not.toContainText(en['about.stat.microservices.label']);
 
   const study = page.locator('#dio-study .dio-card');
   await expect(study.getByRole('heading', { level: 2, name: en['education.title'] })).toBeVisible();
@@ -420,6 +442,23 @@ test('diorama: the evening hours carry the real content', async ({ page }) => {
   for (const p of personal) {
     await expect(side.getByRole('link', { name: p.github ? `${p.title} on GitHub` : `${p.title}, live site` })).toHaveAttribute('href', (p.github ?? p.live)!);
   }
+  // The outbound mark is a drawn icon, out of the accessible name, not a text glyph
+  await expect(side.locator('.dio-project a > svg[aria-hidden="true"]')).toHaveCount(personal.length);
+  expect(await side.locator('.dio-project a').first().evaluate((a) => getComputedStyle(a, '::after').content)).toBe('none');
+});
+
+test('diorama: Martian Mono sets hours, dates and the clock; pills and controls are in Bricolage', async ({ page }) => {
+  await arrive(page);
+  const family = (sel: string) => page.locator(sel).first().evaluate((e) => getComputedStyle(e).fontFamily);
+  for (const sel of ['#dio-skills .dio-tags li', '#dio-wms .dio-toggle', '#dio-projects .dio-tags li', '.dio-socials a']) {
+    expect(await family(sel), sel).toMatch(/^"?Bricolage/);
+  }
+  for (const sel of ['.dio-clock', '#dio-study .dio-degree__when', '#dio-wms .dio-role-line span', '.dio-day time']) {
+    expect(await family(sel), sel).toMatch(/^"?Martian Mono/);
+  }
+  // The clock's tracking stays at the floor or looser
+  const tracking = await page.locator('.dio-clock').evaluate((e) => parseFloat(getComputedStyle(e).letterSpacing) / parseFloat(getComputedStyle(e).fontSize));
+  expect(tracking).toBeGreaterThanOrEqual(-0.04 - 1e-6);
 });
 
 test('diorama: the sections print nothing bare over the room', async ({ page }) => {
@@ -447,9 +486,17 @@ test('diorama: the sections print nothing bare over the room', async ({ page }) 
 const overlaps = (page: Page) =>
   page.evaluate(() => {
     const shown = (el: Element) => el.getClientRects().length > 0 && parseFloat(getComputedStyle(el).opacity) > 0.5;
+    // A card scrolling under the clock's line is cut there (clip-path inset from the top): only the rest of it shows
+    const seen = (el: Element) => {
+      const r = el.getBoundingClientRect();
+      const m = getComputedStyle(el).clipPath.match(/^inset\(\s*(?:calc\()?\s*([\d.]+)(px|%)/);
+      const cut = m ? (m[2] === '%' ? (parseFloat(m[1]) / 100) * r.height : parseFloat(m[1])) : 0;
+      return { left: r.left, right: r.right, top: r.top + cut, bottom: r.bottom };
+    };
     const obstacles = [...document.querySelectorAll('.dio-card, .dio-hero__copy, .dio-footer')]
       .filter((el) => el.getClientRects().length > 0)
-      .map((el) => ({ name: el.closest('[data-diorama-chapter]')?.id ?? el.className, r: el.getBoundingClientRect() }));
+      .map((el) => ({ name: el.closest('[data-diorama-chapter]')?.id ?? el.className, r: seen(el) }))
+      .filter(({ r }) => r.bottom > r.top);
     const marks = [...document.querySelectorAll('.dio-day a, .dio-clock')].filter(shown);
     const hits: string[] = [];
     for (const mark of marks) {
@@ -476,6 +523,108 @@ for (const [w, h] of [[1440, 900], [1280, 800]] as const) {
     }
   });
 }
+
+/** The clock's face: its opacity, the card or copy on top anywhere across it, and any shown hour label within 12px of it. */
+const clockFace = (page: Page) =>
+  page.evaluate(() => {
+    const clock = document.querySelector<HTMLElement>('.dio-clock')!;
+    const r = clock.getBoundingClientRect();
+    const under = new Set<string>();
+    for (let i = 0; i <= 8; i++) {
+      for (let j = 0; j <= 4; j++) {
+        const el = document.elementFromPoint(r.left + 2 + ((r.width - 4) * i) / 8, r.top + 2 + ((r.height - 4) * j) / 4);
+        const text = el?.closest('.dio-card, .dio-hero__copy, .dio-footer');
+        if (text) under.add(text.closest('[data-diorama-chapter]')?.id ?? text.className);
+      }
+    }
+    const pins = [...document.querySelectorAll<HTMLElement>('.dio-day a')]
+      .filter((a) => parseFloat(getComputedStyle(a).opacity) > 0.5)
+      .filter((a) => {
+        const b = a.getBoundingClientRect();
+        return b.left < r.right + 12 && r.left < b.right + 12 && b.top < r.bottom + 12 && r.top < b.bottom + 12;
+      })
+      .map((a) => a.textContent!.trim());
+    return { opacity: getComputedStyle(clock).opacity, shown: r.width > 0 && r.height > 0, covered: [...under], pins };
+  });
+
+for (const [w, h] of [[1440, 900], [1280, 800]] as const) {
+  test(`diorama: at ${w}x${h} the clock always shows: no card enters its corner and no hour label crowds it`, async ({ page }) => {
+    test.setTimeout(240_000);
+    await page.setViewportSize({ width: w, height: h });
+    await arrive(page);
+    await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+    const ids = await page.locator('[data-diorama-chapter]').evaluateAll((els) => els.map((e) => e.id));
+    expect(ids.length).toBe(STATIONS.length);
+    // Each chapter where a reader stops: its top at the anchor, centred, and (tall cards) read to the card's end
+    for (const id of ids) {
+      for (const at of ['start', 'centre', 'end'] as const) {
+        await page.evaluate(
+          ({ i, at }) => {
+            const el = document.getElementById(i)!;
+            const r = el.getBoundingClientRect();
+            if (at === 'start') return el.scrollIntoView({ behavior: 'instant' });
+            if (at === 'centre') return scrollTo({ top: scrollY + r.top + r.height / 2 - innerHeight / 2, behavior: 'instant' });
+            const card = (el.querySelector('.dio-card') ?? el.querySelector('.dio-hero__copy'))!.getBoundingClientRect();
+            scrollTo({ top: scrollY + card.bottom - innerHeight + 24, behavior: 'instant' });
+          },
+          { i: id, at },
+        );
+        await page.waitForTimeout(700);
+        await expect.poll(() => clockFace(page), { message: `#${id} (${at})`, timeout: 4000 }).toEqual({ opacity: '1', shown: true, covered: [], pins: [] });
+      }
+    }
+  });
+}
+
+for (const [label, setup] of [
+  ['with reduced motion', async (page: Page) => page.emulateMedia({ reducedMotion: 'reduce' })],
+  [
+    'without scroll-driven animations (the stage cuts the card)',
+    async (page: Page) => {
+      await page.addInitScript(() => {
+        const supports = CSS.supports.bind(CSS);
+        CSS.supports = ((...a: [string, string?]) => (/animation-timeline/.test(a.join(' ')) ? false : supports(...(a as [string])))) as typeof CSS.supports;
+        document.addEventListener('DOMContentLoaded', () => {
+          document.head.append(Object.assign(document.createElement('style'), { textContent: '.dio-card, .dio-hero__copy { animation: none !important; }' }));
+        });
+      });
+    },
+  ],
+] as const) {
+  test(`diorama: a tall card read to its end scrolls under the clock's line ${label}`, async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await setup(page);
+    await arrive(page);
+    await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+    await page.evaluate(() => {
+      const card = document.querySelector('#dio-skills .dio-card')!.getBoundingClientRect();
+      scrollTo({ top: scrollY + card.bottom - innerHeight + 24, behavior: 'instant' });
+    });
+    await page.waitForTimeout(1200);
+    // The card's top has passed the line, and the clock still reads alone in its corner
+    expect(await page.locator('#dio-skills .dio-card').evaluate((e) => e.getBoundingClientRect().top)).toBeLessThan(150);
+    await expect.poll(() => clockFace(page), { timeout: 4000 }).toEqual({ opacity: '1', shown: true, covered: [], pins: [] });
+  });
+}
+
+test('diorama: each chapter keeps its hour and scene in its accessible text, with no label printed above its heading', async ({ page }) => {
+  await arrive(page);
+  await expect(page.locator('.dio-kicker')).toHaveCount(0);
+  for (const s of STATIONS) {
+    const chapter = page.locator(`[data-diorama-chapter="${s.id}"]`);
+    const hour = clockText(s.hour);
+    const scene = en[`diorama.scene.${s.id}` as keyof typeof en];
+    const text = chapter.locator('.dio-hour');
+    await expect(text, s.id).toHaveCount(1);
+    await expect(text, s.id).toHaveText(new RegExp(`^${hour}\\s+${scene}$`), { useInnerText: true });
+    await expect(text.locator('time'), s.id).toHaveAttribute('datetime', hour);
+    // Read before the heading, seen by no one: the clock already shows the hour
+    expect(await text.evaluate((e) => { const r = e.getBoundingClientRect(); return r.width <= 1 && r.height <= 1; }), s.id).toBe(true);
+    const tree = await chapter.locator(s.id === 'arrival' ? '.dio-hero__copy' : '.dio-card').ariaSnapshot();
+    expect(tree, s.id).toContain(hour);
+    expect(tree, s.id).toContain(scene);
+  }
+});
 
 // Each card here still fits its screen-tall chapter once opened (uikit at 1280 in the test browser, whose
 // svh runs a little short: bees there outgrows its chapter, so the page grows too and is re-measured anyway)
@@ -529,7 +678,7 @@ test('diorama: at 22:00 he turns and the contact names the action', async ({ pag
   await contact.scrollIntoViewIfNeeded();
   await page.waitForTimeout(2000);
   expect(await page.evaluate(() => document.documentElement.dataset.dioActive)).toBe('night');
-  await expect(contact.locator('.dio-card .dio-kicker')).toContainText('22:00');
+  await expect(contact.locator('.dio-card .dio-hour time')).toHaveText('22:00');
   await expect(contact.getByRole('heading', { level: 2, name: en['contact.title'] })).toBeVisible();
   await expect(contact.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', /^mailto:/);
   await expect(contact.getByRole('link', { name: 'Download CV' })).toHaveAttribute('href', /\.pdf$/);
