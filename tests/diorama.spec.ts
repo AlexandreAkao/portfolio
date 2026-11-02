@@ -319,3 +319,26 @@ test('diorama: close in, only the active hour keeps its full pill; names stay in
   await theDay(page).nth(0).hover();
   await expect.poll(() => names.first().evaluate((e) => e.getBoundingClientRect().width > 4)).toBe(true);
 });
+
+test('diorama: on a phone the page opens at 08:00 and each card reads its own hour @mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  const html = page.locator('html');
+  const clock = page.locator('.dio-clock');
+  const minutes = async () => {
+    const [h, m] = ((await clock.textContent()) ?? '').trim().split(':').map(Number);
+    return h * 60 + m;
+  };
+  await page.waitForTimeout(1500);
+  await expect(clock).toHaveText('08:00');
+  expect(await html.evaluate((e) => e.dataset.dioActive)).toBe('arrival');
+  for (const [id, from, to] of [['dio-seva', 10 * 60 + 30, 10 * 60 + 45], ['dio-wms', 13 * 60, 13 * 60 + 15]] as const) {
+    await page.evaluate((i) => document.getElementById(i)!.scrollIntoView(), id);
+    await page.waitForTimeout(2000);
+    expect(await html.evaluate((e) => e.dataset.dioActive)).toBe(id.replace('dio-', ''));
+    const t = await minutes();
+    expect(t, `${id} clock`).toBeGreaterThanOrEqual(from);
+    expect(t, `${id} clock`).toBeLessThanOrEqual(to);
+  }
+});

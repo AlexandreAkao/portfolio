@@ -179,7 +179,10 @@ function Driver({
 
     // A chapter is reached when its top meets the stage's bottom edge (the header on desktop, the band on phones)
     const measure = () => {
-      const bandBottom = band.matches && stage ? stage.getBoundingClientRect().bottom : HEADER;
+      // On phones that is where scroll-padding-top lands a scrolled-to chapter (the band plus a little air)
+      const bandBottom = band.matches && stage
+        ? Math.max(stage.getBoundingClientRect().bottom, parseFloat(getComputedStyle(html).scrollPaddingTop) || 0)
+        : HEADER;
       const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       const stations: Station[] = [];
       const anchors: number[] = [];
@@ -190,7 +193,8 @@ function Driver({
         // A chapter too near the end to reach the band is reached when the page bottoms out
         const at = Math.min(el.getBoundingClientRect().top + window.scrollY - bandBottom, maxScroll);
         stations.push(station);
-        anchors.push(Math.max(at, anchors[anchors.length - 1] ?? -Infinity));
+        // The first chapter (the hero) stands at its station at scrollY 0, wherever the band puts its top
+        anchors.push(anchors.length ? Math.max(at, anchors[anchors.length - 1]) : 0);
       }
       const copy = document.querySelector<HTMLElement>('.dio-hero__copy');
       layout.current = {
