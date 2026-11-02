@@ -77,6 +77,7 @@ colors:
   cartoon-ultramarine: "#2547b5"
   diorama-graphite: "#15161a"
   diorama-ground-morning: "#2f353c"
+  diorama-ground-night: "#171c2d"
   diorama-graphite-raised: "#1d1f24"
   diorama-graphite-hover: "#25272d"
   diorama-line: "#33353b"

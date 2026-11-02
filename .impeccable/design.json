@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-02T12:00:00.000Z",
+  "generatedAt": "2026-11-02T23:53:32.000Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
@@ -1129,6 +1129,21 @@
           "#e8eff9"
         ]
       },
+      "diorama-ground-night": {
+        "role": "neutral",
+        "displayName": "Night Ground",
+        "canonical": "oklch(23.0% 0.034 271.0)",
+        "tonalRamp": [
+          "#060a19",
+          "#1e2335",
+          "#393f52",
+          "#565d71",
+          "#788095",
+          "#99a1b7",
+          "#bcc3db",
+          "#e7eeff"
+        ]
+      },
       "diorama-graphite-raised": {
         "role": "neutral",
         "displayName": "Graphite Raised",
@@ -1806,9 +1821,9 @@
       "name": "Diorama Clock",
       "kind": "custom",
       "refersTo": "diorama-clock",
-      "description": "The hour as the stage writes it, fixed top right, aria-hidden; its line is where the cards begin and are cut.",
+      "description": "The hour as the stage writes it, fixed top right, aria-hidden, on its own graphite plate so it reads over the lit window; its line is where the cards begin and are cut.",
       "html": "<div class=\"ds-dclockwrap\"><p class=\"ds-dclock\" aria-hidden=\"true\">10:43</p></div>",
-      "css": ".ds-dclockwrap{display:flex;justify-content:flex-end;padding:1.5rem 2rem;background:linear-gradient(90deg,#2f353c 55%,#cfe0ee 55%)}.ds-dclock{position:relative;margin:0;font:200 clamp(2.5rem,8vw,7rem)/1 'Martian Mono Variable','Martian Mono',monospace;letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:#f1ece3;text-shadow:0 2px 24px rgb(0 0 0 / .55),0 0 10px rgb(0 0 0 / .5),0 1px 2px rgb(0 0 0 / .45)}.ds-dclock::before{content:'';position:absolute;inset:-.5em -.8em;z-index:-1;background:radial-gradient(ellipse closest-side,rgb(24 20 18 / .62) 0 80%,rgb(24 20 18 / 0) 100%)}"
+      "css": ".ds-dclockwrap{display:flex;justify-content:flex-end;padding:1.5rem 2rem;background:linear-gradient(90deg,#2f353c 55%,#cfe0ee 55%)}.ds-dclock{position:relative;margin:0;font:200 clamp(2.5rem,8vw,7rem)/1 'Martian Mono Variable','Martian Mono',monospace;letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:#f1ece3}.ds-dclock::before{content:'';position:absolute;inset:-.12em -.2em;z-index:-1;border:1px solid rgb(241 236 227 / .08);border-radius:.16em;background:rgb(21 22 26 / .7);box-shadow:0 .05em .2em rgb(0 0 0 / .22)}"
     },
     {
       "name": "Diorama Contact Action",
@@ -1917,7 +1932,7 @@
       },
       {
         "name": "The Lit Room Rule (Diorama)",
-        "body": "Light and shadow belong to the room and follow the hour. Cards, pins, and controls never take a shadow, a gradient, or a blur; depth on the page is the room behind them.",
+        "body": "Light and shadow belong to the room and follow the hour: the sun's window on the floor by day, the moon's and the room's own lamps by night, never a black box. Cards, pins, and controls never take a shadow, a gradient, or a blur; depth on the page is the room behind them. The clock's plate is a legibility device, not elevation.",
         "section": "elevation"
       },
       {
