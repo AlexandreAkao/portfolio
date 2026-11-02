@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-01T12:00:00.000Z",
+  "generatedAt": "2026-11-02T12:00:00.000Z",
   "title": "Design System: Alexandre Akira Portfolio",
   "extensions": {
     "colorMeta": {
@@ -1098,6 +1098,186 @@
           "#b3caff",
           "#e7effe"
         ]
+      },
+      "diorama-graphite": {
+        "role": "neutral",
+        "displayName": "Graphite",
+        "canonical": "oklch(20.1% 0.008 274.5)",
+        "tonalRamp": [
+          "#0a0b0f",
+          "#242529",
+          "#414246",
+          "#606166",
+          "#818287",
+          "#a3a5aa",
+          "#c7c9cf",
+          "#edeef4"
+        ]
+      },
+      "diorama-ground-morning": {
+        "role": "neutral",
+        "displayName": "Morning Ground",
+        "canonical": "oklch(32.6% 0.015 252.3)",
+        "tonalRamp": [
+          "#070c11",
+          "#20262c",
+          "#3c434a",
+          "#5b626a",
+          "#7c838b",
+          "#9fa6ae",
+          "#c2cad3",
+          "#e8eff9"
+        ]
+      },
+      "diorama-graphite-raised": {
+        "role": "neutral",
+        "displayName": "Graphite Raised",
+        "canonical": "oklch(23.9% 0.010 268.3)",
+        "tonalRamp": [
+          "#090b0f",
+          "#23252a",
+          "#404247",
+          "#5f6167",
+          "#808289",
+          "#a2a5ac",
+          "#c6c9d0",
+          "#ebeef5"
+        ]
+      },
+      "diorama-graphite-hover": {
+        "role": "neutral",
+        "displayName": "Graphite Hover",
+        "canonical": "oklch(27.3% 0.011 271.0)",
+        "tonalRamp": [
+          "#090b10",
+          "#23252b",
+          "#404248",
+          "#5f6168",
+          "#808289",
+          "#a2a5ac",
+          "#c6c9d1",
+          "#ebeef6"
+        ]
+      },
+      "diorama-line": {
+        "role": "neutral",
+        "displayName": "Graphite Line",
+        "canonical": "oklch(32.9% 0.011 271.1)",
+        "tonalRamp": [
+          "#090b10",
+          "#23252b",
+          "#404248",
+          "#5f6168",
+          "#808289",
+          "#a2a5ac",
+          "#c6c9d0",
+          "#eceef6"
+        ]
+      },
+      "diorama-paper": {
+        "role": "neutral",
+        "displayName": "Paper (Diorama)",
+        "canonical": "oklch(94.5% 0.013 82.4)",
+        "tonalRamp": [
+          "#0e0b06",
+          "#28251e",
+          "#45413a",
+          "#656159",
+          "#86827a",
+          "#a9a49c",
+          "#cdc8c0",
+          "#f3eee5"
+        ]
+      },
+      "diorama-stone": {
+        "role": "neutral",
+        "displayName": "Stone",
+        "canonical": "oklch(74.2% 0.021 77.3)",
+        "tonalRamp": [
+          "#100a03",
+          "#2b241a",
+          "#484136",
+          "#686054",
+          "#8a8175",
+          "#ada497",
+          "#d1c8ba",
+          "#f7eddf"
+        ]
+      },
+      "diorama-ink": {
+        "role": "neutral",
+        "displayName": "Ink (Diorama)",
+        "canonical": "oklch(20.9% 0.006 271.1)",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#242528",
+          "#414245",
+          "#606165",
+          "#818286",
+          "#a3a5a9",
+          "#c7c9cd",
+          "#edeef3"
+        ]
+      },
+      "diorama-ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "oklch(39.6% 0.011 78.2)",
+        "tonalRamp": [
+          "#0e0b06",
+          "#28241f",
+          "#45413b",
+          "#65615a",
+          "#86827b",
+          "#a9a49d",
+          "#cdc8c1",
+          "#f3eee6"
+        ]
+      },
+      "diorama-lamp": {
+        "role": "primary",
+        "displayName": "Lamp Amber",
+        "canonical": "oklch(78.5% 0.129 63.9)",
+        "tonalRamp": [
+          "#150800",
+          "#391e00",
+          "#613600",
+          "#8c5103",
+          "#b76f19",
+          "#dd9245",
+          "#feb976",
+          "#ffebd9"
+        ]
+      },
+      "diorama-lamp-light": {
+        "role": "primary",
+        "displayName": "Lamp Amber Light",
+        "canonical": "oklch(83.5% 0.119 64.2)",
+        "tonalRamp": [
+          "#150800",
+          "#381e01",
+          "#603704",
+          "#8a520a",
+          "#b37128",
+          "#d9944f",
+          "#fdb978",
+          "#ffead8"
+        ]
+      },
+      "diorama-lamp-ink": {
+        "role": "secondary",
+        "displayName": "Lamp Ink",
+        "canonical": "oklch(48.5% 0.114 54.0)",
+        "tonalRamp": [
+          "#170600",
+          "#3c1b01",
+          "#663203",
+          "#914c13",
+          "#b66e3a",
+          "#dc915d",
+          "#feb789",
+          "#ffeadd"
+        ]
       }
     },
     "typographyMeta": {
@@ -1212,6 +1392,34 @@
       "cartoon-caps": {
         "displayName": "Cartoon Caps",
         "purpose": "The credit's function line, figure labels, institutions: Jost 600 caps at 0.8125rem, 0.14em tracking, under the name it bills."
+      },
+      "diorama-display": {
+        "displayName": "Diorama Display",
+        "purpose": "The hero name in Diorama: Bricolage Grotesque 800, tight, Paper on the ground left of the room."
+      },
+      "diorama-headline": {
+        "displayName": "Diorama Card Title",
+        "purpose": "Each chapter card's heading, 800 in Ink, flush left; nothing above it (the hour is visually hidden text)."
+      },
+      "diorama-impact": {
+        "displayName": "Diorama Result",
+        "purpose": "Each role's result as the card's headline in Experience."
+      },
+      "diorama-clock": {
+        "displayName": "Diorama Clock",
+        "purpose": "The fixed clock top right: Martian Mono 200, tabular figures, the hour the stage writes as the page scrolls."
+      },
+      "diorama-body": {
+        "displayName": "Diorama Body",
+        "purpose": "Running copy on the paper cards (summaries capped at 62ch) and the hero."
+      },
+      "diorama-button": {
+        "displayName": "Diorama Pill Label",
+        "purpose": "The hero's pills: Email (lit), View my work, Download CV."
+      },
+      "diorama-mono": {
+        "displayName": "Diorama Hours",
+        "purpose": "The day's pins, periods and dates: Martian Mono, the hour in Lamp Amber."
       }
     },
     "shadows": [
@@ -1229,6 +1437,11 @@
         "name": "acid-lime-glow",
         "value": "0 0 16px rgba(197, 255, 65, 0.12)",
         "purpose": "Avant-garde chip hover."
+      },
+      {
+        "name": "diorama-clock-halo",
+        "value": "text-shadow: 0 2px 24px rgb(0 0 0 / 0.55), 0 0 10px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.45); radial pool rgb(24 20 18 / 0.62) behind the digits",
+        "purpose": "Diorama's clock only: Paper digits hold over the lit window at 13:00 and 16:00. Legibility, not elevation."
       }
     ],
     "motion": [
@@ -1356,6 +1569,21 @@
         "name": "cartoon-curtain",
         "value": "leader card lettered in, cut at 0.95s; iris opens 1.0s to 1.6s cubic-bezier(0.55, 0, 0.8, 0.35) centred on the painter's face (cartPlace); reveal 1s, total 1.65s (quick: no card, iris 0.2s to 0.7s, total 0.75s)",
         "purpose": "Cartoon's intro curtain and quick-change in SiteIntro.astro."
+      },
+      {
+        "name": "diorama-camera",
+        "value": "scroll drives the day: the camera glides to the next station over the last 60% of a viewport of scroll (smoothstep), damped at 4.5/s; light, pose, clock and page ground follow the hour; reduced motion jumps instead of easing",
+        "purpose": "Diorama's stage (scene/Stage.tsx, day.ts)."
+      },
+      {
+        "name": "diorama-cut",
+        "value": "clip-path inset(0% to 100% from the top, round 14px), animation-timeline view(block var(--dio-line) 0px), range exit-crossing; the stage cuts per frame where unsupported",
+        "purpose": "Cards scroll under the clock's line (The Clock Rule)."
+      },
+      {
+        "name": "diorama-curtain",
+        "value": "08:00 still at brightness 0.18 with the clock at 07:59; at 0.55s the clock turns to 08:00 and the light comes up over 0.35s; fade 0.55s from 0.9s; reveal 0.9s, total 1.45s (quick: lit, 08:00, fade from 0.4s over 0.3s, total 0.7s)",
+        "purpose": "Diorama's intro curtain and quick-change in SiteIntro.astro."
       }
     ],
     "breakpoints": [
@@ -1549,36 +1777,77 @@
       "description": "Personal repositories as shorts: small title cards in their own fields, hand-cut corners, pasted at a slight tilt that straightens on hover or focus.",
       "html": "<ul class=\"ds-cshorts\"><li class=\"ds-cshort ds-cshort--u\"><h4><a href=\"#\">Portfolio</a></h4><p>This site, seven worlds over one script.</p><ul class=\"ds-ctags\"><li>Astro</li><li>React</li></ul></li><li class=\"ds-cshort ds-cshort--m\"><h4><a href=\"#\">Dotfiles</a></h4><p>A shell set up the same way everywhere.</p><ul class=\"ds-ctags\"><li>Zsh</li></ul></li></ul>",
       "css": ".ds-cshorts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.75rem;margin:0;padding:2rem 1.5rem;list-style:none;background:#f0532d;font:400 1rem/1.55 'Jost Variable',Jost,sans-serif}.ds-cshort{padding:1.5rem 1.4rem 1.4rem;border-radius:5px 12px 6px 14px/12px 5px 14px 6px;transition:transform .2s steps(2,end)}.ds-cshort--u{background:#2547b5;color:#fbfbfb;transform:rotate(-1.4deg)}.ds-cshort--m{background:#f3c623;color:#121212;transform:rotate(1deg)}.ds-cshort:hover,.ds-cshort:focus-within{transform:rotate(0)}.ds-cshort h4{margin:0;font:900 clamp(1.7rem,2.6vw,2.1rem)/.95 'Londrina Solid',sans-serif;text-transform:uppercase}.ds-cshort h4 a{color:inherit;text-decoration:none}.ds-cshort h4 a:hover{text-decoration:underline wavy 2px;text-underline-offset:6px}.ds-cshort h4 a:focus-visible{outline:2px solid currentColor;outline-offset:2px}.ds-cshort p{margin:.75rem 0 0}.ds-ctags{display:flex;flex-wrap:wrap;gap:.4rem .5rem;margin:.9rem 0 0;padding:0;list-style:none}.ds-ctags li{border:2px solid currentColor;border-radius:3px 8px 4px 9px/8px 3px 9px 4px;padding:.05rem .55rem .1rem;font-size:.8125rem;font-weight:600;letter-spacing:.02em}"
+    },
+    {
+      "name": "Diorama Hero Pills",
+      "kind": "button",
+      "refersTo": "diorama-lamp-button",
+      "description": "The hero's action row on the hour's ground: the lit Email pill beside outline pills that turn Lamp Amber on hover.",
+      "html": "<p class=\"ds-dpills\"><a class=\"ds-dpill ds-dpill--lamp\" href=\"#\">Email</a><a class=\"ds-dpill\" href=\"#experience\">View my work</a><a class=\"ds-dpill\" href=\"#\">Download CV</a></p>",
+      "css": ".ds-dpills{display:flex;flex-wrap:wrap;gap:.6rem;margin:0;padding:1.5rem;background:#2f353c}.ds-dpill{display:inline-flex;align-items:center;min-height:44px;padding:0 1.15rem;border:1px solid rgb(241 236 227 / .4);border-radius:999px;color:#f1ece3;font:600 .95rem/1.2 'Bricolage Grotesque Variable','Bricolage Grotesque',sans-serif;text-decoration:none;transition:border-color .2s ease,color .2s ease,background-color .2s ease}.ds-dpill:hover{border-color:#f2a65a;color:#f2a65a}.ds-dpill--lamp{border-color:#f2a65a;background:#f2a65a;color:#17181b}.ds-dpill--lamp:hover{background:#ffb873;color:#17181b}.ds-dpill:focus-visible{outline:2px solid #f2a65a;outline-offset:2px}"
+    },
+    {
+      "name": "Diorama Chapter Card",
+      "kind": "card",
+      "refersTo": "diorama-card",
+      "description": "One hour, one paper card: a role at 10:30 with its result as the headline and a details pill. The hour is visually hidden text before the heading; the clock shows it.",
+      "html": "<section class=\"ds-dch\"><div class=\"ds-dcard\"><p class=\"ds-sr\"><time datetime=\"10:30\">10:30</time> Architecture</p><h3 class=\"ds-dcard__title\">Seva / Appointally</h3><p class=\"ds-drole\">Senior Full-Stack Engineer <span>· Apr 2025 – Present</span></p><p class=\"ds-dimpact\">26 independent services built with Clean Architecture</p><p class=\"ds-dsum\">Building a multi-tenant SaaS for service businesses.</p><button type=\"button\" class=\"ds-dtoggle\" aria-expanded=\"false\">details</button><ul class=\"ds-dtags\"><li>TypeScript</li><li>NestJS</li><li>PostgreSQL</li></ul></div></section>",
+      "css": ".ds-dch{padding:1.5rem;background:#2f353c}.ds-dcard{width:min(30rem,100%);padding:1.4rem 1.5rem;border-radius:14px;background:#f1ece3;color:#17181b;font-family:'Bricolage Grotesque Variable','Bricolage Grotesque',sans-serif}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}.ds-dcard__title{margin:0 0 .3rem;font-size:clamp(1.4rem,2.4vw,1.9rem);font-weight:800;line-height:1;letter-spacing:-.03em}.ds-drole{margin:0 0 .9rem;font-weight:600;color:#4a4640}.ds-drole span{font-weight:400;font-family:'Martian Mono Variable','Martian Mono',monospace;font-size:.8rem}.ds-dimpact{margin:0 0 .8rem;font-size:clamp(1.5rem,2.6vw,2.1rem);font-weight:800;line-height:1.05;letter-spacing:-.03em}.ds-dsum{margin:0 0 .9rem;line-height:1.5;color:#4a4640;max-width:62ch}.ds-dtoggle{min-height:44px;padding:0 1rem;border:2px solid #17181b;border-radius:999px;background:transparent;color:#17181b;font:600 .875rem/1 inherit;font-family:inherit;cursor:pointer}.ds-dtoggle:hover,.ds-dtoggle[aria-expanded='true']{background:#17181b;color:#f1ece3}.ds-dtoggle:focus-visible{outline:2px solid #17181b;outline-offset:2px}.ds-dtags{display:flex;flex-wrap:wrap;gap:.35rem;margin:.9rem 0 0;padding:0;list-style:none}.ds-dtags li{padding:.15rem .6rem;border-radius:999px;background:rgb(23 24 27 / .1);font-size:.8125rem;font-weight:500;line-height:1.45}"
+    },
+    {
+      "name": "Diorama Day Pins",
+      "kind": "nav",
+      "refersTo": "diorama-hour-pin",
+      "description": "The day's navigation as the agenda under the room on the wide shots: hour pins in Martian Mono, the hour on screen filled with the lamp. Close in, each pin travels to its object.",
+      "html": "<nav class=\"ds-dday\" aria-label=\"The day\"><ol><li><a href=\"#\" aria-current=\"true\"><time>09:00</time> Coffee</a></li><li><a href=\"#\"><time>10:30</time> Architecture</a></li><li><a href=\"#\"><time>13:00</time> A bug</a></li><li><a href=\"#\"><time>19:00</time> Study</a></li></ol></nav>",
+      "css": ".ds-dday{padding:1.25rem;background:#2f353c}.ds-dday ol{display:flex;flex-wrap:wrap;gap:.4rem;margin:0;padding:0;list-style:none}.ds-dday a{display:inline-flex;align-items:center;gap:.55em;padding:.35rem .75rem;border:1px solid rgb(241 236 227 / .2);border-radius:999px;background:rgb(23 24 27 / .84);color:#f1ece3;font:400 .6875rem/1.2 'Martian Mono Variable','Martian Mono',monospace;white-space:nowrap;text-decoration:none;transition:background-color .2s ease,color .2s ease,border-color .2s ease}.ds-dday time{color:#f2a65a}.ds-dday a:hover{border-color:#f2a65a}.ds-dday a[aria-current='true']{border-color:#f2a65a;background:#f2a65a;color:#17181b}.ds-dday a[aria-current='true'] time{color:inherit}.ds-dday a:focus-visible{outline:2px solid #f2a65a;outline-offset:2px}"
+    },
+    {
+      "name": "Diorama Clock",
+      "kind": "custom",
+      "refersTo": "diorama-clock",
+      "description": "The hour as the stage writes it, fixed top right, aria-hidden; its line is where the cards begin and are cut.",
+      "html": "<div class=\"ds-dclockwrap\"><p class=\"ds-dclock\" aria-hidden=\"true\">10:43</p></div>",
+      "css": ".ds-dclockwrap{display:flex;justify-content:flex-end;padding:1.5rem 2rem;background:linear-gradient(90deg,#2f353c 55%,#cfe0ee 55%)}.ds-dclock{position:relative;margin:0;font:200 clamp(2.5rem,8vw,7rem)/1 'Martian Mono Variable','Martian Mono',monospace;letter-spacing:-.04em;font-variant-numeric:tabular-nums;color:#f1ece3;text-shadow:0 2px 24px rgb(0 0 0 / .55),0 0 10px rgb(0 0 0 / .5),0 1px 2px rgb(0 0 0 / .45)}.ds-dclock::before{content:'';position:absolute;inset:-.5em -.8em;z-index:-1;background:radial-gradient(ellipse closest-side,rgb(24 20 18 / .62) 0 80%,rgb(24 20 18 / 0) 100%)}"
+    },
+    {
+      "name": "Diorama Contact Action",
+      "kind": "button",
+      "refersTo": "diorama-action",
+      "description": "The 22:00 card's one action: a full-width Ink fill at the card radius that turns Lamp Ink on hover, the CV link underlined in Lamp Ink beneath.",
+      "html": "<div class=\"ds-dcontact\"><p class=\"ds-dlede\">Have a project in mind? Write to me.</p><a class=\"ds-daction\" href=\"#\">Email me</a><p class=\"ds-dmore\"><a class=\"ds-dlink\" href=\"#\">Download CV</a></p></div>",
+      "css": ".ds-dcontact{width:min(34rem,100%);padding:1.4rem 1.5rem;border-radius:14px;background:#f1ece3;color:#17181b;font-family:'Bricolage Grotesque Variable','Bricolage Grotesque',sans-serif}.ds-dlede{margin:0;font-size:1.1rem;font-weight:500;line-height:1.5}.ds-daction{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;margin-top:1.1rem;padding:.7rem 1.5rem;border-radius:14px;background:#17181b;color:#f1ece3;font-weight:700;text-decoration:none;transition:background-color .2s ease}.ds-daction:hover{background:#8f4a10}.ds-daction:focus-visible,.ds-dlink:focus-visible{outline:2px solid #17181b;outline-offset:2px}.ds-dmore{display:flex;justify-content:center;margin:1rem 0 0}.ds-dlink{display:inline-flex;align-items:center;min-height:44px;font-weight:600;color:#17181b;text-decoration:underline;text-decoration-color:#8f4a10;text-decoration-thickness:2px;text-underline-offset:.2em}"
     }
   ],
   "narrative": {
     "northStar": "The Repertoire",
-    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, seven staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of seven complete visual worlds: Editorial (the default), Avant-garde, Engineer, Arcade, Terminal, Tape, and Cartoon. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the arcade cabinet, the shell session, the punched teletype tape, and the opening titles of a 1960s cartoon). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all seven: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial and Engineer do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows, Cartoon's five paper fields); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, Tape, and Cartoon also stage their own About and footer, and the last four their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Cartoon turns the strategy over: colour is the field, not the accent; every section is a title card drenched in one of five flat paper colours, and on each card the accent is the one colour that card names safe for small text. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain; Cartoon replaces the tween with poses held on twos.",
+    "overview": "**Creative North Star: \"The Repertoire\"**\n\nOne performer, eight staged productions of the same script. The content (name, title, tagline, experience, skills, projects, blog) never changes; a switch in the header restages it in one of eight complete visual worlds: Editorial (the default), Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon, and Diorama. The system's personality is plural on purpose. Each world commits fully to its own register (the broadsheet, the dark gallery, the Internet-Draft read in a pager, the arcade cabinet, the shell session, the punched teletype tape, the opening titles of a 1960s cartoon, and one working day in a miniature room seen from outside). None of them is a theme laid over a neutral base, because the neutral base does not exist.\n\nUnderneath, one skeleton carries all eight: a fixed translucent header, a full-viewport hero, and a single centered column of sections (About, Experience, Education, Skills, Projects, Contact) at medium density. A world declares nine semantic color tokens (page, raised, text, secondary text, accent, accent hover, border, card, card hover), two font slots, and two radii, and the shared sections re-skin themselves. Two accent-use tokens sit on top for every world: `--on-accent`, the text on an accent fill (the page color by default), and `--accent-text`, small text in the accent (the accent itself by default); a world overrides either only when its accent needs it, as Editorial, Engineer, and Diorama do. A world may add tokens of its own beside the nine when its material needs them (Terminal's prompt green and bright text, Tape's punched windows, Cartoon's five paper fields, Diorama's paper cards, their ink, and the hour's ground); they never leave that world. Every world stages its own Hero, Experience, and Skills; Editorial, Engineer, Terminal, Tape, Cartoon, and Diorama also stage their own About and footer, and the last five their own Education, Projects, and Contact.\n\nThe aesthetic philosophy is restraint everywhere except the accent and the display type. Every world spends its accent on small, high-signal things: buttons, period labels, rules, hover and selection states. Cartoon turns the strategy over: colour is the field, not the accent; every section is a title card drenched in one of five flat paper colours, and on each card the accent is the one colour that card names safe for small text. Display typography carries identity, except in Engineer, where one face at one size carries it and hierarchy comes from numbering, position, indent, and bold. Motion is one shared reveal grammar (fade and rise on scroll, once) plus a single signature per world, staged in the hero and in its curtain; Cartoon replaces the tween with poses held on twos. Diorama replaces the reveal with a camera: one fixed 3D stage holds Akira's room for the whole page, every section is an hour of his working day, and scroll is the clock; its content sits on paper cards beside the room, and the accent is the lamp.",
     "keyCharacteristics": [
-      "Seven complete worlds, one content source, switched at runtime and persisted per visitor.",
+      "Eight complete worlds, one content source, switched at runtime and persisted per visitor.",
       "One accent per world, spent on interactive and labeling elements only; Terminal's prompt green is its one sanctioned second voice.",
-      "Display typography carries identity: monospace, typewriter, heavy grotesk, display grotesk, slab poster, condensed caps, or hand-lettered cartoon titling.",
-      "Flat surfaces in every world: border-defined in six, drenched cut-paper fields in Cartoon, where depth is only paper lying on paper. No world lifts with shadow.",
+      "Display typography carries identity: monospace, typewriter, heavy grotesk, display grotesk, slab poster, condensed caps, hand-lettered cartoon titling, or a tight heavy grotesk beside thin mono clock numerals.",
+      "Flat surfaces in every world: border-defined in six, drenched cut-paper fields in Cartoon, where depth is only paper lying on paper, flat paper cards over a lit 3D room in Diorama, where the only cast shadows are the room's own. No world lifts its surfaces with shadow.",
       "Shared reveal motion (fade, 30px rise, 0.5s, once) with a signature per world, staged in the hero.",
-      "WebGL in one world only (Avant-garde's particle field), mounted only while that world is active and backed by a CSS fallback.",
+      "WebGL in two worlds (Avant-garde's particle field, Diorama's room), each mounted only while its world is active and backed by a fallback (CSS dots; a still of the room at 08:00).",
       "Candy stays on the cards: Arcade's candy colors are surfaces, never UI chrome. Cartoon's fields are surfaces too, one per section.",
       "Limited animation in Cartoon: poses held on twos (`steps()`), never tweened.",
+      "Scroll is the clock in Diorama: one fixed stage, one station per section, the hour written by the stage into a clock that owns the top-right corner.",
       "Bilingual by construction: every text node renders both locales and CSS shows one."
     ],
     "rules": [
       {
         "name": "The One Accent Rule",
-        "body": "Each world has exactly one accent and spends it on buttons, labels, rules, hover and selection states. Body copy, headings, and card surfaces never take the accent. Arcade's candy colors are surfaces with Cabinet Black text on them, never accents. Terminal's prompt green is the shell's own prompt colour, held to the prompt user, active periods, JSON values, and the email key; it never becomes a second link or hover colour. Cartoon's fields are surfaces, like the candy; on each card the accent is the one safe colour that card names.",
+        "body": "Each world has exactly one accent and spends it on buttons, labels, rules, hover and selection states. Body copy, headings, and card surfaces never take the accent. Arcade's candy colors are surfaces with Cabinet Black text on them, never accents. Terminal's prompt green is the shell's own prompt colour, held to the prompt user, active periods, JSON values, and the email key; it never becomes a second link or hover colour. Cartoon's fields are surfaces, like the candy; on each card the accent is the one safe colour that card names. Diorama's Lamp Ink is Lamp Amber carried onto paper, never a second accent on the ground.",
         "section": "colors"
       },
       {
         "name": "The Own Palette Rule",
-        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal, no Cartoon field outside Cartoon.",
+        "body": "A world uses only its own token set, world-only tokens included. No Candy Green in Engineer, no Tape Orange in Editorial or Signal Orange in Tape, no prompt green outside the terminal, no Cartoon field outside Cartoon, no Diorama paper card or lamp outside Diorama.",
         "section": "colors"
       },
       {
         "name": "The Dark Text on Bright Accent Rule",
-        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Lime, Gold, and Tape Orange are light accents, so their fills take the page color, the default (6.3:1 to 16:1); Terminal's green key takes Terminal Ground (7.45:1). Engineer sets `--on-accent` to white on Link Blue (6.70:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`.",
+        "body": "Text on an accent fill reads `--on-accent`; small text in the accent reads `--accent-text`. Lime, Gold, and Tape Orange are light accents, so their fills take the page color, the default (6.3:1 to 16:1); Terminal's green key takes Terminal Ground (7.45:1); Diorama's lamp takes its Ink (#17181b, 8.77:1), set as its `--on-accent`. Engineer sets `--on-accent` to white on Link Blue (6.70:1). Signal Orange measures 3.0:1 on Newsprint and 3.3:1 under white text, so Editorial sets `--on-accent` to Ink (5.2:1) and `--accent-text` to Signal Orange Ink (#bf3900, 4.5:1 or more on every Editorial surface); in Editorial, `.text-accent`, `hover:text-accent`, and `group-hover:text-accent` all render in it. Raw Signal Orange stays on rules, outlines, fills, and text at 24px and up, which opts in through `.text-accent-display`.",
         "section": "colors"
       },
       {
@@ -1594,6 +1863,11 @@
       {
         "name": "The Field Rule (Cartoon)",
         "body": "Every card names four colours: its field (`--field`), its text (`--on-field`), a safe colour for small text, focus rings, and hovers (`--safe`, 4.5:1 or more on the field), and a display colour for large type only (`--hi`). The card re-points `--text`, `--text-secondary`, `--accent`, `--accent-text`, `--on-accent`, `--border`, and Tailwind's `--color-*` utilities to them, so shared islands re-skin per card. Paper on Vermilion (3.4:1) is display only, never running text. A new card takes only one of the measured pairs.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper Card Rule (Diorama)",
+        "body": "The room carries no running text. Everything a visitor reads after the hero sits on a Paper card in Ink (15.09:1), with Ink Soft for secondary copy; only the hero copy, the clock, and the day's pins sit over the room. Lamp Amber stays on the dark side (fills, pins, hovers); on paper its role passes to Lamp Ink (5.66:1), and the focus ring turns Ink, because the accent ring is too faint on paper.",
         "section": "colors"
       },
       {
@@ -1623,17 +1897,27 @@
       },
       {
         "name": "The Same Bones Rule",
-        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills; Editorial also stages its own About and footer (its own Contact was retired on 2026-10-11 at the user's request, so it uses the shared one); Engineer, Terminal, Tape, and Cartoon stage their own About, Education, Projects, Contact, and footer, plus their own section headings in Experience and Skills (since 2026-10-11, when the user decided to keep the worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world> <world>\"` (space-separated) and the world's version `data-design-show=\"<world>\"`. A world's own extras (Engineer's seams and pager) sit in `HomePage.astro` behind `data-design-show`.",
+        "body": "Section order, container widths, and the About, Education, Projects, and Contact structures stay shared by default. A world forks a section only when its identity needs it: every world forks Hero, Experience, and Skills; Editorial also stages its own About and footer (its own Contact was retired on 2026-10-11 at the user's request, so it uses the shared one); Engineer, Terminal, Tape, Cartoon, and Diorama stage their own About, Education, Projects, Contact, and footer, plus their own section headings in Experience and Skills (since 2026-10-11, when the user decided to keep the worlds and differentiate them). A fork lives inside the shared section, so anchors stay unique: the shared markup carries `data-design-hide=\"<world> <world>\"` (space-separated) and the world's version `data-design-show=\"<world>\"`. A world's own extras (Engineer's seams and pager) sit in `HomePage.astro` behind `data-design-show`.",
         "section": "layout"
       },
       {
         "name": "The 896 Rule",
-        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px. Engineer narrows the whole page, hero included, to a 72ch column, the width of a plain-text draft. Cartoon's fields run full bleed, but their content keeps the column; only the shorts widen to 1024px for three tilted cards.",
+        "body": "Section content lives in an 896px column. Only the header and the hero widen to 1152px. Engineer narrows the whole page, hero included, to a 72ch column, the width of a plain-text draft. Cartoon's fields run full bleed, but their content keeps the column; only the shorts widen to 1024px for three tilted cards. Diorama's cards stand against the viewport instead: each section steps out of the column and places one card, 34rem at most, beside the room.",
+        "section": "layout"
+      },
+      {
+        "name": "The Clock Rule (Diorama)",
+        "body": "The hour is shown once, by the clock, and the clock owns the top-right corner: it never steps aside. Its line (`--dio-line`, the clock's bottom edge plus 1.25rem) is where every card begins from 768px, and a card that reaches the line as the page moves on scrolls beneath it, cut there from the top (a scroll-driven `clip-path` on a view timeline inset to the line; the stage cuts it where the browser has none). No pin enters the corner (16px of room) and no heading carries the hour as a kicker: each chapter's hour and scene are read from visually hidden text before its heading.",
         "section": "layout"
       },
       {
         "name": "The Paper on Paper Rule (Cartoon)",
         "body": "Depth in Cartoon comes only from one cut shape lying over another. A card, ticket, short, or figure never casts a shadow, takes a gradient, or blurs what is behind it; a new layer earns its place by overlapping.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Lit Room Rule (Diorama)",
+        "body": "Light and shadow belong to the room and follow the hour. Cards, pins, and controls never take a shadow, a gradient, or a blur; depth on the page is the room behind them.",
         "section": "elevation"
       },
       {
@@ -1664,15 +1948,20 @@
       "Do carry state as a mark or a word as well as a colour (Tape's band and cross, Terminal's \"●\" and \"Present\", `aria-pressed`, `aria-expanded`).",
       "Do give a new Cartoon card a field, a text colour, a safe colour, and a display colour from the measured pairs (The Field Rule), and keep Paper on Vermilion to display type (3.4:1).",
       "Do animate Cartoon on held poses (`steps()`), never tweened, and keep its depth to overlap (The Paper on Paper Rule).",
-      "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a CSS fallback, as Avant-garde does."
+      "Do mount a WebGL scene only while its world is active, calibrate a lighter phone build, and ship a fallback that keeps the page whole, as Avant-garde (CSS dots) and Diorama (the 08:00 still and a list of hours) do.",
+      "Do put everything a Diorama visitor reads after the hero on a Paper card in Ink, keep Lamp Amber on the dark side, and use Lamp Ink on paper (The Paper Card Rule).",
+      "Do make a new Diorama section a chapter (`DioramaChapter`, one station in `day.ts`) whose card begins below the clock's line (The Clock Rule)."
     ],
     "donts": [
-      "Don't mix tokens across worlds. No candy surface in Engineer, no prompt green outside Terminal, no Tape Orange outside Tape, no Cartoon field outside Cartoon (The Own Palette Rule).",
+      "Don't mix tokens across worlds. No candy surface in Engineer, no prompt green outside Terminal, no Tape Orange outside Tape, no Cartoon field outside Cartoon, no Diorama lamp or paper card outside Diorama (The Own Palette Rule).",
       "Don't fork content per world. Copy, data, order, and links come from `src/data` and `src/i18n` only; a world may restage them, never rewrite or reorder them.",
       "Don't add a fill to Engineer beyond the Email key and reverse video, or a size beyond the text size and the hero title (The Reverse Video Rule, The One Size Rule).",
       "Don't punch decorative noise into Tape: every strip encodes its text (The Holes Are Data Rule).",
       "Don't give a Cartoon card a shadow, a gradient, a blur, a frame, halftone dots, or comic-book lettering effects: it is cut paper, not a comic page or a neo-brutalist card. Strokes stay drawn lines on tickets and tags in the card's own colour.",
-      "Don't label a Cartoon title from above; a credit is the name over its function in small caps (The Credits Rule)."
+      "Don't label a Cartoon title from above; a credit is the name over its function in small caps (The Credits Rule).",
+      "Don't print an hour kicker or eyebrow above a Diorama heading, or let a card or pin into the clock's corner: the clock shows the hour (The Clock Rule).",
+      "Don't give a Diorama card, pin, or control a shadow, and don't set running text over the room (The Lit Room Rule, The Paper Card Rule).",
+      "Don't turn Diorama's room into a click-to-explore scene or a first-person walkthrough: scroll is the clock."
     ]
   }
 }

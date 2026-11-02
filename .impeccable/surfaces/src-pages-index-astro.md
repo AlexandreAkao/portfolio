@@ -7,7 +7,7 @@ related_targets: ["src/components/sections/Hero.astro","src/components/sections/
 
 # Home surface
 
-Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: seven worlds (Editorial, Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
+Scope: the portfolio home (`/` and `/pt/`) in every world. Visitor mode: Experience. Audience: recruiters in Brazil and Latin America skimming on a phone between candidates; job: judge seniority and range fast, then reach the CV or email. Proof: eight worlds (Editorial, Avant-garde, Engineer, Arcade, Terminal, Tape, Cartoon, Diorama), all restaging the same content from `src/data` and `src/i18n`. Constraints: Hero, Experience and Skills are bespoke per world; a world forks About, Education, Projects, Contact and the footer inside the shared section when its identity needs it (Same Bones Rule); every world gets an arrival curtain and a quick-change gesture in `SiteIntro.astro`; phones get a calibrated lighter version of heavy scenes. Editorial opens the site (user decision, 2026-10-10). Unresolved: switcher permanence (PRODUCT.md).
 
 ## Direction contract: Engineer, "draft-akira" (2026-10-11)
 
@@ -50,7 +50,7 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 THESIS: the home is one working day in Akira's room, a miniature seen from outside; scroll is the clock. It refuses the click-to-explore 3D room and first-person walkthroughs.
 OWN-WORLD: graphite walls, butcher-block wood, monstera green, window daylight, lamp amber; paper cards with ink; thin clock numerals; hour labels pinned to objects.
 STORY: 08:00 arrival, coffee, one scene per role, study, skills, side projects, 22:00 he turns and waves; contact.
-FIRST VIEWPORT: copy left (hour kicker, name, title, Currently at, Email, View my work, CV, socials, invite); the whole diorama right in morning light; the clock top right. Phones: the room in a band under the header, copy below.
+FIRST VIEWPORT: copy left (name, title, Currently at, then Email lit with the lamp, View my work, Download CV, the tagline, socials, invite); no kicker above the name: the hour lives in the clock and in visually hidden text before it; the whole diorama right in morning light; the clock top right; the day's hours as an agenda of pins under the room. Phones: the room in a band under the header with the clock in its corner, copy below.
 FORM: fusion of Impeccable's pick (the working day) and the canon (isometric room), user's choice; seed key 817c6fc2.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 
