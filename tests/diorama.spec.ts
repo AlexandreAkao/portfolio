@@ -1,5 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import { STATIONS, clockText, locate, sampleDay, sunAt } from '../src/components/designs/diorama/day';
+import en from '../src/i18n/en.json' with { type: 'json' };
 
 test('the switcher offers Diorama in both languages', async ({ page }) => {
   await page.addInitScript(() => { localStorage.setItem('design', 'diorama'); sessionStorage.setItem('intro-seen', '1'); });
@@ -40,4 +41,118 @@ test('sampleDay lands on a station, blends poses between two', () => {
   const at = sampleDay({ i: 3, u: 0, move: 0 }); expect(at.active).toBe('wms'); expect(at.hour).toBe(13); expect(at.poseFrom).toBe('think');
   const half = sampleDay({ i: 3, u: 0.9, move: 0.5 }); expect(half.poseTo).toBe('typing'); expect(half.poseMix).toBeCloseTo(0.5);
   expect(sampleDay({ i: 10, u: 1, move: 1 }).turn).toBe(1);
+});
+
+/* ------------------------------------------------------------ Task 2 follow-ups */
+
+test('clockText rounds to the nearest minute', () => {
+  expect(clockText(13.1)).toBe('13:06'); expect(clockText(9.9999)).toBe('10:00'); expect(clockText(23.999)).toBe('00:00');
+});
+test('locate never moves before the travel starts, even when travel is longer than the chapter', () => {
+  expect(locate(1000, [1000, 1300, 2000], 600).move).toBe(0);
+  expect(locate(1150, [1000, 1300, 2000], 600).move).toBeCloseTo(0.5);
+});
+
+/* ------------------------------------------------------------ Task 4: the stage and the hero */
+
+const hero = (page: Page) => page.locator('#hero [data-design-show="diorama"]');
+
+async function arrive(page: Page, path = '/') {
+  await page.addInitScript(() => {
+    localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1');
+  });
+  await page.goto(path);
+  await expect(page.locator('html')).toHaveAttribute('data-design', 'diorama');
+}
+
+test('diorama: the hero copy is readable before WebGL and the canvas arrives @mobile', async ({ page }) => {
+  // Hold the stage's code until the copy has been read: the copy never waits on WebGL.
+  let release = () => {};
+  const gate = new Promise<void>((r) => { release = r; });
+  await page.route(/\/scene\/Stage\.tsx/, async (route) => { await gate; await route.continue(); });
+  await arrive(page);
+  await expect(hero(page).getByRole('heading', { level: 1, name: 'Alexandre Akira' })).toBeVisible();
+  await expect(hero(page).getByRole('link', { name: 'Email', exact: true })).toHaveAttribute('href', /^mailto:/);
+  await expect(hero(page).getByRole('link', { name: 'View my work' })).toHaveAttribute('href', '#experience');
+  await expect(hero(page).getByText(/Currently at/)).toBeVisible();
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(0);
+  release();
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+});
+
+test('diorama: at 320x568 the band and the hero copy fit without scrolling @mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await arrive(page);
+  const bottom = async (name: string) => (await hero(page).getByRole('link', { name, exact: true }).boundingBox())!;
+  const email = await bottom('Email');
+  const cv = await bottom('Download CV');
+  expect(email.y + email.height).toBeLessThanOrEqual(568);
+  expect(cv.y + cv.height).toBeLessThanOrEqual(568);
+  // and both sit below the band, not under it
+  const band = (await page.locator('.dio-stage').boundingBox())!;
+  expect(email.y).toBeGreaterThanOrEqual(band.y + band.height);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+});
+
+test('diorama: switching away removes the stage', async ({ page }) => {
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await page.getByRole('button', { name: /switch design/i }).click();
+  await page.getByRole('list', { name: 'Design options' }).getByRole('button', { name: 'Editorial' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-design', 'editorial');
+  await expect(page.locator('.dio-stage')).not.toBeVisible();
+  await expect(page.locator('canvas')).toHaveCount(0);
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive ?? 'none')).toBe('none');
+});
+
+test('diorama: without WebGL the still stands in and the day still navigates', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.addInitScript(() => {
+    const proto = HTMLCanvasElement.prototype as unknown as { getContext: (...args: unknown[]) => unknown };
+    const get = proto.getContext;
+    proto.getContext = function (this: HTMLCanvasElement, ...args: unknown[]) {
+      return /webgl/i.test(String(args[0])) ? null : get.apply(this, args);
+    };
+  });
+  await arrive(page);
+  await expect(page.locator('.dio-stage img[src*="room-0800"]')).toBeVisible();
+  const day = page.getByRole('navigation', { name: 'The day' });
+  await expect(day.getByRole('link')).toHaveCount(10);
+  await expect(day.getByRole('link').first()).toBeVisible();
+  await page.waitForTimeout(1500);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('diorama: without WebGL the page ground is the 08:00 ground the live stage paints', async ({ page, context }) => {
+  await arrive(page);
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive ?? 'none')).toBe('arrival');
+  const live = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
+
+  const still = await context.newPage();
+  await still.addInitScript(() => {
+    const proto = HTMLCanvasElement.prototype as unknown as { getContext: (...args: unknown[]) => unknown };
+    const get = proto.getContext;
+    proto.getContext = function (this: HTMLCanvasElement, ...args: unknown[]) {
+      return /webgl/i.test(String(args[0])) ? null : get.apply(this, args);
+    };
+  });
+  await arrive(still);
+  await expect(still.locator('.dio-stage img[src*="room-0800"]')).toBeVisible();
+  expect(await still.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe(live);
+});
+
+test('diorama: the day nav links each chapter by hour', async ({ page }) => {
+  await arrive(page);
+  const links = page.getByRole('navigation', { name: 'The day' }).getByRole('link');
+  const day = STATIONS.slice(1, -1);
+  await expect(links).toHaveCount(day.length);
+  for (const [i, s] of day.entries()) {
+    await expect(links.nth(i)).toHaveAccessibleName(`${clockText(s.hour)} ${en[`diorama.scene.${s.id}` as keyof typeof en]}`);
+    await expect(links.nth(i)).toHaveAttribute('href', `#dio-${s.id}`);
+  }
+  await expect(links.first()).toHaveAccessibleName('09:00 Coffee');
+  await expect(links.last()).toHaveAccessibleName('21:00 Side projects');
 });

@@ -1,0 +1,29 @@
+---
+/**
+ * One hour of the day: a Diorama chapter. The stage reads every
+ * [data-diorama-chapter] on the page, in order, as the stations of the day
+ * (scene/Stage.tsx), so the camera reaches this chapter's station as its top
+ * meets the stage's edge. The card carries the section's real content.
+ */
+import T from '@components/ui/T.astro';
+import { STATIONS, clockText, type StationId } from './day';
+
+interface Props {
+  id: StationId;
+  /** The card's heading, an i18n key (e.g. 'about.title'). */
+  titleKey?: string;
+}
+
+const { id, titleKey } = Astro.props;
+const station = STATIONS.find((s) => s.id === id);
+if (!station) throw new Error(`DioramaChapter: unknown station "${id}"`);
+const hour = clockText(station.hour);
+---
+
+<section class="dio-chapter" data-diorama-chapter={id} id={`dio-${id}`} data-diorama-hour={hour}>
+  <div class="dio-card">
+    <p class="dio-kicker"><time datetime={hour}>{hour}</time> · <T k={`diorama.scene.${id}`} /></p>
+    {titleKey && <h2 class="dio-card__title"><T k={titleKey} /></h2>}
+    <slot />
+  </div>
+</section>

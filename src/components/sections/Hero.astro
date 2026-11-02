@@ -6,6 +6,7 @@ import ArcadeHero from '@components/designs/arcade/ArcadeHero.tsx';
 import TerminalHero from '@components/designs/terminal/TerminalHero.tsx';
 import TapeHero from '@components/designs/tape/TapeHero.tsx';
 import CartoonHero from '@components/designs/cartoon/CartoonHero.tsx';
+import DioramaHero from '@components/designs/diorama/DioramaHero.tsx';
 import { rfcDate } from '@components/designs/engineer/rfc';
 import { loginDate } from '@components/designs/terminal/session';
 
@@ -42,5 +43,8 @@ const { locale } = Astro.props;
   </div>
   <div data-design-show="cartoon">
     <CartoonHero locale={locale} client:intro />
+  </div>
+  <div data-design-show="diorama">
+    <DioramaHero locale={locale} client:intro />
   </div>
 </section>

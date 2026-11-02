@@ -123,7 +123,9 @@ export function locate(scrollY: number, anchors: number[], travel: number): Loca
   while (i < anchors.length - 2 && anchors[i + 1] <= scrollY) i++;
   const span = anchors[i + 1] - anchors[i];
   const u = span > 0 ? clamp((scrollY - anchors[i]) / span) : 1;
-  const move = travel > 0 ? smooth(clamp((scrollY - (anchors[i + 1] - travel)) / travel)) : scrollY >= anchors[i + 1] ? 1 : 0;
+  // A chapter shorter than the travel moves through its whole length, never before it starts
+  const run = Math.min(travel, Math.max(0, span));
+  const move = run > 0 ? smooth(clamp((scrollY - (anchors[i + 1] - run)) / run)) : scrollY >= anchors[i + 1] ? 1 : 0;
   return { i, u, move };
 }
 
@@ -151,8 +153,10 @@ export function sampleDay(loc: Located, stations: Station[] = STATIONS): DaySamp
   };
 }
 
+/** "HH:MM" to the nearest minute, on a 24-hour dial (24:00 reads 00:00). */
 export function clockText(hour: number): string {
-  const h = Math.floor(hour) % 24;
-  const m = Math.floor((hour - Math.floor(hour)) * 60);
+  const total = ((Math.round(hour * 60) % 1440) + 1440) % 1440;
+  const h = Math.floor(total / 60);
+  const m = total % 60;
   return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
 }
