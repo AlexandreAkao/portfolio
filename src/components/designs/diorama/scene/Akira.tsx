@@ -89,6 +89,9 @@ interface Joints {
   foreL: [number, number];
   handR: [roll: number, curl: number];
   handL: [roll: number, curl: number];
+  /** Legs: the hip's pitch (+ lowers the knee) and yaw (+ turns the knee toward +x), the knee's bend (− swings the foot forward). */
+  legR: [pitch: number, yaw: number, knee: number];
+  legL: [pitch: number, yaw: number, knee: number];
 }
 
 const HANDS_ON_KEYS = {
@@ -98,6 +101,8 @@ const HANDS_ON_KEYS = {
   foreL: [-1.2, 0],
   handR: [Math.PI / 2, 0.55],
   handL: [-Math.PI / 2, 0.55],
+  legR: [0, 0, 0],
+  legL: [0, 0, 0],
 } satisfies Partial<Joints>;
 
 const POSES: Record<Pose, Joints> = {
@@ -110,11 +115,12 @@ const POSES: Record<Pose, Joints> = {
   // Leaning back, left hand loosely closed at the chin
   think: { torso: [-0.14, 0.12], head: [0.05, -0.08, 0.14], ...HANDS_ON_KEYS, armL: [-1.05, -0.42], foreL: [-2.15, 0], handL: [-Math.PI / 2, 1.2] },
   // Forearms forward and up, holding an open book over the lap, head down to it
-  reading: { torso: [0.15, 0], head: [0.34, 0, 0], armR: [-0.32, 0.3], foreR: [-1.65, 0.08], armL: [-0.32, -0.3], foreL: [-1.65, 0.08], handR: [Math.PI / 2, 0.9], handL: [-Math.PI / 2, 0.9] },
-  // Turned to the visitor: the right upper arm out to the side, the forearm up, the open palm toward
-  // the visitor, waving from the elbow; the left hand rests on his thigh
+  reading: { torso: [0.15, 0], head: [0.34, 0, 0], armR: [-0.32, 0.3], foreR: [-1.65, 0.08], armL: [-0.32, -0.3], foreL: [-1.65, 0.08], handR: [Math.PI / 2, 0.9], handL: [-Math.PI / 2, 0.9], legR: [0, 0, 0], legL: [0, 0, 0] },
+  // Turned to the visitor at the end of the day, settled back in the chair: the right upper arm out to
+  // the side, the forearm up, the open palm toward the visitor, waving from the elbow; the left hand on
+  // his thigh; the knees apart, the right foot stretched forward, the left tucked back a little
   wave: {
-    torso: [-0.04, 0],
+    torso: [-0.11, 0],
     head: [-0.05, 0.1, 0],
     armR: [-0.28, -1.72],
     foreR: [-0.12, -1.38],
@@ -122,6 +128,8 @@ const POSES: Record<Pose, Joints> = {
     foreL: [-0.9, 0],
     handR: [-Math.PI / 2, 0.08],
     handL: [-Math.PI / 2, 0.7],
+    legR: [0.06, -0.2, -0.42],
+    legL: [-0.02, 0.24, 0.12],
   },
 };
 
@@ -312,6 +320,10 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
   );
 
   const torso = useRef<THREE.Group>(null);
+  const hipR = useRef<THREE.Group>(null);
+  const hipL = useRef<THREE.Group>(null);
+  const kneeR = useRef<THREE.Group>(null);
+  const kneeL = useRef<THREE.Group>(null);
   const head = useRef<THREE.Group>(null);
   const armR = useRef<THREE.Group>(null);
   const foreR = useRef<THREE.Group>(null);
@@ -361,6 +373,14 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
       foreL.current.rotation.z = mix(a.foreL[1], b.foreL[1], k);
     }
     // Hands roll about the forearm and curl their fingers toward the palm (the palm faces -side·x before the roll)
+    // Legs swing from the hip and bend at the knee
+    for (const [hip, knee, from, to] of [
+      [hipR.current, kneeR.current, a.legR, b.legR],
+      [hipL.current, kneeL.current, a.legL, b.legL],
+    ] as const) {
+      if (hip) hip.rotation.set(mix(from[0], to[0], k), mix(from[1], to[1], k), 0, 'YXZ');
+      if (knee) knee.rotation.x = mix(from[2], to[2], k);
+    }
     for (const [side, hand, fingers, from, to] of [
       [-1, handR.current, fingersR.current, a.handR, b.handR],
       [1, handL.current, fingersL.current, a.handL, b.handL],
@@ -384,26 +404,36 @@ export default function Akira({ sample, still }: { sample: MutableRefObject<DayS
   // Each rigid part (the legs, the torso, each arm, each forearm, the head) folds its own pieces into a few draws
   return (
     <group>
-      <StaticMerge>
-        {/* Seat and hips in denim, thighs forward to the knees, shins down to the cuffs */}
-        {S([0.178, 0.09, 0.158], [0, 0.565, -0.02], m.jeans)}
-        {[-0.095, 0.095].map((x) => (
-          <group key={x}>
-            <mesh {...cast} geometry={THIGH} material={m.jeans} position={[x, 0.575, 0.2]} />
-            {S([0.064, 0.064, 0.066], [x, 0.572, 0.405], m.jeans)}
-            <mesh {...cast} geometry={SHIN} material={m.jeans} position={[x, 0.575, 0.43]} />
-            <mesh {...cast} material={m.cuff} position={[x, 0.122, 0.43]} rotation={[Math.PI / 2, 0, 0]}>
-              <torusGeometry args={[0.048, 0.009, 8, 24]} />
-            </mesh>
-            {/* sneakers: a white sole with a raised toe, the upper, the toe cap, the laces' dark tongue */}
-            <RoundedBox args={[0.072, 0.024, 0.14]} radius={0.011} position={[x, 0.012, 0.47]} material={m.sole} {...cast} />
-            {S([0.053, 0.046, 0.1], [x, 0.05, 0.458], m.shoe)}
-            {S([0.045, 0.03, 0.05], [x, 0.036, 0.52], m.shoe)}
-            {S([0.026, 0.012, 0.042], [x, 0.088, 0.488], m.strap, [0.38, 0, 0])}
-            {S([0.03, 0.025, 0.02], [x, 0.085, 0.4], m.sole)}
+      {/* Seat and hips in denim */}
+      <StaticMerge>{S([0.178, 0.09, 0.158], [0, 0.565, -0.02], m.jeans)}</StaticMerge>
+      {/* Each leg on a hip joint: the thigh forward to the knee; on the knee joint the shin down to the cuff and the sneaker */}
+      {(
+        [
+          [-0.095, hipR, kneeR],
+          [0.095, hipL, kneeL],
+        ] as const
+      ).map(([x, hip, knee]) => (
+        <group key={x} ref={hip} position={[x, 0.575, 0]} userData={{ live: true }}>
+          <StaticMerge>
+            <mesh {...cast} geometry={THIGH} material={m.jeans} position={[0, 0, 0.2]} />
+            {S([0.064, 0.064, 0.066], [0, -0.003, 0.405], m.jeans)}
+          </StaticMerge>
+          <group ref={knee} position={[0, 0, 0.42]} userData={{ live: true }}>
+            <StaticMerge>
+              <mesh {...cast} geometry={SHIN} material={m.jeans} position={[0, 0, 0.01]} />
+              <mesh {...cast} material={m.cuff} position={[0, -0.453, 0.01]} rotation={[Math.PI / 2, 0, 0]}>
+                <torusGeometry args={[0.048, 0.009, 8, 24]} />
+              </mesh>
+              {/* sneakers: a white sole with a raised toe, the upper, the toe cap, the laces' dark tongue */}
+              <RoundedBox args={[0.072, 0.024, 0.14]} radius={0.011} position={[0, -0.563, 0.05]} material={m.sole} {...cast} />
+              {S([0.053, 0.046, 0.1], [0, -0.525, 0.038], m.shoe)}
+              {S([0.045, 0.03, 0.05], [0, -0.539, 0.1], m.shoe)}
+              {S([0.026, 0.012, 0.042], [0, -0.487, 0.068], m.strap, [0.38, 0, 0])}
+              {S([0.03, 0.025, 0.02], [0, -0.49, -0.02], m.sole)}
+            </StaticMerge>
           </group>
-        ))}
-      </StaticMerge>
+        </group>
+      ))}
 
       {/* An open book held over the lap, pages up toward his face, for reading */}
       <group ref={book} position={[0.02, 0.84, 0.34]} rotation={[0.8, 0, 0]} visible={false} userData={{ live: true }}>

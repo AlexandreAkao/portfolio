@@ -87,6 +87,50 @@ interface Text extends Box {
   cut: boolean;
 }
 
+/** Room kept between the room's silhouette and the clock's plate on the wide shots, in pixels. */
+const PLATE_GAP = 14;
+
+/** The convex hull of a few points (monotone chain), counter-clockwise. */
+function hull(points: Slot[]): Slot[] {
+  const p = [...points].sort((a, b) => a.x - b.x || a.y - b.y);
+  const cross = (o: Slot, a: Slot, b: Slot) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+  const lower: Slot[] = [];
+  for (const q of p) {
+    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop();
+    lower.push(q);
+  }
+  const upper: Slot[] = [];
+  for (let i = p.length - 1; i >= 0; i--) {
+    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p[i]) <= 0) upper.pop();
+    upper.push(p[i]);
+  }
+  return lower.slice(0, -1).concat(upper.slice(0, -1));
+}
+
+/** A convex polygon and a box overlap (separating axes: the box's two, then each edge's normal). */
+function polygonMeets(poly: Slot[], box: Box): boolean {
+  const xs = poly.map((q) => q.x);
+  const ys = poly.map((q) => q.y);
+  if (Math.max(...xs) < box.x0 || Math.min(...xs) > box.x1 || Math.max(...ys) < box.y0 || Math.min(...ys) > box.y1) return false;
+  const corners = [
+    { x: box.x0, y: box.y0 },
+    { x: box.x1, y: box.y0 },
+    { x: box.x1, y: box.y1 },
+    { x: box.x0, y: box.y1 },
+  ];
+  for (let i = 0; i < poly.length; i++) {
+    const a = poly[i];
+    const b = poly[(i + 1) % poly.length];
+    const nx = b.y - a.y;
+    const ny = a.x - b.x;
+    const project = (q: Slot) => q.x * nx + q.y * ny;
+    const pp = poly.map(project);
+    const bp = corners.map(project);
+    if (Math.max(...pp) < Math.min(...bp) || Math.max(...bp) < Math.min(...pp)) return false;
+  }
+  return true;
+}
+
 /** Two boxes overlap, or come within `pad` pixels of each other. */
 const meets = (a: Box, b: Box, pad = 0) => a.x0 < b.x1 + pad && b.x0 < a.x1 + pad && a.y0 < b.y1 + pad && b.y0 < a.y1 + pad;
 
@@ -173,6 +217,8 @@ interface Layout {
   obstacles: Text[];
   /** The clock's box on screen (it is fixed). */
   clock: Box | null;
+  /** The clock's plate in the canvas's own pixels (the phone band starts under the header). */
+  plate: Box | null;
   /** Where the cards are cut, under the clock (0 on phones: the band sits above them). */
   line: number;
 }
@@ -202,6 +248,7 @@ function Driver({
     copyRight: 0,
     obstacles: [],
     clock: null,
+    plate: null,
     line: 0,
   });
   const cur = useRef({
@@ -290,6 +337,14 @@ function Driver({
         copyRight: copy ? copy.getBoundingClientRect().right : 0,
         obstacles,
         clock: c && c.width > 0 ? { x0: c.left, x1: c.right, y0: c.top, y1: c.bottom } : null,
+        // The plate reaches 0.2em past the digits' sides and 0.12em past their top and bottom (diorama.css)
+        plate:
+          c && c.width > 0
+            ? (() => {
+                const top = stage ? stage.getBoundingClientRect().top : 0;
+                return { x0: c.left - c.height * 0.2, x1: c.right + c.height * 0.2, y0: c.top - top - c.height * 0.12, y1: c.bottom - top + c.height * 0.12 };
+              })()
+            : null,
         line: band.matches ? 0 : parseFloat(getComputedStyle(html).getPropertyValue('--dio-line')) || 0,
       };
     };
@@ -399,24 +454,66 @@ function Driver({
         y0 = Infinity,
         x1 = -Infinity,
         y1 = -Infinity;
+      const points: Slot[] = [];
       for (const v of work.outline) {
         work.p.copy(v).project(probe);
         const px = ((work.p.x + 1) / 2) * w;
         const py = ((1 - work.p.y) / 2) * h;
+        points.push({ x: px, y: py });
         x0 = Math.min(x0, px);
         x1 = Math.max(x1, px);
         y0 = Math.min(y0, py);
         y1 = Math.max(y1, py);
       }
-      const box = stage.room;
-      const scale = Math.min((box.x1 - box.x0) / (x1 - x0), (box.y1 - box.y0) / (y1 - y0));
-      const pull = 1 / Math.max(0.2, scale);
-      // Pulling back scales the silhouette about the frame's centre
-      const cx = w / 2 + ((x0 + x1) / 2 - w / 2) / pull;
-      const cy = h / 2 + ((y0 + y1) / 2 - h / 2) / pull;
-      k = 1 + (pull - 1) * s.fit;
-      dx = ((box.x0 + box.x1) / 2 - cx) * s.fit;
-      dy = ((box.y0 + box.y1) / 2 - cy) * s.fit;
+      // Fit the silhouette into a box: pulling back scales it about the frame's centre, then the frame
+      // slides. `align` places it across the box's spare width: 1 centred, 0 against the box's left edge.
+      const fitInto = (box: Box, align = 1) => {
+        const scale = Math.min((box.x1 - box.x0) / (x1 - x0), (box.y1 - box.y0) / (y1 - y0));
+        const pull = 1 / Math.max(0.2, scale);
+        const cx = w / 2 + ((x0 + x1) / 2 - w / 2) / pull;
+        const cy = h / 2 + ((y0 + y1) / 2 - h / 2) / pull;
+        const roomW = (x1 - x0) / pull;
+        const spare = Math.max(0, box.x1 - box.x0 - roomW);
+        return { pull, dx: box.x0 + roomW / 2 + (spare / 2) * align - cx, dy: (box.y0 + box.y1) / 2 - cy };
+      };
+      // The room keeps clear of the clock's plate. First it slides left into any spare width, then its box
+      // gives up height from the top, until the silhouette (not its bounding box: the room is a hexagon,
+      // its top corners empty) misses the plate.
+      let box = stage.room;
+      let align = 1;
+      const plate = layout.current.plate;
+      if (plate) {
+        const guard: Box = { x0: plate.x0 - PLATE_GAP, x1: plate.x1 + PLATE_GAP, y0: plate.y0 - PLATE_GAP, y1: plate.y1 + PLATE_GAP };
+        const outline = hull(points);
+        const ALIGNS = [1, 0.8, 0.6, 0.4, 0.2, 0];
+        /** The most centred placement that misses the plate at this top, or null. */
+        const clearAt = (top: number) =>
+          ALIGNS.find((a) => {
+            const f = fitInto({ ...box, y0: top }, a);
+            const placed = outline.map((q) => ({ x: w / 2 + (q.x - w / 2) / f.pull + f.dx, y: h / 2 + (q.y - h / 2) / f.pull + f.dy }));
+            return !polygonMeets(placed, guard);
+          }) ?? null;
+        let found = clearAt(box.y0);
+        if (found === null) {
+          // Never shrink the room by more than a third for the clock's sake
+          let lo = box.y0;
+          let hi = box.y0 + (box.y1 - box.y0) / 3;
+          if (clearAt(hi) !== null) {
+            for (let i = 0; i < 12; i++) {
+              const mid = (lo + hi) / 2;
+              if (clearAt(mid) === null) lo = mid;
+              else hi = mid;
+            }
+          }
+          box = { ...box, y0: hi };
+          found = clearAt(hi) ?? 0;
+        }
+        align = found;
+      }
+      const f = fitInto(box, align);
+      k = 1 + (f.pull - 1) * s.fit;
+      dx = f.dx * s.fit;
+      dy = f.dy * s.fit;
     }
     work.pos.sub(work.target).multiplyScalar(k).add(work.target);
 

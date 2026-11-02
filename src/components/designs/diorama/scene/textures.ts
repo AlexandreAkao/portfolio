@@ -128,7 +128,7 @@ export function woodTexture(variant: 'block' | 'veneer' = 'block'): THREE.Canvas
   return t;
 }
 
-/** A flat colour with seeded grey noise, for carpet, rug and the walls. */
+/** A flat colour with seeded grey noise. */
 export function noiseTexture(base: string, amount = 18, size = 256): THREE.CanvasTexture {
   const c = document.createElement('canvas');
   c.width = c.height = size;
@@ -194,6 +194,36 @@ export function seeded(seed: number) {
     s = (s * 16807) % 2147483647;
     return (s - 1) / 2147483646;
   };
+}
+
+/**
+ * Painted plaster for the walls: an almost flat graphite with broad, soft shifts of tone (the
+ * way paint lies on a wall under one light) and no grain at all, so a wall never reads as the
+ * carpet's pile. Tiles without wrapping edges.
+ */
+export function plasterTexture(base: string): THREE.CanvasTexture {
+  const size = 512;
+  const [c, ctx] = canvas(size, size);
+  const rnd = seeded(31);
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, size, size);
+  for (let i = 0; i < 18; i++) {
+    const x = rnd() * size;
+    const y = rnd() * size;
+    const r = 90 + rnd() * 170;
+    const light = rnd() > 0.5;
+    for (const dx of [-size, 0, size]) {
+      for (const dy of [-size, 0, size]) {
+        const g = ctx.createRadialGradient(x + dx, y + dy, 0, x + dx, y + dy, r);
+        g.addColorStop(0, light ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.04)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(x + dx - r, y + dy - r, r * 2, r * 2);
+      }
+    }
+  }
+  // No grain: at the close stations a wall's texel is several pixels wide, and any per-texel noise reads as woven cloth
+  return tex(c, true);
 }
 
 /**

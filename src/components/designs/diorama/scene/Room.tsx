@@ -21,7 +21,7 @@ import Furnishings, { Parts, Rod, type Part } from './Furnishings';
 import { ScreenCanvas } from './screens';
 import StaticMerge from './StaticMerge';
 import Sunbeam from './Sunbeam';
-import { aoTexture, carpetTexture, leafCanvas, matTexture, noiseTexture, pegboardTexture, printTexture, rugTexture, woodTexture } from './textures';
+import { aoTexture, carpetTexture, leafCanvas, matTexture, pegboardTexture, plasterTexture, printTexture, rugTexture, woodTexture } from './textures';
 
 RectAreaLightUniformsLib.init();
 
@@ -289,11 +289,11 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
     woodSmall.repeat.set(0.8, 0.5);
     const carpet = carpetTexture();
     carpet.repeat.set(2.12, 1.66);
-    const wall = noiseTexture('#63666b', 10);
-    wall.repeat.set(3, 2);
-    const wallSide = wall.clone();
-    wallSide.repeat.set(3 / 4.24, 2 / 2.6);
-    wallSide.needsUpdate = true;
+    // Painted plaster; the window wall a step lighter, as a wall facing into the room's light reads
+    const wall = plasterTexture('#62656a');
+    wall.repeat.set(1.4, 0.9);
+    const wallSide = plasterTexture('#6a6d72');
+    wallSide.repeat.set(1.4 / 4.24, 0.9 / 2.6);
     return {
       wood: new THREE.MeshStandardMaterial({ map: wood, roughness: 0.48 }),
       woodSmall: new THREE.MeshStandardMaterial({ map: woodSmall, roughness: 0.5 }),
@@ -437,7 +437,7 @@ export default function Room({ sample, locale, lite, still = false }: { sample: 
         castShadow
         shadow-mapSize={[sunMap, sunMap]}
         shadow-bias={-0.0004}
-        shadow-normalBias={0.025}
+        shadow-normalBias={0.045}
         shadow-radius={3}
         shadow-camera-left={-3.4}
         shadow-camera-right={3.4}
