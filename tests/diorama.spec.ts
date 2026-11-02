@@ -573,3 +573,112 @@ for (const [label, blockGl] of [['', false], [' with WebGL blocked', true]] as c
     await expect(page.locator('html')).toHaveAttribute('data-intro', 'done', { timeout: 2_000 });
   });
 }
+
+/** Contrast helpers run in the page: WCAG ratio of two rgb triples. */
+const CONTRAST_JS = `
+  window.__rgb = (s) => (s.match(/[\\d.]+/g) || []).slice(0, 4).map(Number);
+  window.__lin = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+  window.__L = ([r, g, b]) => 0.2126 * window.__lin(r) + 0.7152 * window.__lin(g) + 0.0722 * window.__lin(b);
+  window.__cr = (a, b) => { const [x, y] = [window.__L(a), window.__L(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+`;
+
+test('diorama: card, footer and hero text keep contrast at 4.5:1 or more', async ({ page }) => {
+  await arrive(page);
+  await page.addScriptTag({ content: CONTRAST_JS });
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  // Cards and the footer sit on opaque paper: text colour against the nearest opaque ancestor
+  const worst = await page.evaluate(() => {
+    const w = window as unknown as Record<string, (...a: any[]) => any>;
+    const bgOf = (el: Element | null): number[] => {
+      for (let e = el; e; e = e.parentElement) {
+        const c = w.__rgb(getComputedStyle(e).backgroundColor);
+        if (c.length === 3 || (c[3] ?? 1) > 0.9) return c.slice(0, 3);
+      }
+      return [255, 255, 255];
+    };
+    let low = { ratio: 99, text: '' };
+    for (const el of document.querySelectorAll('.dio-card *, .dio-footer *, .dio-hero__copy .dio-btn, .dio-hero__copy .dio-btn *')) {
+      const own = Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent?.trim());
+      if (!own || el.closest('[aria-hidden="true"], .sr-only')) continue;
+      const style = getComputedStyle(el);
+      if (style.visibility === 'hidden' || +style.opacity === 0) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width <= 1 || r.height <= 1) continue;
+      const ratio = w.__cr(w.__rgb(style.color).slice(0, 3), bgOf(el));
+      if (ratio < low.ratio) low = { ratio, text: (el.textContent ?? '').trim().slice(0, 40) };
+    }
+    return low;
+  });
+  expect(worst.ratio, `cards/footer: lowest text contrast at "${worst.text}"`).toBeGreaterThanOrEqual(4.5);
+});
+
+test('diorama: the hero copy and the clock read against the real scene behind them', async ({ page }) => {
+  await arrive(page);
+  await page.addScriptTag({ content: CONTRAST_JS });
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await expect(page.locator('.dio-still')).toHaveAttribute('data-gone', /.*/, { timeout: 20_000 });
+  await page.waitForTimeout(1500);
+  const targets = await page.evaluate(() => {
+    const w = window as unknown as Record<string, (...a: any[]) => any>;
+    // Buttons paint their own fill (rated above); everything else sits straight on the scene
+    return [...document.querySelectorAll('.dio-hero__copy *, .dio-clock')]
+      .filter((el) => !el.closest('.dio-btn') && Array.from(el.childNodes).some((n) => n.nodeType === 3 && n.textContent?.trim()) && el.getClientRects().length > 0)
+      .map((el, i) => {
+        el.setAttribute('data-contrast-probe', String(i));
+        return { i, text: (el.textContent ?? '').trim().slice(0, 30), color: w.__rgb(getComputedStyle(el).color).slice(0, 3), isClock: el.classList.contains('dio-clock') };
+      });
+  });
+  expect(targets.length).toBeGreaterThan(3);
+  // Hide the glyphs, photograph what is behind them, and rate the text colour against every pixel
+  await page.addStyleTag({ content: '.dio-hero__copy * { text-shadow: none !important; } .dio-hero__copy *, .dio-clock { color: transparent !important; text-decoration: none !important; -webkit-text-fill-color: transparent !important; }' });
+  for (const t of targets) {
+    const shot = await page.locator(`[data-contrast-probe="${t.i}"]`).screenshot();
+    const ratios = await page.evaluate(async ({ b64, color }) => {
+      const w = window as unknown as Record<string, (...a: any[]) => any>;
+      const img = new Image();
+      img.src = `data:image/png;base64,${b64}`;
+      await img.decode();
+      const c = document.createElement('canvas');
+      c.width = img.width; c.height = img.height;
+      const ctx = c.getContext('2d')!;
+      ctx.drawImage(img, 0, 0);
+      const d = ctx.getImageData(0, 0, c.width, c.height).data;
+      const out: number[] = [];
+      for (let p = 0; p < d.length; p += 4) out.push(w.__cr(color, [d[p], d[p + 1], d[p + 2]]));
+      return out.sort((a, b) => a - b);
+    }, { b64: shot.toString('base64'), color: t.color });
+    const p5 = ratios[Math.floor(ratios.length * 0.05)];
+    // The clock is display type (WCAG large text: 3:1) and keeps its own soft shadow, which stays in the sample
+    const floor = t.isClock ? 3 : 4.5;
+    expect(p5, `hero/clock "${t.text}": 5th-percentile contrast against the scene`).toBeGreaterThanOrEqual(floor);
+  }
+});
+
+test('diorama: the arrival curtain image is not fetched by visitors of other worlds', async ({ browser }) => {
+  for (const [world, expected] of [['editorial', 0], ['diorama', 1]] as const) {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    const hits: string[] = [];
+    // Images only: the dev server's toolbar audit re-fetches page images with fetch(), which no visitor does
+    page.on('request', (r) => { if (r.resourceType() === 'image' && r.url().includes('room-0800.webp')) hits.push(r.url()); });
+    await page.addInitScript((w) => { localStorage.setItem('design', w); localStorage.setItem('lang', 'en'); }, world);
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('data-design', world);
+    await expect(page.locator('html')).toHaveAttribute('data-intro', 'done', { timeout: 10_000 });
+    if (world === 'diorama') {
+      expect(hits.length, 'diorama arrival loads the still').toBeGreaterThanOrEqual(expected);
+    } else {
+      await page.waitForTimeout(1000);
+      expect(hits, `${world} never requests the diorama still`).toEqual([]);
+    }
+    await context.close();
+  }
+});
+
+test('diorama: the smooth-scroll guard applies to the home stage only', async ({ page }) => {
+  await page.addInitScript(() => { localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1'); });
+  // A page with no stage keeps the site's smooth scrolling in this world
+  await page.goto('/404');
+  await expect(page.locator('html')).toHaveAttribute('data-design', 'diorama');
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior)).toBe('smooth');
+});

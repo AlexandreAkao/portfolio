@@ -14,7 +14,7 @@ html[data-design='diorama']:has(.dio-stage) {
 }
 /* A deep link (/#skills) lands on its hour at once: until the stage has written its first hour,
    the page does not smooth-scroll there through the whole day. Day-nav clicks still glide. */
-html[data-design='diorama']:not([data-dio-active]) {
+html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
   scroll-behavior: auto;
 }
 /* No transition: the stage writes the ground as the hour moves, and the canvas clears to the same colour */
@@ -62,7 +62,7 @@ html[data-design='diorama']:not([data-dio-active]) {
   letter-spacing: -0.06em;
   font-variant-numeric: tabular-nums;
   color: var(--dio-paper);
-  text-shadow: 0 2px 24px rgb(0 0 0 / 0.55);
+  text-shadow: 0 2px 24px rgb(0 0 0 / 0.55), 0 0 10px rgb(0 0 0 / 0.5), 0 1px 2px rgb(0 0 0 / 0.45);
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
