@@ -102,7 +102,7 @@ export function isoPose(target: V3, dist: number, yaw = 0, shift = 0): { pos: V3
 const clamp = (x: number) => Math.min(1, Math.max(0, x));
 const smooth = (x: number) => x * x * (3 - 2 * x);
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
-const mixV = (a: V3, b: V3, t: number): V3 => [mix(a[0], b[0], t), mix(a[1], b[1], t), mix(a[2], b[2], t)];
+export const mixV = (a: V3, b: V3, t: number): V3 => [mix(a[0], b[0], t), mix(a[1], b[1], t), mix(a[2], b[2], t)];
 
 function mixHex(a: string, b: string, t: number): string {
   const ca = parseInt(a.slice(1), 16);
@@ -136,7 +136,11 @@ export function sunAt(hour: number): Light {
   while (k < SUN.length - 2 && h > SUN[k + 1][0]) k++;
   const [h0, a] = SUN[k];
   const [h1, b] = SUN[k + 1];
-  const t = (h - h0) / (h1 - h0);
+  return mixLight(a, b, (h - h0) / (h1 - h0));
+}
+
+/** Two lights blended, every term at once (`t` 0 is `a`, 1 is `b`). */
+export function mixLight(a: Light, b: Light, t: number): Light {
   return {
     sun: mix(a.sun, b.sun, t),
     sunColor: mixHex(a.sunColor, b.sunColor, t),

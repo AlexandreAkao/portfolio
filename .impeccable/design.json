@@ -1597,8 +1597,8 @@
       },
       {
         "name": "diorama-curtain",
-        "value": "08:00 still at brightness 0.18 with the clock at 07:59; at 0.55s the clock turns to 08:00 and the light comes up over 0.35s; fade 0.55s from 0.9s; reveal 0.9s, total 1.45s (quick: lit, 08:00, fade from 0.4s over 0.3s, total 0.7s)",
-        "purpose": "Diorama's intro curtain and quick-change in SiteIntro.astro."
+        "value": "arrival: night ground #171c2d and the clock at 07:59, colon ticking (1s); reveal 0.2s; holds (cut) until the live room has drawn, 4s cap; then the stage builds the model (cut 0.15s to 1.35s), turns 08:00 at 1.45s with the sun over 1.15s, lays the page from 2.45s (0.8s, copy from 0.35s), flag drops at 3.35s; skipped by wheel, swipe, key or pointer (quick: lit still, 08:00, fade from 0.4s over 0.3s, total 0.7s)",
+        "purpose": "Diorama's intro curtain and quick-change in SiteIntro.astro; the arrival in scene/intro.ts and scene/useArrival.ts."
       }
     ],
     "breakpoints": [

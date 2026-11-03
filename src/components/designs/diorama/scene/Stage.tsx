@@ -8,6 +8,8 @@
  * whole room clear of the clock, and the day's links stay in the page as its
  * index. Phones and tablets: the stage is a band under the header, and the day's
  * links are labels pinned over their objects (only the hour on screen shows).
+ * On a first visit the arrival plays before the day takes over (intro.ts,
+ * useArrival.ts): the model is built at 07:59, then the hour turns.
  * Loaded lazily by DioramaHero, only while Diorama is the active world.
  */
 import { useEffect, useMemo, useRef, useState, type MutableRefObject, type RefObject } from 'react';
@@ -18,6 +20,30 @@ import { STATIONS, clockText, locate, sampleDay, type DaySample, type Located, t
 import Room from './Room';
 import AmbientOcclusion from './AmbientOcclusion';
 import { eachLabel } from './labels';
+import { applyIntro } from './intro';
+import { useArrival } from './useArrival';
+
+/** The arrival's build: only what is below the cut is drawn, and a line of lamp light runs round the model at the cut. */
+const CUT = new THREE.Plane(new THREE.Vector3(0, -1, 0), 0);
+const CUT_PLANES = [CUT];
+const NO_PLANES: THREE.Plane[] = [];
+function cutLine(): THREE.Group {
+  const g = new THREE.Group();
+  const m = new THREE.MeshBasicMaterial({ color: '#f2a65a', toneMapped: false });
+  // Round the plinth's footprint, a hair outside it
+  const [x0, x1, z0, z1, w] = [-2.18, 2.3, -1.84, 1.72, 0.014];
+  const bar = (sx: number, sz: number, x: number, z: number) => {
+    const b = new THREE.Mesh(new THREE.BoxGeometry(sx, 0.004, sz), m);
+    b.position.set(x, 0, z);
+    g.add(b);
+  };
+  bar(x1 - x0, w, (x0 + x1) / 2, z0);
+  bar(x1 - x0, w, (x0 + x1) / 2, z1);
+  bar(w, z1 - z0, x0, (z0 + z1) / 2);
+  bar(w, z1 - z0, x1, (z0 + z1) / 2);
+  g.visible = false;
+  return g;
+}
 
 interface Props {
   lite: boolean;
@@ -169,9 +195,25 @@ function Driver({
       probe: new THREE.PerspectiveCamera(),
       outline: OUTLINE.map((v) => new THREE.Vector3(...v)),
       labels: STATIONS.filter((s) => s.label).map((s) => [s.id, new THREE.Vector3(...(s.label as V3))] as const),
+      cut: cutLine(),
     }),
     [],
   );
+  const arrivalFrame = useArrival(still);
+
+  useEffect(() => {
+    scene.add(work.cut);
+    return () => {
+      scene.remove(work.cut);
+      work.cut.traverse((o) => {
+        if (o instanceof THREE.Mesh) {
+          o.geometry.dispose();
+          (o.material as THREE.Material).dispose();
+        }
+      });
+      gl.clippingPlanes = NO_PLANES;
+    };
+  }, [scene, gl, work]);
 
   useEffect(() => {
     scene.background = work.ground;
@@ -274,7 +316,15 @@ function Driver({
     // The day at this scroll position (one chapter alone holds its station)
     const loc = anchors.length < 2 ? REST : locate(window.scrollY, anchors, TRAVEL * window.innerHeight);
     const s = sampleDay(loc, stations.length < 2 ? [stations[0], stations[0]] : stations);
+    // The arrival holds the hour, the light, the screens and the pose while it plays, and builds the model
+    const intro = arrivalFrame();
+    if (intro) applyIntro(s, intro);
     sample.current = s;
+    const cutAt = intro?.clip ?? null;
+    gl.clippingPlanes = cutAt === null ? NO_PLANES : CUT_PLANES;
+    CUT.constant = cutAt ?? 0;
+    work.cut.visible = cutAt !== null;
+    work.cut.position.y = (cutAt ?? 0) - 0.003;
 
     // Close shots centre their object in what the header leaves of the canvas. Wide shots fit the whole
     // room into the panel (or the phone band): pull back, then slide the frame.

@@ -1,5 +1,6 @@
-import { test, expect, type Locator, type Page } from '@playwright/test';
+import { test, expect, type BrowserContext, type Locator, type Page } from '@playwright/test';
 import { STATIONS, clockText, locate, sampleDay, sunAt } from '../src/components/designs/diorama/day';
+import { ARRIVAL, arrival } from '../src/components/designs/diorama/scene/intro';
 import en from '../src/i18n/en.json' with { type: 'json' };
 import { education, inProgress } from '../src/data/education';
 import { skillGroups } from '../src/data/skills';
@@ -44,6 +45,44 @@ test('sampleDay lands on a station, blends poses between two', () => {
   const at = sampleDay({ i: 3, u: 0, move: 0 }); expect(at.active).toBe('wms'); expect(at.hour).toBe(13); expect(at.poseFrom).toBe('think');
   const half = sampleDay({ i: 3, u: 0.9, move: 0.5 }); expect(half.poseTo).toBe('typing'); expect(half.poseMix).toBeCloseTo(0.5);
   expect(sampleDay({ i: 10, u: 1, move: 1 }).turn).toBe(1);
+});
+
+test('arrival: the model is built at 07:59 in the dark, then the hour turns and the 08:00 sun comes in', () => {
+  const first = arrival(0)!;
+  expect(clockText(first.hour!)).toBe('07:59');
+  // Only the base is drawn: the cut stands below the floor (y 0)
+  expect(first.clip!).toBeLessThan(0);
+  // Before the sun: blue light at the window, the room's own lights on, the monitor locked
+  expect(first.light!.sun).toBe(0);
+  expect(first.light!.moon).toBeGreaterThan(0);
+  expect(first.light!.practical).toBeGreaterThan(0);
+  expect(first.screens!.main).toBe('lock');
+  // The cut climbs past the walls' tops (2.63) before the hour turns: the model is whole at 07:59
+  const cuts: number[] = [];
+  for (let t = 0; t < ARRIVAL.turn; t += 0.05) {
+    const f = arrival(t)!;
+    expect(clockText(f.hour!)).toBe('07:59');
+    if (f.clip != null) cuts.push(f.clip);
+  }
+  expect(cuts.length).toBeGreaterThan(5);
+  expect([...cuts].sort((a, b) => a - b)).toEqual(cuts);
+  expect(arrival(ARRIVAL.turn - 0.01)!.clip ?? null).toBeNull();
+  // 08:00: the monitor unlocks, and from then on the room is whole
+  const turned = arrival(ARRIVAL.turn + 0.01)!;
+  expect(clockText(turned.hour!)).toBe('08:00');
+  expect(turned.screens!.main).toBe('wall');
+  expect(turned.clip ?? null).toBeNull();
+  // It ends on the 08:00 station's own light, so the day takes over without a jump; then the script is over
+  const last = arrival(ARRIVAL.end - 0.001)!;
+  expect(last.light!.sun).toBeCloseTo(5.6, 2);
+  expect(last.light!.moon).toBeCloseTo(0, 2);
+  expect(last.light!.practical).toBeCloseTo(0, 2);
+  last.light!.sunDir.forEach((v, i) => expect(v).toBeCloseTo([1, 0.75, -0.45][i], 2));
+  expect(last.light!.sky).toBe('#bdd3ea');
+  expect(arrival(ARRIVAL.end + 0.01)).toBeNull();
+  // The page comes in after the hour has turned and before the script is over
+  expect(ARRIVAL.page).toBeGreaterThan(ARRIVAL.turn);
+  expect(ARRIVAL.page).toBeLessThan(ARRIVAL.end);
 });
 
 /* ------------------------------------------------------------ Task 2 follow-ups */
@@ -642,28 +681,112 @@ test('diorama: the footer is one quiet row on paper: socials, year, the invitati
   await expect(page.locator('footer [data-design-show="editorial"]')).toBeHidden();
 });
 
-for (const [label, blockGl] of [['', false], [' with WebGL blocked', true]] as const) {
-  test(`diorama: the arrival curtain turns 07:59 to 08:00 and never waits on WebGL${label}`, async ({ page }) => {
-    await page.addInitScript((block) => {
-      localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en');
-      if (block) {
-        const get = HTMLCanvasElement.prototype.getContext;
-        HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...rest: unknown[]) {
-          if (/webgl/i.test(type)) return null;
-          return (get as (...a: unknown[]) => unknown).call(this, type, ...rest) as never;
-        } as typeof get;
-      }
-    }, blockGl);
-    await page.goto('/');
-    const curtain = page.locator('#site-intro .intro-dio');
-    await expect(curtain).toBeVisible();
-    await expect(curtain.locator('.intro-dio__a')).toHaveText('07:59');
-    await expect(curtain.locator('.intro-dio__a')).toBeVisible();
-    await expect(curtain.locator('.intro-dio__b')).toHaveText('08:00');
-    await expect(curtain.locator('.intro-dio__b')).toBeVisible();
-    await expect(page.locator('html')).toHaveAttribute('data-intro', 'done', { timeout: 2_000 });
-  });
+/* ------------------------------------------------------------ The arrival: the model is built at 07:59, then the day */
+
+/** The room's code compiled and cached in this browser, so an arrival measures the room, not the dev server's first build. */
+async function warmDiorama(context: BrowserContext) {
+  const p = await context.newPage();
+  await p.addInitScript(() => { localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1'); });
+  await p.goto('/');
+  await expect(p.locator('#hero .dio-still')).toHaveAttribute('data-gone', '', { timeout: 30_000 });
+  await p.close();
 }
+
+/** A first visit of the session in Diorama, recording what stands on the page when the curtain goes and whether the arrival is armed later. */
+async function firstVisit(page: Page, opts: { blockGl?: boolean } = {}) {
+  await page.addInitScript((block) => {
+    localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en');
+    if (block) {
+      const get = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, type: string, ...rest: unknown[]) {
+        if (/webgl/i.test(type)) return null;
+        return (get as (...a: unknown[]) => unknown).call(this, type, ...rest) as never;
+      } as typeof get;
+    }
+    const w = window as unknown as { __dio: { atDone: Record<string, unknown> | null; armedAfterDone: boolean } };
+    w.__dio = { atDone: null, armedAfterDone: false };
+    document.addEventListener('site-intro:done', () => {
+      const html = document.documentElement;
+      w.__dio.atDone = {
+        gone: !!document.querySelector('#hero .dio-still[data-gone]'),
+        clock: document.querySelector('.dio-clock')?.textContent ?? null,
+        intro: html.dataset.dioIntro ?? null,
+      };
+      // An arrival that did not start with the curtain never starts later
+      const armed = html.dataset.dioIntro !== undefined;
+      new MutationObserver(() => {
+        if (!armed && html.dataset.dioIntro !== undefined) w.__dio.armedAfterDone = true;
+      }).observe(html, { attributes: true, attributeFilter: ['data-dio-intro'] });
+    });
+  }, !!opts.blockGl);
+  await page.goto('/');
+}
+const record = (page: Page) => page.evaluate(() => (window as unknown as { __dio: { atDone: Record<string, unknown> | null; armedAfterDone: boolean } }).__dio);
+
+test('diorama: the arrival holds 07:59 until the live room has drawn, builds it, turns 08:00 and hands over the page @mobile', async ({ page, context }) => {
+  await warmDiorama(context);
+  await firstVisit(page);
+  const html = page.locator('html');
+  const curtain = page.locator('#site-intro .intro-dio');
+  await expect(curtain).toBeVisible();
+  await expect(curtain.locator('.intro-dio__a')).toHaveText('07:59');
+  // Nothing of the room shows before it is built: the curtain is the dark and the clock
+  await expect(curtain.locator('.intro-dio__still')).toBeHidden();
+  await expect(html).toHaveAttribute('data-intro', 'done', { timeout: 10_000 });
+  // The curtain went because the live room had drawn, not on a timer, and the arrival had begun on it
+  expect((await record(page)).atDone).toEqual({ gone: true, clock: '07:59', intro: 'play' });
+  await expect(page.locator('header.fixed')).toHaveCSS('opacity', '0');
+  await expect(page.locator('.dio-clock')).toHaveText('08:00', { timeout: 4_000 });
+  await expect(html).toHaveAttribute('data-dio-intro', 'page', { timeout: 4_000 });
+  await expect(html).not.toHaveAttribute('data-dio-intro', /.*/, { timeout: 4_000 });
+  await expect(page.locator('header.fixed')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.dio-name')).toBeVisible();
+});
+
+test('diorama: a scroll gesture during the arrival goes straight to the day', async ({ page, context }) => {
+  await warmDiorama(context);
+  await firstVisit(page);
+  const html = page.locator('html');
+  await expect(html).toHaveAttribute('data-intro', 'done', { timeout: 10_000 });
+  await expect(html).toHaveAttribute('data-dio-intro', 'play');
+  await page.mouse.move(400, 400);
+  await page.mouse.wheel(0, 120);
+  await expect(html).not.toHaveAttribute('data-dio-intro', /.*/, { timeout: 500 });
+  await expect(page.locator('header.fixed')).toHaveCSS('opacity', '1');
+  // The gesture also scrolls: the clock follows the day from 08:00, never back to 07:59
+  await expect(page.locator('.dio-clock')).toHaveText(/^08:/);
+});
+
+test('diorama: without WebGL the arrival does not wait, and the page opens on the still', async ({ page, context }) => {
+  await warmDiorama(context);
+  await firstVisit(page, { blockGl: true });
+  const html = page.locator('html');
+  // Well before the curtain's cap: the hero knows at once there is no live room
+  await expect(html).toHaveAttribute('data-intro', 'done', { timeout: 3_000 });
+  await expect(html).not.toHaveAttribute('data-dio-intro', /.*/);
+  await expect(page.locator('#hero .dio-still')).toBeVisible();
+  await expect(page.locator('header.fixed')).toHaveCSS('opacity', '1');
+  expect((await record(page)).armedAfterDone).toBe(false);
+});
+
+test('diorama: a room not live by the curtain\'s cap opens the page on the still and never plays late', async ({ page, context }) => {
+  await warmDiorama(context);
+  // The room's code arrives long after the cap
+  await page.route(/scene\/Stage\.tsx/, async (route) => {
+    await new Promise((r) => setTimeout(r, 6_000));
+    await route.continue();
+  });
+  await firstVisit(page);
+  const html = page.locator('html');
+  await expect(html).toHaveAttribute('data-intro', 'done', { timeout: 6_000 });
+  await expect(html).not.toHaveAttribute('data-dio-intro', /.*/);
+  await expect(page.locator('header.fixed')).toHaveCSS('opacity', '1');
+  // The late room takes over from the still, with no arrival
+  await expect(page.locator('#hero .dio-still')).toHaveAttribute('data-gone', '', { timeout: 20_000 });
+  await page.waitForTimeout(500);
+  expect((await record(page)).armedAfterDone).toBe(false);
+  await expect(page.locator('.dio-clock')).toHaveText('08:00');
+});
 
 /** Contrast helpers run in the page: WCAG ratio of two rgb triples. */
 const CONTRAST_JS = `

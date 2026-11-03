@@ -45,6 +45,16 @@ function webglAvailable() {
   }
 }
 
+function heroReady() {
+  document.dispatchEvent(new CustomEvent('site-hero:ready', { detail: 'diorama' }));
+}
+
+/** No live room to build: the page opens on the still, and the curtain need not wait for it. */
+function noArrival() {
+  delete document.documentElement.dataset.dioIntro;
+  heroReady();
+}
+
 /** Rendered by the stage's error boundary: the still stays and the day nav becomes a list. */
 function StageFailed({ onFail }: { onFail: () => void }) {
   useEffect(onFail, [onFail]);
@@ -77,15 +87,22 @@ function DioramaHeroInner() {
   const [still, setStill] = useState(false);
 
   const onDrawn = useCallback(() => setDrawn(true), []);
+  // The arrival's curtain holds until this hero says its room is on screen (see SiteIntro), once the page shows it too
+  useEffect(() => {
+    if (drawn) heroReady();
+  }, [drawn]);
   const fail = useCallback(() => {
     setWebgl(false);
     setDrawn(false);
+    noArrival();
   }, []);
 
   useEffect(() => {
     setStill(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     setLite(window.matchMedia('(max-width: 767px)').matches);
-    setWebgl(webglAvailable());
+    const gl = webglAvailable();
+    setWebgl(gl);
+    if (!gl) noArrival();
     const html = document.documentElement;
     const onDesign = () => {
       activeNow.current = html.dataset.design === 'diorama';

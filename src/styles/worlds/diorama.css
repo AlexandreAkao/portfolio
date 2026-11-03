@@ -986,3 +986,61 @@ html[data-design='diorama'] :is(#about, #experience, #education, #skills, #proje
     padding-inline: 1.5rem;
   }
 }
+
+/* ================================================================== */
+/* The arrival (first visit): the model is built, then the day's page  */
+/* ================================================================== */
+/* SiteIntro arms it (data-dio-intro="play") and the stage plays it (scene/useArrival.ts): the room alone on
+   the ground while it is built and the hour turns, no header and no page (on phones the cards under the band
+   wait too); on "page" the copy comes in after
+   the paper, and the flag drops once all of it has settled. Late in this file so it outranks the hour's
+   lighting of the copy (data-dio-active, hover included). */
+html[data-design='diorama'][data-dio-intro] :is(header.fixed, footer, .dio-hero__inner, #main-content > :not(#hero)) {
+  transition: opacity 0.5s ease var(--dio-intro-delay, 0s);
+}
+html[data-design='diorama'][data-dio-intro='play'] :is(header.fixed, footer, .dio-hero__inner, #main-content > :not(#hero)) {
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+}
+html[data-design='diorama'][data-dio-intro='page'] header.fixed {
+  --dio-intro-delay: 0.2s;
+}
+html[data-design='diorama'][data-dio-intro='page'] :is(.dio-hero__inner, #main-content > :not(#hero)) {
+  --dio-intro-delay: 0.35s;
+}
+/* The live room is on screen from the first frame: the 08:00 still never shows over the build */
+html[data-dio-intro] .dio-still {
+  visibility: hidden;
+}
+
+/* Wide screens: the room stands centred on the whole screen, its clock with it, and glides back to its panel
+   as the paper is laid from the right edge (the page's paper as a background that grows, so the fixed stage
+   inside the page is never moved or clipped by it) */
+@media (min-width: 1024px) {
+  html[data-design='diorama'][data-dio-intro]:has(.dio-stage) #main-content {
+    background: linear-gradient(var(--dio-paper), var(--dio-paper)) no-repeat right top / 100% 100%;
+  }
+  html[data-design='diorama'][data-dio-intro='play']:has(.dio-stage) #main-content {
+    background-size: 0% 100%;
+  }
+  html[data-design='diorama'][data-dio-intro='play'] :is(.dio-stage, .dio-clock) {
+    transform: translateX(calc(var(--dio-col) / 2));
+  }
+  html[data-design='diorama'][data-dio-intro='page']:has(.dio-stage) #main-content {
+    transition: background-size 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  html[data-design='diorama'][data-dio-intro='page'] :is(.dio-stage, .dio-clock) {
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+/* Phones and tablets: the band, room and clock, stands at the middle of the screen, and rises to its place under
+   the header as the copy comes in */
+@media (max-width: 1023px) {
+  html[data-design='diorama'][data-dio-intro='play'] :is(.dio-stage, .dio-clock) {
+    transform: translateY(calc(31svh - 64px));
+  }
+  html[data-design='diorama'][data-dio-intro='page'] :is(.dio-stage, .dio-clock) {
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
