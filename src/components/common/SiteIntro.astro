@@ -109,7 +109,7 @@ const printable = (text: string) =>
   <!-- Diorama: the room in the dark at 07:59, the clock turns to 08:00 and the light
        comes up on the still of the hero's own room. Fixed length, never waits on WebGL. -->
   <div class="intro intro-dio" data-design-show="diorama" data-intro-no-font-wait>
-    <img class="intro-dio__still" src="/images/diorama/room-0800.webp" alt="" width="1600" height="1000" loading="lazy" decoding="async" />
+    <img class="intro-dio__still" src="/images/diorama/room-0800.webp" alt="" width="1200" height="1219" loading="lazy" decoding="async" />
     <p class="intro-dio__clock"><span class="intro-dio__a">07:59</span><span class="intro-dio__b">08:00</span></p>
   </div>
 
@@ -803,7 +803,8 @@ const printable = (text: string) =>
   @keyframes cart-cut { to { visibility: hidden; } }
 
   /* Diorama: no dark phase on a quick change, the clock only, already turned, over the lit room */
-  html[data-intro='quick'] .intro-dio__still { filter: none; animation: none; }
+  html[data-intro='quick'] .intro-dio__still,
+  html[data-intro='quick'] .intro-dio::before { filter: none; animation: none; }
   html[data-intro='quick'] .intro-dio__a { display: none; }
   html[data-intro='quick'] .intro-dio__b { visibility: visible; animation: none; }
   html[data-intro='quick'] .intro-dio { animation: dio-out 0.3s ease-in 0.4s forwards; }
@@ -813,33 +814,56 @@ const printable = (text: string) =>
     background: #15161a;
     animation: dio-out 0.55s ease-in 0.9s forwards;
   }
-  .intro-dio__still {
+  /* The page's 08:00 ground, dimmed and lit with the still, so the still's edges never show */
+  .intro-dio::before {
+    content: '';
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    background: #2f353c;
     filter: brightness(0.18);
     animation: dio-light 0.35s ease-out 0.55s forwards;
   }
-  /* Where the hero's clock sits, set the same way (see .dio-clock) */
+  /* The still and the clock stand where the page puts the room and its clock (see worlds/diorama.css):
+     the panel left of the day's page on wide screens, the band under the header on phones and tablets.
+     The still is cropped to the room and laid whole in that box, as the stage fits the live room. */
+  .intro-dio__still {
+    position: absolute;
+    top: calc(56px + 28px);
+    left: 28px;
+    width: calc(100% - var(--dio-col, 46vw) - 56px);
+    height: calc(100% - 56px - 56px);
+    object-fit: contain;
+    filter: brightness(0.18);
+    animation: dio-light 0.35s ease-out 0.55s forwards;
+  }
   .intro-dio__clock {
     position: fixed;
-    top: calc(64px + 1.25rem);
-    right: clamp(1rem, 4vw, 3rem);
+    top: calc(64px + 1rem);
+    right: calc(var(--dio-col, 46vw) + 1.5rem);
     margin: 0;
     font-family: var(--font-dio-mono, 'Martian Mono Variable', ui-monospace, monospace);
     font-weight: 200;
-    font-size: clamp(2.5rem, 8vw, 7rem);
+    font-size: 3rem;
     line-height: 1;
     letter-spacing: -0.04em;
     font-variant-numeric: tabular-nums;
     color: var(--dio-paper, #f1ece3);
-    text-shadow: 0 2px 24px rgb(0 0 0 / 0.55);
+  }
+  /* The page clock's graphite plate (see .dio-clock::before), so nothing changes as the curtain lifts */
+  .intro-dio__clock::before {
+    content: '';
+    position: absolute;
+    inset: -0.12em -0.2em;
+    z-index: -1;
+    border: 1px solid rgb(241 236 227 / 0.08);
+    border-radius: 0.16em;
+    background: rgb(21 22 26 / 0.7);
+    box-shadow: 0 0.05em 0.2em rgb(0 0 0 / 0.22);
   }
   .intro-dio__a { animation: dio-off 1ms linear 0.55s forwards; }
   .intro-dio__b { position: absolute; right: 0; top: 0; visibility: hidden; animation: dio-on 1ms linear 0.55s forwards; }
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
+    .intro-dio__still { top: calc(64px + 10px); left: 10px; width: calc(100% - 20px); height: calc(38svh - 20px); }
     .intro-dio__clock { top: calc(64px + 0.5rem); right: 0.75rem; font-size: 2.5rem; }
   }
   @keyframes dio-light { to { filter: brightness(1); } }

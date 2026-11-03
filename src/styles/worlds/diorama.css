@@ -1,10 +1,19 @@
 /* Diorama: one working day in Akira's room, a miniature seen from outside.
    Tokens live in global.css under [data-design='diorama']; world rules are added here.
-   One fixed stage holds the room for the whole page (scene/Stage.tsx): behind
-   the content on desktop, a band under the header on phones. The page ground
-   is the hour's sky, dimmed (--dio-ground, written by the stage each hour).
-   Martian Mono sets the hours, labels and clock; Bricolage Grotesque the rest.
-   Classes here are used only in this world. */
+   One fixed stage holds the room for the whole page (scene/Stage.tsx).
+   Wide screens (1024px up) split the page: the room in a fixed panel on the left,
+   the day on the right as a paper page that scrolls like a planner, every hour in
+   its margin. Phones and tablets: the room is a band under the header and each hour
+   is a paper card under it. The page ground is the hour's sky, dimmed (--dio-ground,
+   written by the stage each hour). Martian Mono sets the hours, labels and clock;
+   Bricolage Grotesque the rest. Classes here are used only in this world. */
+
+[data-design='diorama'] {
+  /* The day's page and its hour margin (wide screens) */
+  --dio-col: clamp(30rem, 46vw, 46rem);
+  --dio-margin: clamp(4.5rem, 7vw, 6.5rem);
+  --dio-rule: rgb(23 24 27 / 0.14);
+}
 
 /* ---------- The page ground follows the hour ---------- */
 /* The home starts at 08:00: the stage's ground for that hour (sunAt(8).sky x 0.055, in linear light).
@@ -13,7 +22,7 @@ html[data-design='diorama']:has(.dio-stage) {
   --dio-ground: #2f353c;
 }
 /* A deep link (/#skills) lands on its hour at once: until the stage has written its first hour,
-   the page does not smooth-scroll there through the whole day. Day-nav clicks still glide. */
+   the page does not smooth-scroll there through the whole day. Index clicks still glide. */
 html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
   scroll-behavior: auto;
 }
@@ -24,23 +33,21 @@ html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
 }
 
 /* ---------- The stage ---------- */
-/* Desktop: the whole viewport, under every piece of content */
 .dio-stage {
   position: fixed;
-  inset: 0;
   z-index: -1;
   overflow: hidden;
   background: var(--dio-ground);
 }
-/* The 08:00 still lies over the canvas until the live room has drawn, then fades */
+/* The 08:00 still lies over the canvas until the live room has drawn, then fades. It is cropped to the
+   room, so it is laid whole and centred in the room's box, as the stage fits the live room. */
 .dio-still {
   position: absolute;
-  inset: 0;
+  inset: 28px;
   z-index: 1;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 100% 50%;
+  width: calc(100% - 56px);
+  height: calc(100% - 56px);
+  object-fit: contain;
   transition: opacity 0.4s ease;
 }
 .dio-still[data-gone] {
@@ -49,29 +56,13 @@ html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
 }
 
 /* ---------- The clock ---------- */
-/* The clock owns the top-right corner and never steps aside. Below 768px it sits in the band;
-   from there up its line (its bottom edge plus a gap) is where the cards begin: a card reaching
-   it scrolls beneath it, cut there, instead of entering the corner (below). The stage reads the
-   line (registered, so it computes to pixels) to keep the labels off the cut part too. */
-@property --dio-line {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0px;
-}
-html[data-design='diorama'] {
-  --dio-clock-top: calc(64px + 1.25rem);
-  --dio-clock-size: clamp(2.5rem, 8vw, 7rem);
-  --dio-line: calc(var(--dio-clock-top) + var(--dio-clock-size) + 1.25rem);
-}
+/* Decoration in the room's top-right corner, kept on the hour by the stage */
 .dio-clock {
   position: fixed;
-  top: var(--dio-clock-top);
-  right: clamp(1rem, 4vw, 3rem);
   z-index: 1;
   margin: 0;
   font-family: var(--font-dio-mono);
   font-weight: 200;
-  font-size: var(--dio-clock-size);
   line-height: 1;
   letter-spacing: -0.04em;
   font-variant-numeric: tabular-nums;
@@ -79,8 +70,7 @@ html[data-design='diorama'] {
   pointer-events: none;
 }
 /* The clock's face: a graphite plate with a crisp edge, like a desk clock's display. Over the
-   pale window (13:00, 16:00) the paper-white figures still read at display-type contrast, and
-   the plate never reads as a smudge on the room the way a soft pool did. */
+   pale window (13:00, 16:00) the paper-white figures still read at display-type contrast. */
 .dio-clock::before {
   content: '';
   position: absolute;
@@ -92,154 +82,56 @@ html[data-design='diorama'] {
   box-shadow: 0 0.05em 0.2em rgb(0 0 0 / 0.22);
   pointer-events: none;
 }
+/* No live room (no WebGL, or it failed): the still is a picture of 08:00, and a clock stuck on
+   08:00 beside a later hour would read wrong. The page's margin keeps the hours. */
+.dio-hero:has(.dio-day[data-mode='list']) .dio-clock {
+  display: none;
+}
 
-/* ---------- The day: one list of links, over their objects or as the day's agenda ---------- */
-/* The layer matches the stage; the stage moves each link with a transform. On the
-   wide shots (08:00, 22:00) the links line up as an agenda under the room; as the
-   camera closes in they travel to their objects. Until the stage has placed them
-   they wait in the corner below the header, so a link reached by keyboard shows. */
-.dio-day {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-.dio-day ol {
+/* ---------- The hour of each chapter ---------- */
+/* In the page's margin on wide screens; on phones the clock shows it, so it is read by assistive tech only */
+.dio-hour {
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.dio-day a {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55em;
-  padding: 0.35rem 0.75rem;
-  border: 1px solid rgb(241 236 227 / 0.2);
-  border-radius: 999px;
-  background: rgb(23 24 27 / 0.84);
-  color: var(--dio-paper);
   font-family: var(--font-dio-mono);
-  font-size: 0.6875rem;
-  line-height: 1.2;
-  white-space: nowrap;
-  text-decoration: none;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(1rem, calc(64px + 1rem));
-  transition: opacity 0.3s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-variant-numeric: tabular-nums;
 }
-.dio-day time {
-  color: var(--accent-text);
-}
-/* Shown once the stage has placed them */
-html[data-dio-active] .dio-day[data-mode='pinned'] a {
-  opacity: 1;
-  pointer-events: auto;
-}
-/* Off its object (out of frame): out of sight, unless reached by keyboard */
-html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
-  opacity: 0;
-  pointer-events: none;
-}
-.dio-day a:hover {
-  border-color: var(--accent);
-}
-.dio-day a:focus {
-  z-index: 1;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-.dio-day a[aria-current='true'] {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--dio-ink);
-}
-.dio-day a[aria-current='true'] time {
-  color: inherit;
-}
-/* Close shots: only the active hour keeps its full pill; the others are hour-only pins that
-   open on hover or focus. The name stays in the link (clipped, not removed) for assistive tech. */
-.dio-day[data-compact] a:not([aria-current='true']):not(:hover):not(:focus) .dio-day__name {
+.dio-hour__scene {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
   clip-path: inset(50%);
-}
-.dio-day a:hover {
-  z-index: 1;
-}
-/* No live room (no WebGL, or it failed): the day is a plain agenda in the corner */
-.dio-day[data-mode='list'] {
-  inset: auto clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) auto;
-  max-width: 36rem;
-}
-.dio-day[data-mode='list'] ol {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.4rem;
-}
-.dio-day[data-mode='list'] a {
-  position: static;
-  opacity: 1;
-  pointer-events: auto;
-  transform: none;
-}
-/* Wide screens: with no live room nothing may sit fixed over the cards, so the agenda and the
-   clock stay with the 08:00 hero and scroll away with it */
-@media (min-width: 768px) {
-  .dio-day[data-mode='list'] {
-    position: absolute;
-  }
-  .dio-hero:has(.dio-day[data-mode='list']) .dio-clock {
-    position: absolute;
-  }
+  white-space: nowrap;
 }
 
-/* ---------- The hero: 08:00 ---------- */
-.dio-hero {
-  position: relative;
+/* ---------- The day: one list of links ---------- */
+.dio-day ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
-.dio-hero__inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: calc(100svh - 64px);
-  width: 100%;
-  max-width: 72rem;
-  margin-inline: auto;
-  padding: 3rem 1rem;
+.dio-day time {
+  font-family: var(--font-dio-mono);
+  font-variant-numeric: tabular-nums;
 }
-.dio-hero__copy {
-  width: min(30rem, 100%);
-}
+
+/* ---------- The hero copy ---------- */
 .dio-name {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 5.5rem);
   font-weight: 800;
-  line-height: 0.92;
   letter-spacing: -0.035em;
-  color: var(--text);
 }
 .dio-role {
   margin: 0.9rem 0 0.3rem;
-  font-size: clamp(1.05rem, 1.6vw, 1.5rem);
   font-weight: 500;
   line-height: 1.25;
-  color: var(--text);
 }
 .dio-now {
   margin: 0;
   font-size: 1rem;
   line-height: 1.4;
-  color: var(--text-secondary);
 }
 .dio-now__company {
-  color: var(--text);
   font-weight: 600;
 }
 .dio-actions {
@@ -253,39 +145,24 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   align-items: center;
   min-height: 44px;
   padding: 0 1.15rem;
-  border: 1px solid rgb(241 236 227 / 0.4);
+  border: 1px solid;
   border-radius: var(--radius-btn);
-  color: var(--text);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
   transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
-.dio-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.dio-btn--lamp {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--on-accent);
-}
-.dio-btn--lamp:hover {
-  background: var(--accent-hover);
-  color: var(--on-accent);
-}
 .dio-tagline {
   margin: 1.5rem 0 0;
-  max-width: 28rem;
+  max-width: 34rem;
   font-size: 0.95rem;
   line-height: 1.55;
-  color: var(--text-secondary);
 }
 .dio-socials {
   display: flex;
   flex-wrap: wrap;
   gap: 0 1.25rem;
-  margin: 0.75rem 0 0;
+  margin: 0;
   font-size: 0.875rem;
 }
 .dio-socials a {
@@ -293,193 +170,70 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   align-items: center;
   min-width: 44px;
   min-height: 44px;
-  color: var(--text-secondary);
   text-decoration: underline;
-  text-decoration-color: rgb(241 236 227 / 0.3);
   text-underline-offset: 0.3em;
 }
-.dio-socials a:hover {
-  color: var(--accent);
-  text-decoration-color: currentColor;
-}
-.dio-invite {
-  margin-top: 0.25rem;
-}
 
-/* ---------- A chapter: one hour, one card ---------- */
-/* Cards ride above the day's labels; the stage stays under both. A chapter is at least a
-   screen tall with its card centred in it: in the viewport's right column from 1024px (the
-   room keeps the rest), centred on tablets, full width under the band on phones. A card
-   taller than the screen (the skills) runs with the page. The section's own centred column
-   and padding step aside (below), so the card is placed against the viewport. */
-.dio-chapter {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  min-height: 100svh;
-  padding: 1rem;
-  /* The full-width chapter must not swallow pointer events meant for the pins under it */
-  pointer-events: none;
-}
+/* ---------- A chapter's content: ink on paper in both layouts ---------- */
 .dio-card {
-  width: min(34rem, 100%);
-  margin-inline: auto;
-  padding: 1.4rem 1.5rem;
-  border-radius: var(--radius-card);
-  background: var(--dio-paper);
   color: var(--dio-ink);
-  pointer-events: auto;
 }
 /* The site's accent ring is too faint on paper */
 .dio-card :focus-visible {
   outline-color: var(--dio-ink);
 }
 .dio-card__title {
-  margin: 0 0 0.75rem;
-  font-size: clamp(1.75rem, 3.5vw, 2.6rem);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--dio-ink);
-}
-
-/* ---------- Tablets: the room above, the copy under it ---------- */
-@media (min-width: 640px) {
-  .dio-hero__inner {
-    padding-inline: 1.5rem;
-  }
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-  .dio-hero__inner {
-    justify-content: flex-end;
-  }
-  .dio-hero__copy {
-    width: min(36rem, 100%);
-  }
-}
-
-/* ---------- Phones: the room is a band under the header for the whole page ---------- */
-@media (max-width: 767px) {
-  html[data-design='diorama'] {
-    scroll-padding-top: calc(64px + 38svh + 0.75rem);
-  }
-  /* Content scrolls under the band, so the band sits above it (the header stays on top) */
-  .dio-stage {
-    inset: auto;
-    top: 64px;
-    left: 0;
-    right: 0;
-    height: 38svh;
-    z-index: 40;
-  }
-  .dio-clock {
-    top: calc(64px + 0.5rem);
-    right: 0.75rem;
-    z-index: 41;
-    font-size: 2.5rem;
-  }
-  .dio-day {
-    inset: auto;
-    top: 64px;
-    left: 0;
-    right: 0;
-    height: 38svh;
-    z-index: 41;
-  }
-  /* Only the hour on screen shows its label, at thumb size. The other nine stay in the
-     list for keyboards and screen readers, out of sight until one is focused. */
-  .dio-day a {
-    min-width: 44px;
-    min-height: 44px;
-    padding: 0 0.9rem;
-    font-size: 0.75rem;
-    transform: translate(0.75rem, 0.75rem);
-  }
-  .dio-day:not([data-mode='list']) a:not([aria-current='true']):not(:focus) {
-    opacity: 0;
-    pointer-events: none;
-  }
-  /* No live room: the day is a row of hours under the hero copy */
-  .dio-day[data-mode='list'] {
-    position: static;
-    height: auto;
-    max-width: none;
-    padding: 0 1rem 2.5rem;
-  }
-  .dio-day[data-mode='list'] ol {
-    justify-content: flex-start;
-  }
-
-  .dio-hero__inner {
-    justify-content: flex-start;
-    min-height: 0;
-    padding: calc(38svh + 1rem) 1rem 2.5rem;
-  }
-  .dio-name {
-    font-size: clamp(2rem, 10vw, 2.75rem);
-    line-height: 0.95;
-  }
-  .dio-role {
-    margin: 0.4rem 0 0.15rem;
-  }
-  .dio-now {
-    font-size: 0.875rem;
-    line-height: 1.35;
-  }
-  .dio-actions {
-    gap: 0.5rem;
-    margin-top: 0.9rem;
-  }
-  .dio-btn {
-    padding: 0 1rem;
-  }
-}
-
-/* ---------- Experience: six role cards, one per hour ---------- */
-.dio-section-title {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-.dio-chapter--role .dio-card {
-  width: min(30rem, 100%);
-}
-.dio-role-name {
-  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
-  margin-bottom: 0.3rem;
-}
-.dio-role-line {
-  margin: 0 0 0.9rem;
-  font-weight: 600;
-  color: var(--dio-ink-2);
-}
-.dio-role-line span {
-  font-weight: 400;
-  font-family: var(--font-dio-mono);
-  font-size: 0.8rem;
-}
-.dio-impact {
-  margin: 0 0 0.8rem;
-  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  margin: 0;
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
+  text-wrap: balance;
+  color: var(--dio-ink);
+}
+.dio-card__body > :first-child {
+  margin-top: 0;
+}
+.dio-card__title + .dio-hour + .dio-card__body {
+  margin-top: 1rem;
+}
+
+/* Experience: six roles, one per hour */
+.dio-role-name {
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
+  margin-bottom: 0.4rem;
+}
+.dio-role-line {
+  margin: 0 0 1rem;
+  font-weight: 500;
+  color: var(--dio-ink-2);
+}
+.dio-role-line span {
+  white-space: nowrap;
+  font-weight: 400;
+  font-family: var(--font-dio-mono);
+  font-size: 0.78rem;
+}
+.dio-impact {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
   color: var(--dio-ink);
 }
 .dio-summary {
-  margin: 0 0 0.9rem;
-  line-height: 1.5;
-  color: var(--dio-ink-2);
+  margin: 0 0 1rem;
   max-width: 62ch;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--dio-ink-2);
 }
 .dio-toggle {
   min-height: 44px;
   padding: 0 1rem;
-  border: 2px solid var(--dio-ink);
+  border: 1.5px solid var(--dio-ink);
   border-radius: 999px;
   background: transparent;
   color: var(--dio-ink);
@@ -493,12 +247,12 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   color: var(--dio-paper);
 }
 .dio-details {
-  margin-top: 0.9rem;
+  margin-top: 1rem;
 }
 .dio-bullets {
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.9rem;
   padding-left: 1.1rem;
-  line-height: 1.45;
+  line-height: 1.5;
   font-size: 0.9rem;
   color: var(--dio-ink-2);
 }
@@ -516,13 +270,13 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 .dio-tags li {
   padding: 0.15rem 0.6rem;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--dio-ink) 10%, transparent);
+  background: color-mix(in srgb, var(--dio-ink) 9%, transparent);
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.45;
 }
 
-/* ---------- 09:00 About ---------- */
+/* 09:00 About */
 .dio-lede {
   margin: 0 0 0.8rem;
   font-size: 1.1rem;
@@ -531,12 +285,13 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   color: var(--dio-ink);
 }
 .dio-body {
-  margin: 0 0 1.2rem;
+  margin: 0;
   font-size: 0.95rem;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--dio-ink-2);
 }
-/* ---------- 19:00 Education ---------- */
+
+/* 19:00 Education, 21:00 Projects: ruled lists */
 .dio-degrees,
 .dio-projects {
   margin: 0;
@@ -546,7 +301,12 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 .dio-degrees > li,
 .dio-projects > li {
   padding: 0.95rem 0;
-  border-top: 1px solid rgb(23 24 27 / 0.14);
+  border-top: 1px solid var(--dio-rule);
+}
+.dio-degrees > li:first-child,
+.dio-projects > li:first-child {
+  padding-top: 0.2rem;
+  border-top: 0;
 }
 .dio-degrees > li:last-child,
 .dio-projects > li:last-child {
@@ -554,9 +314,9 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 }
 .dio-degree {
   margin: 0;
-  font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
   font-weight: 800;
-  line-height: 1.12;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   text-wrap: balance;
   color: var(--dio-ink);
@@ -592,28 +352,28 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   color: var(--dio-ink-2);
 }
 
-/* ---------- 20:00 Skills: the groups as columns of chips ---------- */
+/* 20:00 Skills: the groups as columns of chips */
 .dio-skillsets {
-  columns: 2 11.5rem;
-  column-gap: 1.5rem;
+  columns: 2 13rem;
+  column-gap: 1.75rem;
 }
 .dio-skillset {
   break-inside: avoid;
-  padding: 0.75rem 0 0.9rem;
-  border-top: 1px solid rgb(23 24 27 / 0.14);
+  padding: 0.75rem 0 1rem;
+  border-top: 1px solid var(--dio-rule);
 }
 .dio-skillset h3 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.55rem;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.2;
   color: var(--dio-ink);
 }
 
-/* ---------- 21:00 Projects ---------- */
+/* 21:00 Projects */
 .dio-project {
   margin: 0 0 0.3rem;
-  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -646,7 +406,7 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
   color: var(--dio-ink-2);
 }
 
-/* ---------- 22:00 Contact ---------- */
+/* 22:00 Contact */
 .dio-action {
   display: inline-flex;
   align-items: center;
@@ -731,27 +491,18 @@ html[data-dio-active] .dio-day[data-mode='pinned'] a[data-out] {
 .dio-footer :is(.text-text, .text-text-secondary) {
   color: var(--dio-ink);
 }
+.dio-footer button {
+  text-decoration-color: var(--dio-lamp-ink);
+}
 .dio-footer button:hover {
   color: var(--dio-lamp-ink);
 }
 .dio-footer :focus-visible {
   outline-color: var(--dio-ink);
 }
-@media (min-width: 1024px) {
-  .dio-footer__row {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  /* The agenda list stands at the right edge: the lit box is never behind text, the card is on the left */
-  .dio-chapter[data-diorama-chapter='night'] .dio-card {
-    margin-left: 0;
-    margin-right: auto;
-  }
-}
 
-/* ---------- Where the cards stand ---------- */
-/* The diorama forks leave the page's centred column and padding: each card is placed
-   against the viewport (Experience's fork sits inside the column, so the column steps aside) */
+/* ---------- The sections step out of the page's centred column ---------- */
+/* Each Diorama fork places its own content: Experience's sits inside the column, so the column steps aside */
 html[data-design='diorama'] #experience > .mx-auto {
   max-width: none;
   padding-inline: 0;
@@ -759,73 +510,479 @@ html[data-design='diorama'] #experience > .mx-auto {
 html[data-design='diorama'] :is(#about, #experience, #education, #skills, #projects, #contact) {
   padding-block: 0;
 }
+
+/* ================================================================== */
+/* Wide screens: the room in a panel, the day as a page beside it      */
+/* ================================================================== */
 @media (min-width: 1024px) {
+  /* The header reads as one bar over both the room and the page */
+  html[data-design='diorama']:has(.dio-stage) header.fixed {
+    background-color: var(--bg);
+  }
+
+  .dio-still {
+    top: calc(56px + 28px);
+    height: calc(100% - 56px - 56px);
+  }
+  .dio-stage {
+    /* From the top of the window: the opaque header covers its first strip, and the stage frames the room below it */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: var(--dio-col);
+  }
+  .dio-clock {
+    top: calc(64px + 1rem);
+    right: calc(var(--dio-col) + 1.5rem);
+    font-size: 3rem;
+  }
+
+  /* The day's page: paper from the top of the window (under the header) to the footer */
+  html[data-design='diorama']:has(.dio-stage) :is(#main-content, footer) {
+    width: var(--dio-col);
+    margin-left: auto;
+    background: var(--dio-paper);
+    color: var(--dio-ink);
+  }
+  html[data-design='diorama']:has(.dio-stage) #main-content {
+    min-height: 100vh;
+  }
+
+  /* Every hour is a row: its time in the margin, level with the first line beside it */
+  .dio-hero__inner,
+  .dio-card {
+    display: grid;
+    grid-template-columns: var(--dio-margin) minmax(0, 1fr);
+    align-items: baseline;
+    padding-right: clamp(2rem, 4vw, 3.5rem);
+  }
+  .dio-hour {
+    grid-column: 1;
+    grid-row: 1;
+    padding-right: 1.25rem;
+    text-align: right;
+    font-size: 0.78rem;
+    line-height: 1.2;
+    color: var(--dio-lamp-ink);
+  }
+  .dio-hero__inner > :not(.dio-hour),
+  .dio-card > :not(.dio-hour) {
+    grid-column: 2;
+  }
+
+  /* 08:00 heads the page: the name, the actions, the day's index */
+  .dio-hero__inner {
+    padding-top: clamp(2.25rem, 6vh, 3.75rem);
+    padding-bottom: 3rem;
+  }
+  .dio-name {
+    font-size: clamp(2.75rem, 4.3vw, 4rem);
+    line-height: 0.94;
+    color: var(--dio-ink);
+  }
+  .dio-role {
+    font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+    color: var(--dio-ink);
+  }
+  .dio-now {
+    color: var(--dio-ink-2);
+  }
+  .dio-now__company {
+    color: var(--dio-ink);
+  }
+  .dio-actions {
+    margin-top: 1.4rem;
+  }
+  .dio-btn {
+    border-color: rgb(23 24 27 / 0.55);
+    color: var(--dio-ink);
+  }
+  .dio-btn:hover {
+    border-color: var(--dio-ink);
+    background: rgb(23 24 27 / 0.06);
+  }
+  .dio-btn--lamp {
+    border-color: var(--dio-ink);
+    background: var(--dio-ink);
+    color: var(--dio-paper);
+  }
+  .dio-btn--lamp:hover {
+    border-color: var(--dio-lamp-ink);
+    background: var(--dio-lamp-ink);
+    color: var(--dio-paper);
+  }
+  .dio-tagline {
+    margin-top: 1.25rem;
+    color: var(--dio-ink-2);
+  }
+  .dio-card :focus-visible,
+  .dio-hero__inner :focus-visible {
+    outline-color: var(--dio-ink);
+  }
+
+  /* The day's index: every hour after this one, what it holds, and its scene in the room */
+  .dio-day {
+    margin-top: 2rem;
+  }
+  .dio-day ol {
+    border-top: 1px solid var(--dio-rule);
+  }
+  .dio-day li {
+    border-bottom: 1px solid rgb(23 24 27 / 0.08);
+  }
+  .dio-day a {
+    display: grid;
+    grid-template-columns: 4.25rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0 0.75rem;
+    min-height: 2.5rem;
+    padding: 0.6rem 0.25rem 0.55rem 0;
+    color: var(--dio-ink);
+    text-decoration: none;
+    /* The stage pins these over their objects on phones; here they stay where the page put them */
+    transform: none !important;
+  }
+  .dio-day time {
+    font-size: 0.75rem;
+    color: var(--dio-lamp-ink);
+  }
+  .dio-day__what {
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.2s ease;
+  }
+  .dio-day__name {
+    font-family: var(--font-dio-mono);
+    font-size: 0.6875rem;
+    color: var(--dio-ink-2);
+  }
+  .dio-day a:hover .dio-day__what,
+  .dio-day a:focus-visible .dio-day__what {
+    text-decoration-color: var(--dio-lamp-ink);
+  }
+  .dio-day a[aria-current='true'] .dio-day__what {
+    font-weight: 700;
+  }
+
+  .dio-hero__more {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0 1.5rem;
+    margin-top: 1rem;
+  }
+  .dio-socials a {
+    color: var(--dio-ink-2);
+    text-decoration-color: rgb(23 24 27 / 0.3);
+  }
+  .dio-socials a:hover {
+    color: var(--dio-ink);
+    text-decoration-color: var(--dio-lamp-ink);
+  }
+  .dio-hero__more :is(.text-text, .text-text-secondary) {
+    color: var(--dio-ink-2);
+  }
+  .dio-hero__more button {
+    color: var(--dio-ink);
+    text-decoration-color: var(--dio-lamp-ink);
+  }
+
+  /* A chapter: a hairline across the page above each hour, as in a planner */
   .dio-chapter {
-    padding-inline: 4rem;
+    padding-bottom: 2.75rem;
   }
-  .dio-chapter .dio-card {
-    width: min(34rem, 38vw);
-    margin-right: 0;
+  .dio-card {
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--dio-rule);
   }
-  .dio-chapter--role .dio-card {
-    width: min(30rem, 34vw);
+  /* Experience names its section once, above its six hours */
+  .dio-section-title {
+    margin: 0;
+    padding: 1rem clamp(2rem, 4vw, 3.5rem) 1.5rem var(--dio-margin);
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--dio-ink);
   }
-}
-/* The clock's corner stays its own. A chapter's card is centred below the clock's line, and a
-   card that reaches the line as the page moves on (or a tall one, the skills, read to its end)
-   scrolls beneath it: cut at the line from the top, by the scroll itself (exit-crossing of a
-   view timeline inset to the line). Tablets cut the hero copy too, which shares the clock's
-   side there. Browsers without scroll-driven animations get the same cut from the stage. */
-@media (min-width: 768px) {
-  .dio-chapter {
-    padding-top: var(--dio-line);
+  /* The last hour holds the room's last shot: it reaches the top of the page and the footer closes it */
+  .dio-chapter[data-diorama-chapter='night'] {
+    min-height: calc(100vh - 64px - 5rem);
   }
-}
-@keyframes dio-under-the-line {
-  from {
-    clip-path: inset(0% 0 0 0 round var(--radius-card));
+  .dio-chapter[data-diorama-chapter='night'] .dio-card__body {
+    max-width: 30rem;
   }
-  to {
-    clip-path: inset(100% 0 0 0 round var(--radius-card));
-  }
-}
-/* Keyboard focus scrolls a link clear of the cut line, not just the header */
-@media (min-width: 768px) {
-  .dio-card :is(a, button) {
-    scroll-margin-top: calc(var(--dio-line) - 5rem + 0.75rem);
-  }
-}
-@supports (animation-timeline: view()) {
-  @media (min-width: 768px) {
-    .dio-chapter .dio-card {
-      animation: dio-under-the-line auto linear both;
-      animation-timeline: view(block var(--dio-line) 0px);
-      animation-range: exit-crossing;
-    }
-  }
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .dio-hero__copy {
-      animation: dio-under-the-line auto linear both;
-      animation-timeline: view(block var(--dio-line) 0px);
-      animation-range: exit-crossing;
-    }
-  }
-}
-/* No live room: nothing is fixed in the corner, so nothing cuts the cards */
-@media (min-width: 768px) {
-  html:has(.dio-day[data-mode='list']) :is(.dio-chapter .dio-card, .dio-hero__copy) {
-    animation: none;
-  }
-}
-/* Phones: full width under the band. scroll-padding-top already clears the band, so the
-   chapter adds no band-tall padding of its own (a scrolled-to card starts right under it) */
-@media (max-width: 767px) {
-  .dio-chapter {
+  .dio-chapter[data-diorama-chapter='night'] .dio-contact__more {
     align-items: flex-start;
-    min-height: 0;
+  }
+
+  /* The footer: the page's last line, under the margin */
+  .dio-footer__row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: none;
+    margin: 0;
+    padding: 0.75rem clamp(2rem, 4vw, 3.5rem) 1rem var(--dio-margin);
+    border-top: 1px solid var(--dio-rule);
+  }
+  .dio-footer__socials {
+    margin-left: -0.75rem;
+  }
+}
+
+/* The hour being read is lit; the others rest a step back, until the reader points at one or tabs into it.
+   Only while the live room keeps the hour (the stage writes data-dio-active), and never when more contrast is asked for. */
+@media (min-width: 1024px) and (prefers-contrast: no-preference) {
+  html[data-dio-active] :is(.dio-hero__inner, .dio-chapter) {
+    opacity: 0.4;
+    transition: opacity 0.45s ease;
+  }
+  html[data-dio-active='arrival'] .dio-hero__inner,
+  html[data-dio-active='coffee'] #dio-coffee,
+  html[data-dio-active='seva'] #dio-seva,
+  html[data-dio-active='wms'] #dio-wms,
+  html[data-dio-active='bees'] #dio-bees,
+  html[data-dio-active='uikit'] #dio-uikit,
+  html[data-dio-active='nati'] #dio-nati,
+  html[data-dio-active='funcap'] #dio-funcap,
+  html[data-dio-active='study'] #dio-study,
+  html[data-dio-active='skills'] #dio-skills,
+  html[data-dio-active='projects'] #dio-projects,
+  html[data-dio-active='night'] #dio-night,
+  html[data-dio-active] :is(.dio-hero__inner, .dio-chapter):is(:hover, :focus-within) {
+    opacity: 1;
+  }
+}
+
+/* ================================================================== */
+/* Phones and tablets: the room is a band under the header             */
+/* ================================================================== */
+@media (max-width: 1023px) {
+  html[data-design='diorama'] {
+    scroll-padding-top: calc(64px + 38svh + 0.75rem);
+  }
+  /* Content scrolls under the band, so the band sits above it (the header stays on top). It starts at the
+     top of the window, under the header, whose height differs by width: the stage frames the room below it. */
+  .dio-stage {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(64px + 38svh);
+    z-index: 40;
+  }
+  .dio-still {
+    inset: calc(64px + 10px) 10px 10px;
+    width: calc(100% - 20px);
+    height: calc(38svh - 20px);
+  }
+  .dio-clock {
+    top: calc(64px + 0.5rem);
+    right: 0.75rem;
+    z-index: 41;
+    font-size: 2.5rem;
+  }
+  .dio-hour {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* The day's links, one layer over the band: the stage moves each link onto its object with a
+     transform. Only the hour on screen shows its label, at thumb size. The others stay in the list
+     for keyboards and screen readers, out of sight until one is focused. */
+  .dio-day {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(64px + 38svh);
+    z-index: 41;
+    pointer-events: none;
+  }
+  .dio-day a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 0.9rem;
+    border: 1px solid rgb(241 236 227 / 0.2);
+    border-radius: 999px;
+    background: rgb(23 24 27 / 0.84);
+    color: var(--dio-paper);
+    font-family: var(--font-dio-mono);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    text-decoration: none;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(0.75rem, calc(64px + 0.75rem));
+    transition: opacity 0.3s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .dio-day time {
+    color: var(--accent-text);
+  }
+  /* What each hour holds is the index's, on wide screens: here the label names the scene */
+  .dio-day__what {
+    display: none;
+  }
+  html[data-dio-active] .dio-day[data-mode='pinned'] a[aria-current='true'] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  html[data-dio-active] .dio-day[data-mode='pinned'] a[aria-current='true'][data-out] {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .dio-day a[aria-current='true'] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--dio-ink);
+  }
+  .dio-day a[aria-current='true'] time {
+    color: inherit;
+  }
+  .dio-day a:focus {
+    z-index: 1;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  /* No live room: the day is a row of hours under the hero copy */
+  .dio-day[data-mode='list'] {
+    position: static;
+    height: auto;
+    padding: 0 0 1.5rem;
+  }
+  .dio-day[data-mode='list'] ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .dio-day[data-mode='list'] a {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  /* The hero copy: light on the page ground, under the band */
+  .dio-hero__inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 40rem;
+    margin-inline: auto;
+    padding: calc(38svh + 1rem) 1rem 2.5rem;
+  }
+  .dio-name {
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    line-height: 0.95;
+    color: var(--text);
+  }
+  .dio-role {
+    margin: 0.4rem 0 0.15rem;
+    font-size: clamp(1.05rem, 3vw, 1.25rem);
+    color: var(--text);
+  }
+  .dio-now {
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: var(--text-secondary);
+  }
+  .dio-now__company {
+    color: var(--text);
+  }
+  .dio-actions {
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+  }
+  .dio-btn {
+    padding: 0 1rem;
+    border-color: rgb(241 236 227 / 0.4);
+    color: var(--text);
+  }
+  .dio-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .dio-btn--lamp {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  .dio-btn--lamp:hover {
+    background: var(--accent-hover);
+    color: var(--on-accent);
+  }
+  .dio-tagline {
+    color: var(--text-secondary);
+  }
+  .dio-hero__more {
+    margin-top: 0.75rem;
+  }
+  .dio-socials a {
+    color: var(--text-secondary);
+    text-decoration-color: rgb(241 236 227 / 0.3);
+  }
+  .dio-socials a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+  .dio-invite {
+    margin-top: 0.25rem;
+  }
+
+  /* Each hour a paper card, full width under the band (scroll-padding-top already clears it) */
+  .dio-chapter {
+    position: relative;
+    z-index: 2;
     padding: 0.25rem 1rem 1.5rem;
   }
-  .dio-chapter .dio-card {
-    width: 100%;
+  .dio-card {
+    max-width: 40rem;
+    margin-inline: auto;
+    padding: 1.4rem 1.5rem;
+    border-radius: var(--radius-card);
+    background: var(--dio-paper);
+  }
+  .dio-card__title {
+    margin-bottom: 0.75rem;
+  }
+  .dio-card__title + .dio-hour + .dio-card__body {
+    margin-top: 0;
+  }
+  /* On phones the role cards speak alone: the section's heading is for assistive tech */
+  .dio-section-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .dio-footer__row {
+    align-items: center;
+  }
+}
+@media (max-width: 639px) {
+  .dio-hero__inner {
+    padding-inline: 1rem;
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .dio-hero__inner {
+    padding-inline: 1.5rem;
   }
 }

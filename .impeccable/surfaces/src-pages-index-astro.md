@@ -48,9 +48,9 @@ FINISH: unreviewed and undocumented is unfinished; this build ends with the fini
 ## Direction contract: Diorama, the day in the diorama (2026-11-02)
 
 THESIS: the home is one working day in Akira's room, a miniature seen from outside; scroll is the clock. It refuses the click-to-explore 3D room and first-person walkthroughs.
-OWN-WORLD: graphite walls, butcher-block wood, monstera green, window daylight, lamp amber; paper cards with ink; thin clock numerals; hour labels pinned to objects.
+OWN-WORLD: graphite walls, butcher-block wood, monstera green, window daylight, lamp amber; a paper page (paper cards on phones) with ink; thin clock numerals; the hours in the page's margin, pinned to their objects on phones.
 STORY: 08:00 arrival, coffee, one scene per role, study, skills, side projects, 22:00 he turns and waves; contact.
-FIRST VIEWPORT: copy left (name, title, Currently at, then Email lit with the lamp, View my work, Download CV, the tagline, socials, invite); no kicker above the name: the hour lives in the clock and in visually hidden text before it; the whole diorama right in morning light; the clock top right; the day's hours as an agenda of pins under the room. Phones: the room in a band under the header with the clock in its corner, copy below.
+FIRST VIEWPORT: from 1024px the screen splits (user's choice of direction B, 2026-11-02, after finding the floating cards confusing): the whole diorama in morning light in a fixed panel on the left, the clock in its top-right corner; on the right the day's paper page, headed by 08:00 in its margin beside the name, then the title, Currently at, Email, View my work, Download CV, the tagline, the day's index (every hour, what it holds, its scene), socials, invite. No kicker above the name: the hour lives in the margin and the clock. The page scrolls like a planner, the hour being read lit and the others a step back. Phones and tablets: the room in a band under the header with the clock in its corner, copy below, each hour a paper card.
 FORM: fusion of Impeccable's pick (the working day) and the canon (isometric room), user's choice; seed key 817c6fc2.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 

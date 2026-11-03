@@ -66,6 +66,22 @@ export const STATIONS: Station[] = [
   st('night', 22, [-0.7, 0.9, -1.3], 18, 0, 0, true, 'wave', 1, 'lock', 'lock', 'off'),
 ];
 
+/** The hour each role is told at, by the company's name in the experience data. */
+export const COMPANY_STATION: Record<string, StationId> = {
+  'Seva / Appointally': 'seva',
+  'AmbevTech - WMS': 'wms',
+  'AmbevTech - BEES': 'bees',
+  'AmbevTech - UIKit': 'uikit',
+  'NATI - UNIFOR': 'nati',
+  FUNCAP: 'funcap',
+};
+
+export function stationForCompany(company: string): StationId {
+  const id = COMPANY_STATION[company];
+  if (!id) throw new Error(`Diorama: no station for "${company}"`);
+  return id;
+}
+
 /** An isometric camera: fixed elevation, yaw offset, distance. `shift` slides the frame along screen-right. */
 export function isoPose(target: V3, dist: number, yaw = 0, shift = 0): { pos: V3; target: V3 } {
   const az = Math.PI * 0.75 + yaw;

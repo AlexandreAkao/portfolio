@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useLocale } from '@i18n/useLocale';
-import { t } from '@i18n/utils';
+import { t, type Locale } from '@i18n/utils';
 import CurrentCompanies from '@components/ui/CurrentCompanies';
 import KeepWords from '@components/ui/KeepWords';
 import DesignInvite from '@components/ui/DesignInvite';
@@ -8,15 +8,31 @@ import { cvUrls, email, socialLinks } from '@data/social';
 import ErrorBoundary from '@components/ui/ErrorBoundary';
 import HeroFallback from '@components/ui/HeroFallback';
 import { withServerLocale } from '@i18n/withServerLocale';
-import { STATIONS, clockText } from './day';
+import { COMPANY_STATION, STATIONS, clockText, type StationId } from './day';
 import { registerLabel } from './scene/labels';
 
 // The stage pulls in Three.js: it loads only while Diorama is the world on screen
 const Stage = lazy(() => import('./scene/Stage'));
 
-/** The hours the day's navigation offers: every station with an object to pin a label on. */
-const DAY = STATIONS.filter((s) => s.label);
+/** The hours the day's navigation offers: every hour after this one, 09:00 to 22:00. */
+const DAY = STATIONS.slice(1);
 const STILL = '/images/diorama/room-0800.webp';
+/** The still is cropped to the room, so it is laid in its box the way the live room is fitted: whole, centred. */
+const STILL_SIZE = { width: 1200, height: 1219 };
+
+/** What each hour holds, for the day's index: a section, or the company of a role. */
+const SECTION: Partial<Record<StationId, string>> = {
+  coffee: 'nav.about',
+  study: 'nav.education',
+  skills: 'nav.skills',
+  projects: 'nav.projects',
+  night: 'nav.contact',
+};
+const COMPANY = Object.fromEntries(Object.entries(COMPANY_STATION).map(([company, id]) => [id, company.replace(' - ', ' · ')])) as Partial<Record<StationId, string>>;
+const holds = (id: StationId, locale: Locale) => {
+  const key = SECTION[id];
+  return key ? t(key, locale) : (COMPANY[id] ?? '');
+};
 
 /** WebGL2 or nothing: a probe context, released at once. */
 function webglAvailable() {
@@ -36,12 +52,15 @@ function StageFailed({ onFail }: { onFail: () => void }) {
 }
 
 /**
- * 08:00, the first hour of the day and the first chapter. The copy stands left
- * (below the band on phones); the room fills the stage behind it, fixed for the
- * whole page. Until the live room has drawn its first frames, and whenever
- * WebGL is missing or fails, an in-house still of this hour stands in. The day's
- * navigation is one list of links the stage pins over their objects; the clock
- * is decoration that the stage keeps on the hour.
+ * 08:00, the first hour of the day and the first chapter. Wide screens split the
+ * page: the room stands in a fixed panel on the left, and the day is a paper page
+ * on the right that scrolls like a planner, every hour in its margin. This hour
+ * heads the page: the name, the actions, and the day's index (every hour after
+ * this one, what it holds and its scene). On phones the room is a band under the
+ * header for the whole page and the index becomes labels the stage pins over
+ * their objects, one hour at a time. Until the live room has drawn its first
+ * frames, and whenever WebGL is missing or fails, an in-house still of this hour
+ * stands in. The clock is decoration that the stage keeps on the hour.
  */
 function DioramaHeroInner() {
   const locale = useLocale();
@@ -98,7 +117,7 @@ function DioramaHeroInner() {
   return (
     <div className="dio-hero" data-diorama-chapter="arrival" id="dio-arrival" data-diorama-hour="08:00">
       <div className="dio-stage" ref={stage} aria-hidden="true">
-        <img className="dio-still" src={STILL} alt="" width={1600} height={1000} loading="lazy" decoding="async" data-gone={drawn ? '' : undefined} />
+        <img className="dio-still" src={STILL} alt="" width={STILL_SIZE.width} height={STILL_SIZE.height} loading="lazy" decoding="async" data-gone={drawn ? '' : undefined} />
         {live && (
           <ErrorBoundary fallback={<StageFailed onFail={fail} />}>
             <Suspense fallback={null}>
@@ -109,11 +128,11 @@ function DioramaHeroInner() {
       </div>
 
       <div className="dio-hero__inner">
+        {/* The hour in the page's margin on wide screens (the clock shows it on phones); the scene for assistive tech */}
+        <p className="dio-hour">
+          <time dateTime="08:00">08:00</time> <span className="dio-hour__scene">{t('diorama.scene.arrival', locale)}</span>
+        </p>
         <div className="dio-hero__copy">
-          {/* The hour and scene for assistive tech; on screen the clock shows the hour */}
-          <p className="dio-hour sr-only">
-            <time dateTime="08:00">08:00</time> {t('diorama.scene.arrival', locale)}
-          </p>
           <h1 className="dio-name">{t('hero.name', locale)}</h1>
           <p className="dio-role">
             <KeepWords text={t('hero.title', locale)} />
@@ -134,6 +153,24 @@ function DioramaHeroInner() {
             </a>
           </p>
           <p className="dio-tagline">{t('hero.tagline', locale)}</p>
+        </div>
+
+        {/* After the copy: keyboard and screen-reader users meet the name and the actions first, then the day */}
+        <nav className="dio-day" aria-label={t('diorama.day', locale)} data-mode={mode}>
+          <ol>
+            {DAY.map((s) => (
+              <li key={s.id}>
+                <a href={`#dio-${s.id}`} ref={(el) => registerLabel(s.id, el)}>
+                  <time dateTime={clockText(s.hour)}>{clockText(s.hour)}</time>{' '}
+                  <span className="dio-day__what">{holds(s.id, locale)}</span>{' '}
+                  <span className="dio-day__name">{t(`diorama.scene.${s.id}`, locale)}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        <div className="dio-hero__more">
           <p className="dio-socials">
             {socials.map((s) => (
               <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer">
@@ -145,23 +182,9 @@ function DioramaHeroInner() {
         </div>
       </div>
 
-      {/* After the copy: keyboard and screen-reader users meet the name and the actions first, then the day */}
       <p className="dio-clock" ref={clock} aria-hidden="true">
         08:00
       </p>
-
-      <nav className="dio-day" aria-label={t('diorama.day', locale)} data-mode={mode}>
-        <ol>
-          {DAY.map((s) => (
-            <li key={s.id}>
-              <a href={`#dio-${s.id}`} ref={(el) => registerLabel(s.id, el)}>
-                <time dateTime={clockText(s.hour)}>{clockText(s.hour)}</time>{' '}
-                <span className="dio-day__name">{t(`diorama.scene.${s.id}`, locale)}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
     </div>
   );
 }

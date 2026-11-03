@@ -13,7 +13,8 @@ for (const { id: world } of designs) {
     await expect.poll(() => page.evaluate(() => document.documentElement.dataset.intro ?? 'none'), { timeout: 15_000 }).toMatch(/done|none/);
     const hero = page.locator(`#hero [data-design-show="${world}"]`);
     await expect(hero.getByText(/Currently at/)).toBeVisible();
-    await expect(hero.getByText('Seva / Appointally')).toBeVisible();
+    // The first naming in the hero is the "Currently at" line (Diorama's day index names it again, below)
+    await expect(hero.getByText('Seva / Appointally', { exact: true }).first()).toBeVisible();
     await expect(hero.getByRole('link', { name: 'Email' })).toHaveAttribute('href', /^mailto:/);
   });
 }
