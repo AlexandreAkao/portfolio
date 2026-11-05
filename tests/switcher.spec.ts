@@ -26,6 +26,42 @@ test("the hero's invitation switches to the next design", async ({ page }) => {
   await expect(page.locator('#hero [data-design-show="avantgarde"]').getByRole('button', { name: 'Switch to Engineer' })).toBeVisible();
 });
 
+for (const [world, path, shown, other] of [
+  ['diorama', '/', 'Diorama', 'Editorial'],
+  ['arcade', '/', 'Arcade', 'Editorial'],
+  ['tape', '/pt/', 'Fita', 'Editorial'],
+  ['editorial', '/', 'Editorial', 'Diorama'],
+] as const) {
+  test(`the switcher names ${world} from the first paint at ${path}, before it has hydrated`, async ({ page }) => {
+    await page.addInitScript((w) => { localStorage.setItem('design', w); sessionStorage.setItem('intro-seen', '1'); }, world);
+    // The switcher's code is held back: what shows now is the server's markup and the head script's world
+    let release = () => {};
+    const held = new Promise<void>((r) => { release = r; });
+    await page.route(/islands\/DesignToggle\.tsx/, async (route) => { await held; await route.continue(); });
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+    const trigger = page.locator('header button[aria-controls="design-options"]');
+    await expect(trigger.getByText(shown)).toBeVisible();
+    await expect(trigger.getByText(other)).toBeHidden();
+    release();
+    // Hydrated, it says the same
+    await expect(trigger).toHaveAttribute('aria-label', new RegExp(shown));
+    await expect(trigger.getByText(shown)).toBeVisible();
+    await expect(trigger.getByText(other)).toBeHidden();
+  });
+}
+
+test('the switcher follows a switch, and names the world after it', async ({ page }) => {
+  await page.addInitScript(() => { localStorage.setItem('design', 'editorial'); sessionStorage.setItem('intro-seen', '1'); });
+  await page.goto('/');
+  const trigger = page.locator('header button[aria-controls="design-options"]');
+  await trigger.click();
+  await page.getByRole('list', { name: 'Design options' }).getByRole('button', { name: 'Arcade' }).click();
+  await expect.poll(() => page.evaluate(() => document.documentElement.dataset.design)).toBe('arcade');
+  await expect(trigger.getByText('Arcade')).toBeVisible();
+  await expect(trigger.getByText('Editorial')).toBeHidden();
+  await expect(trigger).toHaveAttribute('aria-label', /Arcade/);
+});
+
 test('the switcher says what it holds, marks the current design and closes on Escape', async ({ page }) => {
   await page.goto('/');
   await settle(page);

@@ -8,7 +8,6 @@ import ErrorBoundary from '@components/ui/ErrorBoundary';
 import { withServerLocale } from '@i18n/withServerLocale';
 
 const sortedDesigns = designs.sort((a, b) => a.order - b.order);
-const designMap = Object.fromEntries(designs.map((d) => [d.id, d]));
 
 // A switch is likely once the switcher is touched; hidden worlds start loading
 // their code now (see src/lib/client-intro.ts) so the switch hydrates fast.
@@ -90,7 +89,6 @@ function DesignToggleInner() {
     return () => document.removeEventListener('site-design:switch', onRequest);
   }, []);
 
-  const config = designMap[design];
   const label = (id: string) => designLabel(id, (k) => t(k, locale));
 
   return (
@@ -108,11 +106,17 @@ function DesignToggleInner() {
         aria-expanded={open}
         aria-controls="design-options"
       >
-        {/* The word says what the control does at every width; the world's glyph and name join it from lg */}
+        {/* The word says what the control does at every width; the world's glyph and name join it from lg.
+            Every world's name is in the markup and CSS shows the active one, so the server's default
+            never shows on a reload: <html data-design> is set before first paint. */}
         <span className="font-mono text-xs uppercase tracking-wider">
           <span className="lg:hidden">{t('design.label', locale)}</span>
           <span className="hidden lg:inline">
-            {config?.icon} {label(design)}
+            {sortedDesigns.map((d) => (
+              <span key={d.id} data-design-show={d.id}>
+                {d.icon} {label(d.id)}
+              </span>
+            ))}
           </span>
         </span>
         <svg
