@@ -48,16 +48,16 @@ const st = (
   main: ScreenId, upper: ScreenId, tablet: ScreenId, label?: V3, on?: PinObject,
 ): Station => ({ id, hour, target, dist, yaw, shift, wide, pose, turn, screens: { main, upper, tablet }, label, on });
 
-/** Above the main monitor: the pin its four hours share (13:00, 17:00, 17:45, 21:00). */
+/** Above the main monitor: the pin its four hours share (10:30, 17:00, 17:45, 21:00). */
 const MONITOR: V3 = [-0.2, 1.5, -1.44];
 
 export const STATIONS: Station[] = [
   st('arrival', 8, [-0.7, 0.9, -1.3], 18, 0, 0, true, 'typing', 0, 'wall', 'off', 'off'),
   st('coffee', 9, [-0.2, 1.0, -0.9], 9, 0.1, SHIFT, false, 'coffee', 0, 'code', 'wall', 'off', [-0.2, 1.62, -0.5], 'figure'),
-  st('seva', 10.5, [-0.2, 1.5, -1.4], 6.8, 0.14, SHIFT, false, 'lookUp', 0, 'code', 'arch', 'off', [-0.2, 2.02, -1.55], 'upper'),
-  st('wms', 13, [0, 1.05, -1.15], 6.4, -0.04, SHIFT, false, 'think', 0, 'trace', 'arch', 'off', MONITOR, 'monitor'),
-  st('bees', 14.5, [0.45, 0.95, -1.1], 5.6, -0.1, SHIFT, false, 'typing', 0, 'code', 'arch', 'store', [0.5, 1.05, -1.08], 'tablet'),
-  st('uikit', 16, [-0.2, 0.9, -1.05], 6.0, -0.16, SHIFT, false, 'typing', 0, 'storybook', 'arch', 'off', [-0.2, 0.95, -1.0], 'keyboard'),
+  st('wms', 10.5, [0, 1.05, -1.15], 6.4, -0.04, SHIFT, false, 'think', 0, 'trace', 'wall', 'off', MONITOR, 'monitor'),
+  st('bees', 13, [0.45, 0.95, -1.1], 5.6, -0.1, SHIFT, false, 'typing', 0, 'code', 'wall', 'store', [0.5, 1.05, -1.08], 'tablet'),
+  st('uikit', 14.5, [-0.2, 0.9, -1.05], 6.0, -0.16, SHIFT, false, 'typing', 0, 'storybook', 'wall', 'off', [-0.2, 0.95, -1.0], 'keyboard'),
+  st('seva', 16, [-0.2, 1.5, -1.4], 6.8, 0.14, SHIFT, false, 'lookUp', 0, 'code', 'arch', 'off', [-0.2, 2.02, -1.55], 'upper'),
   st('nati', 17, [-0.2, 1.2, -1.4], 6.4, 0.05, SHIFT, false, 'typing', 0, 'athena', 'code', 'off', MONITOR, 'monitor'),
   st('funcap', 17.75, [-0.2, 1.2, -1.4], 6.4, 0.12, SHIFT, false, 'think', 0, 'chart', 'code', 'off', MONITOR, 'monitor'),
   st('study', 19, [-0.9, 0.95, -1.2], 6.6, 0.22, SHIFT, false, 'reading', 0, 'wall', 'off', 'off', [-1.2, 1.02, -1.46], 'books'),

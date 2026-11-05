@@ -26,7 +26,7 @@ test('clockText formats hours and minutes', () => {
   expect(clockText(8)).toBe('08:00'); expect(clockText(17.75)).toBe('17:45'); expect(clockText(22)).toBe('22:00');
 });
 test('STATIONS run the day in order, one per chapter', () => {
-  expect(STATIONS.map((s) => s.id)).toEqual(['arrival','coffee','seva','wms','bees','uikit','nati','funcap','study','skills','projects','night']);
+  expect(STATIONS.map((s) => s.id)).toEqual(['arrival','coffee','wms','bees','uikit','seva','nati','funcap','study','skills','projects','night']);
   expect(STATIONS.map((s) => clockText(s.hour))).toEqual(['08:00','09:00','10:30','13:00','14:30','16:00','17:00','17:45','19:00','20:00','21:00','22:00']);
   expect(STATIONS.filter((s) => s.label).map((s) => s.id)).toEqual(STATIONS.slice(1, -1).map((s) => s.id));
 });
@@ -42,8 +42,8 @@ test('sunAt: daylight by day, the lamp at dusk, dark at night, brighter fill tha
   expect(sunAt(19).lamp).toBeGreaterThan(sunAt(13).lamp); expect(sunAt(10.5).hemi).toBeGreaterThanOrEqual(1.2);
 });
 test('sampleDay lands on a station, blends poses between two', () => {
-  const at = sampleDay({ i: 3, u: 0, move: 0 }); expect(at.active).toBe('wms'); expect(at.hour).toBe(13); expect(at.poseFrom).toBe('think');
-  const half = sampleDay({ i: 3, u: 0.9, move: 0.5 }); expect(half.poseTo).toBe('typing'); expect(half.poseMix).toBeCloseTo(0.5);
+  const at = sampleDay({ i: 2, u: 0, move: 0 }); expect(at.active).toBe('wms'); expect(at.hour).toBe(10.5); expect(at.poseFrom).toBe('think');
+  const half = sampleDay({ i: 2, u: 0.9, move: 0.5 }); expect(half.poseTo).toBe('typing'); expect(half.poseMix).toBeCloseTo(0.5);
   expect(sampleDay({ i: 10, u: 1, move: 1 }).turn).toBe(1);
 });
 
@@ -320,7 +320,7 @@ test('diorama: on a phone only the hour on screen shows its label, over its obje
   await page.setViewportSize({ width: 390, height: 844 });
   await arrive(page);
   await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
-  for (const id of ['coffee', 'seva', 'wms', 'skills', 'projects']) {
+  for (const id of ['coffee', 'wms', 'seva', 'skills', 'projects']) {
     await page.evaluate((i) => document.getElementById(`dio-${i}`)!.scrollIntoView(), id);
     await expect.poll(() => page.evaluate(() => document.documentElement.dataset.dioActive)).toBe(id);
     await page.waitForTimeout(1500);
@@ -380,7 +380,7 @@ test('diorama: each role is an hour, in order, with its impact on the face', asy
   await arrive(page);
   const chapters = page.locator('#experience [data-diorama-chapter]');
   await expect(chapters).toHaveCount(6);
-  const ids = ['seva', 'wms', 'bees', 'uikit', 'nati', 'funcap'];
+  const ids = ['wms', 'bees', 'uikit', 'seva', 'nati', 'funcap'];
   expect(await chapters.evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.dioramaChapter))).toEqual(ids);
   for (const [i, id] of ids.entries()) {
     const s = STATIONS.find((x) => x.id === id)!;
@@ -415,7 +415,7 @@ test('diorama: the day speaks Portuguese on /pt/', async ({ page }) => {
     localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'pt'); sessionStorage.setItem('intro-seen', '1');
   });
   await page.goto('/pt/');
-  await expect(page.getByRole('navigation', { name: 'O dia' }).getByRole('link', { name: '13:00 AmbevTech · WMS Um bug' })).toHaveCount(1);
+  await expect(page.getByRole('navigation', { name: 'O dia' }).getByRole('link', { name: '10:30 AmbevTech · WMS Um bug' })).toHaveCount(1);
   await expect(page.getByRole('navigation', { name: 'O dia' }).getByRole('link', { name: '09:00 Sobre Café' })).toHaveCount(1);
   await expect(page.locator('#dio-wms')).toContainText('200+ centros de distribuição');
   expect(errors.filter((e) => /hydrat/i.test(e))).toEqual([]);
@@ -474,7 +474,7 @@ test('diorama: on a phone the page opens at 08:00 and each card reads its own ho
   await page.waitForTimeout(1500);
   await expect(clock).toHaveText('08:00');
   expect(await html.evaluate((e) => e.dataset.dioActive)).toBe('arrival');
-  for (const [id, from, to] of [['dio-seva', 10 * 60 + 30, 10 * 60 + 45], ['dio-wms', 13 * 60, 13 * 60 + 15]] as const) {
+  for (const [id, from, to] of [['dio-wms', 10 * 60 + 30, 10 * 60 + 45], ['dio-bees', 13 * 60, 13 * 60 + 15]] as const) {
     await page.evaluate((i) => document.getElementById(i)!.scrollIntoView(), id);
     await page.waitForTimeout(2000);
     expect(await html.evaluate((e) => e.dataset.dioActive)).toBe(id.replace('dio-', ''));
@@ -1281,7 +1281,7 @@ for (const [w, h] of [[1440, 900], [1280, 800]] as const) {
   });
 }
 
-for (const [id, hour] of [['dio-wms', '13:00'], ['dio-uikit', '16:00']] as const) {
+for (const [id, hour] of [['dio-bees', '13:00'], ['dio-seva', '16:00']] as const) {
   test(`diorama: the clock reads against the real scene at ${hour} (#${id})`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await arrive(page);
