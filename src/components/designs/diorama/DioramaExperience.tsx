@@ -9,9 +9,13 @@ interface Props {
   experiences: Experience[];
 }
 
-/** AmbevTech's sub-entries stand as roles of their own, in data order. */
+const hourOf = (company: string) => STATIONS.find((s) => s.id === stationForCompany(company))!.hour;
+
+/** AmbevTech's sub-entries stand as roles of their own, in the day's order: the camera's path fixes each hour, not the data's order. */
 function flatten(experiences: Experience[]): { entry: Experience; employer?: string }[] {
-  return experiences.flatMap((e) => (e.subEntries ? e.subEntries.map((s) => ({ entry: s, employer: e.company })) : [{ entry: e }]));
+  return experiences
+    .flatMap((e) => (e.subEntries ? e.subEntries.map((s) => ({ entry: s, employer: e.company })) : [{ entry: e }]))
+    .sort((a, b) => hourOf(a.entry.company) - hourOf(b.entry.company));
 }
 
 /** One role as one hour: the chapter markup of DioramaChapter.astro, the hour in the margin, the role beside it. */

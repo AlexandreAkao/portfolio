@@ -20,7 +20,7 @@ test('/pt/ opens in Portuguese even when the stored preference is English @mobil
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'pt_BR');
   await expect(page.locator('#experience h2 [data-lang-show="pt"]').filter({ visible: true })).toHaveText('Experiência');
   await page.locator('#experience').scrollIntoViewIfNeeded();
-  await expect(page.locator('#experience').getByText('abr 2025 - atual').filter({ visible: true }).first()).toBeVisible();
+  await expect(page.locator('#experience').getByText('abr 2025 - out 2026').filter({ visible: true }).first()).toBeVisible();
 });
 
 test('the language switch on the home keeps the address in step', async ({ page }) => {

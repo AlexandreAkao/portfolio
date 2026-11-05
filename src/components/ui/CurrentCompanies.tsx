@@ -8,9 +8,9 @@ interface Props {
 }
 
 /**
- * "Currently at Seva / Appointally and AmbevTech", derived from the roles still
- * in progress and joined the way each language joins a list. Each hero wraps it
- * in a line of its own world.
+ * "Currently at AmbevTech / AB InBev", derived from the roles still in progress
+ * and, when there are several, joined the way each language joins a list. Each
+ * hero wraps it in a line of its own world.
  */
 export default function CurrentCompanies({ locale, companyClassName = '' }: Props) {
   const parts = new Intl.ListFormat(locale === 'pt' ? 'pt-BR' : 'en', { type: 'conjunction' }).formatToParts(currentCompanies);

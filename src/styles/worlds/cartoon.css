@@ -593,6 +593,10 @@
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     column-gap: 1.75rem;
   }
+  /* A role running alone has the row to itself */
+  .cartoon-pair:not(:has(.cartoon-and)) {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .cartoon-and {
     padding-top: 0.15em;
   }

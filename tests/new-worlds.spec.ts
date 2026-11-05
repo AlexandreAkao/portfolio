@@ -42,7 +42,7 @@ test('Engineer numbers its sections, marks figures and keeps details behind togg
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await toggle.click();
   await expect(exp.getByRole('button', { name: /collapse/ }).first()).toHaveAttribute('aria-expanded', 'true');
-  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toBeVisible();
+  await expect(exp.getByText(/Architected distributed microservices with Hexagonal Architecture/)).toBeVisible();
 });
 
 test("Engineer's pager line follows the reading and ends on (END)", async ({ page }) => {
@@ -119,14 +119,16 @@ test('Cartoon runs the opening titles: the name lettered, the roles billed as cr
   const exp = page.locator('#experience [data-design-show="cartoon"]');
   await exp.scrollIntoViewIfNeeded();
   await expect(exp.getByRole('heading', { name: 'Experience' })).toHaveCount(1);
-  // Both roles running now share one card, each marked in words
-  await expect(exp.locator('.cartoon-pair .cartoon-showing')).toHaveCount(2);
+  // The role running now opens the credits, marked in words, its projects right under it
+  await expect(exp.locator('.cartoon-pair .cartoon-credit__name')).toHaveText('AmbevTech / AB InBev');
+  await expect(exp.locator('.cartoon-pair .cartoon-showing')).toHaveCount(1);
   await expect(exp.locator('.cartoon-pair .cartoon-showing').first()).toHaveText('Now showing');
+  await expect(exp.locator('.cartoon-credit--sub')).toHaveCount(3);
   const toggle = exp.getByRole('button', { name: /details/ }).first();
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
   await toggle.click();
   await expect(exp.getByRole('button', { name: /collapse/ }).first()).toHaveAttribute('aria-expanded', 'true');
-  await expect(exp.getByText(/Implemented event-driven messaging with Azure Service Bus/)).toBeVisible();
+  await expect(exp.getByText(/Architected distributed microservices with Hexagonal Architecture/)).toBeVisible();
   const contact = page.locator('#contact [data-design-show="cartoon"]');
   await expect(contact.getByRole('link', { name: 'Email me' })).toHaveAttribute('href', /^mailto:/);
   await expect(contact.getByRole('button', { name: 'Copy email address' })).toBeVisible();

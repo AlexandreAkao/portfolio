@@ -66,11 +66,11 @@ One body of content rendered through eight complete, switchable visual identitie
 All figures below were confirmed accurate as written by the user.
 
 - Working in the industry since 2018; the confirmed 8+ years metric remains. Listed roles begin Aug 2019.
-- Two concurrent current roles: Seva / Appointally (Apr 2025 to present) and AmbevTech (Nov 2020 to present).
+- One current role: AmbevTech (Nov 2020 to present). Seva / Appointally ran alongside it from Apr 2025 to Oct 2026.
 - Metrics: 26 independent services (Appointally); 200+ distribution centers and 18% lower infrastructure costs (AmbevTech WMS); 52 components across 10+ apps with 95%+ test coverage (AmbevTech UIKit); multi-country LATAM rollout (BEES B2B). The previously confirmed 40% order-processing reduction remains in WMS details.
 - Education: postgraduate degree in Applied AI Engineering (UNIPDS, May 2024 to May 2025); MBA in Full-Stack Development (Sirius, May 2024 to May 2025); Bachelor's in Computer Science (UNIFOR, Jan 2018 to Jan 2022).
 - Languages: native Brazilian Portuguese and C1 English.
-- Work details: Seva is remote, part-time, Canada; AmbevTech / AB InBev is remote, Brazil. NATI projects are Athena (quizzes) and Banca (Journalism publishing); FUNCAP research is Unifall (fall detection with Python and Machine Learning).
+- Work details: Seva was remote, part-time, Canada; AmbevTech / AB InBev is remote, Brazil. NATI projects are Athena (quizzes) and Banca (Journalism publishing); FUNCAP research is Unifall (fall detection with Python and Machine Learning).
 - Blog: two posts per locale ("Clean Architecture in Microservices", 2025-03-15; "ES6, ES7, ES8... What Feature Is That?", 2023-11-18). One cover image at `src/assets/images/blog/es6-es7-es8-cover.png`.
 - Personal projects: DevTray (native macOS utilities, https://devtray.app); Ordenados (ITO-inspired digital card game with Next.js, Supabase, and WebSocket); Azure Open PR (React/Vite Chrome extension); Design Patterns TS (retained as complementary work).
 - Current CV PDFs in English and Portuguese, copied from `../resume-cv` on 2026-10-13. Both `.tex` sources informed the content update; extra skills, BEES/UIKit dates, and previously confirmed complementary metrics were retained with the user's approval.

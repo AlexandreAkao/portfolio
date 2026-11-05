@@ -12,45 +12,6 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    company: 'Seva / Appointally',
-    role: {
-      en: 'Senior Full-Stack Engineer',
-      pt: 'Desenvolvedor Full-Stack Sênior',
-    },
-    period: { en: 'Apr 2025 - Present', pt: 'abr 2025 - atual' },
-    summary: {
-      en: 'Building Appointally, a multi-tenant SaaS for service businesses covering appointments, clients, staff schedules, subscriptions, payments, and catalogs. Remote, part-time role for Seva in Canada.',
-      pt: 'Desenvolvendo o Appointally, um SaaS multi-tenant para negócios de serviços com agendamentos, clientes, escalas, assinaturas, pagamentos e catálogos. Atuação remota e em tempo parcial para a Seva, no Canadá.',
-    },
-    bullets: {
-      en: [
-        'Architected and built 26 independent services from scratch using Clean Architecture with strictly enforced layer boundaries',
-        'Designed a RAG pipeline for semantic search and insights across business catalogs, using AI-assisted development to accelerate delivery and maintenance',
-        'Built the frontend portal with Next.js, Server Actions, TanStack Query, and support for three languages',
-        'Implemented event-driven messaging with Azure Service Bus and the Transactional Outbox Pattern for eventual consistency in critical payment flows',
-        'Integrated Stripe subscriptions, payments, webhooks, and billing, with MongoDB for persistence and Redis for caching',
-        'Built JWT authentication with AWS Cognito and a dedicated RBAC authorization service',
-        'Provisioned AWS infrastructure with Terraform, including VPC, EKS, RDS, ECR, S3, Secrets Manager, and ALB Ingress, with GitHub Actions for Kubernetes deployments',
-        'Built multichannel notifications with SendGrid, Twilio, Firebase, and Handlebars, plus a file storage service with FastAPI and AWS S3',
-      ],
-      pt: [
-        'Projetei e construí do zero 26 serviços independentes com Clean Architecture e limites rigorosos entre camadas',
-        'Projetei um pipeline RAG para buscas semânticas e análises nos catálogos de negócios, usando desenvolvimento assistido por IA para acelerar a entrega e a manutenção',
-        'Desenvolvi o portal frontend com Next.js, Server Actions, TanStack Query e suporte a três idiomas',
-        'Implementei mensageria orientada a eventos com Azure Service Bus e Transactional Outbox para consistência eventual em fluxos críticos de pagamento',
-        'Integrei assinaturas, pagamentos, webhooks e faturamento com Stripe, usando MongoDB para persistência e Redis para cache',
-        'Desenvolvi autenticação JWT com AWS Cognito e um serviço dedicado de autorização RBAC',
-        'Provisionei a infraestrutura AWS com Terraform, incluindo VPC, EKS, RDS, ECR, S3, Secrets Manager e ALB Ingress, com GitHub Actions para deploys no Kubernetes',
-        'Desenvolvi notificações multicanal com SendGrid, Twilio, Firebase e Handlebars, além de armazenamento de arquivos com FastAPI e AWS S3',
-      ],
-    },
-    tech: ['TypeScript', 'Node.js', 'NestJS', 'Next.js', 'TanStack Query', 'MongoDB', 'Redis', 'Azure Service Bus', 'Stripe', 'AWS', 'Terraform', 'Kubernetes', 'GitHub Actions', 'FastAPI', 'RAG'],
-    impact: {
-      en: '26 independent services built with Clean Architecture',
-      pt: '26 serviços independentes com Clean Architecture',
-    },
-  },
-  {
     company: 'AmbevTech / AB InBev',
     role: {
       en: 'Senior Software Engineer',
@@ -172,6 +133,45 @@ export const experiences: Experience[] = [
         },
       },
     ],
+  },
+  {
+    company: 'Seva / Appointally',
+    role: {
+      en: 'Senior Full-Stack Engineer',
+      pt: 'Desenvolvedor Full-Stack Sênior',
+    },
+    period: { en: 'Apr 2025 - Oct 2026', pt: 'abr 2025 - out 2026' },
+    summary: {
+      en: 'Built Appointally, a multi-tenant SaaS for service businesses covering appointments, clients, staff schedules, subscriptions, payments, and catalogs. Remote, part-time role for Seva in Canada.',
+      pt: 'Desenvolvi o Appointally, um SaaS multi-tenant para negócios de serviços com agendamentos, clientes, escalas, assinaturas, pagamentos e catálogos. Atuação remota e em tempo parcial para a Seva, no Canadá.',
+    },
+    bullets: {
+      en: [
+        'Architected and built 26 independent services from scratch using Clean Architecture with strictly enforced layer boundaries',
+        'Designed a RAG pipeline for semantic search and insights across business catalogs, using AI-assisted development to accelerate delivery and maintenance',
+        'Built the frontend portal with Next.js, Server Actions, TanStack Query, and support for three languages',
+        'Implemented event-driven messaging with Azure Service Bus and the Transactional Outbox Pattern for eventual consistency in critical payment flows',
+        'Integrated Stripe subscriptions, payments, webhooks, and billing, with MongoDB for persistence and Redis for caching',
+        'Built JWT authentication with AWS Cognito and a dedicated RBAC authorization service',
+        'Provisioned AWS infrastructure with Terraform, including VPC, EKS, RDS, ECR, S3, Secrets Manager, and ALB Ingress, with GitHub Actions for Kubernetes deployments',
+        'Built multichannel notifications with SendGrid, Twilio, Firebase, and Handlebars, plus a file storage service with FastAPI and AWS S3',
+      ],
+      pt: [
+        'Projetei e construí do zero 26 serviços independentes com Clean Architecture e limites rigorosos entre camadas',
+        'Projetei um pipeline RAG para buscas semânticas e análises nos catálogos de negócios, usando desenvolvimento assistido por IA para acelerar a entrega e a manutenção',
+        'Desenvolvi o portal frontend com Next.js, Server Actions, TanStack Query e suporte a três idiomas',
+        'Implementei mensageria orientada a eventos com Azure Service Bus e Transactional Outbox para consistência eventual em fluxos críticos de pagamento',
+        'Integrei assinaturas, pagamentos, webhooks e faturamento com Stripe, usando MongoDB para persistência e Redis para cache',
+        'Desenvolvi autenticação JWT com AWS Cognito e um serviço dedicado de autorização RBAC',
+        'Provisionei a infraestrutura AWS com Terraform, incluindo VPC, EKS, RDS, ECR, S3, Secrets Manager e ALB Ingress, com GitHub Actions para deploys no Kubernetes',
+        'Desenvolvi notificações multicanal com SendGrid, Twilio, Firebase e Handlebars, além de armazenamento de arquivos com FastAPI e AWS S3',
+      ],
+    },
+    tech: ['TypeScript', 'Node.js', 'NestJS', 'Next.js', 'TanStack Query', 'MongoDB', 'Redis', 'Azure Service Bus', 'Stripe', 'AWS', 'Terraform', 'Kubernetes', 'GitHub Actions', 'FastAPI', 'RAG'],
+    impact: {
+      en: '26 independent services built with Clean Architecture',
+      pt: '26 serviços independentes com Clean Architecture',
+    },
   },
   {
     company: 'NATI - UNIFOR',
