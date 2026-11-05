@@ -85,10 +85,11 @@ function StageFailed({ onFail }: { onFail: () => void }) {
  * this one, what it holds and its scene). On phones the room is a band under the
  * header for the whole page and the index becomes labels the stage pins over
  * their objects, one hour at a time. While the room loads the panel runs the
- * minutes toward 08:00 over the bare ground; the live room and its clock fade in
- * together once it has drawn its first frames, and an in-house still of this hour
- * stands in only when WebGL is missing or fails, or the room is very late. The
- * clock is decoration that the stage keeps on the hour.
+ * minutes toward 08:00 over the bare ground; once it has drawn its first frames
+ * the model is built in the panel (the live room and its clock simply fade in on
+ * a load deep in the day), and an in-house still of this hour stands in only when
+ * WebGL is missing or fails, or the room is very late. The clock is decoration
+ * that the stage keeps on the hour.
  */
 function DioramaHeroInner() {
   const locale = useLocale();

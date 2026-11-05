@@ -144,10 +144,13 @@ const jsonLd = type === 'article'
           document.documentElement.dataset.design = d;
           // Diorama's live room is expected: its photo only stands in if the hero says there will be no room
           document.documentElement.dataset.dioRoom = '';
-          // While it loads the panel runs the minutes to 08:00, unless the reload lands deep in the day
-          if (d === 'diorama') {
+          // A load at the top of its day: the panel runs the minutes on the dark and the room is built in it.
+          // Not a deep link or a reload deep in the day, known before first paint from where the router
+          // keeps the scroll (history.state), and checked again once the browser has put the page there.
+          if (d === 'diorama' && !window.location.hash && ((history.state && history.state.scrollY) || 0) < window.innerHeight / 2) {
+            document.documentElement.dataset.dioTop = '';
             document.addEventListener('DOMContentLoaded', function () {
-              if (window.scrollY < window.innerHeight / 2) document.documentElement.dataset.dioTop = '';
+              if (window.scrollY >= window.innerHeight / 2) delete document.documentElement.dataset.dioTop;
             });
           }
 

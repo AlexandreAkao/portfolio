@@ -21,6 +21,11 @@
 html[data-design='diorama']:has(.dio-stage) {
   --dio-ground: #2f353c;
 }
+/* A load at the top of the day waits on the dark the model is built out of (the stage's 07:59), so nothing jumps
+   when the room arrives. A load deep in the day, or one with no room to wait for, keeps the hour above. */
+html[data-design='diorama'][data-dio-room][data-dio-top]:not([data-dio-active]):has(.dio-stage) {
+  --dio-ground: #171c2d;
+}
 /* A deep link (/#skills) lands on its hour at once: until the stage has written its first hour,
    the page does not smooth-scroll there through the whole day. Index clicks still glide. */
 html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
@@ -141,6 +146,18 @@ html[data-dio-room]:not([data-dio-intro]) .dio-stage:not([data-drawn]) .dio-wait
 }
 @keyframes dio-wait-late {
   to { opacity: 0; visibility: hidden; }
+}
+/* A reload at the top: the room does not fade in, it is built in the panel from its first frame, and the loading
+   clears off it quickly */
+html[data-dio-panel] .dio-stage canvas {
+  transition: none;
+}
+/* The running clock leaves first: two clocks must not disagree */
+html[data-dio-panel] .dio-clock {
+  transition: opacity 0s linear 0.2s;
+}
+html[data-dio-panel] .dio-stage[data-drawn] .dio-wait {
+  transition: opacity 0.2s ease, visibility 0s linear 0.2s;
 }
 .dio-wait__bar {
   width: min(18rem, 64%);
