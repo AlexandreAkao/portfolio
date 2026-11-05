@@ -15,6 +15,8 @@ import { registerLabel } from './scene/labels';
 const loadStage = () => import('./scene/Stage');
 const Stage = lazy(loadStage);
 
+/** The reel of the clock that runs while the room loads (the curtain has the same one, see SiteIntro). */
+const MINUTES = Array.from({ length: 60 }, (_, m) => String(m).padStart(2, '0'));
 /** The hours the day's navigation offers: every hour after this one, 09:00 to 22:00. */
 const DAY = STATIONS.slice(1);
 const STILL = '/images/diorama/room-0800.webp';
@@ -82,10 +84,11 @@ function StageFailed({ onFail }: { onFail: () => void }) {
  * heads the page: the name, the actions, and the day's index (every hour after
  * this one, what it holds and its scene). On phones the room is a band under the
  * header for the whole page and the index becomes labels the stage pins over
- * their objects, one hour at a time. The live room and its clock fade in together
- * over the bare ground once it has drawn its first frames; an in-house still of
- * this hour stands in only when WebGL is missing or fails, or the room is very
- * late. The clock is decoration that the stage keeps on the hour.
+ * their objects, one hour at a time. While the room loads the panel runs the
+ * minutes toward 08:00 over the bare ground; the live room and its clock fade in
+ * together once it has drawn its first frames, and an in-house still of this hour
+ * stands in only when WebGL is missing or fails, or the room is very late. The
+ * clock is decoration that the stage keeps on the hour.
  */
 function DioramaHeroInner() {
   const locale = useLocale();
@@ -123,8 +126,11 @@ function DioramaHeroInner() {
     const onDesign = () => {
       activeNow.current = html.dataset.design === 'diorama';
       setActive(activeNow.current);
-      if (!activeNow.current) setDrawn(false);
-      else if (!webglNow.current) noArrival();
+      if (!activeNow.current) {
+        setDrawn(false);
+        // Coming back is a switch, and a loading in this panel then only follows a reader deep in the page
+        delete html.dataset.dioTop;
+      } else if (!webglNow.current) noArrival();
     };
     onDesign();
     const designWatch = new MutationObserver(onDesign);
@@ -151,6 +157,25 @@ function DioramaHeroInner() {
   return (
     <div className="dio-hero" data-diorama-chapter="arrival" id="dio-arrival" data-diorama-hour="08:00">
       <div className="dio-stage" ref={stage} aria-hidden="true" data-drawn={drawn ? '' : undefined}>
+        {/* While the room loads with no curtain over it (a reload): CSS only, so it moves while the scene is being built */}
+        <div className="dio-wait">
+          <p className="dio-wait__clock">
+            07:
+            <span className="dio-mm">
+              <span className="dio-reel">
+                {MINUTES.map((m) => (
+                  <span key={m}>{m}</span>
+                ))}
+              </span>
+            </span>
+          </p>
+          <div className="dio-wait__bar">
+            <span className="dio-wait__line">
+              <i />
+            </span>
+            <p className="dio-wait__says">{t('diorama.loading', locale)}</p>
+          </div>
+        </div>
         <img className="dio-still" src={STILL} alt="" width={STILL_SIZE.width} height={STILL_SIZE.height} loading="lazy" decoding="async" data-gone={drawn ? '' : undefined} />
         {live && (
           <ErrorBoundary fallback={<StageFailed onFail={fail} />}>

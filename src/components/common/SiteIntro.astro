@@ -35,6 +35,9 @@ const login = { en: loginDate('en'), pt: loginDate('pt') };
 const punched = `${t('hero.name', 'en').toUpperCase()} . ${t('hero.title', 'en').toUpperCase()} . `;
 const printable = (text: string) =>
   text.split(/(\S+-\S+)/).filter(Boolean).map((part) => ({ keep: part.includes('-'), chars: [...part] }));
+
+// Diorama: the reel of the clock that runs while the room loads.
+const minutes = Array.from({ length: 60 }, (_, m) => String(m).padStart(2, '0'));
 ---
 
 <div id="site-intro" aria-hidden="true">
@@ -109,13 +112,15 @@ const printable = (text: string) =>
     </p>
   </div>
 
-  <!-- Diorama: on arrival, 07:59 in the dark, its colon ticking, until the live room has
-       drawn (data-intro-hold="arrival": the hero says so); then the curtain cuts to the
-       stage, which builds the model and turns the hour (scene/intro.ts). The page beneath
-       is armed for it (data-dio-intro). On a quick change, the lit still and 08:00. -->
+  <!-- Diorama: the loading. On the dark, the minutes run toward 07:59 over a line of lamp
+       light until the live room has drawn (data-intro-hold="arrival": the hero says so); they
+       run out, the clock goes to its corner, and the curtain cuts to the stage, which builds
+       the model and turns the hour (scene/intro.ts). The page beneath is armed for it
+       (data-dio-intro). On a quick change, the lit still and 08:00. -->
   <div class="intro intro-dio" data-design-show="diorama" data-intro-no-font-wait data-intro-hold="arrival">
     <img class="intro-dio__still" src="/images/diorama/room-0800.webp" alt="" width="1200" height="1219" loading="lazy" decoding="async" />
-    <p class="intro-dio__clock"><span class="intro-dio__a">07<span class="intro-dio__tick">:</span>59</span><span class="intro-dio__b">08:00</span></p>
+    <p class="intro-dio__clock"><span class="intro-dio__a">07:<span class="dio-mm"><span class="dio-reel">{minutes.map((m) => <span>{m}</span>)}</span></span></span><span class="intro-dio__b">08:00</span></p>
+    <div class="intro-dio__wait"><span class="dio-wait__line"><i></i></span><p class="dio-wait__says"><T k="diorama.loading" /></p></div>
   </div>
 
   <!-- Arcade: READY? pops and blinks, then five candy bars sweep the screen clean -->
@@ -233,6 +238,24 @@ const printable = (text: string) =>
       block.style.setProperty('--iy', Math.round(c.bottom - 0.6455 * h) + 'px');
     }
 
+    // Diorama: the loading's clock, large in the middle of the screen over its line and its words.
+    var dioPlacing = null;
+    var dioMoves = [];
+    function dioPlace(block) {
+      var clock = block.querySelector('.intro-dio__clock');
+      clock.style.transform = '';
+      if ('dioAgain' in html.dataset) return;
+      var r = clock.getBoundingClientRect();
+      var scale = window.innerWidth >= 1024 ? 1.8 : 1.35;
+      var middle = window.innerHeight * 0.47;
+      clock.style.transform = 'translate(' + (window.innerWidth / 2 - (r.left + r.width / 2)) + 'px, ' + (middle - 30 - (r.top + r.height / 2)) + 'px) scale(' + scale + ')';
+      block.style.setProperty('--dio-wait-y', (middle + (r.height * scale) / 2 - 12) + 'px');
+    }
+    function dioStopPlacing() {
+      if (dioPlacing) window.removeEventListener('resize', dioPlacing);
+      dioPlacing = null;
+    }
+
     // Something this session remembers. Storage out of reach reads as yes: no room (the short curtain).
     function sessionMark(key, mark) {
       try {
@@ -248,7 +271,10 @@ const printable = (text: string) =>
     // once the theme has swapped underneath on a quick change, so the incoming
     // hero is laid out and can be measured. A paced stage calls done() when its
     // sequence is over; otherwise a holding curtain is due at its reveal.
-    // finish() runs as the curtain goes, told whether the hero reported ready.
+    // shown() runs once the curtain is on screen and can be measured; leave() when
+    // a holding curtain may go, to finish its own business first and then call
+    // done(); finish() as the curtain goes, told whether the hero reported ready.
+    // cap is how long a holding curtain waits for its hero on arrival, in ms.
     var stages = {
       engineer: {
         prepare: function (block) { draftPage(block, 8); },
@@ -270,8 +296,9 @@ const printable = (text: string) =>
       // plays the arrival too, whole the first time in a session and quick after that (useArrival
       // reads data-dio-again): where the page has the room, not where the hero has found it
       // cannot come (dio-no-room), and from near the top, since a reader deep in the page keeps
-      // their place.
+      // their place. The room is what this world is for, so the curtain waits longer for it.
       diorama: {
+        cap: 10000,
         arrivesOnSwitch: function () {
           return !sessionMark('dio-no-room') && !!document.querySelector('#hero [data-design-show="diorama"]') && window.scrollY < window.innerHeight / 2;
         },
@@ -282,8 +309,54 @@ const printable = (text: string) =>
           else delete html.dataset.dioAgain;
           sessionMark('dio-arrived', true);
         },
+        // The clock waits large in the middle of the screen, or in its corner for someone
+        // who has seen the arrival; a window resized or a face arriving places it again
+        shown: function (block, mode) {
+          if (mode === 'quick') return;
+          dioPlacing = function () { dioPlace(block); };
+          dioPlacing();
+          if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (dioPlacing) dioPlacing(); });
+          window.addEventListener('resize', dioPlacing);
+        },
+        // The room is ready: the minutes run out to 07:59 and the clock goes to its corner
+        leave: function (block, mode, done) {
+          dioStopPlacing();
+          var reel = block.querySelector('.dio-reel');
+          var line = block.querySelector('.dio-wait__line i');
+          var clock = block.querySelector('.intro-dio__clock');
+          // No room to build, or a browser that cannot stage this: straight on
+          if (!html.dataset.dioIntro || !reel.animate) { done(); return; }
+          var quickly = 'dioAgain' in html.dataset;
+          var ms = quickly ? 140 : 260;
+          var style = getComputedStyle(reel);
+          var at = Math.round(-new DOMMatrixReadOnly(style.transform).m42 / parseFloat(style.fontSize));
+          var filled = getComputedStyle(line).transform;
+          reel.style.animation = 'none';
+          line.style.animation = 'none';
+          // One step per minute left, so the reel only ever stands on whole minutes
+          var run = reel.animate(
+            [{ transform: 'translateY(-' + at + 'em)' }, { transform: 'translateY(-59em)' }],
+            { duration: ms, easing: 'steps(' + Math.max(1, 59 - at) + ', end)', fill: 'forwards' }
+          );
+          dioMoves = [run, line.animate([{ transform: filled }, { transform: 'scaleX(1)' }], { duration: ms, easing: 'ease-out', fill: 'forwards' })];
+          run.finished.then(function () {
+            if (quickly) { done(); return; }
+            dioMoves.push(block.querySelector('.intro-dio__wait').animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, fill: 'forwards' }));
+            var fly = clock.animate([{ transform: clock.style.transform }, { transform: 'none' }], { duration: 400, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
+            dioMoves.push(fly);
+            fly.finished.then(done, done);
+          }, done);
+        },
         // Whoever has waited out the curtain gets the photo at once, not a bare panel
         finish: function (block, mode, ready) {
+          // The curtain is used again on the next switch
+          dioStopPlacing();
+          dioMoves.forEach(function (move) { move.cancel(); });
+          dioMoves = [];
+          block.querySelector('.dio-reel').style.animation = '';
+          block.querySelector('.dio-wait__line i').style.animation = '';
+          block.querySelector('.intro-dio__clock').style.transform = '';
+          block.style.removeProperty('--dio-wait-y');
           if (mode === 'quick' || ready) return;
           delete html.dataset.dioIntro;
           delete html.dataset.dioRoom;
@@ -353,7 +426,8 @@ const printable = (text: string) =>
       }
       function lift() {
         // A switch's arrival waits for this room's first frames, even from a hero hydrated earlier
-        if (!s.due || s.lifting || !(s.heroReady || (mode !== 'switch' && heroLive()))) return;
+        if (!s.due || s.lifting || s.leaving || !(s.heroReady || (mode !== 'switch' && heroLive()))) return;
+        if (stage.leave) { s.leaving = true; stage.leave(block, mode, finish); return; }
         if (hold !== 'fade' || !el.animate) { finish(); return; }
         s.lifting = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: mode === 'quick' ? 280 : 350, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
         s.lifting.onfinish = finish;
@@ -425,7 +499,7 @@ const printable = (text: string) =>
       el.addEventListener('wheel', finish, { passive: true });
       el.addEventListener('touchmove', finish, { passive: true });
       document.addEventListener('keydown', onKey);
-      s.timer = setTimeout(finish, mode === 'quick' ? 2000 : 4000);
+      s.timer = setTimeout(finish, mode === 'quick' ? 2000 : stage.cap || 4000);
 
       if (mode === 'arrival' && el.querySelector('[data-design-show="' + html.dataset.design + '"][data-intro-no-font-wait]')) {
         // This world's curtain carries no type that needs its face: play at once.
@@ -442,6 +516,7 @@ const printable = (text: string) =>
         s.applyTimer = setTimeout(applyTheme, 170);
         if (mode === 'quick' && holds && !stage.paced) later(due, 450);
       }
+      if (stage.shown) stage.shown(block, mode);
       return s;
     }
 
@@ -506,8 +581,8 @@ const printable = (text: string) =>
   [data-design='tape']       #site-intro { --intro-reveal: 0.4s; --intro-total: 2.6s; }
   [data-design='cartoon']    #site-intro { --intro-reveal: 1s; --intro-total: 1.65s; }
   /* Diorama hydrates its hero at once (the room has code to fetch) and cuts to the stage as soon as the
-     room has drawn; 4s is the cap, after which the page opens on the still with no arrival */
-  [data-design='diorama']    #site-intro { --intro-reveal: 0.2s; --intro-total: 4s; }
+     room has drawn; 10s is the cap, after which the page opens on the still with no arrival */
+  [data-design='diorama']    #site-intro { --intro-reveal: 0.2s; --intro-total: 10s; }
 
   /* ---------- Quick-change (theme switch): the incoming world's exit gesture only ---------- */
   /* The curtain carries the incoming design on its own data-design so it can
@@ -524,7 +599,7 @@ const printable = (text: string) =>
   #site-intro[data-design='diorama'] [data-design-show='diorama'] { display: block !important; }
 
   /* "switch": a theme switch that stages the incoming world's arrival, swapping as a quick change does */
-  html[data-intro='switch'] #site-intro[data-design='diorama'] { --intro-total: 4s; }
+  html[data-intro='switch'] #site-intro[data-design='diorama'] { --intro-total: 10s; }
   html[data-intro='quick'] #site-intro,
   html[data-intro='switch'] #site-intro {
     display: block;
@@ -857,9 +932,10 @@ const printable = (text: string) =>
   @keyframes cart-cut { to { visibility: hidden; } }
 
   /* ---------- Diorama ---------- */
-  /* Arrival: 07:59 on the night ground, its colon ticking, until the live room has drawn. The clock stands
-     where the page has it while the arrival plays (the room centred on the screen, worlds/diorama.css), and
-     the stage's ground at 07:59 is this night blue, so the cut to the stage adds the room and nothing else. */
+  /* The loading: on the night ground the minutes run toward 07:59 until the live room has drawn (the reel and the
+     line are in worlds/diorama.css). The clock's place is where the page has it while the arrival plays (the room
+     centred on the screen); the script stands it large in the middle while it waits and flies it home. The stage's
+     ground at 07:59 is this night blue, so the cut to the stage adds the room and nothing else. */
   .intro-dio {
     background: #171c2d;
   }
@@ -892,8 +968,23 @@ const printable = (text: string) =>
     background: rgb(21 22 26 / 0.7);
     box-shadow: 0 0.05em 0.2em rgb(0 0 0 / 0.22);
   }
-  .intro-dio__tick {
-    animation: dio-tick 1s linear infinite;
+  .intro-dio__a {
+    display: inline-flex;
+  }
+  .intro-dio__wait {
+    position: fixed;
+    left: 50%;
+    top: var(--dio-wait-y, 50%);
+    width: min(18rem, 64vw);
+    transform: translateX(-50%);
+  }
+  /* Someone who has seen the arrival: the words only come if the wait goes on */
+  html[data-dio-again] .intro-dio__wait {
+    opacity: 0;
+    animation: dio-wait-in 0.2s ease 0.5s forwards;
+  }
+  @keyframes dio-wait-in {
+    to { opacity: 1; }
   }
 
   /* Quick change: no dark and no build; the lit still and its clock, already turned, where the page has them
@@ -920,7 +1011,7 @@ const printable = (text: string) =>
     height: calc(100% - 56px - 56px);
     object-fit: contain;
   }
-  html[data-intro='quick'] .intro-dio__a { display: none; }
+  html[data-intro='quick'] :is(.intro-dio__a, .intro-dio__wait) { display: none; }
   html[data-intro='quick'] .intro-dio__b { display: inline; }
   @media (min-width: 1024px) {
     html[data-intro='quick'] .intro-dio__clock { right: calc(var(--dio-col, 46vw) + 1.5rem); }
@@ -930,10 +1021,6 @@ const printable = (text: string) =>
     /* On arrival the band stands at the middle of the screen (31svh down from its place), its clock with it */
     .intro-dio__clock { top: calc(31svh + 0.5rem); right: 0.75rem; font-size: 2.5rem; }
     html[data-intro='quick'] .intro-dio__clock { top: calc(64px + 0.5rem); }
-  }
-  @keyframes dio-tick {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0.15; }
   }
   @keyframes dio-out { to { opacity: 0; } }
 

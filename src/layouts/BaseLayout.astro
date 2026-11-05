@@ -144,6 +144,12 @@ const jsonLd = type === 'article'
           document.documentElement.dataset.design = d;
           // Diorama's live room is expected: its photo only stands in if the hero says there will be no room
           document.documentElement.dataset.dioRoom = '';
+          // While it loads the panel runs the minutes to 08:00, unless the reload lands deep in the day
+          if (d === 'diorama') {
+            document.addEventListener('DOMContentLoaded', function () {
+              if (window.scrollY < window.innerHeight / 2) document.documentElement.dataset.dioTop = '';
+            });
+          }
 
           // An explicit ?lang= or the /pt/ address wins over the stored preference.
           var params = new URLSearchParams(window.location.search);

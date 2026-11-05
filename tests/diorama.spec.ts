@@ -585,7 +585,8 @@ test('diorama: the sections print nothing over the room: every word is in the da
         for (let n = walker.nextNode(); n; n = walker.nextNode()) {
           const el = n.parentElement!;
           const text = (n.textContent ?? '').trim();
-          if (!text || el.closest('.dio-clock') || !el.checkVisibility()) continue;
+          // The clock is the room's, and the loading stands in the panel only while there is no room
+          if (!text || el.closest('.dio-clock, .dio-wait') || !el.checkVisibility()) continue;
           const r = el.getBoundingClientRect();
           // visually hidden text (1px boxes) is for screen readers only
           if (r.width <= 1 || r.height <= 1) continue;
@@ -686,6 +687,21 @@ test('diorama: the footer is one quiet row on paper: socials, year, the invitati
 
 /* ------------------------------------------------------------ The arrival: the model is built at 07:59, then the day */
 
+/** Every minute the curtain's clock has stood on, from inside the page (the reel moves by whole lines of 1em). */
+const REEL_WATCH = `
+  window.__minutes = [];
+  const watchReel = () => {
+    const reel = document.querySelector('#site-intro .dio-reel');
+    if (reel && getComputedStyle(reel).display !== 'none' && reel.getClientRects().length) {
+      const m = new DOMMatrixReadOnly(getComputedStyle(reel).transform).m42 / parseFloat(getComputedStyle(reel).fontSize);
+      const at = Math.round(-m * 100) / 100;
+      if (window.__minutes[window.__minutes.length - 1] !== at) window.__minutes.push(at);
+    }
+    requestAnimationFrame(watchReel);
+  };
+`;
+const minutesSeen = (page: Page) => page.evaluate(() => (window as unknown as { __minutes: number[] }).__minutes);
+
 /** The room's code compiled and cached in this browser, so an arrival measures the room, not the dev server's first build. */
 async function warmDiorama(context: BrowserContext) {
   const p = await context.newPage();
@@ -697,6 +713,7 @@ async function warmDiorama(context: BrowserContext) {
 
 /** A first visit of the session in Diorama, recording what stands on the page when the curtain goes and whether the arrival is armed later. */
 async function firstVisit(page: Page, opts: { blockGl?: boolean } = {}) {
+  await page.addInitScript(`${REEL_WATCH}; document.addEventListener('DOMContentLoaded', watchReel);`);
   await page.addInitScript((block) => {
     localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en');
     if (block) {
@@ -726,18 +743,26 @@ async function firstVisit(page: Page, opts: { blockGl?: boolean } = {}) {
 }
 const record = (page: Page) => page.evaluate(() => (window as unknown as { __dio: { atDone: Record<string, unknown> | null; armedAfterDone: boolean } }).__dio);
 
-test('diorama: the arrival holds 07:59 until the live room has drawn, builds it, turns 08:00 and hands over the page @mobile', async ({ page, context }) => {
+test('diorama: the arrival runs the minutes until the live room has drawn, builds it, turns 08:00 and hands over the page @mobile', async ({ page, context }) => {
   await warmDiorama(context);
   await firstVisit(page);
   const html = page.locator('html');
   const curtain = page.locator('#site-intro .intro-dio');
   await expect(curtain).toBeVisible();
-  await expect(curtain.locator('.intro-dio__a')).toHaveText('07:59');
+  await expect(curtain.locator('.intro-dio__a')).toBeVisible();
+  // It says what it is doing, in the page's language
+  await expect(curtain.getByText('Building the room')).toBeVisible();
   // Nothing of the room shows before it is built: the curtain is the dark and the clock
   await expect(curtain.locator('.intro-dio__still')).toBeHidden();
   await expect(html).toHaveAttribute('data-intro', 'done', { timeout: 10_000 });
   // The curtain went because the live room had drawn, not on a timer, and the arrival had begun on it
   expect((await record(page)).atDone).toEqual({ gone: true, clock: '07:59', intro: 'play' });
+  // The minutes ran out to 07:59 before the curtain went, and only ever stood on whole minutes
+  const minutes = await minutesSeen(page);
+  expect(minutes[0]).toBeLessThan(50);
+  expect(Math.max(...minutes)).toBe(59);
+  expect(minutes.filter((m) => !Number.isInteger(m))).toEqual([]);
+  expect([...minutes].sort((a, b) => a - b)).toEqual(minutes);
   await expect(page.locator('header.fixed')).toHaveCSS('opacity', '0');
   await expect(page.locator('.dio-clock')).toHaveText('08:00', { timeout: 4_000 });
   await expect(html).toHaveAttribute('data-dio-intro', 'page', { timeout: 4_000 });
@@ -776,11 +801,15 @@ test('diorama: a room not live by the curtain\'s cap opens the page on the still
   await warmDiorama(context);
   // The room's code arrives long after the cap
   await page.route(/scene\/Stage\.tsx/, async (route) => {
-    await new Promise((r) => setTimeout(r, 6_000));
+    await new Promise((r) => setTimeout(r, 12_000));
     await route.continue();
   });
   await firstVisit(page);
   const html = page.locator('html');
+  // A slow machine is worth waiting for: at 6s the curtain is still up, and still moving
+  await page.waitForTimeout(6_000);
+  await expect(page.locator('#site-intro .intro-dio__a')).toBeVisible();
+  await expect(html).not.toHaveAttribute('data-intro', 'done');
   await expect(html).toHaveAttribute('data-intro', 'done', { timeout: 6_000 });
   await expect(html).not.toHaveAttribute('data-dio-intro', /.*/);
   await expect(page.locator('header.fixed')).toHaveCSS('opacity', '1');
@@ -844,8 +873,10 @@ test('diorama: the first switch to it in a session plays the arrival from the to
   await switchWorld(page, 'Diorama');
   const curtain = page.locator('#site-intro .intro-dio');
   await expect(curtain.locator('.intro-dio__a')).toBeVisible();
-  await expect(curtain.locator('.intro-dio__a')).toHaveText('07:59');
+  await expect(curtain.getByText('Building the room')).toBeVisible();
   await expect(curtain.locator('.intro-dio__still')).toBeHidden();
+  // The whole arrival: the clock waits large in the middle of the screen
+  await expect(curtain.locator('.intro-dio__clock')).not.toHaveCSS('transform', 'none');
   await curtainGone(page);
   await expect(html).toHaveAttribute('data-dio-intro', 'play');
   await expect(page.locator('.dio-clock')).toHaveText('07:59');
@@ -860,6 +891,10 @@ test('diorama: the first switch to it in a session plays the arrival from the to
   await expect(html).toHaveAttribute('data-design', 'arcade');
   await curtainGone(page);
   await switchWorld(page, 'Diorama');
+  // Lighter too: the clock waits in its corner, and the words only come if the wait goes on
+  await expect(curtain.locator('.intro-dio__a')).toBeVisible();
+  await expect(curtain.locator('.intro-dio__clock')).toHaveCSS('transform', 'none');
+  expect(await curtain.locator('.intro-dio__wait').evaluate((el) => +getComputedStyle(el).opacity)).toBeLessThan(0.5);
   await expect(html).toHaveAttribute('data-design', 'diorama');
   await curtainGone(page);
   await expect(html).toHaveAttribute('data-dio-intro', 'play');
@@ -934,6 +969,7 @@ test('diorama: without WebGL only the first switch tries the arrival, the next o
   await switchWorld(page, 'Diorama');
   // The lit still and 08:00: never again the dark, for a room that cannot come
   await expect(page.locator('#site-intro .intro-dio__b')).toBeVisible();
+  await expect(page.locator('#site-intro .intro-dio__wait')).toBeHidden();
   await expect(html).toHaveAttribute('data-design', 'diorama');
   await curtainGone(page);
   await expect(html).not.toHaveAttribute('data-dio-intro', /.*/);
@@ -970,22 +1006,35 @@ async function reloadWithSlowRoom(page: Page, holdMs: number) {
   await expect(page.locator('html')).toHaveAttribute('data-design', 'diorama');
 }
 
-test('diorama: while the room loads on a reload there is no photo and no clock, only the page, then both arrive together @mobile', async ({ page }) => {
+test('diorama: while the room loads on a reload the page is there and the panel runs the minutes, no photo, then the room and its clock @mobile', async ({ page }) => {
   await reloadWithSlowRoom(page, 2_000);
-  // The copy is there at once; the panel is the bare ground
+  const wait = page.locator('.dio-stage .dio-wait');
+  // The copy is there at once; the panel says what it is doing
   await expect(page.locator('.dio-name')).toBeVisible();
+  await expect(wait.getByText('Building the room')).toBeVisible();
+  await expect(wait.locator('.dio-wait__clock')).toBeVisible();
   await expect(page.locator('#hero .dio-still')).toBeHidden();
   await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '0');
+  const at = () => wait.locator('.dio-reel').evaluate((el) => -new DOMMatrixReadOnly(getComputedStyle(el).transform).m42 / parseFloat(getComputedStyle(el).fontSize));
+  const before = await at();
   await page.waitForTimeout(500);
+  expect(await at()).toBeGreaterThan(before);
   await expect(page.locator('#hero .dio-still')).toBeHidden();
-  // The room has drawn: the clock with it, and the photo never came
-  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  // The room has drawn: the clock with it, the loading gone, and the photo never came
   await expect(page.locator('.dio-stage[data-drawn] canvas')).toHaveCSS('opacity', '1', { timeout: 20_000 });
   await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '1');
+  await expect(wait).toHaveCSS('opacity', '0');
   await expect(page.locator('#hero .dio-still')).toBeHidden();
 });
 
-test('diorama: a reload deep in the day never shows 08:00 while the room loads', async ({ page }) => {
+test('diorama: the panel speaks the page\'s language while it loads', async ({ page }) => {
+  await page.addInitScript(() => { localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'pt'); sessionStorage.setItem('intro-seen', '1'); });
+  await page.route(/scene\/Stage\.tsx/, async (route) => { await new Promise((r) => setTimeout(r, 2_000)); await route.continue(); });
+  await page.goto('/pt/');
+  await expect(page.locator('.dio-stage .dio-wait').getByText('Montando o quarto')).toBeVisible();
+});
+
+test('diorama: a reload deep in the day never shows 08:00 or the minutes while the room loads', async ({ page }) => {
   await page.addInitScript(() => { localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1'); });
   await page.goto('/');
   await expect(page.locator('.dio-stage[data-drawn]')).toHaveCount(1, { timeout: 20_000 });
@@ -999,16 +1048,35 @@ test('diorama: a reload deep in the day never shows 08:00 while the room loads',
   await expect(page.locator('.dio-name')).toBeAttached();
   await expect(page.locator('#hero .dio-still')).toBeHidden();
   await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '0');
+  // Only the line and the words: 07:xx would contradict the hour the page is on
+  const wait = page.locator('.dio-stage .dio-wait');
+  await expect(wait.getByText('Building the room')).toBeVisible();
+  await expect(wait.locator('.dio-wait__clock')).toBeHidden();
   await expect(page.locator('.dio-stage[data-drawn] canvas')).toHaveCSS('opacity', '1', { timeout: 20_000 });
   await expect(page.locator('.dio-clock')).not.toHaveText('08:00');
   await expect(page.locator('#hero .dio-still')).toBeHidden();
 });
 
-test('diorama: a room that takes too long gets the photo after all, and still takes over from it', async ({ page }) => {
-  await reloadWithSlowRoom(page, 6_500);
+test('diorama: with reduced motion the panel holds still at 07:59 while the room loads', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await reloadWithSlowRoom(page, 2_000);
+  const wait = page.locator('.dio-stage .dio-wait');
+  await expect(wait.getByText('Building the room')).toBeVisible();
+  await expect(wait.locator('.dio-wait__clock')).toBeVisible();
+  await expect.poll(() => wait.locator('.dio-reel').evaluate((el) => -new DOMMatrixReadOnly(getComputedStyle(el).transform).m42 / parseFloat(getComputedStyle(el).fontSize))).toBe(59);
   await expect(page.locator('#hero .dio-still')).toBeHidden();
-  await expect(page.locator('#hero .dio-still')).toBeVisible({ timeout: 6_000 });
+  await expect(page.locator('.dio-stage[data-drawn] canvas')).toHaveCSS('opacity', '1', { timeout: 20_000 });
+  await expect(wait).toHaveCSS('opacity', '0');
+});
+
+test('diorama: a room that takes too long gets the photo after all, and still takes over from it', async ({ page }) => {
+  await reloadWithSlowRoom(page, 11_500);
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+  await page.waitForTimeout(5_000);
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+  await expect(page.locator('#hero .dio-still')).toBeVisible({ timeout: 6_500 });
   await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '1');
+  await expect(page.locator('.dio-stage .dio-wait')).toBeHidden();
   await expect(page.locator('#hero .dio-still')).toHaveAttribute('data-gone', '', { timeout: 20_000 });
   await expect(page.locator('.dio-stage[data-drawn] canvas')).toHaveCSS('opacity', '1');
 });

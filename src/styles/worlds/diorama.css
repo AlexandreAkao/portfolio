@@ -51,11 +51,11 @@ html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
 }
 html[data-dio-room] .dio-still {
   visibility: hidden;
-  animation: dio-late-still 1ms linear 5s forwards;
+  animation: dio-late-still 1ms linear 10s forwards;
 }
 html[data-dio-room]:not([data-dio-intro]) .dio-stage:not([data-drawn]) ~ .dio-clock {
   opacity: 0;
-  animation: dio-late-clock 1ms linear 5s forwards;
+  animation: dio-late-clock 1ms linear 10s forwards;
 }
 /* A room this late may not be coming: the still and the clock after all, and the room takes over if it does */
 @keyframes dio-late-still {
@@ -64,6 +64,121 @@ html[data-dio-room]:not([data-dio-intro]) .dio-stage:not([data-drawn]) ~ .dio-cl
 @keyframes dio-late-clock {
   to { opacity: 1; }
 }
+
+/* ---------- While the room loads ---------- */
+/* The minutes run toward the hour, fast and then slower and slower: time passing, not a promise of how long.
+   The curtain (SiteIntro) and the panel share these. Transforms only, on their own layers: building the scene
+   holds the browser's main thread for seconds on a slow machine, and these keep moving through that. */
+.dio-mm {
+  display: block;
+  height: 1em;
+  overflow: hidden;
+}
+.dio-reel {
+  display: block;
+  animation: dio-minutes 10s linear forwards;
+  will-change: transform;
+}
+.dio-reel > span {
+  display: block;
+  height: 1em;
+}
+@keyframes dio-minutes {
+  0% { transform: translateY(0); animation-timing-function: steps(30, end); }
+  12% { transform: translateY(-30em); animation-timing-function: steps(15, end); }
+  30% { transform: translateY(-45em); animation-timing-function: steps(9, end); }
+  60% { transform: translateY(-54em); animation-timing-function: steps(4, end); }
+  85% { transform: translateY(-58em); animation-timing-function: steps(1, end); }
+  100% { transform: translateY(-59em); }
+}
+.dio-wait__line {
+  display: block;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 1px;
+  background: rgb(241 236 227 / 0.14);
+}
+.dio-wait__line i {
+  display: block;
+  height: 100%;
+  background: var(--dio-lamp, #f2a65a);
+  transform-origin: left;
+  animation: dio-fill 10s cubic-bezier(0.12, 0.8, 0.2, 1) forwards;
+  will-change: transform;
+}
+@keyframes dio-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(0.97); }
+}
+.dio-wait__says {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-dio-mono, 'Martian Mono Variable', ui-monospace, monospace);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: #b3aa9d;
+}
+/* The panel's own, on a reload: under the header, centred in what it leaves of the stage */
+.dio-wait {
+  position: absolute;
+  inset: 64px 0 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+html[data-dio-room]:not([data-dio-intro]) .dio-stage:not([data-drawn]) .dio-wait {
+  opacity: 1;
+  visibility: visible;
+  transition: none;
+  animation: dio-wait-late 1ms linear 10s forwards;
+}
+@keyframes dio-wait-late {
+  to { opacity: 0; visibility: hidden; }
+}
+.dio-wait__bar {
+  width: min(18rem, 64%);
+}
+/* Only at the top of the day: on a reload deep in it, 07:xx would contradict the hour the page is on. Its place is
+   kept either way, since whether the page is scrolled is only known a moment after first paint: the line never jumps. */
+.dio-wait__clock {
+  position: relative;
+  display: inline-flex;
+  visibility: hidden;
+  margin: 0;
+  font-family: var(--font-dio-mono, 'Martian Mono Variable', ui-monospace, monospace);
+  font-weight: 200;
+  font-size: 5.4rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--dio-paper, #f1ece3);
+}
+html[data-dio-top] .dio-wait__clock {
+  visibility: inherit;
+}
+.dio-wait__clock::before {
+  content: '';
+  position: absolute;
+  inset: -0.12em -0.2em;
+  z-index: -1;
+  border: 1px solid rgb(241 236 227 / 0.08);
+  border-radius: 0.16em;
+  background: rgb(21 22 26 / 0.7);
+  box-shadow: 0 0.05em 0.2em rgb(0 0 0 / 0.22);
+}
+@media (max-width: 1023px) {
+  .dio-wait__clock {
+    font-size: 3.375rem;
+  }
+}
+
 /* The 08:00 still, when there is no live room (no WebGL, or it failed or is very late). It is cropped to the
    room, so it is laid whole and centred in the room's box, as the stage fits the live room. */
 .dio-still {
