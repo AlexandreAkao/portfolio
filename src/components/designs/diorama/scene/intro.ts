@@ -1,5 +1,6 @@
 /**
- * The arrival: the first minute of the day, played once on a first visit
+ * The arrival: the first minute of the day, played whole on the first visit or
+ * the first switch of a session and built quickly on every switch back (RETURN)
  * (SiteIntro arms it, the stage plays it, useArrival.ts runs its clock).
  * At 07:59, before the sun, the model is built on its base: a cut climbs from
  * the floor past the walls' tops, and only what is below it is drawn, the
@@ -19,11 +20,23 @@ export interface IntroFrame {
   clip?: number | null;
 }
 
-/** When the hour turns, when the day's page comes in, and when the script hands the room back to the day (seconds). */
-export const ARRIVAL = { turn: 1.45, page: 2.45, end: 2.95 };
+/**
+ * In seconds: when the cut climbs (`build`), when the hour turns, how long the sun takes to come in,
+ * when the day's page comes in, and when the script hands the room back to the day.
+ */
+export interface ArrivalTiming {
+  build: [from: number, to: number];
+  turn: number;
+  sun: number;
+  page: number;
+  end: number;
+}
+export const ARRIVAL: ArrivalTiming = { build: [0.15, 1.35], turn: 1.45, sun: 1.15, page: 2.45, end: 2.95 };
+/** The same minute for someone who has seen it: about half as long, so a switch back is not a wait. */
+export const RETURN: ArrivalTiming = { build: [0.05, 0.7], turn: 0.75, sun: 0.85, page: 1.3, end: 1.72 };
 
-/** The build: the cut climbs from just above the plinth (the butcher-block band shows) past the walls' tops. */
-const BUILD = { from: 0.15, to: 1.35, base: -0.155, top: 2.72 };
+/** The cut climbs from just above the plinth (the butcher-block band shows) past the walls' tops. */
+const CUT = { base: -0.155, top: 2.72 };
 const BEFORE = 7 + 59 / 60;
 const MORNING = sunAt(8);
 /** 07:59: no sun yet, blue light at the window, the room's strip and string lights on. */
@@ -38,20 +51,20 @@ const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
 const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
 /** The arrival at `t` seconds since the curtain went, or null once it is over. */
-export function arrival(t: number): IntroFrame | null {
-  if (t >= ARRIVAL.end) return null;
-  const { turn } = ARRIVAL;
-  const build = clamp((t - BUILD.from) / (BUILD.to - BUILD.from));
-  const light = mixLight(DAWN, MORNING, smooth(clamp((t - turn) / 1.15)));
+export function arrival(t: number, timing: ArrivalTiming = ARRIVAL): IntroFrame | null {
+  if (t >= timing.end) return null;
+  const { turn, sun } = timing;
+  const build = clamp((t - timing.build[0]) / (timing.build[1] - timing.build[0]));
+  const light = mixLight(DAWN, MORNING, smooth(clamp((t - turn) / sun)));
   // The sun's height runs ahead of its strength: its patch comes in long and low, then settles where 08:00 has it
-  light.sunDir = mixV(DAWN.sunDir, MORNING.sunDir, easeOut(clamp((t - turn) / 1.3)));
-  light.moon = DAWN.moon * (1 - smooth(clamp((t - turn) / 0.7)));
+  light.sunDir = mixV(DAWN.sunDir, MORNING.sunDir, easeOut(clamp((t - turn) / (sun * 1.13))));
+  light.moon = DAWN.moon * (1 - smooth(clamp((t - turn) / (sun * 0.6))));
   return {
     hour: t < turn ? BEFORE : 8,
     light,
     screens: { main: t < turn ? 'lock' : 'wall', upper: 'off', tablet: 'off' },
     pose: { from: 'think', to: 'typing', mix: smooth(clamp((t - turn - 0.1) / 0.55)) },
-    clip: build < 1 ? BUILD.base + (BUILD.top - BUILD.base) * easeInOut(build) : null,
+    clip: build < 1 ? CUT.base + (CUT.top - CUT.base) * easeInOut(build) : null,
   };
 }
 

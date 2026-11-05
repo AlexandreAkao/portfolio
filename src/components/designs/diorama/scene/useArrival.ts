@@ -5,18 +5,19 @@
  * The script holds its first frame (07:59, only the base) until the curtain
  * has gone, then runs; at ARRIVAL.page the flag turns to "page" and the day's
  * page is laid beside the room, and once that has settled the flag drops. A
+ * session that has already seen it (data-dio-again) gets the quick build. A
  * scroll, a key or a pointer anywhere means "let me read": straight to the day.
  * Returns the frame to lay over the day's sample, or null.
  */
 import { useCallback, useEffect, useRef } from 'react';
-import { ARRIVAL, arrival, type IntroFrame } from './intro';
+import { ARRIVAL, RETURN, arrival, type IntroFrame } from './intro';
 
 /** The page's own entrance after the cue: the paper and the room's glide (0.8s), the copy's fade (0.35s + 0.5s). */
 const SETTLE = 0.9;
 const SKIP = ['wheel', 'touchmove', 'keydown', 'pointerdown'] as const;
 
 export function useArrival(still: boolean): () => IntroFrame | null {
-  const state = useRef({ armed: false, start: null as number | null });
+  const state = useRef({ armed: false, start: null as number | null, timing: ARRIVAL });
 
   useEffect(() => {
     const html = document.documentElement;
@@ -24,6 +25,7 @@ export function useArrival(still: boolean): () => IntroFrame | null {
     const s = state.current;
     s.armed = true;
     s.start = null;
+    s.timing = 'dioAgain' in html.dataset ? RETURN : ARRIVAL;
     const timers: number[] = [];
 
     const off = () => {
@@ -41,8 +43,8 @@ export function useArrival(still: boolean): () => IntroFrame | null {
       s.start = performance.now();
       timers.push(window.setTimeout(() => {
         if (html.dataset.dioIntro) html.dataset.dioIntro = 'page';
-      }, ARRIVAL.page * 1000));
-      timers.push(window.setTimeout(end, (ARRIVAL.page + SETTLE) * 1000));
+      }, s.timing.page * 1000));
+      timers.push(window.setTimeout(end, (s.timing.page + SETTLE) * 1000));
     }
 
     SKIP.forEach((type) => window.addEventListener(type, end, { capture: true, passive: true }));
@@ -58,7 +60,7 @@ export function useArrival(still: boolean): () => IntroFrame | null {
   return useCallback(() => {
     const s = state.current;
     if (!s.armed) return null;
-    const f = arrival(s.start === null ? 0 : (performance.now() - s.start) / 1000);
+    const f = arrival(s.start === null ? 0 : (performance.now() - s.start) / 1000, s.timing);
     // The script is over; the page's flag drops on its own timer, once the page has settled
     if (!f) s.armed = false;
     return f;

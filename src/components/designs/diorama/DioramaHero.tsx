@@ -11,8 +11,9 @@ import { withServerLocale } from '@i18n/withServerLocale';
 import { COMPANY_STATION, STATIONS, clockText, type StationId } from './day';
 import { registerLabel } from './scene/labels';
 
-// The stage pulls in Three.js: it loads only while Diorama is the world on screen
-const Stage = lazy(() => import('./scene/Stage'));
+// The stage pulls in Three.js: it mounts only while Diorama is the world on screen
+const loadStage = () => import('./scene/Stage');
+const Stage = lazy(loadStage);
 
 /** The hours the day's navigation offers: every hour after this one, 09:00 to 22:00. */
 const DAY = STATIONS.slice(1);
@@ -49,11 +50,23 @@ function heroReady() {
   document.dispatchEvent(new CustomEvent('site-hero:ready', { detail: 'diorama' }));
 }
 
-/** No live room to build: the page opens on the still, and the curtain need not wait for it. */
+/**
+ * No live room to build: the page opens on the still, and the curtain need not wait for it.
+ * The session remembers (SiteIntro reads it), so a later switch does not try again in the dark.
+ */
 function noArrival() {
   delete document.documentElement.dataset.dioIntro;
+  try {
+    sessionStorage.setItem('dio-no-room', '1');
+  } catch {
+    // Storage out of reach already reads as "no room" in SiteIntro
+  }
   heroReady();
 }
+
+// This module loads once the visitor touches the switcher (client:intro warms hidden heroes) or Diorama is on
+// screen: the room's code starts then, so a first switch's arrival waits as little as it can
+if (typeof window !== 'undefined' && webglAvailable()) void loadStage().catch(() => {});
 
 /** Rendered by the stage's error boundary: the still stays and the day nav becomes a list. */
 function StageFailed({ onFail }: { onFail: () => void }) {
@@ -81,6 +94,7 @@ function DioramaHeroInner() {
   // The stage is mounted only while Diorama is the world on screen: switching away frees the WebGL context
   const [active, setActive] = useState(false);
   const activeNow = useRef(false);
+  const webglNow = useRef(false);
   const [webgl, setWebgl] = useState(false);
   const [drawn, setDrawn] = useState(false);
   const [lite, setLite] = useState(false);
@@ -92,6 +106,7 @@ function DioramaHeroInner() {
     if (drawn) heroReady();
   }, [drawn]);
   const fail = useCallback(() => {
+    webglNow.current = false;
     setWebgl(false);
     setDrawn(false);
     noArrival();
@@ -100,14 +115,14 @@ function DioramaHeroInner() {
   useEffect(() => {
     setStill(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     setLite(window.matchMedia('(max-width: 767px)').matches);
-    const gl = webglAvailable();
-    setWebgl(gl);
-    if (!gl) noArrival();
+    webglNow.current = webglAvailable();
+    setWebgl(webglNow.current);
     const html = document.documentElement;
     const onDesign = () => {
       activeNow.current = html.dataset.design === 'diorama';
       setActive(activeNow.current);
       if (!activeNow.current) setDrawn(false);
+      else if (!webglNow.current) noArrival();
     };
     onDesign();
     const designWatch = new MutationObserver(onDesign);

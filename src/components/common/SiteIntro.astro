@@ -1,6 +1,9 @@
 ---
 // Intro curtain: one authored entrance per design world, played on every
 // arrival at the site (hard loads only; ClientRouter navigations skip it).
+// A theme switch stages it short, except a switch to Diorama, which plays
+// that world's arrival: whole the first time in a session, quick after that
+// (mode "switch").
 // Gated by <html data-intro="wait|play">, set before paint in BaseLayout.
 // Reduced-motion visitors never see it, and the page stays fully usable
 // without JS because the curtain is display:none until the flag is set.
@@ -230,6 +233,16 @@ const printable = (text: string) =>
       block.style.setProperty('--iy', Math.round(c.bottom - 0.6455 * h) + 'px');
     }
 
+    // Something this session remembers. Storage out of reach reads as yes: no room (the short curtain).
+    function sessionMark(key, mark) {
+      try {
+        if (mark) sessionStorage.setItem(key, '1');
+        return !!sessionStorage.getItem(key);
+      } catch (e) {
+        return true;
+      }
+    }
+
     // Curtains staged by script as well as CSS. prepare() runs before the curtain
     // shows; start() when it begins to move: after the font wait on arrival, and
     // once the theme has swapped underneath on a quick change, so the incoming
@@ -252,10 +265,24 @@ const printable = (text: string) =>
         start: function (block) { cartPlace(block); }
       },
       // Diorama: the page beneath is armed for the arrival (the room alone, centred); a curtain
-      // that ends before the hero has its room on screen (the cap, a click) disarms it
+      // that ends before the hero has its room on screen (the cap, a click) disarms it. Most
+      // visitors reach this world through the switcher (Editorial is the default), so a switch
+      // plays the arrival too, whole the first time in a session and quick after that (useArrival
+      // reads data-dio-again): where the page has the room, not where the hero has found it
+      // cannot come (dio-no-room), and from near the top, since a reader deep in the page keeps
+      // their place.
       diorama: {
-        prepare: function (block, mode) { if (mode === 'arrival') html.dataset.dioIntro = 'play'; },
-        finish: function (block, mode, ready) { if (mode === 'arrival' && !ready) delete html.dataset.dioIntro; }
+        arrivesOnSwitch: function () {
+          return !sessionMark('dio-no-room') && !!document.querySelector('#hero [data-design-show="diorama"]') && window.scrollY < window.innerHeight / 2;
+        },
+        prepare: function (block, mode) {
+          if (mode === 'quick') return;
+          html.dataset.dioIntro = 'play';
+          if (sessionMark('dio-arrived')) html.dataset.dioAgain = '';
+          else delete html.dataset.dioAgain;
+          sessionMark('dio-arrived', true);
+        },
+        finish: function (block, mode, ready) { if (mode !== 'quick' && !ready) delete html.dataset.dioIntro; }
       },
       tape: {
         paced: true,
@@ -283,7 +310,9 @@ const printable = (text: string) =>
     // One curtain session. mode "arrival": the full intro armed by BaseLayout
     // (data-intro="wait"). mode "quick": a theme switch; the curtain wears the
     // incoming world, covers the page, the theme swaps underneath, then the
-    // world's exit gesture reveals it.
+    // world's exit gesture reveals it. mode "switch": a theme switch that swaps
+    // the same way but then stages the arrival, for a world that asks to
+    // (stage.arrivesOnSwitch).
     function run(mode, opts) {
       var el = document.getElementById('site-intro');
       if (!el) return null;
@@ -295,8 +324,8 @@ const printable = (text: string) =>
       // with a cut (Terminal), or with data-intro-hold="fade" by fading away while
       // the page comes up around what the two share (Tape).
       var hold = block ? block.getAttribute('data-intro-hold') : null;
-      // "arrival": a cut that holds on arrival only; a quick change keeps its fixed length
-      if (hold === 'arrival') hold = mode === 'arrival' ? '' : null;
+      // "arrival": a cut that holds for the arrival only; a quick change keeps its fixed length
+      if (hold === 'arrival') hold = mode === 'quick' ? null : '';
       var holds = hold !== null;
       var s = { revealed: false, finished: false, applied: false, started: false, due: false, heroReady: false, timers: [] };
       active = s;
@@ -318,7 +347,8 @@ const printable = (text: string) =>
         return !!document.querySelector('#hero [data-design-show="' + world + '"] astro-island:not([ssr])');
       }
       function lift() {
-        if (!s.due || s.lifting || !(s.heroReady || heroLive())) return;
+        // A switch's arrival waits for this room's first frames, even from a hero hydrated earlier
+        if (!s.due || s.lifting || !(s.heroReady || (mode !== 'switch' && heroLive()))) return;
         if (hold !== 'fade' || !el.animate) { finish(); return; }
         s.lifting = el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: mode === 'quick' ? 280 : 350, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' });
         s.lifting.onfinish = finish;
@@ -338,7 +368,9 @@ const printable = (text: string) =>
         if (s.applied) return;
         s.applied = true;
         if (opts && opts.apply) opts.apply();
-        if (mode === 'quick') begin();
+        if (mode !== 'arrival') begin();
+        // The arrival is the day's first minute: it starts at the top, under the curtain
+        if (mode === 'switch') window.scrollTo({ top: 0, behavior: 'instant' });
       }
       function finish() {
         if (s.finished) return;
@@ -364,8 +396,8 @@ const printable = (text: string) =>
       function onEnd(e) {
         if (e.target !== el) return;
         if (e.animationName === 'intro-reveal') {
-          if (mode !== 'arrival') return;
-          reveal();
+          if (mode === 'quick') return;
+          if (mode === 'arrival') reveal();
           if (holds && !stage.paced) due();
         }
         else if (e.animationName === 'intro-root') finish();
@@ -388,7 +420,7 @@ const printable = (text: string) =>
       el.addEventListener('wheel', finish, { passive: true });
       el.addEventListener('touchmove', finish, { passive: true });
       document.addEventListener('keydown', onKey);
-      s.timer = setTimeout(finish, mode === 'arrival' ? 4000 : 2000);
+      s.timer = setTimeout(finish, mode === 'quick' ? 2000 : 4000);
 
       if (mode === 'arrival' && el.querySelector('[data-design-show="' + html.dataset.design + '"][data-intro-no-font-wait]')) {
         // This world's curtain carries no type that needs its face: play at once.
@@ -401,9 +433,9 @@ const printable = (text: string) =>
         fontsReady.then(function () { clearTimeout(fontTimer); play(); }, play);
       } else {
         el.dataset.design = opts.design;
-        html.dataset.intro = 'quick';
+        html.dataset.intro = mode;
         s.applyTimer = setTimeout(applyTheme, 170);
-        if (holds && !stage.paced) later(due, 450);
+        if (mode === 'quick' && holds && !stage.paced) later(due, 450);
       }
       return s;
     }
@@ -417,7 +449,8 @@ const printable = (text: string) =>
       quickChange: function (design, apply) {
         var el = document.getElementById('site-intro');
         if (reduce || active || !el || !el.querySelector('[data-design-show="' + design + '"]')) return false;
-        return !!run('quick', { design: design, apply: apply });
+        var stage = stages[design];
+        return !!run(stage && stage.arrivesOnSwitch && stage.arrivesOnSwitch() ? 'switch' : 'quick', { design: design, apply: apply });
       }
     };
   })();
@@ -485,7 +518,10 @@ const printable = (text: string) =>
   #site-intro[data-design='cartoon'] [data-design-show='cartoon'] { display: block !important; }
   #site-intro[data-design='diorama'] [data-design-show='diorama'] { display: block !important; }
 
-  html[data-intro='quick'] #site-intro {
+  /* "switch": a theme switch that stages the incoming world's arrival, swapping as a quick change does */
+  html[data-intro='switch'] #site-intro[data-design='diorama'] { --intro-total: 4s; }
+  html[data-intro='quick'] #site-intro,
+  html[data-intro='switch'] #site-intro {
     display: block;
     --intro-reveal: 1ms;
     animation:
