@@ -142,6 +142,8 @@ const jsonLd = type === 'article'
           var d = localStorage.getItem('design') || fallbackDesign;
           if (validDesigns.indexOf(d) === -1) d = fallbackDesign;
           document.documentElement.dataset.design = d;
+          // Diorama's live room is expected: its photo only stands in if the hero says there will be no room
+          document.documentElement.dataset.dioRoom = '';
 
           // An explicit ?lang= or the /pt/ address wins over the stored preference.
           var params = new URLSearchParams(window.location.search);
@@ -171,6 +173,7 @@ const jsonLd = type === 'article'
           var d = localStorage.getItem('design') || fallbackDesign;
           if (validDesigns.indexOf(d) === -1) d = fallbackDesign;
           document.documentElement.dataset.design = d;
+          document.documentElement.dataset.dioRoom = '';
           var pathLang = /^\/pt(\/|$)/.test(window.location.pathname) ? 'pt' : null;
           var fixed = document.documentElement.hasAttribute('data-lang-fixed');
           var lang = fixed ? document.documentElement.dataset.lang : pathLang || localStorage.getItem('lang') || 'en';

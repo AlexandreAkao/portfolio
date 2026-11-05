@@ -56,6 +56,7 @@ function heroReady() {
  */
 function noArrival() {
   delete document.documentElement.dataset.dioIntro;
+  delete document.documentElement.dataset.dioRoom;
   try {
     sessionStorage.setItem('dio-no-room', '1');
   } catch {
@@ -81,9 +82,10 @@ function StageFailed({ onFail }: { onFail: () => void }) {
  * heads the page: the name, the actions, and the day's index (every hour after
  * this one, what it holds and its scene). On phones the room is a band under the
  * header for the whole page and the index becomes labels the stage pins over
- * their objects, one hour at a time. Until the live room has drawn its first
- * frames, and whenever WebGL is missing or fails, an in-house still of this hour
- * stands in. The clock is decoration that the stage keeps on the hour.
+ * their objects, one hour at a time. The live room and its clock fade in together
+ * over the bare ground once it has drawn its first frames; an in-house still of
+ * this hour stands in only when WebGL is missing or fails, or the room is very
+ * late. The clock is decoration that the stage keeps on the hour.
  */
 function DioramaHeroInner() {
   const locale = useLocale();
@@ -148,7 +150,7 @@ function DioramaHeroInner() {
 
   return (
     <div className="dio-hero" data-diorama-chapter="arrival" id="dio-arrival" data-diorama-hour="08:00">
-      <div className="dio-stage" ref={stage} aria-hidden="true">
+      <div className="dio-stage" ref={stage} aria-hidden="true" data-drawn={drawn ? '' : undefined}>
         <img className="dio-still" src={STILL} alt="" width={STILL_SIZE.width} height={STILL_SIZE.height} loading="lazy" decoding="async" data-gone={drawn ? '' : undefined} />
         {live && (
           <ErrorBoundary fallback={<StageFailed onFail={fail} />}>

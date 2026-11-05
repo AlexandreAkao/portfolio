@@ -784,6 +784,8 @@ test('diorama: a room not live by the curtain\'s cap opens the page on the still
   await expect(html).toHaveAttribute('data-intro', 'done', { timeout: 6_000 });
   await expect(html).not.toHaveAttribute('data-dio-intro', /.*/);
   await expect(page.locator('header.fixed')).toHaveCSS('opacity', '1');
+  // Whoever waited out the curtain gets the photo at once, not a bare panel
+  await expect(page.locator('#hero .dio-still')).toBeVisible();
   // The late room takes over from the still, with no arrival
   await expect(page.locator('#hero .dio-still')).toHaveAttribute('data-gone', '', { timeout: 20_000 });
   await page.waitForTimeout(500);
@@ -953,6 +955,62 @@ test('diorama: touching the switcher starts fetching the room, and not before', 
   expect(room, 'a visitor who never touches the switcher never fetches the room').toEqual([]);
   await page.getByRole('button', { name: /switch design/i }).hover();
   await expect.poll(() => room.length, { timeout: 10_000 }).toBeGreaterThan(0);
+});
+
+/* ------------------------------------------------------------ A reload: the room comes in, no photo stands in for it */
+
+/** A reload in Diorama, its session's curtain seen, the room's code held back so the wait can be looked at. */
+async function reloadWithSlowRoom(page: Page, holdMs: number) {
+  await page.addInitScript(() => { localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1'); });
+  await page.route(/scene\/Stage\.tsx/, async (route) => {
+    await new Promise((r) => setTimeout(r, holdMs));
+    await route.continue();
+  });
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-design', 'diorama');
+}
+
+test('diorama: while the room loads on a reload there is no photo and no clock, only the page, then both arrive together @mobile', async ({ page }) => {
+  await reloadWithSlowRoom(page, 2_000);
+  // The copy is there at once; the panel is the bare ground
+  await expect(page.locator('.dio-name')).toBeVisible();
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+  await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '0');
+  await page.waitForTimeout(500);
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+  // The room has drawn: the clock with it, and the photo never came
+  await expect(page.locator('.dio-stage canvas')).toHaveCount(1, { timeout: 20_000 });
+  await expect(page.locator('.dio-stage[data-drawn] canvas')).toHaveCSS('opacity', '1', { timeout: 20_000 });
+  await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '1');
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+});
+
+test('diorama: a reload deep in the day never shows 08:00 while the room loads', async ({ page }) => {
+  await page.addInitScript(() => { localStorage.setItem('design', 'diorama'); localStorage.setItem('lang', 'en'); sessionStorage.setItem('intro-seen', '1'); });
+  await page.goto('/');
+  await expect(page.locator('.dio-stage[data-drawn]')).toHaveCount(1, { timeout: 20_000 });
+  await page.evaluate(() => window.scrollTo({ top: 2600, behavior: 'instant' }));
+  await expect(page.locator('.dio-clock')).not.toHaveText('08:00', { timeout: 5_000 });
+  await page.route(/scene\/Stage\.tsx/, async (route) => {
+    await new Promise((r) => setTimeout(r, 1_500));
+    await route.continue();
+  });
+  await page.reload();
+  await expect(page.locator('.dio-name')).toBeAttached();
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+  await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '0');
+  await expect(page.locator('.dio-stage[data-drawn] canvas')).toHaveCSS('opacity', '1', { timeout: 20_000 });
+  await expect(page.locator('.dio-clock')).not.toHaveText('08:00');
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+});
+
+test('diorama: a room that takes too long gets the photo after all, and still takes over from it', async ({ page }) => {
+  await reloadWithSlowRoom(page, 6_500);
+  await expect(page.locator('#hero .dio-still')).toBeHidden();
+  await expect(page.locator('#hero .dio-still')).toBeVisible({ timeout: 6_000 });
+  await expect(page.locator('.dio-clock')).toHaveCSS('opacity', '1');
+  await expect(page.locator('#hero .dio-still')).toHaveAttribute('data-gone', '', { timeout: 20_000 });
+  await expect(page.locator('.dio-stage[data-drawn] canvas')).toHaveCSS('opacity', '1');
 });
 
 /** Contrast helpers run in the page: WCAG ratio of two rgb triples. */

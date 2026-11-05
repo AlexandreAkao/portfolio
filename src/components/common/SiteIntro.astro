@@ -282,7 +282,12 @@ const printable = (text: string) =>
           else delete html.dataset.dioAgain;
           sessionMark('dio-arrived', true);
         },
-        finish: function (block, mode, ready) { if (mode !== 'quick' && !ready) delete html.dataset.dioIntro; }
+        // Whoever has waited out the curtain gets the photo at once, not a bare panel
+        finish: function (block, mode, ready) {
+          if (mode === 'quick' || ready) return;
+          delete html.dataset.dioIntro;
+          delete html.dataset.dioRoom;
+        }
       },
       tape: {
         paced: true,

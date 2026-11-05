@@ -39,7 +39,32 @@ html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
   overflow: hidden;
   background: var(--dio-ground);
 }
-/* The 08:00 still lies over the canvas until the live room has drawn, then fades. It is cropped to the
+/* The live room comes in over the bare ground once it has drawn, its clock with it. BaseLayout's head script
+   expects it before first paint (data-dio-room). The still does not stand in for it: it never lines up with
+   the live room, and it shows 08:00 whatever the hour a reload lands on. */
+.dio-stage canvas {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.dio-stage[data-drawn] canvas {
+  opacity: 1;
+}
+html[data-dio-room] .dio-still {
+  visibility: hidden;
+  animation: dio-late-still 1ms linear 5s forwards;
+}
+html[data-dio-room]:not([data-dio-intro]) .dio-stage:not([data-drawn]) ~ .dio-clock {
+  opacity: 0;
+  animation: dio-late-clock 1ms linear 5s forwards;
+}
+/* A room this late may not be coming: the still and the clock after all, and the room takes over if it does */
+@keyframes dio-late-still {
+  to { visibility: visible; }
+}
+@keyframes dio-late-clock {
+  to { opacity: 1; }
+}
+/* The 08:00 still, when there is no live room (no WebGL, or it failed or is very late). It is cropped to the
    room, so it is laid whole and centred in the room's box, as the stage fits the live room. */
 .dio-still {
   position: absolute;
@@ -68,6 +93,7 @@ html[data-design='diorama']:not([data-dio-active]):has(.dio-stage) {
   font-variant-numeric: tabular-nums;
   color: var(--dio-paper);
   pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 /* The clock's face: a graphite plate with a crisp edge, like a desk clock's display. Over the
    pale window (13:00, 16:00) the paper-white figures still read at display-type contrast. */
@@ -1009,9 +1035,15 @@ html[data-design='diorama'][data-dio-intro='page'] header.fixed {
 html[data-design='diorama'][data-dio-intro='page'] :is(.dio-hero__inner, #main-content > :not(#hero)) {
   --dio-intro-delay: 0.35s;
 }
-/* The live room is on screen from the first frame: the 08:00 still never shows over the build */
+/* The live room is on screen from the first frame: the 08:00 still never shows over the build, and the
+   room does not fade in, since the curtain's dark is what it comes out of */
 html[data-dio-intro] .dio-still {
   visibility: hidden;
+  animation: none;
+}
+html[data-dio-intro] .dio-stage canvas {
+  opacity: 1;
+  transition: none;
 }
 
 /* Wide screens: the room stands centred on the whole screen, its clock with it, and glides back to its panel
